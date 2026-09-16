@@ -1,0 +1,55 @@
+import { useEffect, useState } from 'react'
+import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom'
+import BottomNav from './components/BottomNav'
+import { ensureDefaults } from './hooks/useProfile'
+import Today from './pages/Today'
+import WeekPage from './pages/WeekPage'
+import PlanPage from './pages/PlanPage'
+import SessionPreview from './pages/SessionPreview'
+import Workout from './pages/Workout'
+import LogPast from './pages/LogPast'
+import Exercises from './pages/Exercises'
+import ExerciseDetail from './pages/ExerciseDetail'
+import Body from './pages/Body'
+import SettingsPage from './pages/SettingsPage'
+import More from './pages/More'
+
+function Shell() {
+  const loc = useLocation()
+  const fullscreen = loc.pathname.startsWith('/workout/')
+  return (
+    <div className="min-h-full">
+      <main className={`max-w-xl mx-auto px-4 pt-4 ${fullscreen ? 'pb-6' : 'pb-24'}`}>
+        <Routes>
+          <Route path="/" element={<Today />} />
+          <Route path="/week" element={<WeekPage />} />
+          <Route path="/week/:n" element={<WeekPage />} />
+          <Route path="/plan" element={<PlanPage />} />
+          <Route path="/session/:date/:sessionKey" element={<SessionPreview />} />
+          <Route path="/workout/:date/:sessionKey" element={<Workout />} />
+          <Route path="/log" element={<LogPast />} />
+          <Route path="/log/:date/:sessionKey" element={<LogPast />} />
+          <Route path="/exercises" element={<Exercises />} />
+          <Route path="/exercises/:id" element={<ExerciseDetail />} />
+          <Route path="/body" element={<Body />} />
+          <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/more" element={<More />} />
+        </Routes>
+      </main>
+      {!fullscreen && <BottomNav />}
+    </div>
+  )
+}
+
+export default function App() {
+  const [ready, setReady] = useState(false)
+  useEffect(() => {
+    ensureDefaults().then(() => setReady(true))
+  }, [])
+  if (!ready) return <div className="p-6 text-muted">Lade …</div>
+  return (
+    <BrowserRouter>
+      <Shell />
+    </BrowserRouter>
+  )
+}

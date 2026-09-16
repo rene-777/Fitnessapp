@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:www.hammer.de)",
+      "mcp__plugin_bio-research_pubmed__search_articles",
+      "mcp__plugin_bio-research_pubmed__get_article_metadata",
+      "mcp__plugin_bio-research_consensus__search",
+      "PowerShell(node --version)",
+      "PowerShell(npm --version)",
+      "WebSearch",
+      "WebFetch(domain:www.finnlo.de)",
+      "WebFetch(domain:bio-force.finnlo.de)",
+      "WebFetch(domain:resources.sport-tiedje.com)",
+      "PowerShell(python --version)",
+      "PowerShell(python -c \"import pypdf; print\\('pypdf ok'\\)\")",
+      "PowerShell(pip --version)"
+    ]
+  }
+}
