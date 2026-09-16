@@ -32,4 +32,5 @@ Befehle im Ordner `app`: `npm run dev`, `npm run build` (führt `tsc -b` aus), `
 - `findSession()` und ähnliche Lookups in Komponenten mit `useMemo` kapseln (sonst Endlos-Rerender, siehe Workout.tsx).
 - Bio-Force-Lasten immer in kg pro Seite.
 - Dokumente in `docs/` sind die Quelle für Plan und Übungen; bei Änderungen Doku und `src/data` zusammen anpassen.
-- Kein Git-Repository angelegt (User hat es nicht angefordert). Bei Bedarf anbieten.
+- Git-Repository lokal vorhanden (Zweig `main`), noch kein Remote. Commits mit `Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>`; Commit-Autor René <rene.sch@gmx.net>.
+- Hosting-Entscheidung: **GitHub Pages** (User hat GitHub-Konto). Ablauf steht in `docs/Uebergabe.md`. Nach dem Umzug auf Pages gilt der Basispfad `/Fitnessapp/` in Vite, Router, Manifest und Bildpfaden.

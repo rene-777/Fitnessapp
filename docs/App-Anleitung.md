@@ -39,11 +39,15 @@ Dann auf dem Android-Handy im selben WLAN die angezeigte Netzwerk-Adresse öffne
 
 Einschränkungen: Der PC muss laufen. Ohne HTTPS gibt es keinen Offline-Modus und keinen Wake Lock (Bildschirm bleibt nicht automatisch an; in den Android-Einstellungen die Bildschirmsperre auf 10 min stellen hilft).
 
-### Weg B: empfohlen, als echte installierbare App (HTTPS)
+### Weg B: als echte installierbare App über GitHub Pages (entschieden)
 
-Den Inhalt des Ordners `app/dist` auf einen statischen Hoster legen, z. B. Netlify Drop (Ordner per Drag-and-drop, kostenlos), Cloudflare Pages oder GitHub Pages. Die App enthält keinen Server und sendet keine Daten; die Trainingsdaten bleiben trotzdem nur auf dem Handy. Die Adresse ist öffentlich, aber ohne Link nicht auffindbar. Optional lässt sich bei Netlify ein Passwortschutz setzen.
+Das Projekt wird in ein öffentliches GitHub-Repository `Fitnessapp` gepusht. Ein GitHub-Actions-Workflow baut die App bei jedem Push und veröffentlicht sie unter `https://<benutzername>.github.io/Fitnessapp/`. Die App enthält keinen Server und sendet keine Daten; die Trainingsdaten bleiben nur auf dem Handy. Öffentlich sind nur Code und Plandokumente.
 
-Dann auf dem Handy die HTTPS-Adresse öffnen → „App installieren“. Ab dann: eigenes Icon, Vollbild, offline nutzbar, Bildschirm bleibt im Training an, Updates automatisch beim nächsten Öffnen.
+Dann auf dem Handy die Adresse öffnen → Chrome-Menü „App installieren“. Ab dann: eigenes Icon, Vollbild, offline nutzbar, Bildschirm bleibt im Training an, Updates automatisch beim nächsten Öffnen nach jedem Push.
+
+Vor dem Umzug von Weg A auf Weg B: in der WLAN-Version Einstellungen → Exportieren, in der installierten App Importieren. Die beiden Adressen haben getrennte Datenbanken.
+
+Die Einrichtung (Remote, Basispfad, Workflow) ist in `Uebergabe.md` beschrieben und wird im nächsten Chat gemeinsam gemacht.
 
 ## Entwicklung
 
