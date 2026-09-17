@@ -288,6 +288,7 @@ Die Skala an den Schwingarmen zeigt amerikanische Pfund (lb) pro Seite: 5 bis 12
   1. Griff mit beiden Händen vor der Brust, ein Schritt vom Gerät weg, Füße schulterbreit.
   2. Arme langsam nach vorn strecken, das Kabel will dich zum Gerät drehen, du verhinderst es. 2–3 s halten.
   3. Hände zurück zur Brust. Alle Wiederholungen, dann Seite wechseln.
+- **Foto:** Die Übung steht nicht in der Herstelleranleitung (dort nur Nr. 106–110). Die App zeigt Startfoto und Rollen-Diagramm der verwandten Nr. 108 „Oberkörperdrehen stehend“ (gleiche Aufstellung, gleicher Zugpunkt), ohne das Endfoto, weil bei der Pallof Press nicht gedreht wird. Laut Herstellerfoto zu Nr. 108 geht die Aufstellung auch mit angebrachtem Sitz (seitlich neben dem Gerät auf der Bodenplatte), das gibt in Block 2–4 Spielraum beim Sitz-Umbau.
 
 ### Oberkörperdrehen stehend / Woodchop (Bio Force Nr. 108)
 - **Muskeln:** primär schräge Bauchmuskeln · sekundär gerade Bauchmuskeln, Schultern

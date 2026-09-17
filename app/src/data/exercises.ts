@@ -13,6 +13,8 @@ export interface Exercise {
   loadType: LoadType
   unit: Unit
   bioforceNo?: number // Nummer in der Finnlo-Anleitung, liefert die Fotos
+  noEndPhoto?: boolean // Foto einer verwandten Herstellerübung: nur Start und Rollen zeigen, das Endfoto wäre irreführend
+  smallStep?: boolean // kleine Übung: eine Raste (5 lb) ist ein großer Sprung, erst bei 3+ Wiederholungen über dem Ziel steigern
   seat?: 'on' | 'off' // Bio Force: Sitz angebracht oder entfernt; innerhalb eines Supersatzes nie mischen
   equipment: string
   setup?: string
@@ -97,7 +99,7 @@ export const EXERCISES: Exercise[] = [
   },
   {
     id: 'seitheben', name: 'Seitheben am Kabel', category: 'push',
-    primary: ['schulter_seit'], secondary: ['ruecken_oben'], loadType: 'bioforce', seat: 'off', unit: 'reps', bioforceNo: bf(67),
+    primary: ['schulter_seit'], secondary: ['ruecken_oben'], loadType: 'bioforce', seat: 'off', unit: 'reps', bioforceNo: bf(67), smallStep: true,
     equipment: 'Bio Force, Sitz entfernt, ein Handgriff, untere Haken',
     setup: 'Rücken zum Gerät, Griff seitlich am Körper, Daumen nach vorn. Für mehr Dehnung den Arm leicht hinter der Hüfte starten.',
     steps: ['Arm seitlich anheben bis auf Schulterhöhe, Ellbogen leicht gebeugt und fixiert.', 'Langsam (2–3 s) ablassen.'],
@@ -182,7 +184,7 @@ export const EXERCISES: Exercise[] = [
   },
   {
     id: 'face-pull', name: 'Face Pulls', category: 'pull',
-    primary: ['schulter_hinten', 'ruecken_oben'], secondary: [], loadType: 'bioforce', seat: 'off', unit: 'reps', bioforceNo: bf(68),
+    primary: ['schulter_hinten', 'ruecken_oben'], secondary: [], loadType: 'bioforce', seat: 'off', unit: 'reps', bioforceNo: bf(68), smallStep: true,
     equipment: 'Bio Force, Sitz entfernt, Handgriffe an den Karabinern auf Schulterhöhe oder oben, stehend zum Gerät',
     setup: 'Griffe mit Daumen nach hinten fassen, Arme gestreckt, Schritt zurück bis Spannung da ist.',
     steps: ['Griffe zum Gesicht ziehen, Ellbogen hoch und weit nach außen. Am Ende zeigen die Fäuste neben die Ohren.', 'Langsam zurück.'],
@@ -190,7 +192,7 @@ export const EXERCISES: Exercise[] = [
   },
   {
     id: 'reverse-fly', name: 'Reverse Flys am Kabel', category: 'pull',
-    primary: ['schulter_hinten'], secondary: ['ruecken_oben'], loadType: 'bioforce', seat: 'off', unit: 'reps', bioforceNo: bf(70),
+    primary: ['schulter_hinten'], secondary: ['ruecken_oben'], loadType: 'bioforce', seat: 'off', unit: 'reps', bioforceNo: bf(70), smallStep: true,
     equipment: 'Bio Force, Sitz entfernt, Handgriffe an den Karabinern auf Schulterhöhe, Seile über Kreuz, stehend zum Gerät',
     setup: 'Linke Hand hält das rechte Seil und umgekehrt. Griffe vor dem Körper auf Hüft- bis Brusthöhe, Arme fast gestreckt.',
     steps: ['Arme nach außen-hinten öffnen, bis die Ellbogen auf Schulterhöhe sind.', 'Kurz halten, langsam zurück.'],
@@ -329,10 +331,11 @@ export const EXERCISES: Exercise[] = [
   },
   {
     id: 'pallof', name: 'Pallof Press', category: 'core',
-    primary: ['bauch_schraeg'], secondary: ['bauch', 'schulter_vorn'], loadType: 'bioforce', seat: 'off', unit: 'reps',
+    primary: ['bauch_schraeg'], secondary: ['bauch', 'schulter_vorn'], loadType: 'bioforce', seat: 'off', unit: 'reps', bioforceNo: bf(108), noEndPhoto: true,
     equipment: 'Bio Force, Sitz entfernt, ein Griff am Karabiner auf Schulterhöhe, seitlich zum Gerät',
     setup: 'Griff mit beiden Händen vor der Brust, ein Schritt vom Gerät weg, Füße schulterbreit.',
     steps: ['Arme langsam nach vorn strecken. Das Kabel will dich zum Gerät drehen, du verhinderst es. 2–3 s halten.', 'Hände zurück zur Brust. Alle Wiederholungen, dann Seite wechseln.'],
+    tips: ['Die Pallof Press steht nicht in der Herstelleranleitung. Das Foto zeigt Aufstellung und Zugpunkt der verwandten Übung Nr. 108 „Oberkörperdrehen stehend“. Anders als dort drehst du hier nicht: Oberkörper bleibt still, nur die Arme strecken nach vorn.'],
   },
   {
     id: 'woodchop', name: 'Oberkörperdrehen / Woodchop', category: 'core',
@@ -461,7 +464,7 @@ export function exerciseImages(e: Exercise): { start?: string; end?: string; pul
   if (!e.bioforceNo) return {}
   const n = String(e.bioforceNo).padStart(3, '0')
   const dir = `${import.meta.env.BASE_URL}img/bioforce`
-  return { start: `${dir}/bf${n}_start.webp`, end: `${dir}/bf${n}_end.webp`, pulley: `${dir}/bf${n}_pulley.webp` }
+  return { start: `${dir}/bf${n}_start.webp`, end: e.noEndPhoto ? undefined : `${dir}/bf${n}_end.webp`, pulley: `${dir}/bf${n}_pulley.webp` }
 }
 
 export const CATEGORY_LABEL: Record<Category, string> = {

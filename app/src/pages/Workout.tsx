@@ -215,7 +215,7 @@ function SetStepView({ step, workout, onSaved, onSkip }: { step: SetStep; workou
     () => db.sets.where('workoutId').equals(workout.id).toArray().then((rows) => rows.filter((r) => r.exerciseId === step.exerciseId && r.segmentLabel === step.label && r.setIndex === step.setIndex && !r.deleted)),
     [workout.id, step.exerciseId, step.label, step.setIndex],
   )
-  const suggestion = useMemo(() => (history ? suggestLoad(step.p, history.filter((h) => h.workoutId !== workout.id), e.loadType) : undefined), [history, step.p, e.loadType, workout.id])
+  const suggestion = useMemo(() => (history ? suggestLoad(step.p, history.filter((h) => h.workoutId !== workout.id), e.loadType, e.smallStep) : undefined), [history, step.p, e.loadType, e.smallStep, workout.id])
   const timed = step.p.seconds !== undefined || step.testUnit === 'seconds'
   // Bio Force: das Eingabefeld zeigt den Skalenwert in lb, gespeichert wird kg pro Seite
   const isBf = e.loadType === 'bioforce'
@@ -226,6 +226,7 @@ function SetStepView({ step, workout, onSaved, onSkip }: { step: SetStep; workou
   const [seconds, setSeconds] = useState<number | ''>('')
   const [init, setInit] = useState(false)
   const [holdTimer, setHoldTimer] = useState(false)
+  const [missing, setMissing] = useState(false)
 
   useEffect(() => {
     if (init || existing === undefined || suggestion === undefined) return
@@ -245,7 +246,8 @@ function SetStepView({ step, workout, onSaved, onSkip }: { step: SetStep; workou
 
   const save = async () => {
     const value = timed ? seconds : reps
-    if (value === '' || value === 0) { alert('Bitte einen Wert eintragen.'); return }
+    if (value === '' || value === 0) { setMissing(true); return }
+    setMissing(false)
     await saveSet(workout, {
       exerciseId: step.exerciseId, segmentLabel: step.label, setIndex: step.setIndex,
       reps: timed ? undefined : Number(reps), seconds: timed ? Number(seconds) : undefined,
@@ -270,10 +272,10 @@ function SetStepView({ step, workout, onSaved, onSkip }: { step: SetStep; workou
             {!holdTimer && step.p.seconds && <button className="btn-ghost w-full" onClick={() => { unlockAudio(); setHoldTimer(true) }}>Halte-Timer {step.p.seconds} s</button>}
             {holdTimer && step.p.seconds && <Timer seconds={step.p.seconds} onDone={() => setHoldTimer(false)} label="Halten" size="md" allowExtend={false} />}
             {step.isTest && <Stopwatch onChange={(s) => setSeconds(Math.round(s))} />}
-            <NumberInput label="Sekunden" value={seconds} onChange={setSeconds} step={5} />
+            <NumberInput label="Sekunden" value={seconds} onChange={(v) => { setSeconds(v); setMissing(false) }} step={5} error={missing ? 'Bitte die Sekunden eintragen.' : undefined} />
           </>
         )}
-        {!timed && <NumberInput label={step.p.perSide ? 'Wiederholungen je Seite' : 'Wiederholungen'} value={reps} onChange={setReps} />}
+        {!timed && <NumberInput label={step.p.perSide ? 'Wiederholungen je Seite' : 'Wiederholungen'} value={reps} onChange={(v) => { setReps(v); setMissing(false) }} error={missing ? 'Bitte die Wiederholungen eintragen.' : undefined} />}
         <div className="space-y-3">
           {showWeight && (isBf
             ? <NumberInput label="Skala (lb) pro Seite" value={weight} onChange={setWeight} step={BF_STEP_LB} min={BF_MIN_LB} max={BF_MAX_LB} hint={weight === '' ? 'Wert am Schwingarm, 5–125' : `≈ ${fmtKg(lbToKg(Number(weight)))} kg pro Seite`} />

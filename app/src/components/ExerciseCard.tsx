@@ -20,11 +20,11 @@ export function ExerciseImages({ e, small }: { e: Exercise; small?: boolean }) {
   if (!img.start) return null
   const h = small ? 'h-24' : 'h-40'
   const all = [
-    { src: img.start, label: 'Start', cls: h },
-    { src: img.end!, label: 'Ende', cls: h },
-    { src: img.pulley!, label: 'Rollen', cls: small ? 'h-16' : 'h-28' },
+    { src: img.start, label: img.end ? 'Start' : 'Aufstellung', cls: h },
+    { src: img.end, label: 'Ende', cls: h },
+    { src: img.pulley, label: 'Rollen', cls: small ? 'h-16' : 'h-28' },
   ]
-  const pics = noEnd ? all.filter((x) => x.label !== 'Ende') : all
+  const pics = all.filter((x) => x.src && !(noEnd && x.label === 'Ende'))
   const cur = zoom === null ? undefined : pics[zoom]
   const go = (d: number) => setZoom((z) => (z === null ? z : (z + d + pics.length) % pics.length))
   return (
@@ -72,7 +72,7 @@ export function ExerciseDescription({ e }: { e: Exercise }) {
         </div>
       )}
       {e.knee && <div className="rounded-lg bg-warn/10 border border-warn/40 p-2"><span className="label text-warn">Knie</span><div>{e.knee}</div></div>}
-      {e.bioforceNo && <div className="text-xs text-muted">Bio Force Anleitung Nr. {e.bioforceNo}</div>}
+      {e.bioforceNo && <div className="text-xs text-muted">{e.noEndPhoto ? 'Foto aus Bio Force Anleitung' : 'Bio Force Anleitung'} Nr. {e.bioforceNo}</div>}
     </div>
   )
 }

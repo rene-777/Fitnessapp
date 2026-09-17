@@ -25,6 +25,13 @@ Die App ist live unter **https://rene-777.github.io/Fitnessapp/**, auf dem Andro
 3. **Fotos in hoher Auflösung:** aus der Anleitung der Extreme (`docs/BioForce-Bedienungsanleitung-NEU.pdf`, 73 MB, per `.gitignore` nur lokal, Quelle https://manuals.hammer.de/3841.pdf). Die PDF ist in Druckbogen-Reihenfolge gespeichert und verteilt die Übungen anders auf die Seiten, deshalb Zuordnung per Bildinhalt (Fotos) bzw. per Markierungspunkten (Rollen-Diagramme). Nummerierung folgt weiter der alten Anleitung.
 4. **Vorfall „Lade …“:** Nach einem Update hing der Trainingsstart am Handy, bis die App komplett neu gestartet wurde. Vermutete Ursache: automatischer Reload durch das PWA-Update während einer Datenbank-Aktion (blockierte Tabelle `workouts`); nicht mehr beweisbar, am Desktop nicht reproduzierbar. Gegenmaßnahmen: PWA-Update nur noch auf Knopfdruck (`registerType: 'prompt'`, `UpdateBanner.tsx`, im Training ausgeblendet; live getestet), Fehler und 8-s-Zeitüberschreitung beim Trainingsstart werden angezeigt (`ErrorBoundary.tsx`), Build-Kennung unter „Mehr“.
 
+## Nachtrag 17.09.2026 (spät): Rückmeldungen und Feinschliff
+
+- **Rückmeldungen des Users:** Hochformat-Sperre wirkt, alle Fotos passen, „Lade …“ ist nicht mehr aufgetreten.
+- **Pallof Press:** steht nicht in der Herstelleranleitung (Abschnitt Bauch & unterer Rücken = Nr. 106–110, geprüft). Zeigt jetzt Startfoto („Aufstellung“) und Rollen-Diagramm von Nr. 108, ohne Endfoto (`noEndPhoto` in `exercises.ts`), mit erklärendem Hinweis. Nr. 108 ist laut Hersteller mit angebrachtem Sitz fotografiert, Pallof Press geht also mit und ohne Sitz (in den Daten weiter `seat: 'off'`).
+- **Kleine Übungen:** Feld `smallStep` in `exercises.ts` (Seitheben, Face Pulls, Reverse Flys). `suggestLoad()` schlägt dort erst dann eine Raste mehr vor, wenn alle Sätze 3 Wiederholungen über dem Ziel liegen (`SMALL_STEP_EXTRA_REPS`), sonst „gleiche Last, Wiederholungen steigern“.
+- **Pflichtfeld-Hinweis:** Der Chrome-Alert beim Satz-Speichern ist durch einen Hinweis direkt am Feld ersetzt (`error`-Prop in `NumberInput.tsx`).
+
 ## Nächster Schritt: Phase 2 und 3
 
 - **Auswertungs-Tab (als Nächstes):** Volumen pro Muskelgruppe und Woche (primär 1, sekundär 0,5 Sätze; `MUSCLE_GROUPS` in `src/data/muscles.ts`), Gesamtwiederholungen pro Zeitraum (Burpees, Pull-Ups, Push-Ups), Bestleistungen und Benchmark-Verlauf (`BENCHMARK_LABELS` in `src/lib/workouts.ts`), Trainingsfrequenz, Herzfrequenz-Verlauf aus Cardio-Sätzen (`avgHr`). Bio-Force-Lasten in der Auswertung als lb anzeigen (`loadText`), Volumen intern in kg. Mit Testdaten entwickeln, echte Daten kommen ab 21.09.
@@ -34,14 +41,12 @@ Die App ist live unter **https://rene-777.github.io/Fitnessapp/**, auf dem Andro
 
 ## Offene Punkte und bekannte Kleinigkeiten
 
-- **Rückmeldungen vom User abwarten:** Wirkt die Hochformat-Sperre? Passen alle neuen Fotos zur jeweiligen Übung (Stichproben waren korrekt)? Tritt „Lade …“ noch einmal auf (dann Text der Fehlermeldung)?
-- Kleine Übungen (Seitheben, Face Pulls): Eine Raste (5 lb) ist ein großer Sprung. Regel im Trainingskonzept: erst steigern, wenn 3–4 Wiederholungen über dem Zielbereich möglich sind. Der Progressionsvorschlag in `planEngine.ts` kennt diese Sonderregel noch nicht.
 - Sätze, die vor dem 17.09.2026 mit Bio-Force-Last eingetragen wurden, sind als kg gespeichert und erscheinen auf die nächste lb-Raste umgerechnet (nur Testdaten des Users).
 - Urheberrecht: Herstellerfotos und die ältere Anleitung (`docs/BioForce-Bedienungsanleitung.pdf`) liegen im öffentlichen Repo. Dem User wurde angeboten, die PDF aus dem Repo zu nehmen; Entscheidung steht aus.
-- Face Pulls und Pallof Press haben keine eigene Herstellerübung; Face Pulls zeigen das Foto von Nr. 68 (Delta-Rudern), Pallof Press hat kein Foto.
+- Face Pulls und Pallof Press haben keine eigene Herstellerübung; Face Pulls zeigen das Foto von Nr. 68 (Delta-Rudern), Pallof Press Start und Rollen von Nr. 108.
 - Bei liegenden Beinübungen (Nr. 19–26) gibt es nur ein Foto (kein „Ende“). Diese Übungen sind im Plan nicht enthalten.
 - Der JS-Bundle ist ca. 800 kB (Recharts); Code-Splitting wäre eine spätere Optimierung.
-- Chrome-Alert-Dialoge („Bitte einen Wert eintragen“) könnten durch Inline-Hinweise ersetzt werden.
+- Die `confirm()`-Dialoge („Einheit verlassen?“, „Einheit beenden?“) sind noch Browser-Dialoge; bei Bedarf durch eigene ersetzen.
 
 ## Was der User als Nächstes tun sollte
 

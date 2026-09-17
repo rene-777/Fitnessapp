@@ -101,7 +101,10 @@ export interface Suggestion {
 }
 
 /** Vorschlag aus der letzten Ausführung derselben Übung (letzte Einheit, keine Tests). */
-export function suggestLoad(p: Prescription, history: SetLog[], loadType: string): Suggestion {
+/** Kleine Übungen (smallStep): so viele Wiederholungen über dem Ziel, bevor eine Raste dazukommt. */
+const SMALL_STEP_EXTRA_REPS = 3
+
+export function suggestLoad(p: Prescription, history: SetLog[], loadType: string, smallStep = false): Suggestion {
   const real = history.filter((s) => !s.isTest && !s.deleted && s.segmentLabel !== 'challenge')
   if (real.length === 0) {
     const first = loadType === 'bioforce'
@@ -115,6 +118,14 @@ export function suggestLoad(p: Prescription, history: SetLog[], loadType: string
   const repsStr = last.map((s) => s.reps ?? (s.seconds ? `${s.seconds}s` : '–')).join('/')
   const base = `Letztes Mal: ${repsStr}${w !== undefined ? ` @ ${loadText(w, loadType)}` : ''}`
   if (p.ramp) return { weightKg: w, text: base }
+  if (loadType === 'bioforce' && w !== undefined && p.repsMax && smallStep) {
+    // Eine Raste ist hier ein großer Sprung: erst über Wiederholungen steigern, dann über die Last
+    const goal = p.repsMax + SMALL_STEP_EXTRA_REPS
+    const allOver = last.every((s) => (s.reps ?? 0) >= goal)
+    const nextLb = Math.min(BF_MAX_LB, kgToLb(w) + BF_STEP_LB)
+    if (allOver) return { weightKg: lbToKg(nextLb), text: `${base} → alle Sätze mit ${goal}+ Wiederholungen, Vorschlag ${nextLb} lb (eine Raste mehr), wieder bei ${p.repsMax} beginnen` }
+    return { weightKg: w, text: `${base} → gleiche Last, Wiederholungen steigern. Erst bei ${goal} in allen Sätzen eine Raste mehr (kleine Übung, 5 lb sind ein großer Sprung)` }
+  }
   if (loadType === 'bioforce' && w !== undefined && p.repsMax) {
     const allTop = last.every((s) => (s.reps ?? 0) >= (p.repsMax ?? 0) && (s.rir ?? 9) <= 1)
     const nextLb = Math.min(BF_MAX_LB, kgToLb(w) + BF_STEP_LB)
