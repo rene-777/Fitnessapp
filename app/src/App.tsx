@@ -48,7 +48,7 @@ export default function App() {
   }, [])
   if (!ready) return <div className="p-6 text-muted">Lade …</div>
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <Shell />
     </BrowserRouter>
   )

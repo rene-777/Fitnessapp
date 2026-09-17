@@ -459,7 +459,8 @@ export const ex = (id: string): Exercise => {
 export function exerciseImages(e: Exercise): { start?: string; end?: string; pulley?: string } {
   if (!e.bioforceNo) return {}
   const n = String(e.bioforceNo).padStart(3, '0')
-  return { start: `/img/bioforce/bf${n}_start.png`, end: `/img/bioforce/bf${n}_end.png`, pulley: `/img/bioforce/bf${n}_pulley.jpg` }
+  const dir = `${import.meta.env.BASE_URL}img/bioforce`
+  return { start: `${dir}/bf${n}_start.png`, end: `${dir}/bf${n}_end.png`, pulley: `${dir}/bf${n}_pulley.jpg` }
 }
 
 export const CATEGORY_LABEL: Record<Category, string> = {
