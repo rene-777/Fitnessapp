@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { beepCount, beepEnd } from '../lib/audio'
+import { beepCount, beepEnd, beepGo } from '../lib/audio'
 import { fmtSec } from '../lib/dates'
 
 interface Props {
@@ -78,9 +78,39 @@ export default function Timer({ seconds, onDone, label, autoStart = true, size =
   )
 }
 
-/** Stoppuhr */
-export function Stopwatch({ onChange }: { onChange?: (elapsedSec: number) => void }) {
-  const [startAt, setStartAt] = useState<number | null>(null)
+/** Vorlauf 3-2-1 vor zeitgebundenen Übungen: Zeit, um nach dem Tipp auf „Start“ in Position zu gehen. */
+export function GetReady({ seconds = 3, onGo }: { seconds?: number; onGo: () => void }) {
+  const [endAt] = useState(() => Date.now() + seconds * 1000)
+  const [left, setLeft] = useState(seconds)
+  const onGoRef = useRef(onGo)
+  onGoRef.current = onGo
+  useEffect(() => {
+    let last = -1
+    const id = setInterval(() => {
+      const r = (endAt - Date.now()) / 1000
+      if (r <= 0) {
+        clearInterval(id)
+        beepGo()
+        onGoRef.current()
+        return
+      }
+      const whole = Math.ceil(r)
+      if (whole !== last) { last = whole; beepCount(); setLeft(whole) }
+    }, 100)
+    return () => clearInterval(id)
+  }, [endAt])
+  return (
+    <div className="card text-center">
+      <div className="label mb-1">Mach dich bereit</div>
+      <div className="text-7xl font-bold tabular-nums my-2 text-accent">{left}</div>
+    </div>
+  )
+}
+
+/** Stoppuhr; mit leadIn läuft vor dem ersten Start der 3-2-1-Vorlauf. */
+export function Stopwatch({ onChange, leadIn, autoStart }: { onChange?: (elapsedSec: number) => void; leadIn?: boolean; autoStart?: boolean }) {
+  const [startAt, setStartAt] = useState<number | null>(() => (autoStart ? Date.now() : null))
+  const [ready, setReady] = useState(false)
   const [acc, setAcc] = useState(0)
   const [elapsed, setElapsed] = useState(0)
   useEffect(() => {
@@ -93,11 +123,12 @@ export function Stopwatch({ onChange }: { onChange?: (elapsedSec: number) => voi
     return () => clearInterval(id)
   }, [startAt, acc, onChange])
   const running = startAt !== null
+  if (ready) return <GetReady onGo={() => { setReady(false); setStartAt(Date.now()) }} />
   return (
     <div className="card text-center">
       <div className="text-5xl font-bold tabular-nums my-2">{fmtSec(elapsed)}</div>
       <div className="flex gap-2 justify-center">
-        {!running && <button className="btn-primary flex-1" onClick={() => setStartAt(Date.now())}>{acc > 0 ? 'Weiter' : 'Start'}</button>}
+        {!running && <button className="btn-primary flex-1" onClick={() => (leadIn && acc === 0 ? setReady(true) : setStartAt(Date.now()))}>{acc > 0 ? 'Weiter' : 'Start'}</button>}
         {running && <button className="btn-ghost flex-1" onClick={() => { setAcc(elapsed); setStartAt(null) }}>Stopp</button>}
         <button className="btn-ghost" onClick={() => { setAcc(0); setElapsed(0); setStartAt(null); onChange?.(0) }}>Reset</button>
       </div>

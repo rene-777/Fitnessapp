@@ -4,7 +4,7 @@ import { useLiveQuery } from 'dexie-react-hooks'
 import { ErrorCard, errorText } from '../components/ErrorBoundary'
 import ExerciseCard from '../components/ExerciseCard'
 import NumberInput from '../components/NumberInput'
-import Timer, { Stopwatch } from '../components/Timer'
+import Timer, { GetReady, Stopwatch } from '../components/Timer'
 import { ex } from '../data/exercises'
 import { findSession } from '../data/plan'
 import { db } from '../db/db'
@@ -231,7 +231,7 @@ function SetStepView({ step, workout, onSaved, onSkip }: { step: SetStep; workou
   const [rir, setRir] = useState<number | ''>('')
   const [seconds, setSeconds] = useState<number | ''>('')
   const [init, setInit] = useState(false)
-  const [holdTimer, setHoldTimer] = useState(false)
+  const [holdTimer, setHoldTimer] = useState<'off' | 'ready' | 'on'>('off')
   const [missing, setMissing] = useState(false)
 
   useEffect(() => {
@@ -275,9 +275,10 @@ function SetStepView({ step, workout, onSaved, onSkip }: { step: SetStep; workou
       <div className="card space-y-3">
         {timed && (
           <>
-            {!holdTimer && step.p.seconds && <button className="btn-ghost w-full" onClick={() => { unlockAudio(); setHoldTimer(true) }}>Halte-Timer {step.p.seconds} s</button>}
-            {holdTimer && step.p.seconds && <Timer seconds={step.p.seconds} onDone={() => setHoldTimer(false)} label="Halten" size="md" allowExtend={false} />}
-            {step.isTest && <Stopwatch onChange={(s) => setSeconds(Math.round(s))} />}
+            {holdTimer === 'off' && step.p.seconds && <button className="btn-ghost w-full" onClick={() => { unlockAudio(); setHoldTimer('ready') }}>Halte-Timer {step.p.seconds} s</button>}
+            {holdTimer === 'ready' && <GetReady onGo={() => setHoldTimer('on')} />}
+            {holdTimer === 'on' && step.p.seconds && <Timer seconds={step.p.seconds} onDone={() => setHoldTimer('off')} label="Halten" size="md" allowExtend={false} />}
+            {step.isTest && <Stopwatch leadIn onChange={(s) => setSeconds(Math.round(s))} />}
             <NumberInput label="Sekunden" value={seconds} onChange={(v) => { setSeconds(v); setMissing(false) }} step={5} error={missing ? 'Bitte die Sekunden eintragen.' : undefined} />
           </>
         )}
@@ -307,6 +308,7 @@ function SetStepView({ step, workout, onSaved, onSkip }: { step: SetStep; workou
 // ---------- AMRAP ----------
 function AmrapStep({ step, workout, onNext }: { step: Extract<Step, { kind: 'amrap' }>; workout: WorkoutRow; onNext: () => void }) {
   const seg = step.seg
+  const [ready, setReady] = useState(false)
   const [running, setRunning] = useState(false)
   const [count, setCount] = useState(0)
   const [finished, setFinished] = useState(false)
@@ -334,7 +336,8 @@ function AmrapStep({ step, workout, onNext }: { step: Extract<Step, { kind: 'amr
         {seg.description && <div className="text-sm text-muted">{seg.description}</div>}
         <ul className="text-sm">{seg.exercises.map((x, i) => <li key={i}>{x.reps > 1 ? `${x.reps} × ` : ''}{ex(x.exerciseId).name}</li>)}</ul>
       </div>
-      {!running && !finished && <button className="btn-primary w-full text-xl py-4" onClick={() => { unlockAudio(); beepGo(); setRunning(true) }}>Start</button>}
+      {!ready && !running && !finished && <button className="btn-primary w-full text-xl py-4" onClick={() => { unlockAudio(); setReady(true) }}>Start</button>}
+      {ready && <GetReady onGo={() => { setReady(false); setRunning(true) }} />}
       {running && <Timer seconds={seg.minutes * 60} onDone={() => { setRunning(false); setFinished(true) }} label={seg.countLabel} allowExtend={false} />}
       {(running || finished) && (
         <div className="card text-center space-y-3">
@@ -360,7 +363,8 @@ function IntervalStep({ step, workout, onNext }: { step: Extract<Step, { kind: '
   const [mode, setMode] = useState<'work' | 'rest' | 'done'>('work')
   const [reps, setReps] = useState<number | ''>('')
   const e = ex(seg.exerciseId)
-  const start = () => { unlockAudio(); beepGo(); speak('Los'); setRound(1); setMode('work') }
+  const [ready, setReady] = useState(false)
+  const start = () => { setReady(false); speak('Los'); setRound(1); setMode('work') }
   const onWorkDone = () => {
     if (round >= seg.rounds) { setMode('done'); speak('Fertig') }
     else { setMode('rest'); speak('Pause') }
@@ -377,7 +381,8 @@ function IntervalStep({ step, workout, onNext }: { step: Extract<Step, { kind: '
         <div className="text-sm text-muted">{seg.description}</div>
         {seg.alternative && <div className="text-xs text-muted">Alternative: {seg.alternative}</div>}
       </div>
-      {round === 0 && <button className="btn-primary w-full text-xl py-4" onClick={start}>Start</button>}
+      {round === 0 && !ready && <button className="btn-primary w-full text-xl py-4" onClick={() => { unlockAudio(); setReady(true) }}>Start</button>}
+      {ready && <GetReady onGo={start} />}
       {round > 0 && mode === 'work' && <Timer key={`w${round}`} seconds={seg.workSec} onDone={onWorkDone} label={`Runde ${round}/${seg.rounds} · ARBEIT`} allowExtend={false} />}
       {round > 0 && mode === 'rest' && <Timer key={`r${round}`} seconds={seg.restSec} onDone={onRestDone} label={`Pause · danach Runde ${round + 1}`} allowExtend={false} />}
       {mode === 'done' && (
@@ -399,7 +404,7 @@ function CardioStep({ step, workout, onNext }: { step: Extract<Step, { kind: 'ca
   const [minutes, setMinutes] = useState<number | ''>(seg.minutes)
   const [dist, setDist] = useState<number | ''>('')
   const [hr, setHr] = useState<number | ''>('')
-  const [timer, setTimer] = useState(false)
+  const [timer, setTimer] = useState<'off' | 'ready' | 'on'>('off')
   const save = async () => {
     await saveSet(workout, {
       exerciseId: seg.exerciseId, segmentLabel: `cardio-${seg.label}`, setIndex: 1,
@@ -421,8 +426,9 @@ function CardioStep({ step, workout, onNext }: { step: Extract<Step, { kind: 'ca
           <label className="flex items-center gap-2 text-muted"><input type="checkbox" checked={alt} onChange={(ev) => setAlt(ev.target.checked)} className="accent-[#ff7a1a]" /> Alternative: {seg.alternative}</label>
         )}
       </div>
-      {!timer && <button className="btn-ghost w-full" onClick={() => { unlockAudio(); setTimer(true) }}>Countdown {seg.minutes} min starten</button>}
-      {timer && <Timer seconds={seg.minutes * 60} onDone={() => setTimer(false)} label={e.name} />}
+      {timer === 'off' && <button className="btn-ghost w-full" onClick={() => { unlockAudio(); setTimer('ready') }}>Countdown {seg.minutes} min starten</button>}
+      {timer === 'ready' && <GetReady onGo={() => setTimer('on')} />}
+      {timer === 'on' && <Timer seconds={seg.minutes * 60} onDone={() => setTimer('off')} label={e.name} />}
       <div className="card space-y-3">
         <div className="flex gap-3">
           <NumberInput label="Dauer" suffix="min" value={minutes} onChange={setMinutes} compact />
@@ -447,7 +453,7 @@ function ChallengeStep({ step, workout, profileStart, onNext }: { step: Extract<
   )
   const status = useMemo(() => (benchmarks && weekSets ? challengeStatus(benchmarks, weekSets, seg.items[0]?.share ?? 0.2) : []), [benchmarks, weekSets, seg.items])
   const [counts, setCounts] = useState<Record<string, number>>({})
-  const [started, setStarted] = useState(false)
+  const [started, setStarted] = useState<'no' | 'ready' | 'yes'>('no')
   const save = async () => {
     for (const st of status) {
       const c = counts[st.exerciseId] ?? 0
@@ -458,8 +464,9 @@ function ChallengeStep({ step, workout, profileStart, onNext }: { step: Extract<
   return (
     <div className="space-y-3">
       <div className="card text-sm"><div className="h2">{seg.label}</div><div className="text-muted">{seg.description}</div></div>
-      {!started && <button className="btn-primary w-full text-xl py-4" onClick={() => { unlockAudio(); setStarted(true) }}>Start (Zeit läuft)</button>}
-      {started && <Stopwatch />}
+      {started === 'no' && <button className="btn-primary w-full text-xl py-4" onClick={() => { unlockAudio(); setStarted('ready') }}>Start (Zeit läuft nach 3-2-1)</button>}
+      {started === 'ready' && <GetReady onGo={() => setStarted('yes')} />}
+      {started === 'yes' && <Stopwatch autoStart />}
       {status.map((st) => {
         const c = counts[st.exerciseId] ?? 0
         const pct = st.todayTarget > 0 ? Math.min(100, (c / st.todayTarget) * 100) : 0
