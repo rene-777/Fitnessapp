@@ -14,7 +14,7 @@ export interface Exercise {
   unit: Unit
   bioforceNo?: number // Nummer in der Finnlo-Anleitung, liefert die Fotos
   noEndPhoto?: boolean // Foto einer verwandten Herstellerübung: nur Start und Rollen zeigen, das Endfoto wäre irreführend
-  smallStep?: boolean // kleine Übung: eine Raste (5 lb) ist ein großer Sprung, erst bei 3+ Wiederholungen über dem Ziel steigern
+  smallStep?: boolean // kleine Übung: nur eine Raste (2,5 lb) steigern, und erst bei Wiederholungen über dem Ziel (siehe suggestLoad)
   seat?: 'on' | 'off' // Bio Force: Sitz angebracht oder entfernt; innerhalb eines Supersatzes nie mischen
   equipment: string
   setup?: string

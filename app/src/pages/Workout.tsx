@@ -97,7 +97,13 @@ export default function Workout() {
   const step = steps[idx]
 
   if (askReadiness) {
-    return <ReadinessForm onDone={async (r) => { await patchWorkout(workout.id, { readiness: r }); unlockAudio(); setAskReadiness(false) }} />
+    // Die Uhr startet erst hier: wer die Einheit vorher nur angesehen hat, soll keine Stunden auf dem Zähler haben
+    return <ReadinessForm onDone={async (r) => {
+      const startedAt = new Date().toISOString()
+      await patchWorkout(workout.id, { readiness: r, startedAt })
+      setWorkout({ ...workout, readiness: r, startedAt })
+      unlockAudio(); setAskReadiness(false)
+    }} />
   }
 
   if (phase === 'done') {
@@ -278,7 +284,7 @@ function SetStepView({ step, workout, onSaved, onSkip }: { step: SetStep; workou
         {!timed && <NumberInput label={step.p.perSide ? 'Wiederholungen je Seite' : 'Wiederholungen'} value={reps} onChange={(v) => { setReps(v); setMissing(false) }} error={missing ? 'Bitte die Wiederholungen eintragen.' : undefined} />}
         <div className="space-y-3">
           {showWeight && (isBf
-            ? <NumberInput label="Skala (lb) pro Seite" value={weight} onChange={setWeight} step={BF_STEP_LB} min={BF_MIN_LB} max={BF_MAX_LB} hint={weight === '' ? 'Wert am Schwingarm, 5–125' : `≈ ${fmtKg(lbToKg(Number(weight)))} kg pro Seite`} />
+            ? <NumberInput label="Skala (lb) pro Seite" value={weight} onChange={setWeight} step={BF_STEP_LB} min={BF_MIN_LB} max={BF_MAX_LB} hint={weight === '' ? 'Wert am Schwingarm, 5–125 in 2,5er-Rasten' : `≈ ${fmtKg(lbToKg(Number(weight)))} kg pro Seite`} />
             : <NumberInput label="kg" value={weight} onChange={setWeight} step={1} />)}
           {showRir && (
             <div className="flex-1">

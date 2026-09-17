@@ -2,7 +2,7 @@ import { CHALLENGE_TARGETS, WEEKS, blockOfWeek, weekByNumber } from '../data/pla
 import type { Prescription, Segment, Session, Week } from '../data/planTypes'
 import type { Benchmark, SetLog } from '../db/types'
 import { planWeekOf, weekday } from './dates'
-import { BF_MAX_LB, BF_STEP_LB, kgToLb, lbToKg, loadText } from './bioforce'
+import { BF_MAX_LB, BF_PROGRESS_LB, BF_STEP_LB, fmtLb, kgToLb, lbToKg, loadText } from './bioforce'
 
 export interface DayInfo {
   date: string
@@ -100,10 +100,10 @@ export interface Suggestion {
   text: string
 }
 
-/** Vorschlag aus der letzten Ausführung derselben Übung (letzte Einheit, keine Tests). */
-/** Kleine Übungen (smallStep): so viele Wiederholungen über dem Ziel, bevor eine Raste dazukommt. */
-const SMALL_STEP_EXTRA_REPS = 3
+/** Kleine Übungen (smallStep): so viele Wiederholungen über dem Ziel, bevor eine Raste (2,5 lb) dazukommt. */
+const SMALL_STEP_EXTRA_REPS = 2
 
+/** Vorschlag aus der letzten Ausführung derselben Übung (letzte Einheit, keine Tests). */
 export function suggestLoad(p: Prescription, history: SetLog[], loadType: string, smallStep = false): Suggestion {
   const real = history.filter((s) => !s.isTest && !s.deleted && s.segmentLabel !== 'challenge')
   if (real.length === 0) {
@@ -119,17 +119,17 @@ export function suggestLoad(p: Prescription, history: SetLog[], loadType: string
   const base = `Letztes Mal: ${repsStr}${w !== undefined ? ` @ ${loadText(w, loadType)}` : ''}`
   if (p.ramp) return { weightKg: w, text: base }
   if (loadType === 'bioforce' && w !== undefined && p.repsMax && smallStep) {
-    // Eine Raste ist hier ein großer Sprung: erst über Wiederholungen steigern, dann über die Last
+    // Schon eine Raste (2,5 lb) ist hier ein großer Sprung: erst über Wiederholungen steigern, dann über die Last
     const goal = p.repsMax + SMALL_STEP_EXTRA_REPS
     const allOver = last.every((s) => (s.reps ?? 0) >= goal)
     const nextLb = Math.min(BF_MAX_LB, kgToLb(w) + BF_STEP_LB)
-    if (allOver) return { weightKg: lbToKg(nextLb), text: `${base} → alle Sätze mit ${goal}+ Wiederholungen, Vorschlag ${nextLb} lb (eine Raste mehr), wieder bei ${p.repsMax} beginnen` }
-    return { weightKg: w, text: `${base} → gleiche Last, Wiederholungen steigern. Erst bei ${goal} in allen Sätzen eine Raste mehr (kleine Übung, 5 lb sind ein großer Sprung)` }
+    if (allOver) return { weightKg: lbToKg(nextLb), text: `${base} → alle Sätze mit ${goal}+ Wiederholungen, Vorschlag ${fmtLb(nextLb)} lb (eine Raste mehr), wieder bei ${p.repsMax} beginnen` }
+    return { weightKg: w, text: `${base} → gleiche Last, Wiederholungen steigern. Erst bei ${goal} in allen Sätzen eine Raste (2,5 lb) mehr` }
   }
   if (loadType === 'bioforce' && w !== undefined && p.repsMax) {
     const allTop = last.every((s) => (s.reps ?? 0) >= (p.repsMax ?? 0) && (s.rir ?? 9) <= 1)
-    const nextLb = Math.min(BF_MAX_LB, kgToLb(w) + BF_STEP_LB)
-    if (allTop) return { weightKg: lbToKg(nextLb), text: `${base} → alle Sätze am oberen Ende, Vorschlag ${nextLb} lb (eine Raste mehr)` }
+    const nextLb = Math.min(BF_MAX_LB, kgToLb(w) + BF_PROGRESS_LB)
+    if (allTop) return { weightKg: lbToKg(nextLb), text: `${base} → alle Sätze am oberen Ende, Vorschlag ${fmtLb(nextLb)} lb (+${BF_PROGRESS_LB} lb; wenn das zu viel ist, nur eine Raste = +${fmtLb(BF_STEP_LB)} lb)` }
     return { weightKg: w, text: `${base} → gleiche Last, mehr Wiederholungen` }
   }
   if (loadType === 'bodyweight' && p.repsMax) {

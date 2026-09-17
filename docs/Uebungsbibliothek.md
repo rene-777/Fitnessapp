@@ -18,7 +18,7 @@ Die Anleitung benennt die Zugpunkte so:
 | **Sitz angebracht / entfernt** | Sitz mit Beinmodul lässt sich mit einem Handgriff abnehmen. Für stehende Übungen entfernen |
 | **Schiebe-Verschluss** | Widerstandsverstellung: Einheit nach oben ziehen, verschieben, absenken. Anzeige rot = verriegelt |
 
-Die Skala an den Schwingarmen zeigt amerikanische Pfund (lb) pro Seite: 5 bis 125 in 5er-Rasten (5 lb ≈ 2,3 kg, 50 lb ≈ 22,7 kg, 100 lb ≈ 45,4 kg, 125 lb ≈ 56,7 kg). Widerstand immer als Skalenwert in lb pro Seite notieren. Beide Kabel zusammen ergibt das Doppelte. Die App zeigt den kg-Wert daneben an.
+Die Skala an den Schwingarmen zeigt amerikanische Pfund (lb) pro Seite: 5 bis 125, beschriftet in 5er-Schritten, einstellbar in 2,5-lb-Rasten (5 lb ≈ 2,3 kg, 50 lb ≈ 22,7 kg, 100 lb ≈ 45,4 kg, 125 lb ≈ 56,7 kg). Widerstand immer als Skalenwert in lb pro Seite notieren. Beide Kabel zusammen ergibt das Doppelte. Die App zeigt den kg-Wert daneben an.
 
 ---
 

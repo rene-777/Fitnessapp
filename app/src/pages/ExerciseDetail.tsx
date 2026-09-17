@@ -5,7 +5,7 @@ import { EXERCISE_MAP } from '../data/exercises'
 import { db } from '../db/db'
 import { useProfile } from '../hooks/useProfile'
 import { fmtDate } from '../lib/dates'
-import { kgToLb, loadText } from '../lib/bioforce'
+import { fmtLb, kgToLb, loadText } from '../lib/bioforce'
 import { epley1RM } from '../lib/planEngine'
 
 export default function ExerciseDetail() {
@@ -41,7 +41,7 @@ export default function ExerciseDetail() {
           <div className="h2 mb-2">Bestwerte</div>
           <div className="grid grid-cols-3 gap-2 text-center">
             {maxReps > 0 && <div><div className="text-2xl font-bold">{maxReps}</div><div className="label">Wdh. max</div></div>}
-            {maxW > 0 && <div><div className="text-2xl font-bold">{e.loadType === 'bioforce' ? kgToLb(maxW) : maxW}</div><div className="label">{e.loadType === 'bioforce' ? 'lb max' : 'kg max'}</div></div>}
+            {maxW > 0 && <div><div className="text-2xl font-bold">{e.loadType === 'bioforce' ? fmtLb(kgToLb(maxW)) : maxW}</div><div className="label">{e.loadType === 'bioforce' ? 'lb max' : 'kg max'}</div></div>}
             {best1RM > 0 && <div><div className="text-2xl font-bold">{best1RM}</div><div className="label">e1RM kg</div></div>}
             {maxSec > 0 && <div><div className="text-2xl font-bold">{maxSec}</div><div className="label">s max</div></div>}
           </div>
@@ -61,7 +61,7 @@ export default function ExerciseDetail() {
                   if (s.seconds !== undefined && s.reps === undefined) parts.push(`${s.seconds} s`)
                   if (s.rounds !== undefined) parts.push(`${s.rounds} Rd`)
                   if (s.distanceM !== undefined) parts.push(`${s.distanceM} m`)
-                  if (s.weightKg !== undefined) parts.push(`@ ${e.loadType === 'bioforce' ? `${kgToLb(s.weightKg)} lb` : loadText(s.weightKg, e.loadType)}`)
+                  if (s.weightKg !== undefined) parts.push(`@ ${e.loadType === 'bioforce' ? `${fmtLb(kgToLb(s.weightKg))} lb` : loadText(s.weightKg, e.loadType)}`)
                   if (s.rir !== undefined) parts.push(`RIR ${s.rir}`)
                   return <span key={s.id} className="inline-block ml-2">{parts.join(' ')}{s.isTest ? ' (Test)' : ''}{s.side ? ` ${s.side}` : ''}</span>
                 })}

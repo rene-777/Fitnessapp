@@ -7,6 +7,7 @@ import { db } from '../db/db'
 import { useProfile } from '../hooks/useProfile'
 import { fmtDateLong } from '../lib/dates'
 import { blockLabel, prescriptionText } from '../lib/planEngine'
+import { deleteWorkout } from '../lib/workouts'
 
 export default function SessionPreview() {
   const { date = '', sessionKey = '' } = useParams()
@@ -19,6 +20,14 @@ export default function SessionPreview() {
   if (!found) return <div className="text-muted">Einheit nicht gefunden.</div>
   const { week, session } = found
   const done = workout?.find((w) => w.status === 'fertig' && !w.deleted)
+  // Gespeichertes Training zu dieser Einheit (laufend oder fertig), das sich löschen lässt
+  const alive = workout?.filter((w) => !w.deleted) ?? []
+  const stored = alive.find((w) => w.date === date) ?? done ?? alive[0]
+  const remove = async () => {
+    if (!stored) return
+    if (!confirm(`Training vom ${fmtDateLong(stored.date)} mit allen eingetragenen Sätzen und Testwerten löschen?`)) return
+    await deleteWorkout(stored.id)
+  }
 
   return (
     <div className="space-y-4">
@@ -32,6 +41,8 @@ export default function SessionPreview() {
         <Link to={`/log/${date}/${sessionKey}`} className="btn-ghost text-center">Nachtragen</Link>
       </div>
       {done && <div className="rounded-xl bg-ok/10 border border-ok/40 p-3 text-ok text-sm">Erledigt am {fmtDateLong(done.date)}{done.durationMin ? ` · ${done.durationMin} min` : ''}</div>}
+      {stored && !done && <div className="rounded-xl bg-warn/10 border border-warn/40 p-3 text-sm">Begonnen am {fmtDateLong(stored.date)}, noch nicht beendet.</div>}
+      {stored && <button className="btn-ghost w-full text-sm text-bad" onClick={remove}>Dieses Training löschen</button>}
       {week.note && <div className="card text-sm text-muted">{week.note}</div>}
 
       {session.segments.map((seg, i) => {

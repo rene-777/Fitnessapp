@@ -29,7 +29,9 @@ Die App ist live unter **https://rene-777.github.io/Fitnessapp/**, auf dem Andro
 
 - **Rückmeldungen des Users:** Hochformat-Sperre wirkt, alle Fotos passen, „Lade …“ ist nicht mehr aufgetreten.
 - **Pallof Press:** steht nicht in der Herstelleranleitung (Abschnitt Bauch & unterer Rücken = Nr. 106–110, geprüft). Zeigt jetzt Startfoto („Aufstellung“) und Rollen-Diagramm von Nr. 108, ohne Endfoto (`noEndPhoto` in `exercises.ts`), mit erklärendem Hinweis. Nr. 108 ist laut Hersteller mit angebrachtem Sitz fotografiert, Pallof Press geht also mit und ohne Sitz (in den Daten weiter `seat: 'off'`).
-- **Kleine Übungen:** Feld `smallStep` in `exercises.ts` (Seitheben, Face Pulls, Reverse Flys). `suggestLoad()` schlägt dort erst dann eine Raste mehr vor, wenn alle Sätze 3 Wiederholungen über dem Ziel liegen (`SMALL_STEP_EXTRA_REPS`), sonst „gleiche Last, Wiederholungen steigern“.
+- **Skala in 2,5-lb-Rasten:** Der User hat am Gerät festgestellt, dass sich die Schwingarme in 2,5-lb-Schritten einstellen lassen (Beschriftung in 5ern; die Anleitung sagt dazu nichts). `BF_STEP_LB = 2.5` (Eingabe, Rundung), `BF_PROGRESS_LB = 5` (Steigerungsvorschlag), Anzeige über `fmtLb` („12,5 lb“). Untergrenze weiter 5 lb (Annahme, vom User noch nicht bestätigt).
+- **Kleine Übungen:** Feld `smallStep` in `exercises.ts` (Seitheben, Face Pulls, Reverse Flys). `suggestLoad()` schlägt dort nur eine Raste (+2,5 lb) vor, und erst, wenn alle Sätze 2 Wiederholungen über dem Ziel liegen (`SMALL_STEP_EXTRA_REPS`), sonst „gleiche Last, Wiederholungen steigern“. Alle anderen Übungen: +5 lb mit Hinweis auf die halbe Stufe.
+- **Training löschen und Dauer:** Der User hatte ein Test-Training am 21.09. mit „529 min“. Neu: `deleteWorkout()` in `workouts.ts` (Soft-Delete von Training, Sätzen, Benchmarks) mit Knopf in `SessionPreview.tsx`; `startedAt` wird erst beim Abschluss des Kurz-Checks gesetzt; `finishWorkout()` rechnet bei über 180 min (`MAX_DURATION_MIN`) nur bis zum letzten Satz oder speichert keine Dauer. Der User löscht vor dem 21.09. einmal alle Daten (gemischte Test- und Echtdaten).
 - **Pflichtfeld-Hinweis:** Der Chrome-Alert beim Satz-Speichern ist durch einen Hinweis direkt am Feld ersetzt (`error`-Prop in `NumberInput.tsx`).
 
 ## Nächster Schritt: Phase 2 und 3
@@ -51,6 +53,7 @@ Die App ist live unter **https://rene-777.github.io/Fitnessapp/**, auf dem Andro
 ## Was der User als Nächstes tun sollte
 
 - App einmal komplett schließen und neu öffnen, bis unter „Mehr“ eine Version ab „2026-09-17 17:58 UTC“ steht (Umstieg auf Update per Knopfdruck).
+- **Vor dem Start am Montag:** Einstellungen → „Alle Daten löschen“ (Testdaten entfernen), danach Profil, Planstart 21.09.2026 und Körperwerte neu eintragen.
 - Vor Woche 1 die Bio-Force-Einstellungen einmal durchprobieren (Übungen-Tab, Fotos und Anleitung), einmal den Flugmodus testen (Offline-Betrieb).
 - Montag 21.09. mit Woche 1 starten. Einmal pro Woche Einstellungen → Exportieren (z. B. in die Dropbox).
 - Nach Woche 1 die Einstufungswerte melden, dann wird Block 2 ausgearbeitet.

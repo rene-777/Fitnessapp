@@ -10,13 +10,13 @@ Ziel des Blocks: Technik und Lasten an der Bio Force festlegen, Muskelaufbau-Bas
 
 **Tempo 3-1-3:** 3 s absenken, 1 s halten, 3 s hoch. Wird an Beinstrecker und Beinbeuger genutzt (Sehnenreiz, kniefreundlich). Alle anderen Übungen: 2 s ab, kontrolliert hoch.
 
-**Doppelte Progression:** Jede Übung hat einen Wiederholungsbereich (z. B. 8–12). Erreichst du in allen Sätzen die obere Zahl bei ≤ 1 RIR, erhöhst du beim nächsten Mal die Last um eine Raste, also 5 lb ≈ 2,3 kg pro Seite (Bio Force) bzw. wechselst zur schwereren Variante (Bodyweight). Sonst bleibt die Last und du versuchst mehr Wiederholungen.
+**Doppelte Progression:** Jede Übung hat einen Wiederholungsbereich (z. B. 8–12). Erreichst du in allen Sätzen die obere Zahl bei ≤ 1 RIR, erhöhst du beim nächsten Mal die Last um 5 lb ≈ 2,3 kg pro Seite (Bio Force, zwei Rasten; bei kleinen Übungen wie Seitheben, Face Pulls, Reverse Flys nur eine Raste = 2,5 lb) bzw. wechselst zur schwereren Variante (Bodyweight). Sonst bleibt die Last und du versuchst mehr Wiederholungen.
 
 **Supersatz (A1/A2):** Zwei Übungen im Wechsel: Satz A1, 30 s Pause, Satz A2, 60–90 s Pause, dann wieder A1. Spart Zeit ohne Leistungsverlust, weil Gegenspieler oder unterschiedliche Muskeln arbeiten. Regel für die Bio Force: In einem Supersatz stehen nie eine Übung mit Sitz und eine ohne Sitz. Jede Einheit ist so sortiert, dass der Sitz höchstens einmal umgebaut wird (in den Tabellen als „Umbau“ markiert).
 
 **Knie-Ampel:** Schmerz bis 3 von 10 während der Übung ist in Ordnung, wenn er am nächsten Morgen nicht schlechter ist. Bei 4 oder mehr: Beinvolumen halbieren (nur die A- und B-Übung), Split Squats durch Step-Ups auf niedrige Stufe ersetzen, kein Seilspringen.
 
-**Bio Force Angaben:** Die Skala an den Schwingarmen zeigt amerikanische Pfund (lb) pro Seite, von 5 bis 125 in 5er-Rasten (125 lb ≈ 56,7 kg, Umrechnungstabelle in der Finnlo-Anleitung S. 25). Notiert wird der Skalenwert in lb pro Seite, beide Kabel gleich eingestellt. Die App rechnet intern in kg um (1 lb = 0,4536 kg). „Unten“ = Zugpunkt an den unteren Streben neben dem Sitz, „Schulter“ = Zugpunkt auf Schulterhöhe, „Oben“ = Zug von oben (Latstange oder Griffe).
+**Bio Force Angaben:** Die Skala an den Schwingarmen zeigt amerikanische Pfund (lb) pro Seite, von 5 bis 125, beschriftet in 5er-Schritten, einstellbar in 2,5-lb-Rasten (125 lb ≈ 56,7 kg, Umrechnungstabelle in der Finnlo-Anleitung S. 25). Notiert wird der Skalenwert in lb pro Seite, beide Kabel gleich eingestellt. Die App rechnet intern in kg um (1 lb = 0,4536 kg). „Unten“ = Zugpunkt an den unteren Streben neben dem Sitz, „Schulter“ = Zugpunkt auf Schulterhöhe, „Oben“ = Zug von oben (Latstange oder Griffe).
 
 **Walk-Run:** Wechsel aus Laufen und Gehen in festen Intervallen. Einstieg für Sehnen und Gelenke, obwohl das Herz-Kreislauf-System mehr könnte. Woche 1–2: 3 min laufen, 1 min gehen. Ab Woche 3 durchgehend laufen.
 
@@ -131,7 +131,7 @@ Volumen bewusst reduziert. Die Einstufung ist eingebaut: bei Bio-Force-Übungen 
 | Warm-up 8 min | Seil 2 min, Ganzkörper-Mobility, 10 Push-Ups leicht, 10 Kniebeugen | | | |
 | A1 | Defizit-Push-Ups | 3 × 10–15 | 30 s | 1–2 RIR |
 | A2 | Latzug enger Griff (Griffe) | 3 × 10–12 | 90 s | |
-| B1 | Kabel-Schrägdrücken | 3 × 10 | 30 s | Last = 10RM vom Montag minus 5 lb (eine Raste) |
+| B1 | Kabel-Schrägdrücken | 3 × 10 | 30 s | Last = 10RM vom Montag minus 5 lb (zwei Rasten) |
 | B2 | Einarmiges Rudern | 3 × 10 je Seite | 90 s | |
 | C1 | Schulterdrücken am Kabel | 3 × 10 | 30 s | 1–2 RIR |
 | C2 | Step-Ups mit Kettlebell 8 kg | 3 × 10 je Seite | 90 s | Kniehohe oder niedrigere Stufe |
@@ -148,7 +148,7 @@ Nachholen, falls eine Einheit ausgefallen ist. Sonst optional 30 min Walk-Run Zo
 
 ## 3. Woche 2 (28.09.–02.10.) – Volles Volumen
 
-Gleiche Übungen wie Woche 1, aber ohne Tests. Startlasten an der Bio Force = 10RM aus Woche 1 minus 5 lb pro Seite (eine Raste), damit 3 Sätze mit 1–2 RIR möglich sind. Finisher an Montag und Mittwoch kommen dazu.
+Gleiche Übungen wie Woche 1, aber ohne Tests. Startlasten an der Bio Force = 10RM aus Woche 1 minus 5 lb pro Seite (zwei Rasten), damit 3 Sätze mit 1–2 RIR möglich sind. Finisher an Montag und Mittwoch kommen dazu.
 
 | Tag | Änderungen gegenüber Woche 1 |
 |---|---|
@@ -167,7 +167,7 @@ Wochenvolumen (Arbeitssätze): Brust 13, Rücken 14, Schultern 11, Quadrizeps 10
 Gleiche Struktur wie Woche 2, plus:
 
 - Jede A- und B-Übung bekommt einen 5. Satz (Bio Force) oder Push-Ups/Pull-Ups einen 4. Satz.
-- Lasten nach Doppelter Progression (wenn Woche 2 die obere Wiederholungszahl erreicht wurde: +5 lb pro Seite, eine Raste).
+- Lasten nach Doppelter Progression (wenn Woche 2 die obere Wiederholungszahl erreicht wurde: +5 lb pro Seite, kleine Übungen +2,5 lb).
 - Do Cardio: Intervalle **8 × 30 s Burpees zügig / 60 s gehen**, danach 20 min Zone 2 durchgehend laufen (erstmals ohne Gehpausen, falls die Knie in Woche 1–2 ruhig waren). Indoor-Alternative: 20 min Seil 45 s / 15 s.
 - Finisher Mo/Mi/Fr auf 8 min AMRAP verlängert.
 - Samstag optional: 35 min Zone 2.

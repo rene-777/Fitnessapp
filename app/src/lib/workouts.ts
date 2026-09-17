@@ -28,12 +28,36 @@ export async function patchWorkout(id: string, patch: Partial<Workout>) {
   if (w) await db.workouts.put({ ...w, ...patch, updatedAt: now() })
 }
 
+/** Länger dauert keine Einheit: darüber wurde das Beenden vergessen oder die App lag stundenlang offen. */
+const MAX_DURATION_MIN = 180
+
 export async function finishWorkout(id: string) {
   const w = await db.workouts.get(id)
   if (!w) return
   const started = w.startedAt ? new Date(w.startedAt).getTime() : Date.now()
-  const durationMin = w.backfilled ? w.durationMin : Math.max(1, Math.round((Date.now() - started) / 60000))
+  const minutesUntil = (t: number) => Math.max(1, Math.round((t - started) / 60000))
+  let durationMin = w.backfilled ? w.durationMin : minutesUntil(Date.now())
+  if (!w.backfilled && durationMin !== undefined && durationMin > MAX_DURATION_MIN) {
+    // Unplausibel lang: bis zum letzten gespeicherten Satz rechnen, sonst lieber keine Dauer als eine falsche
+    const sets = (await db.sets.where('workoutId').equals(id).toArray()).filter((s) => !s.deleted)
+    const lastSet = Math.max(0, ...sets.map((s) => new Date(s.updatedAt).getTime()))
+    durationMin = lastSet > started && minutesUntil(lastSet) <= MAX_DURATION_MIN ? minutesUntil(lastSet) : undefined
+  }
   await db.workouts.put({ ...w, status: 'fertig', finishedAt: now(), durationMin, updatedAt: now() })
+}
+
+/** Training samt Sätzen und Testwerten löschen (als gelöscht markiert, damit ein späterer Sync es mitbekommt). */
+export async function deleteWorkout(id: string) {
+  await db.transaction('rw', [db.workouts, db.sets, db.benchmarks], async () => {
+    const w = await db.workouts.get(id)
+    if (!w) return
+    const t = now()
+    await db.workouts.put({ ...w, deleted: true, updatedAt: t })
+    const sets = await db.sets.where('workoutId').equals(id).toArray()
+    await db.sets.bulkPut(sets.map((s) => ({ ...s, deleted: true, updatedAt: t })))
+    const benchmarks = (await db.benchmarks.where('profileId').equals(w.profileId).toArray()).filter((b) => b.workoutId === id)
+    await db.benchmarks.bulkPut(benchmarks.map((b) => ({ ...b, deleted: true, updatedAt: t })))
+  })
 }
 
 export type SetInput = Omit<SetLog, 'id' | 'updatedAt' | 'profileId' | 'workoutId' | 'date'>

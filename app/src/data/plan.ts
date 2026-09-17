@@ -112,7 +112,7 @@ const w1: Week = {
       segments: [
         WARM_FULL,
         superset('A', [reps('pushup-defizit', 3, 10, 15, { rir: '1–2' }), reps('latzug-eng', 3, 10, 12)]),
-        superset('B', [reps('schraegdruecken', 3, 10, 10, { loadHint: '10RM vom Montag minus 5 lb (eine Raste)' }), reps('rudern-einarmig', 3, 10, 10, { perSide: true })]),
+        superset('B', [reps('schraegdruecken', 3, 10, 10, { loadHint: '10RM vom Montag minus 5 lb (zwei Rasten)' }), reps('rudern-einarmig', 3, 10, 10, { perSide: true })]),
         superset('C', [reps('schulterdruecken', 3, 10, 10, { rir: '1–2' }), reps('step-up', 3, 10, 10, { perSide: true, loadHint: 'Kettlebell 8 kg' })]),
         SEAT_OFF,
         superset('D', [reps('pull-through', 3, 12, 12, { rir: '1–2' }), reps('seitheben', 2, 15, 15, { perSide: true })], 30, 60),
@@ -131,7 +131,7 @@ function buildWeek(n: 2 | 3): Week {
     number: n,
     title: n === 2 ? 'Volles Volumen' : 'Höchstes Volumen im Block',
     note: n === 2
-      ? 'Startlasten = 10RM aus Woche 1 minus 5 lb pro Seite (eine Raste). Doppelte Progression: obere Wiederholungszahl in allen Sätzen bei ≤ 1 RIR erreicht → nächstes Mal +5 lb (eine Raste).'
+      ? 'Startlasten = 10RM aus Woche 1 minus 5 lb pro Seite (zwei Rasten). Doppelte Progression: obere Wiederholungszahl in allen Sätzen bei ≤ 1 RIR erreicht → nächstes Mal +5 lb, bei kleinen Übungen (Seitheben, Face Pulls, Reverse Flys) nur eine Raste = +2,5 lb.'
       : 'A- und B-Übungen mit einem Satz mehr. Finisher 8 Minuten. Zone 2 erstmals durchgehend laufen, wenn die Knie ruhig waren.',
     sessions: [
       {
