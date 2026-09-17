@@ -1,8 +1,8 @@
 # App „Transformation 16“ – Anleitung und Stand
 
-Stand: 17.09.2026 · Phase 1 fertig
+Stand: 17.09.2026 · Phase 1 und 2 fertig
 
-## Was die App kann (Phase 1)
+## Was die App kann (Phase 1 und 2)
 
 - **Heute (Dashboard):** Fortschrittsring (Woche X von 16, vor dem Start Countdown in Tagen) mit Block, Zahl der Einheiten und Trainingszeit. Darunter die heutige Einheit mit den ersten Übungen, „Letztes Mal“ (Last × Wiederholungen der ersten Bio-Force-Übung), Start-Button und Vorschau; Samstag = Puffer mit offenen Einheiten zum Nachholen. Wochenstreifen Mo–So (✓ erledigt, Ring = heute, gestrichelt = verpasst), nächster Meilenstein (Challenge-Woche mit Countdown), drei Kennzahlen (Einheiten in Folge, Gewicht mit Veränderung seit dem ersten Eintrag, Knie aus dem letzten Kurz-Check) und „Neuer Bestwert“ (schwererer Satz an der Bio Force oder verbesserter Benchmark).
 - **Geführtes Training:** Kurz-Check (Schlaf, Muskelkater, Knie, Motivation), dann Schritt für Schritt: Warm-up mit Timer, Sätze mit Eingabe von Wiederholungen, Bio-Force-Skalenwert (lb pro Seite, kg wird daneben angezeigt) und RIR, Vorschlag aus der letzten Ausführung, Pausen-Countdown mit Signaltönen, Supersätze im Wechsel, Umbau-Hinweis als eigener Schritt (Sitz ab- oder anbauen, höchstens einmal pro Einheit), Tests mit Benchmark-Speicherung, AMRAP mit Countdown und Zähler, Intervalle mit Arbeits- und Pausenphasen, Cardio mit Countdown und Eingabe von Distanz und Puls, Challenge-Block mit Tageszielen und Wochenstand. Fortschritt wird nach jedem Satz gespeichert, Abbrechen und später Fortsetzen ist möglich. Bildschirm bleibt im Training an (Wake Lock, nur über HTTPS).
@@ -16,7 +16,7 @@ Stand: 17.09.2026 · Phase 1 fertig
 - **Analyse (Auswertung):** Trainingsfrequenz je Woche (erledigt/geplant, Tipp auf eine Woche wählt sie aus), Sätze pro Muskelgruppe für die gewählte Woche mit Vorwochen-Strich (Hauptmuskel 1 Satz, Hilfsmuskel 0,5; nur Kraftsätze und Max-Tests), Wiederholungen gesamt für Burpees, Push-Ups, Pull-Ups, Dips und Kniebeugen (je Woche und Summe, inklusive AMRAP und Challenge), Benchmarks mit Verlauf ab dem zweiten Test, schwerste Sätze an der Bio Force (Start → Bestwert in lb), Cardio (Ø Puls, Tempo, Tabelle) und Verlauf des Kurz-Checks (Knie, Schlaf).
 - **Einstellungen:** Profil (Name, Geburtsjahr, Größe, Planstart, HF max), Signaltöne, Sprachansagen, mehrere Profile, Export und Import als JSON, alles löschen.
 
-Noch nicht enthalten (Phase 2 und 3): Auswertungs-Tab mit Volumen pro Muskelgruppe, Gesamtwiederholungen pro Zeitraum, Herzfrequenz-Verlauf; Kurzversionen der Einheiten; Blöcke 2–4 als Daten.
+Noch nicht enthalten (Phase 3): Blöcke 2–4 als Daten (folgen nach den Einstufungswerten aus Woche 1), Kurzversionen der Einheiten, automatische Anpassung bei Knie ≥ 4, Plan pausieren.
 
 ## Wo die Daten liegen
 

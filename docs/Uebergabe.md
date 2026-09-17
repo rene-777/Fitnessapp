@@ -1,63 +1,66 @@
-# Übergabe – Stand 17.09.2026 (abends)
+# Übergabe – Stand 17.09.2026 (Session-Ende, spät abends)
 
 ## Kurzfassung
 
-Die App ist live unter **https://rene-777.github.io/Fitnessapp/**, auf dem Android-Handy des Users installiert und nach einer Feedback-Runde startklar für Woche 1 (Start Montag 21.09.2026). Arbeitsbaum sauber, alles auf `origin/main` gepusht. Der **Auswertungs-Tab (Phase 2)** ist seit dem 17.09.2026 (spät) live; nächstes Arbeitspaket: Blöcke 2–4 nach den Einstufungswerten aus Woche 1.
+Die App ist live unter **https://rene-777.github.io/Fitnessapp/**, auf dem Android-Handy des Users installiert und startklar für Woche 1 (Start Montag 21.09.2026). Phase 1 (geführtes Training) und Phase 2 (Auswertungs-Tab, Dashboard) sind fertig. Arbeitsbaum sauber, alles auf `origin/main` gepusht und deployt. Nächstes großes Arbeitspaket: **Blöcke 2–4**, sobald die Einstufungswerte aus Woche 1 vorliegen. Bis dahin: Rückmeldungen des Users vom Handy abarbeiten.
+
+Arbeitsweise: Der User testet jede Änderung direkt am Handy (Update-Knopf) und meldet Auffälligkeiten. Getestete Änderungen dürfen ohne Rückfrage committet und gepusht werden (siehe Memory `feedback-commit-push-allowed`); in der Shell ist keine Git-Identität gesetzt, deshalb `git -c user.name="René" -c user.email="rene.sch@gmx.net" commit …`.
 
 ## Was fertig ist
 
 - **Konzept und Recherche:** `Trainingskonzept.md` mit Studienlage (PubMed, Consensus, alle Quellen verlinkt), 16-Wochen-Architektur in 4 Blöcken mit Challenge-Wochen, alle Entscheidungen des Users dokumentiert (Abschnitt 5).
 - **Block 1 komplett:** `Block1-Wochen1-4.md`, Woche 1 mit Einstufung (10RM an der Bio Force, Max-Tests Push-Ups, Pull-Ups, Dips, Plank, 5-min-Burpees, Cooper-Test in Woche 2), Woche 4 Kraftausdauer-Challenge mit Formeln.
-- **Übungsbibliothek:** `Uebungsbibliothek.md` nach der Finnlo-Anleitung (110 Übungen). Fotos aller Übungen in `app/public/img/bioforce/` als WebP (457 × 644 px, zusammen 4,5 MB).
+- **Übungsbibliothek:** `Uebungsbibliothek.md` nach der Finnlo-Anleitung (110 Übungen). Fotos in `app/public/img/bioforce/` als WebP (457 × 644 px, zusammen 4,5 MB), aus der Anleitung der Extreme (`docs/BioForce-Bedienungsanleitung-NEU.pdf`, 73 MB, per `.gitignore` nur lokal, Quelle https://manuals.hammer.de/3841.pdf); Nummerierung folgt der alten Anleitung.
 - **App Phase 1:** Heute, geführtes Training, Woche, Plan, Übungen, Nachtragen, Körper, Einstellungen mit Export/Import. Details in `App-Anleitung.md`.
-- **Hosting:** GitHub Pages, Repo `rene-777/Fitnessapp` (öffentlich). Basispfad `/Fitnessapp/` in Vite, Router, Manifest und Bildpfaden; `404.html` als SPA-Fallback; `.github/workflows/deploy.yml` deployt bei jedem Push auf `main` (ca. 1 min). GitHub CLI ist installiert und als `rene-777` angemeldet (`C:\Program Files\GitHub CLI\gh.exe`, liegt evtl. nicht im PATH). Lokale Entwicklung: `http://localhost:5173/Fitnessapp/`.
+- **App Phase 2:** Auswertungs-Tab „Analyse“ (`src/lib/stats.ts` + `src/pages/Stats.tsx`, Route `/stats`) und Startbildschirm als Dashboard (`src/lib/dashboard.ts` + `src/pages/Today.tsx`).
+- **Hosting:** GitHub Pages, Repo `rene-777/Fitnessapp` (öffentlich). Basispfad `/Fitnessapp/` in Vite, Router, Manifest und Bildpfaden; `404.html` als SPA-Fallback; `.github/workflows/deploy.yml` deployt bei jedem Push auf `main` (ca. 1 min). GitHub CLI: `C:\Program Files\GitHub CLI\gh.exe` (evtl. nicht im PATH), angemeldet als `rene-777`. Deployment abwarten mit `gh run watch`. Lokale Entwicklung: `http://localhost:5173/Fitnessapp/`.
 
-## Was in der Session vom 17.09.2026 passiert ist
+## Was am 17.09.2026 passiert ist
+
+### Tagsüber (erste Session)
 
 1. **GitHub Pages eingerichtet**, App am Handy installiert.
-2. **Feedback nach dem ersten Test am Gerät umgesetzt:**
-   - Gerät ist die **Bio Force Extreme**. Die Skala an den Schwingarmen zeigt **lb pro Seite, 5–125 in 5er-Rasten** (vom User abgelesen, von beiden Anleitungen bestätigt). Eingabe und Anzeige in lb, gespeichert wird weiter `weightKg` (Umrechnung nur in `src/lib/bioforce.ts`). Progression = eine Raste (+5 lb).
-   - **Supersätze neu sortiert (Woche 1–4):** nie Übungen mit und ohne Sitz im selben Supersatz, höchstens ein Sitz-Umbau pro Einheit, Umbau als eigener Schritt (`SEAT_ON`/`SEAT_OFF` in `plan.ts`, Feld `seat` in `exercises.ts`, Chip auf jeder Übungskarte). Übungen, Satzzahlen und Dauer unverändert. Prüflogik: je Supersatz alle `seat`-Werte gleich, je Einheit max. ein Wechsel mit vorangestelltem Hinweis.
-   - „Fliegende nach oben“ heißt jetzt **„Incline Cable Fly“** (ID bleibt `fliegende-oben`). Der User bevorzugt gängige englische Namen statt konstruierter deutscher.
-   - RIR: Vorschlagstext und Beschriftung klarer („wie viele wären noch gegangen?“), fehlende RIR-Angaben (Face Pulls u. a.) auf 1–2 ergänzt.
-   - Fotos per Tipp vergrößerbar (Lightbox mit Zurück/Weiter).
-   - Hochformat erzwungen (Manifest `portrait-primary` plus `screen.orientation.lock`). Rückmeldung des Users, ob es am Handy wirkt, steht noch aus.
-3. **Fotos in hoher Auflösung:** aus der Anleitung der Extreme (`docs/BioForce-Bedienungsanleitung-NEU.pdf`, 73 MB, per `.gitignore` nur lokal, Quelle https://manuals.hammer.de/3841.pdf). Die PDF ist in Druckbogen-Reihenfolge gespeichert und verteilt die Übungen anders auf die Seiten, deshalb Zuordnung per Bildinhalt (Fotos) bzw. per Markierungspunkten (Rollen-Diagramme). Nummerierung folgt weiter der alten Anleitung.
-4. **Vorfall „Lade …“:** Nach einem Update hing der Trainingsstart am Handy, bis die App komplett neu gestartet wurde. Vermutete Ursache: automatischer Reload durch das PWA-Update während einer Datenbank-Aktion (blockierte Tabelle `workouts`); nicht mehr beweisbar, am Desktop nicht reproduzierbar. Gegenmaßnahmen: PWA-Update nur noch auf Knopfdruck (`registerType: 'prompt'`, `UpdateBanner.tsx`, im Training ausgeblendet; live getestet), Fehler und 8-s-Zeitüberschreitung beim Trainingsstart werden angezeigt (`ErrorBoundary.tsx`), Build-Kennung unter „Mehr“.
+2. **Feedback nach dem ersten Test am Gerät:** Gerät ist die **Bio Force Extreme**, Skala in **lb pro Seite**. Eingabe und Anzeige in lb, gespeichert wird `weightKg` (Umrechnung nur in `src/lib/bioforce.ts`). **Supersätze neu sortiert:** nie Übungen mit und ohne Sitz im selben Supersatz, höchstens ein Sitz-Umbau pro Einheit (`SEAT_ON`/`SEAT_OFF` in `plan.ts`, Feld `seat` in `exercises.ts`, Prüfskript `scripts/check-plan.mjs`). „Incline Cable Fly“ statt „Fliegende nach oben“ (der User bevorzugt gängige englische Namen). RIR-Texte klarer. Fotos per Tipp vergrößerbar. Hochformat erzwungen.
+3. **Vorfall „Lade …“:** Nach einem Update hing der Trainingsstart, bis die App neu gestartet wurde. Vermutete Ursache: automatischer Reload durch das PWA-Update während einer Datenbank-Aktion. Gegenmaßnahmen: PWA-Update nur auf Knopfdruck (`registerType: 'prompt'`, `UpdateBanner.tsx`), Fehler und 8-s-Zeitüberschreitung werden angezeigt (`ErrorBoundary.tsx`), Build-Kennung unter „Mehr“. Seitdem nicht mehr aufgetreten.
 
-## Nachtrag 17.09.2026 (spät): Rückmeldungen und Feinschliff
+### Abends (zweite Session)
 
-- **Rückmeldungen des Users:** Hochformat-Sperre wirkt, alle Fotos passen, „Lade …“ ist nicht mehr aufgetreten.
-- **Pallof Press:** steht nicht in der Herstelleranleitung (Abschnitt Bauch & unterer Rücken = Nr. 106–110, geprüft). Zeigt jetzt Startfoto („Aufstellung“) und Rollen-Diagramm von Nr. 108, ohne Endfoto (`noEndPhoto` in `exercises.ts`), mit erklärendem Hinweis. Nr. 108 ist laut Hersteller mit angebrachtem Sitz fotografiert, Pallof Press geht also mit und ohne Sitz (in den Daten weiter `seat: 'off'`).
-- **Skala in 2,5-lb-Rasten:** Der User hat am Gerät festgestellt, dass sich die Schwingarme in 2,5-lb-Schritten einstellen lassen (Beschriftung in 5ern; die Anleitung sagt dazu nichts). `BF_STEP_LB = 2.5` (Eingabe, Rundung), `BF_PROGRESS_LB = 5` (Steigerungsvorschlag), Anzeige über `fmtLb` („12,5 lb“). Untergrenze weiter 5 lb (Annahme, vom User noch nicht bestätigt).
-- **Kleine Übungen:** Feld `smallStep` in `exercises.ts` (Seitheben, Face Pulls, Reverse Flys). `suggestLoad()` schlägt dort nur eine Raste (+2,5 lb) vor, und erst, wenn alle Sätze 2 Wiederholungen über dem Ziel liegen (`SMALL_STEP_EXTRA_REPS`), sonst „gleiche Last, Wiederholungen steigern“. Alle anderen Übungen: +5 lb mit Hinweis auf die halbe Stufe.
-- **Training löschen und Dauer:** Der User hatte ein Test-Training am 21.09. mit „529 min“. Neu: `deleteWorkout()` in `workouts.ts` (Soft-Delete von Training, Sätzen, Benchmarks) mit Knopf in `SessionPreview.tsx`; `startedAt` wird erst beim Abschluss des Kurz-Checks gesetzt; `finishWorkout()` rechnet bei über 180 min (`MAX_DURATION_MIN`) nur bis zum letzten Satz oder speichert keine Dauer. Der User löscht vor dem 21.09. einmal alle Daten (gemischte Test- und Echtdaten).
-- **Fehler bei Max-Tests mit Folgesätzen behoben (Dips, Pull-Ups):** Test und 1. Folgesatz hatten denselben Schlüssel (Übung + Label + Satz 1). Dadurch stand im Folgesatz der Testwert im Feld, und das Speichern überschrieb den Test-Satz (der Benchmark blieb erhalten). Folgesätze haben jetzt das Label „D danach“ (`steps.ts`).
-- **Ziehen zum Neuladen:** Am Handy hat ein Wisch nach unten die App neu geladen. `overscroll-behavior-y: none` stand nur auf `body`, Chrome wertet es am Wurzelelement aus; jetzt auch auf `html` (`index.css`). Vom User am Handy bestätigt. Ein Neuladen verliert ohnehin nichts: Sätze liegen sofort in IndexedDB, ein laufendes Training springt zurück zum gespeicherten Schritt (`stepIndex`); nur ein bereits beendetes Training öffnet bei Schritt 1.
-- **3-2-1-Vorlauf:** Wunsch des Users, um nach dem Tipp auf „Start“ in Position zu gehen. `GetReady` in `Timer.tsx` (3 Pieptöne, dann Startsignal) läuft vor AMRAP/Max-Tests auf Zeit, Intervallen (nur vor Runde 1), Cardio-Countdown (Cooper-Test), Halte-Timer (Plank, Wall Sit), Test-Stoppuhr (`Stopwatch leadIn`) und Challenge-Block. Nicht vor Pausen- und Warm-up-Timern. Die Challenge-Stoppuhr startet danach von selbst (`autoStart`), vorher brauchte sie einen zweiten Tipp.
-- **Startbildschirm als Dashboard:** Der User hat aus drei Entwürfen „A Fokus-Ring“ gewählt, ergänzt um „Letztes Mal“ und „Neuer Bestwert“ (aus B) und den Meilenstein-Countdown (aus C). Logik als reine Funktionen in `src/lib/dashboard.ts` (Planfortschritt, Summen, Serie, Meilenstein, letzte Leistung, jüngster Rekord, Knie), Darstellung in `src/pages/Today.tsx`. Mit Testdaten geprüft (Trainingstag in Woche 4, Zustand vor dem Planstart).
-- **Pflichtfeld-Hinweis:** Der Chrome-Alert beim Satz-Speichern ist durch einen Hinweis direkt am Feld ersetzt (`error`-Prop in `NumberInput.tsx`).
+Rückmeldungen des Users: Hochformat-Sperre wirkt, alle Fotos passen, „Lade …“ ist nicht mehr aufgetreten. Danach umgesetzt, alles live:
 
-## Nächster Schritt: Phase 2 und 3
+- **Pallof Press:** steht nicht in der Herstelleranleitung (Bauch & unterer Rücken = Nr. 106–110, geprüft). Zeigt Startfoto („Aufstellung“) und Rollen-Diagramm von Nr. 108, ohne Endfoto (`noEndPhoto` in `exercises.ts`), mit erklärendem Hinweis. Nr. 108 ist laut Hersteller mit angebrachtem Sitz fotografiert, Pallof Press geht also mit und ohne Sitz (in den Daten weiter `seat: 'off'`); gibt in Block 2–4 Spielraum beim Sitz-Umbau.
+- **Skala in 2,5-lb-Rasten:** vom User am Gerät festgestellt (Beschriftung in 5ern; die Anleitung sagt dazu nichts). `BF_STEP_LB = 2.5` (Eingabe, Rundung), `BF_PROGRESS_LB = 5` (Steigerungsvorschlag), Anzeige über `fmtLb` („12,5 lb“). Untergrenze weiter 5 lb (Annahme, vom User noch nicht bestätigt).
+- **Kleine Übungen:** Feld `smallStep` (Seitheben, Face Pulls, Reverse Flys). `suggestLoad()` schlägt dort nur +2,5 lb vor, und erst, wenn alle Sätze 2 Wiederholungen über dem Ziel liegen (`SMALL_STEP_EXTRA_REPS`). Alle anderen Übungen: +5 lb mit Hinweis auf die halbe Stufe.
+- **Pflichtfeld-Hinweis** direkt am Feld statt Chrome-Alert (`error`-Prop in `NumberInput.tsx`).
+- **Training löschen und Dauer:** `deleteWorkout()` in `workouts.ts` (Soft-Delete von Training, Sätzen, Benchmarks) mit Knopf in `SessionPreview.tsx`. `startedAt` wird erst beim Abschluss des Kurz-Checks gesetzt; `finishWorkout()` rechnet bei über 180 min (`MAX_DURATION_MIN`) nur bis zum letzten Satz oder speichert keine Dauer. Die Dauer ist Start bis Ende inklusive Pausen.
+- **Fehler bei Max-Tests mit Folgesätzen behoben (Dips, Pull-Ups):** Test und 1. Folgesatz hatten denselben Schlüssel (Übung + Label + Satz 1); der Testwert stand im Feld, und das Speichern überschrieb den Test-Satz. Folgesätze haben jetzt das Label „D danach“ (`steps.ts`).
+- **Ziehen zum Neuladen abgeschaltet:** `overscroll-behavior-y: none` jetzt auch auf `html` (Chrome wertet es nur am Wurzelelement aus). Vom User am Handy bestätigt. Ein Neuladen verliert ohnehin nichts: Sätze liegen sofort in IndexedDB, ein laufendes Training springt zum gespeicherten Schritt (`stepIndex`); nur ein beendetes Training öffnet bei Schritt 1.
+- **Auswertungs-Tab:** Trainingsfrequenz, Sätze pro Muskelgruppe (primär 1, sekundär 0,5; nur Kraftsätze und Max-Tests; Vorwochen-Strich), Wiederholungen gesamt (Burpees, Push-Ups, Pull-Ups, Dips, Kniebeugen), Benchmarks mit Verlauf, schwerste Sätze an der Bio Force, Cardio (Puls, Tempo), Kurz-Check (Knie, Schlaf). Entwickelt mit generierten Testdaten über 4 Wochen (im Dev-Browser erzeugt und wieder gelöscht). Beim Nachtragen speichern AMRAPs mit mehreren Übungen jetzt auch die Wiederholungssummen (`-sum`).
+- **3-2-1-Vorlauf** (`GetReady` in `Timer.tsx`): vor AMRAP/Max-Tests auf Zeit, Intervallen (nur vor Runde 1), Cardio-Countdown, Halte-Timer, Test-Stoppuhr (`Stopwatch leadIn`) und Challenge-Block (Stoppuhr startet danach von selbst, `autoStart`). Nicht vor Pausen- und Warm-up-Timern.
+- **Dashboard:** Der User hat aus drei Entwürfen „A Fokus-Ring“ gewählt, ergänzt um „Letztes Mal“ und „Neuer Bestwert“ (aus B) und den Meilenstein-Countdown (aus C). Fortschrittsring, Heute-Karte, Wochenstreifen, Meilenstein, drei Kennzahlen (Einheiten in Folge, Gewicht, Knie), Bestwert. Geprüft mit Testdaten (Trainingstag in Woche 4) und im Zustand vor dem Planstart. Rückmeldung des Users zum Aussehen am Handy steht noch aus.
 
-- **Auswertungs-Tab: erledigt** (`src/lib/stats.ts` = reine Auswertungsfunktionen, `src/pages/Stats.tsx` = Darstellung, Route `/stats`, sechster Eintrag „Analyse“ in der unteren Leiste). Entwickelt mit generierten Testdaten über 4 Wochen (im Dev-Browser erzeugt und wieder gelöscht); mit echten Daten ab 21.09. prüfen, vor allem die Satz-Zählung je Muskelgruppe. Beim Nachtragen werden AMRAPs mit mehreren Übungen jetzt auch als Wiederholungssummen gespeichert (`-sum`), wie im geführten Modus. Ursprüngliche Vorgabe: Volumen pro Muskelgruppe und Woche (primär 1, sekundär 0,5 Sätze; `MUSCLE_GROUPS` in `src/data/muscles.ts`), Gesamtwiederholungen pro Zeitraum (Burpees, Pull-Ups, Push-Ups), Bestleistungen und Benchmark-Verlauf (`BENCHMARK_LABELS` in `src/lib/workouts.ts`), Trainingsfrequenz, Herzfrequenz-Verlauf aus Cardio-Sätzen (`avgHr`). Bio-Force-Lasten in der Auswertung als lb anzeigen (`loadText`), Volumen intern in kg. Mit Testdaten entwickeln, echte Daten kommen ab 21.09.
-- **Blöcke 2–4 als Daten** in `src/data/plan.ts`, nach Auswertung von Block 1 (Einstufungswerte). Konzept in `Trainingskonzept.md` Abschnitt 3, Ausblick in `Block1-Wochen1-4.md` Abschnitt 7. Dabei die Sitz-Regel und das Geräte-Setup (Zugpunkt, Zubehör) von Anfang an mitdenken.
+## Nächste Schritte
+
+- **Rückmeldungen des Users** zum Dashboard und zum Auswertungs-Tab am Handy (Größen, Reihenfolge, Karten). Mit echten Daten ab 21.09. prüfen, vor allem die Satz-Zählung je Muskelgruppe („Schultern“ fällt hoch aus, weil jede Drückübung die vordere Schulter halb mitzählt; bei Bedarf Gruppen feiner aufteilen).
+- **Blöcke 2–4 als Daten** in `src/data/plan.ts`, nach Auswertung von Woche 1 (Einstufungswerte). Konzept in `Trainingskonzept.md` Abschnitt 3, Ausblick in `Block1-Wochen1-4.md` Abschnitt 7. Sitz-Regel und Geräte-Setup (Zugpunkt, Zubehör) von Anfang an mitdenken; 2,5-lb-Rasten für feinere Lastvorgaben nutzen.
 - Kurzversionen der Einheiten (30 min), Autoregulation bei Knie ≥ 4 (bisher nur Hinweis im Kurz-Check), Plan pausieren/verschieben (Weihnachtswoche = Woche 14).
-- Optional: Cloud-Sync (Supabase), Polar-Import per Datei.
+- Optional: Cloud-Sync (Supabase), Polar-Import per Datei, Vorlaufdauer des 3-2-1 je Übung einstellbar (z. B. länger beim Cooper-Test).
 
 ## Offene Punkte und bekannte Kleinigkeiten
 
-- Sätze, die vor dem 17.09.2026 mit Bio-Force-Last eingetragen wurden, sind als kg gespeichert und erscheinen auf die nächste lb-Raste umgerechnet (nur Testdaten des Users).
-- Urheberrecht: Herstellerfotos und die ältere Anleitung (`docs/BioForce-Bedienungsanleitung.pdf`) liegen im öffentlichen Repo. Dem User wurde angeboten, die PDF aus dem Repo zu nehmen; Entscheidung steht aus.
+- Urheberrecht: Herstellerfotos und die ältere Anleitung (`docs/BioForce-Bedienungsanleitung.pdf`) liegen im öffentlichen Repo. Dem User wurde angeboten, die PDF aus dem Repo zu nehmen; Entscheidung steht aus. Vor dem Entfernen fragen.
+- Untergrenze der Skala: 5 lb angenommen; falls es eine Raste bei 2,5 lb gibt, `BF_MIN_LB` in `bioforce.ts` anpassen.
 - Face Pulls und Pallof Press haben keine eigene Herstellerübung; Face Pulls zeigen das Foto von Nr. 68 (Delta-Rudern), Pallof Press Start und Rollen von Nr. 108.
 - Bei liegenden Beinübungen (Nr. 19–26) gibt es nur ein Foto (kein „Ende“). Diese Übungen sind im Plan nicht enthalten.
-- Der JS-Bundle ist ca. 800 kB (Recharts); Code-Splitting wäre eine spätere Optimierung.
-- Die `confirm()`-Dialoge („Einheit verlassen?“, „Einheit beenden?“) sind noch Browser-Dialoge; bei Bedarf durch eigene ersetzen.
+- Der JS-Bundle ist ca. 840 kB (Recharts); Code-Splitting wäre eine spätere Optimierung.
+- Die `confirm()`-Dialoge („Einheit verlassen?“, „Einheit beenden?“, „Training löschen?“) sind noch Browser-Dialoge; bei Bedarf durch eigene ersetzen.
+- GitHub Actions warnt, dass `actions/checkout@v4`, `setup-node@v4` und `upload-artifact@v4` auf Node 20 zielen (läuft weiter, erzwungen auf Node 24); irgendwann die Versionen in `deploy.yml` anheben.
+- `findWorkout()` fällt ohne Treffer für das Datum auf das jüngste Training derselben Einheit zurück; eine Einheit lässt sich also nicht zweimal an verschiedenen Tagen führen, ohne das alte Training zu löschen. Bisher gewollt.
+- Im Dev-Browser (Browser-Pane) liegt noch ein altes Test-Training vom 23.09.; betrifft nur die lokale Entwicklungsdatenbank.
 
 ## Was der User als Nächstes tun sollte
 
-- App einmal komplett schließen und neu öffnen, bis unter „Mehr“ eine Version ab „2026-09-17 17:58 UTC“ steht (Umstieg auf Update per Knopfdruck).
-- **Vor dem Start am Montag:** Einstellungen → „Alle Daten löschen“ (Testdaten entfernen), danach Profil, Planstart 21.09.2026 und Körperwerte neu eintragen.
-- Vor Woche 1 die Bio-Force-Einstellungen einmal durchprobieren (Übungen-Tab, Fotos und Anleitung), einmal den Flugmodus testen (Offline-Betrieb).
+- Am Handy den Update-Knopf antippen, bis unter „Mehr“ eine Build-Kennung vom 17.09.2026 ab ca. 21:50 UTC steht, dann Dashboard und „Analyse“ ansehen.
+- **Vor dem Start am Montag:** Einstellungen → „Alle Daten löschen“ (gemischte Test- und Echtdaten entfernen). Das Profil wird automatisch neu angelegt (René, 1970, 172 cm, Start 21.09.2026); nur Gewicht und Taille unter „Körper“ neu eintragen.
+- Einmal den Flugmodus testen (Offline-Betrieb).
 - Montag 21.09. mit Woche 1 starten. Einmal pro Woche Einstellungen → Exportieren (z. B. in die Dropbox).
 - Nach Woche 1 die Einstufungswerte melden, dann wird Block 2 ausgearbeitet.
