@@ -16,6 +16,8 @@
 }
 
 html, body, #root { height: 100%; }
+/* Kein „Ziehen zum Neuladen“ am Handy: Chrome wertet das nur am Wurzelelement aus, body allein reicht nicht */
+html { overscroll-behavior-y: none; }
 body {
   background: var(--color-bg);
   color: var(--color-text);
