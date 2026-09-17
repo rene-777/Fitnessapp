@@ -461,7 +461,7 @@ export function exerciseImages(e: Exercise): { start?: string; end?: string; pul
   if (!e.bioforceNo) return {}
   const n = String(e.bioforceNo).padStart(3, '0')
   const dir = `${import.meta.env.BASE_URL}img/bioforce`
-  return { start: `${dir}/bf${n}_start.png`, end: `${dir}/bf${n}_end.png`, pulley: `${dir}/bf${n}_pulley.jpg` }
+  return { start: `${dir}/bf${n}_start.webp`, end: `${dir}/bf${n}_end.webp`, pulley: `${dir}/bf${n}_pulley.webp` }
 }
 
 export const CATEGORY_LABEL: Record<Category, string> = {

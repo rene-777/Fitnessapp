@@ -1,6 +1,6 @@
 # Fitnessapp „Transformation 16“
 
-Persönliches Projekt von René: 16-Wochen-Trainingsplan (Bodyweight + Finnlo Bio Force Kraftstation) und eine lokale Trainings-App (PWA) dazu. Sprache im Projekt und mit dem User: Deutsch.
+Persönliches Projekt von René: 16-Wochen-Trainingsplan (Bodyweight + Finnlo Bio Force Extreme Kraftstation) und eine lokale Trainings-App (PWA) dazu. Sprache im Projekt und mit dem User: Deutsch.
 
 ## Zuerst lesen
 
@@ -19,7 +19,7 @@ Persönliches Projekt von René: 16-Wochen-Trainingsplan (Bodyweight + Finnlo Bi
 Vite + React 19 + TypeScript, Tailwind v4 (Theme-Tokens in `src/index.css`), Dexie (IndexedDB), vite-plugin-pwa, Recharts, react-router. Farben schwarz/orange. Alle Daten lokal, Export/Import als JSON, Datenmodell mit Profilen und `updatedAt` für späteren Sync.
 
 - `src/data/plan.ts` – der Plan als Daten (Woche 1–4 komplett, 5–16 Platzhalter). Planänderungen hier, nicht in Komponenten.
-- `src/data/exercises.ts` – Übungsbibliothek; `bioforceNo` verweist auf Fotos in `public/img/bioforce/bf{NNN}_{start|end|pulley}`.
+- `src/data/exercises.ts` – Übungsbibliothek; `bioforceNo` verweist auf Fotos in `public/img/bioforce/bf{NNN}_{start|end|pulley}.webp` (aus der Extreme-Anleitung, 457 × 644 px; Nummerierung folgt weiter der alten Anleitung in `docs/`).
 - `src/lib/steps.ts` – Einheit → Schrittfolge für den geführten Modus.
 - `src/lib/planEngine.ts` – Tageslogik, Challenge-Ziele, Progressionsvorschlag.
 - `src/pages/Workout.tsx` – geführter Modus (größte Datei).

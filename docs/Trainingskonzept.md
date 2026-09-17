@@ -14,7 +14,7 @@ Stand: 16.09.2026 · Athlet: René (56 J., 172 cm, 73,5 kg) · Entwurf 1 zur gem
 | Schwachstellen | Obere Brust, Schultern (v. a. hintere Schulter, Ruderbewegungen), Beine (vorsichtig aufbauen), Ausdauer |
 | Stärken | Rücken, hintere Oberschenkel, Bizeps, Core |
 | Einschränkung | Knie: keine Sprünge auf die Knie (keine Squat-Jumps, keine Pistols), Belastung kontrolliert steigern |
-| Ausrüstung | Finnlo Bio Force (Skala 5–125 lb pro Seite in 5-lb-Rasten, entspricht ca. 2,3–56,7 kg), Klimmzugstange, Dip-Barren, Kettlebells 6 + 8 kg, Springseil, Laufen draußen möglich, Polar-Armgurt |
+| Ausrüstung | Finnlo Bio Force Extreme (Skala 5–125 lb pro Seite in 5-lb-Rasten, entspricht ca. 2,3–56,7 kg), Klimmzugstange, Dip-Barren, Kettlebells 6 + 8 kg, Springseil, Laufen draußen möglich, Polar-Armgurt |
 | Zeitbudget | 5–6 Einheiten/Woche, morgens, 60 min Richtwert, max. 75 min, Wochenende gelegentlich länger |
 | Prioritäten | 1 Muskelaufbau + Kraft · 2 Fettabbau · 3 Körperkomposition · 4 Gesundheit · 5 Ausdauer (später stärker) |
 

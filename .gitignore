@@ -4,3 +4,6 @@ dist/
 .DS_Store
 Thumbs.db
 .claude/settings.local.json
+
+# Extreme-Anleitung (73 MB, nur lokal als Quelle für die Fotos)
+docs/BioForce-Bedienungsanleitung-NEU.pdf

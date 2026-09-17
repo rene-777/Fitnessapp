@@ -21,7 +21,7 @@
 
 - Face Pulls und Pallof Press haben keine eigene Herstellerübung; Face Pulls zeigen das Foto von Nr. 68 (Delta-Rudern), Pallof Press hat kein Foto.
 - Bei liegenden Beinübungen (Nr. 19–26) fehlt das „Ende“-Foto (im Handbuch nur ein Bild). Diese Übungen sind im Plan nicht enthalten.
-- Die Herstellerfotos sind im PDF nur mit 110 × 155 Pixeln eingebettet; mehr Auflösung gibt die Quelle nicht her. Bessere Bilder bräuchten eine andere Quelle (eigene Fotos am Gerät oder ein höher aufgelöstes Handbuch).
+- Gerät des Users ist die **Bio Force Extreme**. Deren Anleitung (`docs/BioForce-Bedienungsanleitung-NEU.pdf`, 73 MB, per `.gitignore` nur lokal, Quelle https://manuals.hammer.de/3841.pdf) bestätigt die Skala: lb pro Schwingarm, 5–125. Die Übungsfotos stammen seit 17.09.2026 aus dieser Anleitung (WebP, 457 × 644 px, zusammen 4,5 MB), zugeordnet per Bildvergleich zu den bisherigen Nummern. Die PDF ist in Druckbogen-Reihenfolge gespeichert und teilt die Übungen anders auf die Seiten auf als die alte Anleitung.
 - Sätze, die vor dem 17.09.2026 mit Bio-Force-Last eingetragen wurden, sind als kg gespeichert und werden jetzt auf die nächste lb-Raste umgerechnet angezeigt (Testdaten ggf. löschen).
 - Der JS-Bundle ist ca. 800 kB (Recharts); Code-Splitting wäre eine spätere Optimierung.
 - Chrome-Alert-Dialoge („Bitte einen Wert eintragen“) sind einfach gehalten; könnte durch Inline-Hinweise ersetzt werden.
