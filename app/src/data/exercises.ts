@@ -13,6 +13,7 @@ export interface Exercise {
   loadType: LoadType
   unit: Unit
   bioforceNo?: number // Nummer in der Finnlo-Anleitung, liefert die Fotos
+  seat?: 'on' | 'off' // Bio Force: Sitz angebracht oder entfernt; innerhalb eines Supersatzes nie mischen
   equipment: string
   setup?: string
   steps: string[]
@@ -26,7 +27,7 @@ export const EXERCISES: Exercise[] = [
   // ---------- PUSH ----------
   {
     id: 'schraegdruecken', name: 'Kabel-Schrägdrücken', category: 'push',
-    primary: ['brust_oben', 'schulter_vorn'], secondary: ['trizeps'], loadType: 'bioforce', unit: 'reps', bioforceNo: bf(34),
+    primary: ['brust_oben', 'schulter_vorn'], secondary: ['trizeps'], loadType: 'bioforce', seat: 'on', unit: 'reps', bioforceNo: bf(34),
     equipment: 'Bio Force, Sitz + Beinmodul angebracht, Handgriffe, Karabiner auf Schulterhöhe, Seile über den Armen',
     setup: 'Aufrecht sitzen, Rücken am Polster. Griffe auf Schulterhöhe, Ellbogen 90°, Handflächen nach unten-vorn. Die Seile laufen über den Oberarmen.',
     steps: [
@@ -37,8 +38,8 @@ export const EXERCISES: Exercise[] = [
     tips: ['Nicht waagerecht nach vorn drücken, sonst arbeitet die mittlere statt der oberen Brust.', 'Handgelenke gerade, kein Hohlkreuz.'],
   },
   {
-    id: 'fliegende-oben', name: 'Fliegende nach oben', category: 'push',
-    primary: ['brust_oben'], secondary: ['schulter_vorn'], loadType: 'bioforce', unit: 'reps', bioforceNo: bf(38),
+    id: 'fliegende-oben', name: 'Incline Cable Fly', category: 'push',
+    primary: ['brust_oben'], secondary: ['schulter_vorn'], loadType: 'bioforce', seat: 'on', unit: 'reps', bioforceNo: bf(38),
     equipment: 'Bio Force, Sitz angebracht, Handgriffe, Karabiner auf Schulterhöhe, Seile über den Armen',
     setup: 'Sitzen, Griffe seitlich außen halten, Arme fast gestreckt (leichte Beugung bleibt), Handflächen nach vorn. Start ist die Dehnung: Arme weit außen und etwas tiefer als die Schulter.',
     steps: [
@@ -50,7 +51,7 @@ export const EXERCISES: Exercise[] = [
   },
   {
     id: 'bankdruecken', name: 'Kabel-Bankdrücken', category: 'push',
-    primary: ['brust', 'schulter_vorn'], secondary: ['trizeps'], loadType: 'bioforce', unit: 'reps', bioforceNo: bf(32),
+    primary: ['brust', 'schulter_vorn'], secondary: ['trizeps'], loadType: 'bioforce', seat: 'on', unit: 'reps', bioforceNo: bf(32),
     equipment: 'Bio Force, Sitz angebracht, Handgriffe, Karabiner auf Schulterhöhe, Seile unter den Armen',
     setup: 'Griffe auf Brusthöhe, Ellbogen 90°, Handflächen nach unten.',
     steps: ['Gerade nach vorn drücken, Ellbogen auf Schulterhöhe halten.', 'Kurz anspannen, langsam zurück.'],
@@ -88,7 +89,7 @@ export const EXERCISES: Exercise[] = [
   },
   {
     id: 'schulterdruecken', name: 'Schulterdrücken am Kabel', category: 'push',
-    primary: ['schulter_vorn', 'schulter_seit'], secondary: ['trizeps', 'ruecken_oben'], loadType: 'bioforce', unit: 'reps', bioforceNo: bf(60),
+    primary: ['schulter_vorn', 'schulter_seit'], secondary: ['trizeps', 'ruecken_oben'], loadType: 'bioforce', seat: 'on', unit: 'reps', bioforceNo: bf(60),
     equipment: 'Bio Force, Sitz angebracht, Handgriffe, Seile von den unteren Haken',
     setup: 'Griffe auf Schulterhöhe, Daumen nach innen, Ellbogen 90°.',
     steps: ['Arme in leichtem Bogen über den Kopf strecken, bis sich die Griffe fast berühren.', 'Langsam zurück, Ellbogen nicht unter Schulterhöhe.'],
@@ -96,15 +97,15 @@ export const EXERCISES: Exercise[] = [
   },
   {
     id: 'seitheben', name: 'Seitheben am Kabel', category: 'push',
-    primary: ['schulter_seit'], secondary: ['ruecken_oben'], loadType: 'bioforce', unit: 'reps', bioforceNo: bf(67),
+    primary: ['schulter_seit'], secondary: ['ruecken_oben'], loadType: 'bioforce', seat: 'off', unit: 'reps', bioforceNo: bf(67),
     equipment: 'Bio Force, Sitz entfernt, ein Handgriff, untere Haken',
     setup: 'Rücken zum Gerät, Griff seitlich am Körper, Daumen nach vorn. Für mehr Dehnung den Arm leicht hinter der Hüfte starten.',
     steps: ['Arm seitlich anheben bis auf Schulterhöhe, Ellbogen leicht gebeugt und fixiert.', 'Langsam (2–3 s) ablassen.'],
-    tips: ['Kein Schwung aus den Beinen.', 'Leicht anfangen: 2,5–5 kg pro Seite.'],
+    tips: ['Kein Schwung aus den Beinen.', 'Leicht anfangen: 5–10 lb pro Seite.'],
   },
   {
     id: 'trizeps-ueberkopf', name: 'Trizeps über Kopf', category: 'push',
-    primary: ['trizeps'], secondary: [], loadType: 'bioforce', unit: 'reps', bioforceNo: bf(92),
+    primary: ['trizeps'], secondary: [], loadType: 'bioforce', seat: 'on', unit: 'reps', bioforceNo: bf(92),
     equipment: 'Bio Force, Sitz angebracht, Handgriffe, Seile von den unteren Haken hinter dir',
     setup: 'Griffe hinter dem Kopf halten, Ellbogen auf Kopfhöhe und nach vorn gerichtet.',
     steps: ['Unterarme nach oben strecken, bis die Arme fast gestreckt sind.', 'Langsam tief hinter den Kopf zurück (Dehnung).'],
@@ -112,7 +113,7 @@ export const EXERCISES: Exercise[] = [
   },
   {
     id: 'trizepsdruecken', name: 'Trizepsdrücken', category: 'push',
-    primary: ['trizeps'], secondary: [], loadType: 'bioforce', unit: 'reps', bioforceNo: bf(94),
+    primary: ['trizeps'], secondary: [], loadType: 'bioforce', seat: 'off', unit: 'reps', bioforceNo: bf(94),
     equipment: 'Bio Force, Sitz entfernt, Latstange am oberen Haken, stehend zum Gerät',
     setup: 'Stange im Obergriff, Ellbogen 90° am Körper.',
     steps: ['Ellbogen strecken, kurz halten.', 'Kontrolliert zurück, Oberarme bleiben am Körper.'],
@@ -125,7 +126,7 @@ export const EXERCISES: Exercise[] = [
   },
   {
     id: 'kabel-explosiv-druecken', name: 'Explosives Kabeldrücken', category: 'push',
-    primary: ['brust', 'schulter_vorn'], secondary: ['trizeps'], loadType: 'bioforce', unit: 'reps', bioforceNo: bf(32),
+    primary: ['brust', 'schulter_vorn'], secondary: ['trizeps'], loadType: 'bioforce', seat: 'on', unit: 'reps', bioforceNo: bf(32),
     equipment: 'Bio Force wie Bankdrücken, Last ca. 40–50 % des 10RM',
     steps: ['So schnell wie möglich nach vorn drücken.', 'Exzentrisch kontrolliert 2 s zurück.', '3–5 Wiederholungen, lange Pausen.'],
   },
@@ -144,7 +145,7 @@ export const EXERCISES: Exercise[] = [
   },
   {
     id: 'latzug', name: 'Latzug zur Brust', category: 'pull',
-    primary: ['lat'], secondary: ['bizeps', 'ruecken_oben'], loadType: 'bioforce', unit: 'reps', bioforceNo: bf(42),
+    primary: ['lat'], secondary: ['bizeps', 'ruecken_oben'], loadType: 'bioforce', seat: 'on', unit: 'reps', bioforceNo: bf(42),
     equipment: 'Bio Force, Sitz angebracht, Latstange am oberen Haken, Gesicht zum Gerät',
     setup: 'Stange weit greifen, leicht zurücklehnen, Brust raus.',
     steps: ['Ellbogen nach unten-hinten ziehen, Stange zur oberen Brust.', 'Kurz anspannen.', 'Langsam zurück, bis die Arme gestreckt sind und die Schultern nach oben gehen (Dehnung).'],
@@ -152,14 +153,14 @@ export const EXERCISES: Exercise[] = [
   },
   {
     id: 'latzug-eng', name: 'Latzug enger Griff', category: 'pull',
-    primary: ['lat'], secondary: ['bizeps'], loadType: 'bioforce', unit: 'reps', bioforceNo: bf(47),
+    primary: ['lat'], secondary: ['bizeps'], loadType: 'bioforce', seat: 'on', unit: 'reps', bioforceNo: bf(47),
     equipment: 'Bio Force, Sitz angebracht, beide Handgriffe am Lat-Tower, Handflächen zueinander',
     setup: 'Griffe oben fassen, leicht zurücklehnen.',
     steps: ['Ellbogen nach unten ziehen, Hände zur Brust.', 'Langsam zurück in die volle Dehnung.'],
   },
   {
     id: 'rudern-stehend', name: 'Rudern stehend', category: 'pull',
-    primary: ['ruecken_oben', 'lat'], secondary: ['schulter_hinten', 'bizeps'], loadType: 'bioforce', unit: 'reps', bioforceNo: bf(53),
+    primary: ['ruecken_oben', 'lat'], secondary: ['schulter_hinten', 'bizeps'], loadType: 'bioforce', seat: 'on', unit: 'reps', bioforceNo: bf(53),
     equipment: 'Bio Force, Sitz angebracht (als Anlehnpolster), Handgriffe an den unteren Haken, stehend vor dem Sitz',
     setup: 'Vor dem Gerät stehen, leicht in die Knie, Kniescheiben ans Sitzpolster lehnen. Griffe mit Daumen nach oben, Arme gestreckt.',
     steps: ['Ellbogen eng am Körper nach hinten ziehen, Hände zum Bauch, Schulterblätter zusammen.', 'Kurz halten.', 'Langsam nach vorn zurück, Schulterblätter am Ende auseinander lassen.'],
@@ -167,7 +168,7 @@ export const EXERCISES: Exercise[] = [
   },
   {
     id: 'rudern-einarmig', name: 'Einarmiges Rudern', category: 'pull',
-    primary: ['lat', 'ruecken_oben'], secondary: ['bizeps', 'schulter_hinten'], loadType: 'bioforce', unit: 'reps', bioforceNo: bf(54),
+    primary: ['lat', 'ruecken_oben'], secondary: ['bizeps', 'schulter_hinten'], loadType: 'bioforce', seat: 'on', unit: 'reps', bioforceNo: bf(54),
     equipment: 'Bio Force, wie Rudern stehend, ein Griff',
     setup: 'Schrittstellung, freie Hand am Gerät abstützen.',
     steps: ['Arm weit nach vorn strecken lassen (Dehnung).', 'Ellbogen zur Hüfte ziehen, kurz halten.', 'Langsam zurück. Beide Seiten.'],
@@ -181,7 +182,7 @@ export const EXERCISES: Exercise[] = [
   },
   {
     id: 'face-pull', name: 'Face Pulls', category: 'pull',
-    primary: ['schulter_hinten', 'ruecken_oben'], secondary: [], loadType: 'bioforce', unit: 'reps', bioforceNo: bf(68),
+    primary: ['schulter_hinten', 'ruecken_oben'], secondary: [], loadType: 'bioforce', seat: 'off', unit: 'reps', bioforceNo: bf(68),
     equipment: 'Bio Force, Sitz entfernt, Handgriffe an den Karabinern auf Schulterhöhe oder oben, stehend zum Gerät',
     setup: 'Griffe mit Daumen nach hinten fassen, Arme gestreckt, Schritt zurück bis Spannung da ist.',
     steps: ['Griffe zum Gesicht ziehen, Ellbogen hoch und weit nach außen. Am Ende zeigen die Fäuste neben die Ohren.', 'Langsam zurück.'],
@@ -189,7 +190,7 @@ export const EXERCISES: Exercise[] = [
   },
   {
     id: 'reverse-fly', name: 'Reverse Flys am Kabel', category: 'pull',
-    primary: ['schulter_hinten'], secondary: ['ruecken_oben'], loadType: 'bioforce', unit: 'reps', bioforceNo: bf(70),
+    primary: ['schulter_hinten'], secondary: ['ruecken_oben'], loadType: 'bioforce', seat: 'off', unit: 'reps', bioforceNo: bf(70),
     equipment: 'Bio Force, Sitz entfernt, Handgriffe an den Karabinern auf Schulterhöhe, Seile über Kreuz, stehend zum Gerät',
     setup: 'Linke Hand hält das rechte Seil und umgekehrt. Griffe vor dem Körper auf Hüft- bis Brusthöhe, Arme fast gestreckt.',
     steps: ['Arme nach außen-hinten öffnen, bis die Ellbogen auf Schulterhöhe sind.', 'Kurz halten, langsam zurück.'],
@@ -197,7 +198,7 @@ export const EXERCISES: Exercise[] = [
   },
   {
     id: 'bizeps-curl', name: 'Bizeps-Curls am Kabel', category: 'pull',
-    primary: ['bizeps'], secondary: ['unterarme'], loadType: 'bioforce', unit: 'reps', bioforceNo: bf(81),
+    primary: ['bizeps'], secondary: ['unterarme'], loadType: 'bioforce', seat: 'off', unit: 'reps', bioforceNo: bf(81),
     equipment: 'Bio Force, Sitz entfernt, Handgriffe, untere Haken, Rücken zum Gerät',
     setup: 'Untergriff, Ellbogen am Körper fixiert.',
     steps: ['Arme beugen, kurz anspannen.', 'Langsam strecken.'],
@@ -211,7 +212,7 @@ export const EXERCISES: Exercise[] = [
   },
   {
     id: 'shrugs', name: 'Shrugs', category: 'pull',
-    primary: ['ruecken_oben'], secondary: [], loadType: 'bioforce', unit: 'reps', bioforceNo: bf(62),
+    primary: ['ruecken_oben'], secondary: [], loadType: 'bioforce', seat: 'off', unit: 'reps', bioforceNo: bf(62),
     equipment: 'Bio Force, Sitz entfernt, Latstange an den unteren Haken, stehend',
     steps: ['Stange vor den Oberschenkeln, Arme gestreckt.', 'Schultern gerade nach oben ziehen, 1 s halten, ablassen.'],
     tips: ['Nicht kreisen.'],
@@ -220,7 +221,7 @@ export const EXERCISES: Exercise[] = [
   // ---------- BEINE ----------
   {
     id: 'kabel-kniebeuge', name: 'Kabel-Kniebeuge', category: 'beine',
-    primary: ['quadrizeps', 'gesaess'], secondary: ['hamstrings', 'waden', 'ruecken_unten'], loadType: 'bioforce', unit: 'reps', bioforceNo: bf(1),
+    primary: ['quadrizeps', 'gesaess'], secondary: ['hamstrings', 'waden', 'ruecken_unten'], loadType: 'bioforce', seat: 'off', unit: 'reps', bioforceNo: bf(1),
     equipment: 'Bio Force, Sitz entfernt, Handgriffe an den unteren Haken, stehend mit Gesicht zum Gerät',
     setup: 'Füße schulterbreit, Griffe auf Schulterhöhe halten.',
     steps: ['Langsam (3 s) in die Knie bis die Oberschenkel etwa parallel zum Boden sind, oder so tief wie knieschmerzfrei.', '1 s halten.', 'Kontrolliert hochdrücken, Oberkörper aufrecht.'],
@@ -228,7 +229,7 @@ export const EXERCISES: Exercise[] = [
   },
   {
     id: 'rdl', name: 'Romanian Deadlift (Latstange)', category: 'beine',
-    primary: ['hamstrings', 'gesaess'], secondary: ['ruecken_unten', 'ruecken_oben', 'unterarme'], loadType: 'bioforce', unit: 'reps', bioforceNo: bf(7),
+    primary: ['hamstrings', 'gesaess'], secondary: ['ruecken_unten', 'ruecken_oben', 'unterarme'], loadType: 'bioforce', seat: 'off', unit: 'reps', bioforceNo: bf(7),
     equipment: 'Bio Force, Sitz entfernt, Latstange an beiden unteren Haken, stehend mit Gesicht zum Gerät',
     setup: 'Stange im Obergriff vor den Oberschenkeln, aufrecht, Knie leicht gebeugt und so lassen.',
     steps: [
@@ -239,7 +240,7 @@ export const EXERCISES: Exercise[] = [
   },
   {
     id: 'pull-through', name: 'Cable Pull-Through', category: 'beine',
-    primary: ['gesaess', 'hamstrings'], secondary: ['ruecken_unten'], loadType: 'bioforce', unit: 'reps', bioforceNo: bf(6),
+    primary: ['gesaess', 'hamstrings'], secondary: ['ruecken_unten'], loadType: 'bioforce', seat: 'off', unit: 'reps', bioforceNo: bf(6),
     equipment: 'Bio Force, Sitz entfernt, ein Griff oder AB-Strap an einem unteren Haken, Rücken zum Gerät, Seil zwischen den Beinen',
     setup: 'Griff mit beiden Händen zwischen den Beinen, Schritt nach vorn bis Spannung da ist.',
     steps: ['Hüfte nach hinten schieben, Oberkörper neigt sich, Arme bleiben gestreckt und gehen nach hinten zwischen die Beine.', 'Hüfte nach vorn drücken, aufrichten, Gesäß fest anspannen.'],
@@ -247,7 +248,7 @@ export const EXERCISES: Exercise[] = [
   },
   {
     id: 'beinbeuger', name: 'Beinbeuger stehend', category: 'beine',
-    primary: ['hamstrings'], secondary: ['waden', 'gesaess'], loadType: 'bioforce', unit: 'reps', bioforceNo: bf(8),
+    primary: ['hamstrings'], secondary: ['waden', 'gesaess'], loadType: 'bioforce', seat: 'on', unit: 'reps', bioforceNo: bf(8),
     equipment: 'Bio Force, Sitz und Beinmodul angebracht, stehend mit Gesicht zum Gerät, kein Zubehör',
     setup: 'Ein Oberschenkel drückt von vorn gegen das obere Polster. Der Knöchel desselben Beins hakt hinter dem unteren Polster ein. Mit den Händen am Gerät festhalten.',
     steps: ['Ferse zum Gesäß ziehen (3 s), bis der Unterschenkel waagerecht ist. 1 s halten.', 'Langsam (3 s) strecken, nicht ganz durchstrecken.'],
@@ -255,7 +256,7 @@ export const EXERCISES: Exercise[] = [
   },
   {
     id: 'beinstrecker', name: 'Beinstrecker', category: 'beine',
-    primary: ['quadrizeps'], secondary: [], loadType: 'bioforce', unit: 'reps', bioforceNo: bf(4),
+    primary: ['quadrizeps'], secondary: [], loadType: 'bioforce', seat: 'on', unit: 'reps', bioforceNo: bf(4),
     equipment: 'Bio Force, Sitz und Beinmodul angebracht, sitzend, Kniekehlen am Drehpunkt',
     setup: 'Aufrecht sitzen, am Sitz festhalten, Unterschenkel hinter dem unteren Polster.',
     steps: ['Beine langsam (3 s) strecken bis fast gerade. 1 s halten, Oberschenkel fest anspannen.', 'Langsam (3 s) ablassen.'],
@@ -278,7 +279,7 @@ export const EXERCISES: Exercise[] = [
   },
   {
     id: 'hueftabduktion', name: 'Hüftabduktion mit Fußschlaufe', category: 'beine',
-    primary: ['huefte'], secondary: ['bauch_schraeg'], loadType: 'bioforce', unit: 'reps', bioforceNo: bf(16),
+    primary: ['huefte'], secondary: ['bauch_schraeg'], loadType: 'bioforce', seat: 'off', unit: 'reps', bioforceNo: bf(16),
     equipment: 'Bio Force, Sitz entfernt, Fußschlaufe am unteren Haken, seitlich zum Gerät, Schlaufe am äußeren Fuß',
     setup: 'Mit dem Arm am Gerät abstützen, aufrecht stehen.',
     steps: ['Bein gestreckt seitlich vom Gerät wegziehen, Zehen nach vorn. 1 s halten.', 'Langsam zurück.'],
@@ -286,7 +287,7 @@ export const EXERCISES: Exercise[] = [
   },
   {
     id: 'hueftstrecken', name: 'Hüftstrecken / Kickback', category: 'beine',
-    primary: ['gesaess'], secondary: ['hamstrings'], loadType: 'bioforce', unit: 'reps', bioforceNo: bf(12),
+    primary: ['gesaess'], secondary: ['hamstrings'], loadType: 'bioforce', seat: 'off', unit: 'reps', bioforceNo: bf(12),
     equipment: 'Bio Force, Sitz entfernt, Fußschlaufe am unteren Haken, Gesicht zum Gerät, am Haltegriff abstützen',
     steps: ['Bein gestreckt nach hinten drücken, Gesäß anspannen, 1 s halten.', 'Zurück. Rücken gerade, kein Hohlkreuz.'],
   },
@@ -320,7 +321,7 @@ export const EXERCISES: Exercise[] = [
   // ---------- CORE ----------
   {
     id: 'cable-crunch', name: 'Cable Crunch', category: 'core',
-    primary: ['bauch'], secondary: [], loadType: 'bioforce', unit: 'reps', bioforceNo: bf(106),
+    primary: ['bauch'], secondary: [], loadType: 'bioforce', seat: 'on', unit: 'reps', bioforceNo: bf(106),
     equipment: 'Bio Force, Sitz angebracht, Handgriffe oder AB-Strap am oberen Haken, nach vorn sitzend',
     setup: 'Griffe auf Schulterhöhe, Ellbogen nach vorn.',
     steps: ['Wirbelsäule einrollen, Brust Richtung Hüfte ziehen, 1 s halten.', 'Langsam aufrollen.'],
@@ -328,20 +329,20 @@ export const EXERCISES: Exercise[] = [
   },
   {
     id: 'pallof', name: 'Pallof Press', category: 'core',
-    primary: ['bauch_schraeg'], secondary: ['bauch', 'schulter_vorn'], loadType: 'bioforce', unit: 'reps',
+    primary: ['bauch_schraeg'], secondary: ['bauch', 'schulter_vorn'], loadType: 'bioforce', seat: 'off', unit: 'reps',
     equipment: 'Bio Force, Sitz entfernt, ein Griff am Karabiner auf Schulterhöhe, seitlich zum Gerät',
     setup: 'Griff mit beiden Händen vor der Brust, ein Schritt vom Gerät weg, Füße schulterbreit.',
     steps: ['Arme langsam nach vorn strecken. Das Kabel will dich zum Gerät drehen, du verhinderst es. 2–3 s halten.', 'Hände zurück zur Brust. Alle Wiederholungen, dann Seite wechseln.'],
   },
   {
     id: 'woodchop', name: 'Oberkörperdrehen / Woodchop', category: 'core',
-    primary: ['bauch_schraeg'], secondary: ['bauch', 'schulter_vorn'], loadType: 'bioforce', unit: 'reps', bioforceNo: bf(108),
+    primary: ['bauch_schraeg'], secondary: ['bauch', 'schulter_vorn'], loadType: 'bioforce', seat: 'off', unit: 'reps', bioforceNo: bf(108),
     equipment: 'Bio Force, Sitz entfernt, ein Griff am Karabiner auf Schulterhöhe, seitlich zum Gerät',
     steps: ['Griff mit beiden Händen, Arme gestreckt, Oberkörper vom Gerät wegdrehen.', 'Drehen, nicht ziehen. Beide Seiten.'],
   },
   {
     id: 'rueckenstrecker', name: 'Rückenstrecker sitzend', category: 'core',
-    primary: ['ruecken_unten'], secondary: [], loadType: 'bioforce', unit: 'reps', bioforceNo: bf(110),
+    primary: ['ruecken_unten'], secondary: [], loadType: 'bioforce', seat: 'on', unit: 'reps', bioforceNo: bf(110),
     equipment: 'Bio Force, Sitz angebracht, Handgriffe am oberen Haken, Gesicht zum Gerät, Griffe an die Brust',
     steps: ['Aus leicht gebeugter Haltung die Wirbelsäule aufrichten und verlängern, Brustkorb heben, 1 s halten.', 'Zurück. Leichte Last.'],
   },

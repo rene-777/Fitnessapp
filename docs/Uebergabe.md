@@ -8,6 +8,8 @@
 - **App Phase 1:** läuft, Build sauber, im Browser getestet. Läuft beim User bereits über WLAN (`npm run preview -- --host`) auf dem Android-Handy. PowerShell-Skriptsperre wurde vom User mit `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` gelöst.
 - **Hosting (17.09.2026):** App ist live unter **https://rene-777.github.io/Fitnessapp/** (GitHub Pages, Repo `rene-777/Fitnessapp`, öffentlich). Basispfad `/Fitnessapp/` in Vite, Router, Manifest und Bildpfaden; `404.html` als SPA-Fallback; Workflow `.github/workflows/deploy.yml` deployt bei jedem Push auf `main`. GitHub CLI (`gh`) ist installiert und als `rene-777` angemeldet (`C:\Program Files\GitHub CLI\gh.exe`). Live geprüft: Unterpfade, Manifest, Icons, Übungsfotos, Service Worker. Der User hat die App am 17.09.2026 auf dem Android-Handy installiert, alles funktioniert. Lokale Entwicklung läuft unter `http://localhost:5173/Fitnessapp/`.
 
+- **Feedback-Runde nach dem ersten Test (17.09.2026):** Bio-Force-Skala ist in lb pro Seite (5–125, 5er-Rasten, laut Finnlo-Anleitung S. 25); Eingabe und Anzeige in lb, Speicherung weiter als `weightKg` (`src/lib/bioforce.ts`). Alle Supersätze in Woche 1–4 neu sortiert: kein Mischen von Übungen mit und ohne Sitz, höchstens ein Umbau pro Einheit, Umbau-Hinweis als eigener Schritt (`SEAT_ON`/`SEAT_OFF` in `plan.ts`, Feld `seat` in `exercises.ts`, Chip „Sitz angebracht/entfernt“ auf jeder Übungskarte). „Fliegende nach oben“ heißt jetzt „Incline Cable Fly“. RIR-Hinweise klarer formuliert. Übungsfotos lassen sich per Tipp vergrößern. Hochformat wird erzwungen (Manifest `portrait-primary` plus `screen.orientation.lock`).
+
 ## Nächster Schritt: Phase 2 und 3
 
 - **Auswertungs-Tab:** Volumen pro Muskelgruppe und Woche (primär 1, sekundär 0,5 Sätze; `MUSCLE_GROUPS` in `src/data/muscles.ts`), Gesamtwiederholungen pro Zeitraum (Burpees, Pull-Ups, Push-Ups), Bestleistungen und Benchmark-Verlauf (`BENCHMARK_LABELS` in `src/lib/workouts.ts`), Trainingsfrequenz, Herzfrequenz-Verlauf aus Cardio-Sätzen (`avgHr`).
@@ -19,6 +21,8 @@
 
 - Face Pulls und Pallof Press haben keine eigene Herstellerübung; Face Pulls zeigen das Foto von Nr. 68 (Delta-Rudern), Pallof Press hat kein Foto.
 - Bei liegenden Beinübungen (Nr. 19–26) fehlt das „Ende“-Foto (im Handbuch nur ein Bild). Diese Übungen sind im Plan nicht enthalten.
+- Die Herstellerfotos sind im PDF nur mit 110 × 155 Pixeln eingebettet; mehr Auflösung gibt die Quelle nicht her. Bessere Bilder bräuchten eine andere Quelle (eigene Fotos am Gerät oder ein höher aufgelöstes Handbuch).
+- Sätze, die vor dem 17.09.2026 mit Bio-Force-Last eingetragen wurden, sind als kg gespeichert und werden jetzt auf die nächste lb-Raste umgerechnet angezeigt (Testdaten ggf. löschen).
 - Der JS-Bundle ist ca. 800 kB (Recharts); Code-Splitting wäre eine spätere Optimierung.
 - Chrome-Alert-Dialoge („Bitte einen Wert eintragen“) sind einfach gehalten; könnte durch Inline-Hinweise ersetzt werden.
 

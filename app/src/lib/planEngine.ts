@@ -2,6 +2,7 @@ import { CHALLENGE_TARGETS, WEEKS, blockOfWeek, weekByNumber } from '../data/pla
 import type { Prescription, Segment, Session, Week } from '../data/planTypes'
 import type { Benchmark, SetLog } from '../db/types'
 import { planWeekOf, weekday } from './dates'
+import { BF_MAX_LB, BF_STEP_LB, kgToLb, lbToKg, loadText } from './bioforce'
 
 export interface DayInfo {
   date: string
@@ -102,16 +103,22 @@ export interface Suggestion {
 /** Vorschlag aus der letzten Ausführung derselben Übung (letzte Einheit, keine Tests). */
 export function suggestLoad(p: Prescription, history: SetLog[], loadType: string): Suggestion {
   const real = history.filter((s) => !s.isTest && !s.deleted && s.segmentLabel !== 'challenge')
-  if (real.length === 0) return { text: p.loadHint ?? (loadType === 'bioforce' ? 'Erste Ausführung: Last so wählen, dass die Vorgabe mit der angegebenen RIR gelingt.' : '') }
+  if (real.length === 0) {
+    const first = loadType === 'bioforce'
+      ? `Erste Ausführung: Last so wählen, dass am Satzende noch ${p.rir ?? '1–2'} saubere Wiederholungen möglich wären (RIR). Unten eintragen, wie viele tatsächlich noch gegangen wären.`
+      : ''
+    return { text: p.loadHint ? (first ? `${p.loadHint}. ${first}` : p.loadHint) : first }
+  }
   const lastWorkoutId = real.sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : b.setIndex - a.setIndex))[0].workoutId
   const last = real.filter((s) => s.workoutId === lastWorkoutId).sort((a, b) => a.setIndex - b.setIndex)
   const w = last.find((s) => s.weightKg !== undefined)?.weightKg
   const repsStr = last.map((s) => s.reps ?? (s.seconds ? `${s.seconds}s` : '–')).join('/')
-  const base = `Letztes Mal: ${repsStr}${w !== undefined ? ` @ ${w} kg` : ''}`
+  const base = `Letztes Mal: ${repsStr}${w !== undefined ? ` @ ${loadText(w, loadType)}` : ''}`
   if (p.ramp) return { weightKg: w, text: base }
   if (loadType === 'bioforce' && w !== undefined && p.repsMax) {
     const allTop = last.every((s) => (s.reps ?? 0) >= (p.repsMax ?? 0) && (s.rir ?? 9) <= 1)
-    if (allTop) return { weightKg: w + 2.5, text: `${base} → alle Sätze am oberen Ende, Vorschlag ${w + 2.5} kg` }
+    const nextLb = Math.min(BF_MAX_LB, kgToLb(w) + BF_STEP_LB)
+    if (allTop) return { weightKg: lbToKg(nextLb), text: `${base} → alle Sätze am oberen Ende, Vorschlag ${nextLb} lb (eine Raste mehr)` }
     return { weightKg: w, text: `${base} → gleiche Last, mehr Wiederholungen` }
   }
   if (loadType === 'bodyweight' && p.repsMax) {

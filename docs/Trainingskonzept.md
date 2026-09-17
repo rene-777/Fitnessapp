@@ -14,7 +14,7 @@ Stand: 16.09.2026 · Athlet: René (56 J., 172 cm, 73,5 kg) · Entwurf 1 zur gem
 | Schwachstellen | Obere Brust, Schultern (v. a. hintere Schulter, Ruderbewegungen), Beine (vorsichtig aufbauen), Ausdauer |
 | Stärken | Rücken, hintere Oberschenkel, Bizeps, Core |
 | Einschränkung | Knie: keine Sprünge auf die Knie (keine Squat-Jumps, keine Pistols), Belastung kontrolliert steigern |
-| Ausrüstung | Finnlo Bio Force (2 × 55 kg, 1,25-kg-Stufen), Klimmzugstange, Dip-Barren, Kettlebells 6 + 8 kg, Springseil, Laufen draußen möglich, Polar-Armgurt |
+| Ausrüstung | Finnlo Bio Force (Skala 5–125 lb pro Seite in 5-lb-Rasten, entspricht ca. 2,3–56,7 kg), Klimmzugstange, Dip-Barren, Kettlebells 6 + 8 kg, Springseil, Laufen draußen möglich, Polar-Armgurt |
 | Zeitbudget | 5–6 Einheiten/Woche, morgens, 60 min Richtwert, max. 75 min, Wochenende gelegentlich länger |
 | Prioritäten | 1 Muskelaufbau + Kraft · 2 Fettabbau · 3 Körperkomposition · 4 Gesundheit · 5 Ausdauer (später stärker) |
 
@@ -115,7 +115,7 @@ Jede Laufeinheit hat eine gleichwertige Indoor-Alternative (Seil- oder Burpee-In
 
 1. **Warm-up (8 min):** 2 min Seil oder Marschieren, Gelenkmobilität, 2 leichte Aufwärmsätze der ersten Übung am Kabelzug.
 2. **Hauptteil A (20 min):** Schwere Grundübung (z. B. Pull-Ups oder Kabel-Schrägdrücken), 3–4 Sätze, Pausen 2–3 min. Hier entsteht Kraft.
-3. **Hauptteil B (20 min):** 2 Supersätze aus Gegenspielern (z. B. Fliegende + Face Pulls), je 3 Sätze, Pausen 60–90 s. Hier entsteht Volumen in kurzer Zeit.
+3. **Hauptteil B (20 min):** 2 Supersätze aus Gegenspielern oder aus Gerät + Körpergewicht (z. B. Schulterdrücken + Step-Ups). Nie eine Übung mit Sitz und eine ohne Sitz im selben Supersatz, je 3 Sätze, Pausen 60–90 s. Hier entsteht Volumen in kurzer Zeit.
 4. **Core oder Finisher (6–8 min):** Core-Zirkel oder AMRAP mit Burpee-Variante, Push-Ups, Squats. Der Goliaz-Anteil.
 5. **Cool-down (3 min).**
 
@@ -135,7 +135,7 @@ Jede Laufeinheit hat eine gleichwertige Indoor-Alternative (Seil- oder Burpee-In
 
 ### 3.4 Progressionsregeln (so wird die App sie umsetzen)
 
-- **Doppelte Progression an der Bio Force:** Wiederholungsbereich je Block (z. B. 8–12). Wenn alle Sätze das obere Ende bei ≤ 1 RIR erreichen, +1,25 bis 2,5 kg pro Seite in der nächsten Einheit.
+- **Doppelte Progression an der Bio Force:** Wiederholungsbereich je Block (z. B. 8–12). Wenn alle Sätze das obere Ende bei ≤ 1 RIR erreichen, +5 lb pro Seite (eine Raste, ≈ 2,3 kg) in der nächsten Einheit. Bei kleinen Übungen (Seitheben, Face Pulls) ist eine Raste ein großer Sprung: dort erst steigern, wenn 3–4 Wiederholungen über dem Zielbereich möglich sind.
 - **Körpergewichtsübungen:** Erst Wiederholungen steigern, dann Variante erschweren (Push-Up → Defizit → Füße erhöht → Zusatzlast im Rucksack). Pull-Ups: ab 3 × 10 sauber kommt Zusatzlast.
 - **Cardio:** Pro Woche ein Intervall mehr oder 10 s länger; Zone 2 pro Woche +5 min bis 60 min.
 - **Autoregulation:** Vor jeder Einheit ein Kurz-Check (Schlaf, Muskelkater, Knie 0–10, Motivation). Bei zwei schlechten Checks in Folge schlägt die App eine leichte Version vor. Knie ≥ 4/10: Beinvolumen automatisch halbiert, Sprints raus.

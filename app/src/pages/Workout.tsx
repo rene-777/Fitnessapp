@@ -15,6 +15,7 @@ import { challengeStatus, prescriptionText, suggestLoad } from '../lib/planEngin
 import { buildSteps, type Step } from '../lib/steps'
 import { keepAwake } from '../lib/wakeLock'
 import { finishWorkout, getOrCreateWorkout, patchWorkout, saveBenchmark, saveSet } from '../lib/workouts'
+import { BF_MAX_LB, BF_MIN_LB, BF_STEP_LB, fmtKg, kgToLb, lbToKg } from '../lib/bioforce'
 
 type SetStep = Extract<Step, { kind: 'set' }>
 
@@ -207,6 +208,9 @@ function SetStepView({ step, workout, onSaved, onSkip }: { step: SetStep; workou
   )
   const suggestion = useMemo(() => (history ? suggestLoad(step.p, history.filter((h) => h.workoutId !== workout.id), e.loadType) : undefined), [history, step.p, e.loadType, workout.id])
   const timed = step.p.seconds !== undefined || step.testUnit === 'seconds'
+  // Bio Force: das Eingabefeld zeigt den Skalenwert in lb, gespeichert wird kg pro Seite
+  const isBf = e.loadType === 'bioforce'
+  const toInput = (kg: number) => (isBf ? kgToLb(kg) : kg)
   const [reps, setReps] = useState<number | ''>('')
   const [weight, setWeight] = useState<number | ''>('')
   const [rir, setRir] = useState<number | ''>('')
@@ -218,11 +222,11 @@ function SetStepView({ step, workout, onSaved, onSkip }: { step: SetStep; workou
     if (init || existing === undefined || suggestion === undefined) return
     const ex0 = existing[0]
     if (ex0) {
-      setReps(ex0.reps ?? ''); setWeight(ex0.weightKg ?? ''); setRir(ex0.rir ?? ''); setSeconds(ex0.seconds ?? '')
+      setReps(ex0.reps ?? ''); setWeight(ex0.weightKg === undefined ? '' : toInput(ex0.weightKg)); setRir(ex0.rir ?? ''); setSeconds(ex0.seconds ?? '')
     } else {
       setReps(step.p.repsMax ?? step.p.repsMin ?? '')
       setSeconds(step.p.seconds ?? '')
-      if (suggestion.weightKg !== undefined) setWeight(suggestion.weightKg)
+      if (suggestion.weightKg !== undefined) setWeight(toInput(suggestion.weightKg))
     }
     setInit(true)
   }, [existing, suggestion, init, step.p])
@@ -236,7 +240,7 @@ function SetStepView({ step, workout, onSaved, onSkip }: { step: SetStep; workou
     await saveSet(workout, {
       exerciseId: step.exerciseId, segmentLabel: step.label, setIndex: step.setIndex,
       reps: timed ? undefined : Number(reps), seconds: timed ? Number(seconds) : undefined,
-      weightKg: showWeight && weight !== '' ? Number(weight) : undefined,
+      weightKg: showWeight && weight !== '' ? (isBf ? lbToKg(Number(weight)) : Number(weight)) : undefined,
       rir: showRir && rir !== '' ? Number(rir) : undefined,
       isTest: step.isTest,
     })
@@ -261,11 +265,13 @@ function SetStepView({ step, workout, onSaved, onSkip }: { step: SetStep; workou
           </>
         )}
         {!timed && <NumberInput label={step.p.perSide ? 'Wiederholungen je Seite' : 'Wiederholungen'} value={reps} onChange={setReps} />}
-        <div className="flex gap-3">
-          {showWeight && <NumberInput label={e.loadType === 'bioforce' ? 'kg pro Seite' : 'kg'} value={weight} onChange={setWeight} step={e.loadType === 'bioforce' ? 1.25 : 1} />}
+        <div className="space-y-3">
+          {showWeight && (isBf
+            ? <NumberInput label="Skala (lb) pro Seite" value={weight} onChange={setWeight} step={BF_STEP_LB} min={BF_MIN_LB} max={BF_MAX_LB} hint={weight === '' ? 'Wert am Schwingarm, 5–125' : `≈ ${fmtKg(lbToKg(Number(weight)))} kg pro Seite`} />
+            : <NumberInput label="kg" value={weight} onChange={setWeight} step={1} />)}
           {showRir && (
             <div className="flex-1">
-              <div className="label mb-1">RIR</div>
+              <div className="label mb-1">RIR · wie viele wären noch gegangen?</div>
               <div className="flex gap-1">
                 {[0, 1, 2, 3, 4].map((v) => (
                   <button key={v} type="button" className={`flex-1 rounded-lg py-3 border ${rir === v ? 'bg-accent text-black border-accent' : 'bg-card2 border-line'}`} onClick={() => setRir(v)}>{v === 4 ? '4+' : v}</button>

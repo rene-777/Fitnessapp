@@ -10,6 +10,7 @@ import { planWeekOf, today } from '../lib/dates'
 import { prescriptionText } from '../lib/planEngine'
 import { buildSteps } from '../lib/steps'
 import { saveBenchmark, saveSet } from '../lib/workouts'
+import { lbToKg } from '../lib/bioforce'
 
 interface Row {
   key: string
@@ -23,6 +24,7 @@ interface Row {
   benchmarkKey?: string
   benchmarkUnit?: string
   segmentLabel: string
+  bioforce?: boolean // Last wird als Skalenwert in lb eingegeben
 }
 
 export default function LogPast() {
@@ -46,7 +48,7 @@ export default function LogPast() {
         const fields: Row['fields'] = timed ? ['seconds'] : ['reps']
         if (e.loadType === 'bioforce' || e.loadType === 'extern') fields.push('weight')
         if (!s.isTest && e.loadType !== 'none') fields.push('rir')
-        out.push({ key: `${s.label}-${s.exerciseId}-${s.setIndex}`, exerciseId: s.exerciseId, label: s.label, setIndex: s.setIndex, title: `${s.label} ${e.name}`, sub: s.isTest ? 'Test' : `Satz ${s.setIndex}/${s.totalSets} · ${prescriptionText(s.p)}`, fields, isTest: s.isTest, benchmarkKey: s.benchmarkKey, benchmarkUnit: s.testUnit, segmentLabel: s.label })
+        out.push({ key: `${s.label}-${s.exerciseId}-${s.setIndex}`, exerciseId: s.exerciseId, label: s.label, setIndex: s.setIndex, title: `${s.label} ${e.name}`, sub: s.isTest ? 'Test' : `Satz ${s.setIndex}/${s.totalSets} · ${prescriptionText(s.p)}`, fields, isTest: s.isTest, benchmarkKey: s.benchmarkKey, benchmarkUnit: s.testUnit, segmentLabel: s.label, bioforce: e.loadType === 'bioforce' })
       } else if (s.kind === 'amrap') {
         const single = s.seg.exercises.length === 1 && s.seg.exercises[0].reps === 1
         out.push({ key: `amrap-${s.seg.label}`, exerciseId: s.seg.exercises[0].exerciseId, label: s.seg.label, setIndex: 1, title: `AMRAP ${s.seg.minutes} min`, sub: s.seg.exercises.map((x) => `${x.reps > 1 ? x.reps + ' ' : ''}${ex(x.exerciseId).name}`).join(', '), fields: [single ? 'reps' : 'rounds'], isTest: !!s.seg.benchmarkKey, benchmarkKey: s.seg.benchmarkKey, benchmarkUnit: single ? 'reps' : 'rounds', segmentLabel: `amrap-${s.seg.label}` })
@@ -77,7 +79,7 @@ export default function LogPast() {
       if (!has) continue
       const reps = v.reps === '' || v.reps === undefined ? undefined : Number(v.reps)
       const seconds = v.seconds !== undefined && v.seconds !== '' ? Number(v.seconds) : v.minutes !== undefined && v.minutes !== '' ? Number(v.minutes) * 60 : undefined
-      await saveSet(w, { exerciseId: r.exerciseId, segmentLabel: r.segmentLabel, setIndex: r.setIndex, reps, seconds, weightKg: v.weight === '' || v.weight === undefined ? undefined : Number(v.weight), rir: v.rir === '' || v.rir === undefined ? undefined : Number(v.rir), rounds: v.rounds === '' || v.rounds === undefined ? undefined : Number(v.rounds), distanceM: v.distance === '' || v.distance === undefined ? undefined : Number(v.distance), isTest: r.isTest })
+      await saveSet(w, { exerciseId: r.exerciseId, segmentLabel: r.segmentLabel, setIndex: r.setIndex, reps, seconds, weightKg: v.weight === '' || v.weight === undefined ? undefined : r.bioforce ? lbToKg(Number(v.weight)) : Number(v.weight), rir: v.rir === '' || v.rir === undefined ? undefined : Number(v.rir), rounds: v.rounds === '' || v.rounds === undefined ? undefined : Number(v.rounds), distanceM: v.distance === '' || v.distance === undefined ? undefined : Number(v.distance), isTest: r.isTest })
       if (r.benchmarkKey) {
         const bench = r.benchmarkUnit === 'seconds' ? seconds : r.benchmarkUnit === 'm' ? (v.distance === '' ? undefined : Number(v.distance)) : r.benchmarkUnit === 'rounds' ? (v.rounds === '' ? undefined : Number(v.rounds)) : reps
         if (bench !== undefined && bench > 0) await saveBenchmark(w, r.benchmarkKey, bench, r.benchmarkUnit ?? 'reps')
@@ -122,7 +124,7 @@ export default function LogPast() {
               <div className="flex gap-2">
                 {r.fields.map((f) => (
                   <div key={f} className="flex-1">
-                    <div className="label mb-1">{FIELD_LABEL[f]}</div>
+                    <div className="label mb-1">{f === 'weight' && r.bioforce ? 'lb/Seite' : FIELD_LABEL[f]}</div>
                     <input type="number" inputMode="decimal" className="input text-center px-1" value={get(r.key, f)} onChange={(e) => setVal(r.key, f, e.target.value === '' ? '' : Number(e.target.value))} />
                   </div>
                 ))}

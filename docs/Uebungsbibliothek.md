@@ -18,7 +18,7 @@ Die Anleitung benennt die Zugpunkte so:
 | **Sitz angebracht / entfernt** | Sitz mit Beinmodul lässt sich mit einem Handgriff abnehmen. Für stehende Übungen entfernen |
 | **Schiebe-Verschluss** | Widerstandsverstellung: Einheit nach oben ziehen, verschieben, absenken. Anzeige rot = verriegelt |
 
-Widerstand immer in kg pro Seite notieren. Beide Kabel zusammen ergibt das Doppelte.
+Die Skala an den Schwingarmen zeigt amerikanische Pfund (lb) pro Seite: 5 bis 125 in 5er-Rasten (5 lb ≈ 2,3 kg, 50 lb ≈ 22,7 kg, 100 lb ≈ 45,4 kg, 125 lb ≈ 56,7 kg). Widerstand immer als Skalenwert in lb pro Seite notieren. Beide Kabel zusammen ergibt das Doppelte. Die App zeigt den kg-Wert daneben an.
 
 ---
 
@@ -34,7 +34,7 @@ Widerstand immer in kg pro Seite notieren. Beide Kabel zusammen ergibt das Doppe
 - **Fehler:** Griffe waagerecht nach vorn drücken (dann arbeitet die mittlere statt der oberen Brust). Handgelenke abknicken. Hohlkreuz.
 - **Variante:** einarmig (Nr. 35), andere Hand am Haltegriff der Rückenlehne.
 
-### Fliegende nach oben (Bio Force Nr. 38 „Fliegende auf der Schrägbank“)
+### Incline Cable Fly (Bio Force Nr. 38 „Fliegende auf der Schrägbank“)
 - **Muskeln:** primär obere Brust · sekundär vordere Schulter
 - **Einstellung:** Sitz angebracht, Handgriffe, Karabiner auf Schulterhöhe, Seile über den Armen
 - **Ausführung:**
@@ -88,7 +88,7 @@ Widerstand immer in kg pro Seite notieren. Beide Kabel zusammen ergibt das Doppe
   1. Rücken zum Gerät, Griffe seitlich am Körper, Daumen nach vorn. Für mehr Dehnung: Arm leicht hinter der Hüfte starten (einarmige Variante, Seil läuft hinter dem Körper).
   2. Arm seitlich anheben bis auf Schulterhöhe, Ellbogen leicht gebeugt und fixiert.
   3. Langsam (2–3 s) ablassen.
-- **Fehler:** Schwung aus den Beinen, Schulter hochziehen. Leicht anfangen: 2,5–5 kg pro Seite.
+- **Fehler:** Schwung aus den Beinen, Schulter hochziehen. Leicht anfangen: 5–10 lb pro Seite.
 
 ### Trizeps über Kopf (Bio Force Nr. 92)
 - **Muskeln:** primär Trizeps (langer Kopf)

@@ -4,13 +4,15 @@ interface Props {
   onChange: (v: number | '') => void
   step?: number
   min?: number
+  max?: number
+  hint?: string
   suffix?: string
   compact?: boolean
 }
 
-export default function NumberInput({ label, value, onChange, step = 1, min = 0, suffix, compact }: Props) {
+export default function NumberInput({ label, value, onChange, step = 1, min = 0, max = Infinity, suffix, compact, hint }: Props) {
   const num = value === '' ? 0 : value
-  const set = (v: number) => onChange(Math.max(min, Math.round(v * 100) / 100))
+  const set = (v: number) => onChange(Math.min(max, Math.max(min, Math.round(v * 100) / 100)))
   return (
     <div className="flex-1 min-w-0">
       <div className="label mb-1">{label}{suffix ? ` (${suffix})` : ''}</div>
@@ -26,6 +28,7 @@ export default function NumberInput({ label, value, onChange, step = 1, min = 0,
         />
         {!compact && <button type="button" className="btn-ghost px-3 py-2 text-xl" onClick={() => set(num + step)}>+</button>}
       </div>
+      {hint && <div className="text-[11px] text-muted mt-1 text-center">{hint}</div>}
     </div>
   )
 }

@@ -30,6 +30,11 @@ const straight = (label: string, exercises: Prescription[], restSec: number, not
 const superset = (label: string, exercises: Prescription[], restBetweenSec = 30, restSec = 90, note?: string): Segment =>
   ({ type: 'block', label, kind: 'superset', exercises, restSec, restBetweenSec, note })
 
+// Umbau-Hinweise: Jede Einheit ist so sortiert, dass der Sitz höchstens einmal umgebaut wird.
+// Innerhalb eines Supersatzes haben alle Bio-Force-Übungen denselben Sitz-Status (Exercise.seat).
+const SEAT_OFF: Segment = { type: 'note', title: 'Umbau: Sitz abbauen', text: 'Alle folgenden Bio-Force-Übungen dieser Einheit laufen ohne Sitz.' }
+const SEAT_ON: Segment = { type: 'note', title: 'Umbau: Sitz anbringen', text: 'Sitz und Beinmodul anbringen. Alle folgenden Bio-Force-Übungen dieser Einheit laufen mit Sitz.' }
+
 const WARM_PUSH = warm(8, ['2 min Seil locker', 'Schulterkreisen vor und zurück', 'Katzenbuckel / Pferderücken 10×', '10 Scapula-Push-Ups', '2 leichte Sätze Kabel-Schrägdrücken × 10'])
 const WARM_LEGS = warm(8, ['3 min Marschieren oder Seil leicht', 'Hüftkreisen, Beinschwünge vor/zurück und seitlich', '10 halbe Kniebeugen', 'Wall Sit 2 × 30 s (Sehnenvorbereitung)'])
 const WARM_PULL = warm(8, ['2 min Seil', 'Schulterblattkreisen', 'Scapula Pull-Ups 2 × 8', 'Latzug leicht 2 × 10'])
@@ -52,10 +57,12 @@ const w1: Week = {
         WARM_PUSH,
         { type: 'test', label: 'A', exerciseId: 'pushup', benchmarkKey: 'pushupsMax', unit: 'reps', description: 'Max-Test: so viele saubere Push-Ups am Stück wie möglich (Goliaz-Standard).', restSec: 180 },
         straight('B', [p('schraegdruecken', 3, { repsMin: 10, repsMax: 10, ramp: true, loadHint: '10RM finden: leicht → schwerer → 10RM' })], 150),
-        superset('C', [reps('fliegende-oben', 3, 12, 12, { rir: '1–2', loadHint: 'leicht starten' }), reps('face-pull', 3, 15, 15)]),
+        straight('C', [reps('fliegende-oben', 3, 12, 12, { rir: '1–2', loadHint: 'leicht starten' })], 75),
         { type: 'test', label: 'D', exerciseId: 'dips', benchmarkKey: 'dipsMax', unit: 'reps', description: 'Max-Test Dips, strikt.', restSec: 120, followUp: reps('dips', 2, 8, 8) },
-        straight('D2', [reps('seitheben', 3, 12, 12, { perSide: true })], 60),
-        straight('E', [reps('trizeps-ueberkopf', 2, 12, 12)], 60),
+        straight('E', [reps('trizeps-ueberkopf', 2, 12, 12, { rir: '1–2' })], 60),
+        SEAT_OFF,
+        straight('F', [reps('face-pull', 3, 15, 15, { rir: '1–2' })], 45),
+        straight('G', [reps('seitheben', 3, 12, 12, { perSide: true, rir: '1–2' })], 45),
         { type: 'test', label: 'Core', exerciseId: 'plank', benchmarkKey: 'plankMax', unit: 'seconds', description: 'Elbow Plank so lange wie möglich mit sauberer Haltung.', restSec: 60 },
         straight('Core', [reps('pallof', 2, 10, 10, { perSide: true })], 45),
         COOL_PUSH,
@@ -67,9 +74,10 @@ const w1: Week = {
         WARM_LEGS,
         straight('A', [p('kabel-kniebeuge', 3, { repsMin: 10, repsMax: 10, ramp: true, tempo: '3-1-1', loadHint: '10RM finden' })], 150),
         straight('B', [p('rdl', 3, { repsMin: 10, repsMax: 10, ramp: true, loadHint: '10RM finden' })], 150),
-        superset('C', [reps('split-squat', 3, 8, 8, { perSide: true, loadHint: 'Körpergewicht' }), reps('beinbeuger', 3, 10, 10, { perSide: true, tempo: '3-1-3', rir: '2' })]),
-        superset('D', [reps('beinstrecker', 3, 12, 12, { tempo: '3-1-3', loadHint: 'leicht' }), reps('hueftabduktion', 2, 15, 15, { perSide: true })], 30, 60),
-        superset('E', [reps('wadenheben', 2, 15, 15), reps('superman', 2, 12, 12)], 20, 45),
+        superset('C', [reps('split-squat', 3, 8, 8, { perSide: true, loadHint: 'Körpergewicht' }), reps('hueftabduktion', 2, 15, 15, { perSide: true })], 30, 75),
+        superset('D', [reps('wadenheben', 2, 15, 15), reps('superman', 2, 12, 12)], 20, 45),
+        SEAT_ON,
+        superset('E', [reps('beinbeuger', 3, 10, 10, { perSide: true, tempo: '3-1-3', rir: '2' }), reps('beinstrecker', 3, 12, 12, { tempo: '3-1-3', loadHint: 'leicht' })], 30, 75),
         straight('Core', [reps('dead-bug', 2, 10, 10, { perSide: true })], 45),
         COOL_LEGS,
       ],
@@ -80,9 +88,11 @@ const w1: Week = {
         WARM_PULL,
         { type: 'test', label: 'A', exerciseId: 'pullup', benchmarkKey: 'pullupsMax', unit: 'reps', description: 'Max-Test: strikte Pull-Ups am Stück.', restSec: 180, followUp: reps('pullup', 2, 6, 8, { loadHint: 'ca. 60 % vom Max' }) },
         straight('B', [p('rudern-stehend', 3, { repsMin: 10, repsMax: 10, ramp: true, loadHint: '10RM finden' })], 150),
-        superset('C', [reps('latzug', 3, 10, 12, { rir: '1–2' }), reps('reverse-fly', 3, 15, 15)]),
+        straight('C', [reps('latzug', 3, 10, 12, { rir: '1–2' })], 75),
         superset('D', [reps('rudern-einarmig', 3, 10, 10, { perSide: true }), reps('australian-pullup', 3, 10, 12)]),
-        superset('E', [reps('bizeps-curl', 2, 12, 12), reps('hammer-curl', 2, 12, 12)], 20, 45),
+        SEAT_OFF,
+        straight('E', [reps('reverse-fly', 3, 15, 15, { rir: '1–2' })], 45),
+        superset('F', [reps('bizeps-curl', 2, 12, 12), reps('hammer-curl', 2, 12, 12, { loadHint: 'Kurzhanteln' })], 20, 45),
         superset('Core', [reps('hanging-knee-raise', 3, 10, 10), p('side-plank', 2, { seconds: 30, perSide: true })], 20, 45),
         COOL_PULL,
       ],
@@ -102,9 +112,10 @@ const w1: Week = {
       segments: [
         WARM_FULL,
         superset('A', [reps('pushup-defizit', 3, 10, 15, { rir: '1–2' }), reps('latzug-eng', 3, 10, 12)]),
-        superset('B', [reps('schraegdruecken', 3, 10, 10, { loadHint: '10RM vom Montag minus 2,5 kg' }), reps('rudern-einarmig', 3, 10, 10, { perSide: true })]),
-        superset('C', [reps('step-up', 3, 10, 10, { perSide: true, loadHint: 'Kettlebell 8 kg' }), reps('pull-through', 3, 12, 12)]),
-        superset('D', [reps('schulterdruecken', 3, 10, 10), reps('seitheben', 2, 15, 15, { perSide: true })], 30, 60),
+        superset('B', [reps('schraegdruecken', 3, 10, 10, { loadHint: '10RM vom Montag minus 5 lb (eine Raste)' }), reps('rudern-einarmig', 3, 10, 10, { perSide: true })]),
+        superset('C', [reps('schulterdruecken', 3, 10, 10, { rir: '1–2' }), reps('step-up', 3, 10, 10, { perSide: true, loadHint: 'Kettlebell 8 kg' })]),
+        SEAT_OFF,
+        superset('D', [reps('pull-through', 3, 12, 12, { rir: '1–2' }), reps('seitheben', 2, 15, 15, { perSide: true })], 30, 60),
         { type: 'amrap', label: 'Finisher', minutes: 6, exercises: [{ exerciseId: 'burpee', reps: 5 }, { exerciseId: 'pushup', reps: 10 }, { exerciseId: 'kniebeuge-bw', reps: 15 }], countLabel: 'Runden', benchmarkKey: 'amrap6', description: 'So viele Runden wie möglich in 6 Minuten.' },
         COOL_PUSH,
       ],
@@ -120,7 +131,7 @@ function buildWeek(n: 2 | 3): Week {
     number: n,
     title: n === 2 ? 'Volles Volumen' : 'Höchstes Volumen im Block',
     note: n === 2
-      ? 'Startlasten = 10RM aus Woche 1 minus 2,5 kg pro Seite. Doppelte Progression: obere Wiederholungszahl in allen Sätzen bei ≤ 1 RIR erreicht → nächstes Mal +1,25 bis 2,5 kg.'
+      ? 'Startlasten = 10RM aus Woche 1 minus 5 lb pro Seite (eine Raste). Doppelte Progression: obere Wiederholungszahl in allen Sätzen bei ≤ 1 RIR erreicht → nächstes Mal +5 lb (eine Raste).'
       : 'A- und B-Übungen mit einem Satz mehr. Finisher 8 Minuten. Zone 2 erstmals durchgehend laufen, wenn die Knie ruhig waren.',
     sessions: [
       {
@@ -129,9 +140,12 @@ function buildWeek(n: 2 | 3): Week {
           WARM_PUSH,
           straight('A', [reps('schraegdruecken', 4 + extra, 8, 10, { rir: '1–2' })], 120),
           straight('B', [reps('pushup', 3 + extra, 12, 15, { rir: '1–2' })], 90),
-          superset('C', [reps('fliegende-oben', 3, 12, 12, { rir: '1–2' }), reps('face-pull', 3, 15, 15)]),
-          superset('D', [reps('dips', 3, 8, 10, { rir: '1–2' }), reps('seitheben', 3, 12, 12, { perSide: true })]),
-          straight('E', [reps('trizeps-ueberkopf', 2, 12, 12)], 60),
+          straight('C', [reps('fliegende-oben', 3, 12, 12, { rir: '1–2' })], 75),
+          straight('D', [reps('dips', 3, 8, 10, { rir: '1–2' })], 90),
+          straight('E', [reps('trizeps-ueberkopf', 2, 12, 12, { rir: '1–2' })], 60),
+          SEAT_OFF,
+          straight('F', [reps('face-pull', 3, 15, 15, { rir: '1–2' })], 45),
+          straight('G', [reps('seitheben', 3, 12, 12, { perSide: true, rir: '1–2' })], 45),
           superset('Core', [reps('pallof', 2, 10, 10, { perSide: true }), p('plank', 2, { seconds: 45 })], 20, 45),
           { type: 'amrap', label: 'Finisher', minutes: fin, exercises: [{ exerciseId: 'burpee', reps: 6 }, { exerciseId: 'dips', reps: 8 }, { exerciseId: 'mountain-climber', reps: 20 }], countLabel: 'Runden', description: 'Dips ersatzweise 12 Push-Ups.' },
           COOL_PUSH,
@@ -143,9 +157,10 @@ function buildWeek(n: 2 | 3): Week {
           WARM_LEGS,
           straight('A', [reps('kabel-kniebeuge', 4 + extra, 8, 10, { rir: '1–2', tempo: '3-1-1' })], 120),
           straight('B', [reps('rdl', 4 + extra, 8, 10, { rir: '1–2' })], 120),
-          superset('C', [reps('split-squat', 3, 10, 10, { perSide: true }), reps('beinbeuger', 3, 10, 10, { perSide: true, tempo: '3-1-3' })]),
-          superset('D', [reps('beinstrecker', 3, 12, 12, { tempo: '3-1-3', loadHint: 'leicht' }), reps('hueftabduktion', 2, 15, 15, { perSide: true })], 30, 60),
-          superset('E', [reps('wadenheben', 2, 15, 15), reps('superman', 2, 12, 12)], 20, 45),
+          superset('C', [reps('split-squat', 3, 10, 10, { perSide: true }), reps('hueftabduktion', 2, 15, 15, { perSide: true })], 30, 75),
+          superset('D', [reps('wadenheben', 2, 15, 15), reps('superman', 2, 12, 12)], 20, 45),
+          SEAT_ON,
+          superset('E', [reps('beinbeuger', 3, 10, 10, { perSide: true, tempo: '3-1-3', rir: '1–2' }), reps('beinstrecker', 3, 12, 12, { tempo: '3-1-3', loadHint: 'leicht' })], 30, 75),
           straight('Core', [reps('dead-bug', 2, 10, 10, { perSide: true })], 45),
           COOL_LEGS,
         ],
@@ -156,9 +171,11 @@ function buildWeek(n: 2 | 3): Week {
           WARM_PULL,
           straight('A', [reps('pullup', 4, 6, 9, { rir: '1–2', loadHint: 'ca. 60–70 % vom Max' })], 120),
           straight('B', [reps('rudern-stehend', 4 + extra, 8, 10, { rir: '1–2' })], 120),
-          superset('C', [reps('latzug', 3, 10, 12, { rir: '1–2' }), reps('reverse-fly', 3, 15, 15)]),
+          straight('C', [reps('latzug', 3, 10, 12, { rir: '1–2' })], 75),
           superset('D', [reps('rudern-einarmig', 3, 10, 10, { perSide: true }), reps('australian-pullup', 3, 10, 12)]),
-          superset('E', [reps('bizeps-curl', 2, 12, 12), reps('hammer-curl', 2, 12, 12)], 20, 45),
+          SEAT_OFF,
+          straight('E', [reps('reverse-fly', 3, 15, 15, { rir: '1–2' })], 45),
+          superset('F', [reps('bizeps-curl', 2, 12, 12), reps('hammer-curl', 2, 12, 12, { loadHint: 'Kurzhanteln' })], 20, 45),
           superset('Core', [reps('hanging-knee-raise', 3, 10, 10), p('side-plank', 2, { seconds: 30, perSide: true })], 20, 45),
           { type: 'amrap', label: 'Finisher', minutes: fin, exercises: [{ exerciseId: 'pullup', reps: 5 }, { exerciseId: 'pushup', reps: 10 }, { exerciseId: 'kniebeuge-bw', reps: 15 }], countLabel: 'Runden', description: 'Pull-Ups ersatzweise Australian Pull-Ups.' },
           COOL_PULL,
@@ -190,8 +207,9 @@ function buildWeek(n: 2 | 3): Week {
           WARM_FULL,
           superset('A', [reps('pushup-defizit', 3, 10, 15, { rir: '1–2' }), reps('latzug-eng', 3, 10, 12, { rir: '1–2' })]),
           superset('B', [reps('schraegdruecken', 3, 10, 10, { rir: '1–2' }), reps('rudern-einarmig', 3, 10, 10, { perSide: true })]),
-          superset('C', [reps('step-up', 3, 10, 10, { perSide: true, loadHint: 'Kettlebell 8 kg' }), reps('pull-through', 3, 12, 12)]),
-          superset('D', [reps('schulterdruecken', 3, 10, 10, { rir: '1–2' }), reps('seitheben', 3, 15, 15, { perSide: true })], 30, 60),
+          superset('C', [reps('schulterdruecken', 3, 10, 10, { rir: '1–2' }), reps('step-up', 3, 10, 10, { perSide: true, loadHint: 'Kettlebell 8 kg' })]),
+          SEAT_OFF,
+          superset('D', [reps('pull-through', 3, 12, 12, { rir: '1–2' }), reps('seitheben', 3, 15, 15, { perSide: true })], 30, 60),
           { type: 'amrap', label: 'Finisher', minutes: 8, exercises: [{ exerciseId: 'burpee', reps: 5 }, { exerciseId: 'pushup', reps: 10 }, { exerciseId: 'kniebeuge-bw', reps: 15 }], countLabel: 'Runden', benchmarkKey: n === 3 ? 'amrap8' : undefined, description: 'So viele Runden wie möglich in 8 Minuten.' },
           COOL_PUSH,
         ],
@@ -224,7 +242,9 @@ const w4: Week = {
       key: 'w4-di', weekday: 2, title: 'Challenge Tag 2 + Beine-Erhalt', kind: 'challenge', minutes: 55, focus: 'Krafterhalt Beine, Challenge-Anteil',
       segments: [
         WARM_LEGS,
-        straight('Erhalt', [reps('kabel-kniebeuge', 2, 8, 8, { rir: '2', tempo: '3-1-1' }), reps('rdl', 2, 8, 8, { rir: '2' }), reps('beinstrecker', 2, 10, 10, { tempo: '3-1-3' })], 120),
+        straight('Erhalt', [reps('kabel-kniebeuge', 2, 8, 8, { rir: '2', tempo: '3-1-1' }), reps('rdl', 2, 8, 8, { rir: '2' })], 120),
+        SEAT_ON,
+        straight('Erhalt 2', [reps('beinstrecker', 2, 10, 10, { tempo: '3-1-3' })], 90),
         shareDay(0.21),
         COOL_LEGS,
       ],

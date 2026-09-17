@@ -10,13 +10,13 @@ Ziel des Blocks: Technik und Lasten an der Bio Force festlegen, Muskelaufbau-Bas
 
 **Tempo 3-1-3:** 3 s absenken, 1 s halten, 3 s hoch. Wird an Beinstrecker und Beinbeuger genutzt (Sehnenreiz, kniefreundlich). Alle anderen Übungen: 2 s ab, kontrolliert hoch.
 
-**Doppelte Progression:** Jede Übung hat einen Wiederholungsbereich (z. B. 8–12). Erreichst du in allen Sätzen die obere Zahl bei ≤ 1 RIR, erhöhst du beim nächsten Mal die Last um 1,25–2,5 kg pro Seite (Bio Force) bzw. wechselst zur schwereren Variante (Bodyweight). Sonst bleibt die Last und du versuchst mehr Wiederholungen.
+**Doppelte Progression:** Jede Übung hat einen Wiederholungsbereich (z. B. 8–12). Erreichst du in allen Sätzen die obere Zahl bei ≤ 1 RIR, erhöhst du beim nächsten Mal die Last um eine Raste, also 5 lb ≈ 2,3 kg pro Seite (Bio Force) bzw. wechselst zur schwereren Variante (Bodyweight). Sonst bleibt die Last und du versuchst mehr Wiederholungen.
 
-**Supersatz (A1/A2):** Zwei Übungen im Wechsel: Satz A1, 30 s Pause, Satz A2, 60–90 s Pause, dann wieder A1. Spart Zeit ohne Leistungsverlust, weil Gegenspieler oder unterschiedliche Muskeln arbeiten.
+**Supersatz (A1/A2):** Zwei Übungen im Wechsel: Satz A1, 30 s Pause, Satz A2, 60–90 s Pause, dann wieder A1. Spart Zeit ohne Leistungsverlust, weil Gegenspieler oder unterschiedliche Muskeln arbeiten. Regel für die Bio Force: In einem Supersatz stehen nie eine Übung mit Sitz und eine ohne Sitz. Jede Einheit ist so sortiert, dass der Sitz höchstens einmal umgebaut wird (in den Tabellen als „Umbau“ markiert).
 
 **Knie-Ampel:** Schmerz bis 3 von 10 während der Übung ist in Ordnung, wenn er am nächsten Morgen nicht schlechter ist. Bei 4 oder mehr: Beinvolumen halbieren (nur die A- und B-Übung), Split Squats durch Step-Ups auf niedrige Stufe ersetzen, kein Seilspringen.
 
-**Bio Force Angaben:** Lasten immer in kg pro Seite, beide Kabel. „Unten“ = Zugpunkt an den unteren Streben neben dem Sitz, „Schulter“ = Zugpunkt auf Schulterhöhe, „Oben“ = Zug von oben (Latstange oder Griffe).
+**Bio Force Angaben:** Die Skala an den Schwingarmen zeigt amerikanische Pfund (lb) pro Seite, von 5 bis 125 in 5er-Rasten (125 lb ≈ 56,7 kg, Umrechnungstabelle in der Finnlo-Anleitung S. 25). Notiert wird der Skalenwert in lb pro Seite, beide Kabel gleich eingestellt. Die App rechnet intern in kg um (1 lb = 0,4536 kg). „Unten“ = Zugpunkt an den unteren Streben neben dem Sitz, „Schulter“ = Zugpunkt auf Schulterhöhe, „Oben“ = Zug von oben (Latstange oder Griffe).
 
 **Walk-Run:** Wechsel aus Laufen und Gehen in festen Intervallen. Einstieg für Sehnen und Gelenke, obwohl das Herz-Kreislauf-System mehr könnte. Woche 1–2: 3 min laufen, 1 min gehen. Ab Woche 3 durchgehend laufen.
 
@@ -33,7 +33,7 @@ Kurzübersicht:
 | Übung | Hauptmuskeln | Bio Force / Gerät |
 |---|---|---|
 | Kabel-Schrägdrücken (Nr. 34) | obere Brust, vordere Schulter, Trizeps | sitzend, Griffe, Seile über den Armen |
-| Fliegende nach oben (Nr. 38) | obere Brust | sitzend, Griffe, Seile über den Armen |
+| Incline Cable Fly (Nr. 38, „Fliegende auf der Schrägbank“) | obere Brust | sitzend, Griffe, Seile über den Armen |
 | Schulterdrücken (Nr. 60) | Schultern, Trizeps | sitzend, Griffe, Zug von unten |
 | Seitheben (Nr. 66/67) | seitliche Schulter | stehend, Rücken zum Gerät, untere Haken |
 | Trizeps über Kopf (Nr. 92) | Trizeps | sitzend, Griffe von hinten |
@@ -71,11 +71,12 @@ Volumen bewusst reduziert. Die Einstufung ist eingebaut: bei Bio-Force-Übungen 
 | Warm-up 8 min | Seil locker 2 min, Schulterkreisen, Katzenbuckel, 10 Scapula-Push-Ups, 2 leichte Sätze Kabel-Schrägdrücken × 10 | | | |
 | A | **Push-Ups Max-Test** (Goliaz-Standard) | 1 × max | 3 min | Benchmark. Zahl notieren. |
 | B | **Kabel-Schrägdrücken** Einstufung | 3 × 10 aufsteigend | 2–3 min | 10RM notieren. |
-| C1 | Fliegende tief → hoch | 3 × 12 | 30 s | 1–2 RIR, leicht starten |
-| C2 | Face Pulls | 3 × 15 | 90 s | |
-| D1 | **Dips Max-Test**, danach | 1 × max, dann 2 × 8 | 30 s | Benchmark |
-| D2 | Seitheben am Kabel | 3 × 12 je Seite | 90 s | |
-| E | Trizeps über Kopf | 2 × 12 | 60 s | |
+| C | Incline Cable Fly | 3 × 12 | 75 s | 1–2 RIR, leicht starten |
+| D | **Dips Max-Test**, danach | 1 × max, dann 2 × 8 | 2 min | Benchmark |
+| E | Trizeps über Kopf | 2 × 12 | 60 s | 1–2 RIR |
+| Umbau | **Sitz abbauen** | | | ab hier alles ohne Sitz |
+| F | Face Pulls | 3 × 15 | 45 s | 1–2 RIR |
+| G | Seitheben am Kabel | 3 × 12 je Seite | 45 s | 1–2 RIR |
 | Core | **Elbow Plank Max-Test** | 1 × max | | Benchmark |
 | Core | Pallof Press | 2 × 10 je Seite | 45 s | |
 | Cool-down 3 min | Brust- und Schulterdehnung | | | |
@@ -88,10 +89,11 @@ Volumen bewusst reduziert. Die Einstufung ist eingebaut: bei Bio-Force-Übungen 
 | A | **Kabel-Kniebeuge** Einstufung | 3 × 10 aufsteigend | 2–3 min | Tempo 3-1-1, 10RM notieren |
 | B | **Romanian Deadlift** Einstufung | 3 × 10 aufsteigend | 2–3 min | 10RM notieren |
 | C1 | Split Squat | 3 × 8 je Seite | 30 s | Körpergewicht |
-| C2 | Beinbeuger | 3 × 10 | 90 s | Tempo 3-1-3, Last so, dass 10 mit 2 RIR gehen |
-| D1 | Beinstrecker | 3 × 12 | 30 s | Tempo 3-1-3, leicht |
-| D2 | Hüftabduktion | 2 × 15 je Seite | 60 s | |
-| E | Wadenheben + Superman | 2 × 15 / 2 × 12 | 45 s | |
+| C2 | Hüftabduktion | 2 × 15 je Seite | 75 s | |
+| D | Wadenheben + Superman | 2 × 15 / 2 × 12 | 45 s | |
+| Umbau | **Sitz und Beinmodul anbringen** | | | |
+| E1 | Beinbeuger | 3 × 10 je Seite | 30 s | Tempo 3-1-3, Last so, dass 10 mit 2 RIR gehen |
+| E2 | Beinstrecker | 3 × 12 | 75 s | Tempo 3-1-3, leicht |
 | Core | Dead Bug | 2 × 10 je Seite | 45 s | |
 | Cool-down 3 min | Quadrizeps, hintere Oberschenkel, Hüftbeuger dehnen | | | |
 
@@ -102,11 +104,12 @@ Volumen bewusst reduziert. Die Einstufung ist eingebaut: bei Bio-Force-Übungen 
 | Warm-up 8 min | Seil 2 min, Schulterblattkreisen, Scapula Pull-Ups 2 × 8, Latzug leicht 2 × 10 | | | |
 | A | **Pull-Ups Max-Test**, danach | 1 × max, dann 2 × 60 % vom Max | 3 min | Benchmark. Beispiel: Max 12 → 2 × 7 |
 | B | **Rudern sitzend** Einstufung | 3 × 10 aufsteigend | 2–3 min | 10RM notieren |
-| C1 | Latzug | 3 × 10–12 | 30 s | 1–2 RIR, Last notieren |
-| C2 | Reverse Flys | 3 × 15 | 90 s | |
+| C | Latzug | 3 × 10–12 | 75 s | 1–2 RIR, Last notieren |
 | D1 | Einarmiges Rudern | 3 × 10 je Seite | 30 s | |
 | D2 | Australian Pull-Ups | 3 × 10–12 | 90 s | Ersatz: Rudern mit Griffen |
-| E | Bizeps-Curls am Kabel + Hammer-Curls | 2 × 12 / 2 × 12 | 45 s | |
+| Umbau | **Sitz abbauen** | | | |
+| E | Reverse Flys | 3 × 15 | 45 s | 1–2 RIR |
+| F | Bizeps-Curls am Kabel + Hammer-Curls (Kurzhanteln) | 2 × 12 / 2 × 12 | 45 s | |
 | Core | Hanging Knee Raises + Side Plank | 3 × 10 / 2 × 30 s je Seite | 45 s | |
 | Cool-down 3 min | Lat- und Bizepsdehnung | | | |
 
@@ -128,12 +131,13 @@ Volumen bewusst reduziert. Die Einstufung ist eingebaut: bei Bio-Force-Übungen 
 | Warm-up 8 min | Seil 2 min, Ganzkörper-Mobility, 10 Push-Ups leicht, 10 Kniebeugen | | | |
 | A1 | Defizit-Push-Ups | 3 × 10–15 | 30 s | 1–2 RIR |
 | A2 | Latzug enger Griff (Griffe) | 3 × 10–12 | 90 s | |
-| B1 | Kabel-Schrägdrücken | 3 × 10 | 30 s | Last = 10RM vom Montag minus 2,5 kg |
+| B1 | Kabel-Schrägdrücken | 3 × 10 | 30 s | Last = 10RM vom Montag minus 5 lb (eine Raste) |
 | B2 | Einarmiges Rudern | 3 × 10 je Seite | 90 s | |
-| C1 | Step-Ups mit Kettlebell 8 kg | 3 × 10 je Seite | 30 s | Kniehohe oder niedrigere Stufe |
-| C2 | Cable Pull-Through | 3 × 12 | 90 s | |
-| D1 | Schulterdrücken am Kabel | 3 × 10 | 30 s | |
-| D2 | Seitheben am Kabel | 2 × 15 je Seite | 60 s | |
+| C1 | Schulterdrücken am Kabel | 3 × 10 | 30 s | 1–2 RIR |
+| C2 | Step-Ups mit Kettlebell 8 kg | 3 × 10 je Seite | 90 s | Kniehohe oder niedrigere Stufe |
+| Umbau | **Sitz abbauen** | | | |
+| D1 | Cable Pull-Through | 3 × 12 | 30 s | 1–2 RIR |
+| D2 | Seitheben am Kabel | 2 × 15 je Seite | 60 s | gleicher Zugpunkt wie D1 (unterer Haken) |
 | Finisher | **AMRAP 6 min:** 5 Burpees, 10 Push-Ups, 15 Kniebeugen | 6 min | Runden notieren = Benchmark |
 | Cool-down 3 min | | | | |
 
@@ -144,11 +148,11 @@ Nachholen, falls eine Einheit ausgefallen ist. Sonst optional 30 min Walk-Run Zo
 
 ## 3. Woche 2 (28.09.–02.10.) – Volles Volumen
 
-Gleiche Übungen wie Woche 1, aber ohne Tests. Startlasten an der Bio Force = 10RM aus Woche 1 minus 2,5 kg pro Seite, damit 3 Sätze mit 1–2 RIR möglich sind. Finisher an Montag und Mittwoch kommen dazu.
+Gleiche Übungen wie Woche 1, aber ohne Tests. Startlasten an der Bio Force = 10RM aus Woche 1 minus 5 lb pro Seite (eine Raste), damit 3 Sätze mit 1–2 RIR möglich sind. Finisher an Montag und Mittwoch kommen dazu.
 
 | Tag | Änderungen gegenüber Woche 1 |
 |---|---|
-| Mo Push | A: Kabel-Schrägdrücken 4 × 8–10 (statt Test). Push-Ups 3 × 12–15 als B-Übung mit 1–2 RIR. Dips 3 × 8–10. Rest gleich. **Finisher 6 min AMRAP:** 6 Burpees, 8 Dips oder 12 Push-Ups, 20 Mountain Climbers. |
+| Mo Push | A: Kabel-Schrägdrücken 4 × 8–10 (statt Test). Push-Ups 3 × 12–15 als B-Übung mit 1–2 RIR. Dips 3 × 8–10 als eigener Block D (90 s Pause). Reihenfolge wie Woche 1: erst alle Übungen mit Sitz, dann Umbau, dann Face Pulls und Seitheben. **Finisher 6 min AMRAP:** 6 Burpees, 8 Dips oder 12 Push-Ups, 20 Mountain Climbers. |
 | Di Beine | A: Kabel-Kniebeuge 4 × 8–10. B: RDL 4 × 8–10. Split Squats 3 × 10 je Seite. Rest gleich. |
 | Mi Pull | A: Pull-Ups 4 × 60–70 % vom Max (z. B. 4 × 8), 2 min Pause. B: Rudern 4 × 8–10. Rest gleich. **Finisher 6 min AMRAP:** 5 Pull-Ups (oder Australian), 10 Push-Ups, 15 Squats. |
 | Do Cardio | Warm-up 8 min. **12-min-Cooper-Test:** so weit wie möglich in 12 min laufen (Distanz und Durchschnittsherzfrequenz notieren). Danach 8 min gehen. Dann 12 min Walk-Run Zone 2. Indoor-Alternative für den Test: 12 min Burpees + Seil im Wechsel (1 min/1 min), Gesamtzahl Burpees notieren. |
@@ -163,7 +167,7 @@ Wochenvolumen (Arbeitssätze): Brust 13, Rücken 14, Schultern 11, Quadrizeps 10
 Gleiche Struktur wie Woche 2, plus:
 
 - Jede A- und B-Übung bekommt einen 5. Satz (Bio Force) oder Push-Ups/Pull-Ups einen 4. Satz.
-- Lasten nach Doppelter Progression (wenn Woche 2 die obere Wiederholungszahl erreicht wurde: +1,25 bis 2,5 kg pro Seite).
+- Lasten nach Doppelter Progression (wenn Woche 2 die obere Wiederholungszahl erreicht wurde: +5 lb pro Seite, eine Raste).
 - Do Cardio: Intervalle **8 × 30 s Burpees zügig / 60 s gehen**, danach 20 min Zone 2 durchgehend laufen (erstmals ohne Gehpausen, falls die Knie in Woche 1–2 ruhig waren). Indoor-Alternative: 20 min Seil 45 s / 15 s.
 - Finisher Mo/Mi/Fr auf 8 min AMRAP verlängert.
 - Samstag optional: 35 min Zone 2.
@@ -205,7 +209,7 @@ Freitag ist der härteste Tag. Wer unter der Woche mehr schafft als den Tagesant
 
 Für jede Einheit reicht eine Zeile pro Übung. Die App übernimmt die Werte später mit Datum.
 
-| Datum | Übung | Satz 1 | Satz 2 | Satz 3 | Satz 4 | Last (kg/Seite) | RIR | Knie (0–10) | Notiz |
+| Datum | Übung | Satz 1 | Satz 2 | Satz 3 | Satz 4 | Last (lb/Seite) | RIR | Knie (0–10) | Notiz |
 |---|---|---|---|---|---|---|---|---|---|
 | 21.09. | Push-Ups Max | | | | | – | | | |
 | 21.09. | Kabel-Schrägdrücken 10RM | | | | | | | | |
