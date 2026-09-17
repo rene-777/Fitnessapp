@@ -58,7 +58,7 @@ const w1: Week = {
         { type: 'test', label: 'A', exerciseId: 'pushup', benchmarkKey: 'pushupsMax', unit: 'reps', description: 'Max-Test: so viele saubere Push-Ups am Stück wie möglich (Goliaz-Standard).', restSec: 180 },
         straight('B', [p('schraegdruecken', 3, { repsMin: 10, repsMax: 10, ramp: true, loadHint: '10RM finden: leicht → schwerer → 10RM' })], 150),
         straight('C', [reps('fliegende-oben', 3, 12, 12, { rir: '1–2', loadHint: 'leicht starten' })], 75),
-        { type: 'test', label: 'D', exerciseId: 'dips', benchmarkKey: 'dipsMax', unit: 'reps', description: 'Max-Test Dips, strikt.', restSec: 120, followUp: reps('dips', 2, 8, 8) },
+        { type: 'test', label: 'D', exerciseId: 'dips', benchmarkKey: 'dipsMax', unit: 'reps', description: 'Max-Test Dips, strikt.', restSec: 120, followUp: reps('dips', 2, 8, 8, { loadHint: 'Arbeitssätze nach dem Test; wenn 8 nicht sauber gehen: ca. 60 % vom Max' }) },
         straight('E', [reps('trizeps-ueberkopf', 2, 12, 12, { rir: '1–2' })], 60),
         SEAT_OFF,
         straight('F', [reps('face-pull', 3, 15, 15, { rir: '1–2' })], 45),

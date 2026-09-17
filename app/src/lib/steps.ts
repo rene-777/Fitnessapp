@@ -62,8 +62,11 @@ export function buildSteps(session: Session): Step[] {
           p: { exerciseId: seg.exerciseId, sets: 1 }, restSec: seg.restSec, isTest: true, benchmarkKey: seg.benchmarkKey, testUnit: seg.unit, description: seg.description,
         })
         if (seg.followUp) {
+          // Eigenes Label: sonst teilen sich Test und 1. Folgesatz (gleiche Übung, Satz 1) denselben Speicherplatz
+          // und der Folgesatz überschreibt den Test-Satz
+          const label = `${seg.label} danach`
           for (let i = 1; i <= seg.followUp.sets; i++) {
-            steps.push({ kind: 'set', label: seg.label, exerciseId: seg.followUp.exerciseId, setIndex: i, totalSets: seg.followUp.sets, p: seg.followUp, restSec: 120 })
+            steps.push({ kind: 'set', label, exerciseId: seg.followUp.exerciseId, setIndex: i, totalSets: seg.followUp.sets, p: seg.followUp, restSec: 120 })
           }
         }
         break

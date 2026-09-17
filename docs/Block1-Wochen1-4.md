@@ -72,7 +72,7 @@ Volumen bewusst reduziert. Die Einstufung ist eingebaut: bei Bio-Force-Übungen 
 | A | **Push-Ups Max-Test** (Goliaz-Standard) | 1 × max | 3 min | Benchmark. Zahl notieren. |
 | B | **Kabel-Schrägdrücken** Einstufung | 3 × 10 aufsteigend | 2–3 min | 10RM notieren. |
 | C | Incline Cable Fly | 3 × 12 | 75 s | 1–2 RIR, leicht starten |
-| D | **Dips Max-Test**, danach | 1 × max, dann 2 × 8 | 2 min | Benchmark |
+| D | **Dips Max-Test**, danach | 1 × max, dann 2 × 8 (wenn 8 nicht sauber gehen: ca. 60 % vom Max) | 2 min | Benchmark |
 | E | Trizeps über Kopf | 2 × 12 | 60 s | 1–2 RIR |
 | Umbau | **Sitz abbauen** | | | ab hier alles ohne Sitz |
 | F | Face Pulls | 3 × 15 | 45 s | 1–2 RIR |
