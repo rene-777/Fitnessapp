@@ -20,6 +20,8 @@ function spaFallback(): Plugin {
 
 export default defineConfig({
   base,
+  // Build-Kennung für die Versionsanzeige unter „Mehr“ (zeigt, welcher Stand auf dem Handy läuft)
+  define: { __BUILD__: JSON.stringify(new Date().toISOString().slice(0, 16).replace('T', ' ') + ' UTC') },
   plugins: [
     react(),
     tailwindcss(),

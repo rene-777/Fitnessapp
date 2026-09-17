@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useLiveQuery } from 'dexie-react-hooks'
+import { ErrorCard, errorText } from '../components/ErrorBoundary'
 import ExerciseCard from '../components/ExerciseCard'
 import NumberInput from '../components/NumberInput'
 import Timer, { Stopwatch } from '../components/Timer'
@@ -32,20 +33,27 @@ export default function Workout() {
   const [restSec, setRestSec] = useState(0)
   const [askReadiness, setAskReadiness] = useState(false)
   const [elapsed, setElapsed] = useState(0)
+  const [loadError, setLoadError] = useState<string>()
+  const [attempt, setAttempt] = useState(0)
 
   useEffect(() => {
     if (!profileId || !found) return
     let cancelled = false
+    setLoadError(undefined)
+    // Kommt die Datenbank nicht zurück, nach 8 s eine Meldung zeigen statt endlos „Lade …“
+    const slow = setTimeout(() => { if (!cancelled) setLoadError('Zeitüberschreitung: Die Datenbank antwortet nicht (getOrCreateWorkout).') }, 8000)
     getOrCreateWorkout(profileId, date, found.week.number, found.session).then((w) => {
+      clearTimeout(slow)
       if (cancelled) return
+      setLoadError(undefined)
       setWorkout(w)
       const start = w.stepIndex ?? 0
       if (w.status === 'fertig') { setIdx(0); setPhase('work') }
       else { setIdx(Math.min(start, steps.length - 1)); setPhase('work') }
       setAskReadiness(w.status !== 'fertig' && !w.readiness)
-    })
-    return () => { cancelled = true }
-  }, [profileId, found, date, steps.length])
+    }).catch((e) => { clearTimeout(slow); if (!cancelled) setLoadError(errorText(e)) })
+    return () => { cancelled = true; clearTimeout(slow) }
+  }, [profileId, found, date, steps.length, attempt])
 
   useEffect(() => {
     keepAwake(true)
@@ -83,6 +91,7 @@ export default function Workout() {
   }
 
   if (!profile || !found) return <div className="text-muted">Einheit nicht gefunden.</div>
+  if (!workout && loadError) return <ErrorCard title="Einheit lässt sich nicht starten" error={`${loadError}\n${sessionKey} · ${date}`} onRetry={() => setAttempt((a) => a + 1)} />
   if (!workout) return <div className="text-muted">Lade …</div>
   const { session } = found
   const step = steps[idx]

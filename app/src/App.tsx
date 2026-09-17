@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom'
 import BottomNav from './components/BottomNav'
+import ErrorBoundary, { ErrorCard, errorText } from './components/ErrorBoundary'
 import { ensureDefaults } from './hooks/useProfile'
 import Today from './pages/Today'
 import WeekPage from './pages/WeekPage'
@@ -43,13 +44,17 @@ function Shell() {
 
 export default function App() {
   const [ready, setReady] = useState(false)
+  const [error, setError] = useState<string>()
   useEffect(() => {
-    ensureDefaults().then(() => setReady(true))
+    ensureDefaults().then(() => setReady(true)).catch((e) => setError(errorText(e)))
   }, [])
+  if (error) return <ErrorCard title="Datenbank lässt sich nicht öffnen" error={error} />
   if (!ready) return <div className="p-6 text-muted">Lade …</div>
   return (
-    <BrowserRouter basename={import.meta.env.BASE_URL}>
-      <Shell />
-    </BrowserRouter>
+    <ErrorBoundary>
+      <BrowserRouter basename={import.meta.env.BASE_URL}>
+        <Shell />
+      </BrowserRouter>
+    </ErrorBoundary>
   )
 }

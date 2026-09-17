@@ -15,7 +15,7 @@ export default function More() {
           <div className="text-sm text-muted">{it.sub}</div>
         </Link>
       ))}
-      <div className="text-xs text-muted px-1">Transformation 16 · Version 0.1 · Daten bleiben auf diesem Gerät. Sicherung über Einstellungen → Export.</div>
+      <div className="text-xs text-muted px-1">Transformation 16 · Version {__BUILD__} · Daten bleiben auf diesem Gerät. Sicherung über Einstellungen → Export.</div>
     </div>
   )
 }
