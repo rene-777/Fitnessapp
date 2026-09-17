@@ -6,17 +6,9 @@
 - **Block 1 komplett:** `Block1-Wochen1-4.md`, Start Montag 21.09.2026, Woche 1 mit Einstufung (10RM an der Bio Force, Max-Tests Push-Ups, Pull-Ups, Dips, Plank, 5-min-Burpees, Cooper-Test in Woche 2), Woche 4 Kraftausdauer-Challenge mit Formeln.
 - **Übungsbibliothek:** `Uebungsbibliothek.md`, nach der offiziellen Finnlo-Anleitung (`BioForce-Bedienungsanleitung.pdf`, 110 Übungen). Fotos aller 110 Übungen extrahiert nach `app/public/img/bioforce/` (Start, Ende, Rollenposition, Index in `index.json`).
 - **App Phase 1:** läuft, Build sauber, im Browser getestet. Läuft beim User bereits über WLAN (`npm run preview -- --host`) auf dem Android-Handy. PowerShell-Skriptsperre wurde vom User mit `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` gelöst.
-- **Hosting (17.09.2026):** App ist live unter **https://rene-777.github.io/Fitnessapp/** (GitHub Pages, Repo `rene-777/Fitnessapp`, öffentlich). Basispfad `/Fitnessapp/` in Vite, Router, Manifest und Bildpfaden; `404.html` als SPA-Fallback; Workflow `.github/workflows/deploy.yml` deployt bei jedem Push auf `main`. GitHub CLI (`gh`) ist installiert und als `rene-777` angemeldet (`C:\Program Files\GitHub CLI\gh.exe`). Live geprüft: Unterpfade, Manifest, Icons, Übungsfotos, Service Worker.
+- **Hosting (17.09.2026):** App ist live unter **https://rene-777.github.io/Fitnessapp/** (GitHub Pages, Repo `rene-777/Fitnessapp`, öffentlich). Basispfad `/Fitnessapp/` in Vite, Router, Manifest und Bildpfaden; `404.html` als SPA-Fallback; Workflow `.github/workflows/deploy.yml` deployt bei jedem Push auf `main`. GitHub CLI (`gh`) ist installiert und als `rene-777` angemeldet (`C:\Program Files\GitHub CLI\gh.exe`). Live geprüft: Unterpfade, Manifest, Icons, Übungsfotos, Service Worker. Der User hat die App am 17.09.2026 auf dem Android-Handy installiert, alles funktioniert. Lokale Entwicklung läuft unter `http://localhost:5173/Fitnessapp/`.
 
-## Unmittelbar nächster Schritt: App am Handy installieren (User)
-
-1. Falls in der WLAN-Version schon Daten eingetragen sind: dort Einstellungen → Exportieren (die neue Adresse hat eine eigene, leere Datenbank).
-2. Am Android-Handy in Chrome `https://rene-777.github.io/Fitnessapp/` öffnen → Menü „App installieren“.
-3. Ggf. in der installierten App Einstellungen → Importieren. Die alte Startbildschirm-Verknüpfung der WLAN-Version löschen.
-
-Lokale Entwicklung läuft jetzt unter `http://localhost:5173/Fitnessapp/`.
-
-## Danach: Phase 2 und 3
+## Nächster Schritt: Phase 2 und 3
 
 - **Auswertungs-Tab:** Volumen pro Muskelgruppe und Woche (primär 1, sekundär 0,5 Sätze; `MUSCLE_GROUPS` in `src/data/muscles.ts`), Gesamtwiederholungen pro Zeitraum (Burpees, Pull-Ups, Push-Ups), Bestleistungen und Benchmark-Verlauf (`BENCHMARK_LABELS` in `src/lib/workouts.ts`), Trainingsfrequenz, Herzfrequenz-Verlauf aus Cardio-Sätzen (`avgHr`).
 - **Blöcke 2–4 als Daten** in `src/data/plan.ts`, nach Auswertung von Block 1 (Einstufungswerte). Konzept in `Trainingskonzept.md` Abschnitt 3 und Ausblick in `Block1-Wochen1-4.md` Abschnitt 7.
