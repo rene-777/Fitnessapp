@@ -15,6 +15,7 @@ import ExerciseDetail from './pages/ExerciseDetail'
 import Body from './pages/Body'
 import SettingsPage from './pages/SettingsPage'
 import More from './pages/More'
+import Stats from './pages/Stats'
 
 function Shell() {
   const loc = useLocation()
@@ -33,6 +34,7 @@ function Shell() {
           <Route path="/log/:date/:sessionKey" element={<LogPast />} />
           <Route path="/exercises" element={<Exercises />} />
           <Route path="/exercises/:id" element={<ExerciseDetail />} />
+          <Route path="/stats" element={<Stats />} />
           <Route path="/body" element={<Body />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/more" element={<More />} />

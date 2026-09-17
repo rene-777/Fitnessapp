@@ -25,6 +25,7 @@ interface Row {
   benchmarkUnit?: string
   segmentLabel: string
   bioforce?: boolean // Last wird als Skalenwert in lb eingegeben
+  amrapExercises?: { exerciseId: string; reps: number }[] // AMRAP mit mehreren Übungen: Runden → Wiederholungssummen
 }
 
 export default function LogPast() {
@@ -51,7 +52,7 @@ export default function LogPast() {
         out.push({ key: `${s.label}-${s.exerciseId}-${s.setIndex}`, exerciseId: s.exerciseId, label: s.label, setIndex: s.setIndex, title: `${s.label} ${e.name}`, sub: s.isTest ? 'Test' : `Satz ${s.setIndex}/${s.totalSets} · ${prescriptionText(s.p)}`, fields, isTest: s.isTest, benchmarkKey: s.benchmarkKey, benchmarkUnit: s.testUnit, segmentLabel: s.label, bioforce: e.loadType === 'bioforce' })
       } else if (s.kind === 'amrap') {
         const single = s.seg.exercises.length === 1 && s.seg.exercises[0].reps === 1
-        out.push({ key: `amrap-${s.seg.label}`, exerciseId: s.seg.exercises[0].exerciseId, label: s.seg.label, setIndex: 1, title: `AMRAP ${s.seg.minutes} min`, sub: s.seg.exercises.map((x) => `${x.reps > 1 ? x.reps + ' ' : ''}${ex(x.exerciseId).name}`).join(', '), fields: [single ? 'reps' : 'rounds'], isTest: !!s.seg.benchmarkKey, benchmarkKey: s.seg.benchmarkKey, benchmarkUnit: single ? 'reps' : 'rounds', segmentLabel: `amrap-${s.seg.label}` })
+        out.push({ key: `amrap-${s.seg.label}`, exerciseId: s.seg.exercises[0].exerciseId, label: s.seg.label, setIndex: 1, title: `AMRAP ${s.seg.minutes} min`, sub: s.seg.exercises.map((x) => `${x.reps > 1 ? x.reps + ' ' : ''}${ex(x.exerciseId).name}`).join(', '), fields: [single ? 'reps' : 'rounds'], isTest: !!s.seg.benchmarkKey, benchmarkKey: s.seg.benchmarkKey, benchmarkUnit: single ? 'reps' : 'rounds', segmentLabel: `amrap-${s.seg.label}`, amrapExercises: single ? undefined : s.seg.exercises })
       } else if (s.kind === 'interval') {
         out.push({ key: `interval-${s.seg.label}`, exerciseId: s.seg.exerciseId, label: s.seg.label, setIndex: 1, title: `Intervalle ${ex(s.seg.exerciseId).name}`, sub: `${s.seg.rounds} × ${s.seg.workSec}/${s.seg.restSec} s`, fields: ['rounds', 'reps'], segmentLabel: `interval-${s.seg.label}` })
       } else if (s.kind === 'cardio') {
@@ -80,6 +81,9 @@ export default function LogPast() {
       const reps = v.reps === '' || v.reps === undefined ? undefined : Number(v.reps)
       const seconds = v.seconds !== undefined && v.seconds !== '' ? Number(v.seconds) : v.minutes !== undefined && v.minutes !== '' ? Number(v.minutes) * 60 : undefined
       await saveSet(w, { exerciseId: r.exerciseId, segmentLabel: r.segmentLabel, setIndex: r.setIndex, reps, seconds, weightKg: v.weight === '' || v.weight === undefined ? undefined : r.bioforce ? lbToKg(Number(v.weight)) : Number(v.weight), rir: v.rir === '' || v.rir === undefined ? undefined : Number(v.rir), rounds: v.rounds === '' || v.rounds === undefined ? undefined : Number(v.rounds), distanceM: v.distance === '' || v.distance === undefined ? undefined : Number(v.distance), isTest: r.isTest })
+      if (r.amrapExercises && v.rounds !== '' && v.rounds !== undefined) {
+        for (const x of r.amrapExercises) await saveSet(w, { exerciseId: x.exerciseId, segmentLabel: `${r.segmentLabel}-sum`, setIndex: 1, reps: x.reps * Number(v.rounds) })
+      }
       if (r.benchmarkKey) {
         const bench = r.benchmarkUnit === 'seconds' ? seconds : r.benchmarkUnit === 'm' ? (v.distance === '' ? undefined : Number(v.distance)) : r.benchmarkUnit === 'rounds' ? (v.rounds === '' ? undefined : Number(v.rounds)) : reps
         if (bench !== undefined && bench > 0) await saveBenchmark(w, r.benchmarkKey, bench, r.benchmarkUnit ?? 'reps')

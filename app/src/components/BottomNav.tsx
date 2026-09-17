@@ -5,13 +5,14 @@ const items = [
   { to: '/week', label: 'Woche', icon: '▦' },
   { to: '/plan', label: 'Plan', icon: '▤' },
   { to: '/exercises', label: 'Übungen', icon: '≡' },
+  { to: '/stats', label: 'Analyse', icon: '◔' },
   { to: '/more', label: 'Mehr', icon: '⋯' },
 ]
 
 export default function BottomNav() {
   return (
     <nav className="fixed bottom-0 inset-x-0 bg-card border-t border-line pb-[env(safe-area-inset-bottom)] z-20">
-      <div className="max-w-xl mx-auto grid grid-cols-5">
+      <div className="max-w-xl mx-auto grid grid-cols-6">
         {items.map((it) => (
           <NavLink
             key={it.to}
