@@ -5,10 +5,10 @@ Stand: 17.09.2026 · Phase 1 fertig
 ## Was die App kann (Phase 1)
 
 - **Heute:** zeigt die heutige Einheit mit Fokus und Dauer, Start-Button, Vorschau. Samstag = Puffer mit Liste der offenen Einheiten zum Nachholen. Vor dem Planstart Countdown.
-- **Geführtes Training:** Kurz-Check (Schlaf, Muskelkater, Knie, Motivation), dann Schritt für Schritt: Warm-up mit Timer, Sätze mit Eingabe von Wiederholungen, Bio-Force-Skalenwert (lb pro Seite, kg wird daneben angezeigt) und RIR, Vorschlag aus der letzten Ausführung, Pausen-Countdown mit Signaltönen, Supersätze im Wechsel, Tests mit Benchmark-Speicherung, AMRAP mit Countdown und Zähler, Intervalle mit Arbeits- und Pausenphasen, Cardio mit Countdown und Eingabe von Distanz und Puls, Challenge-Block mit Tageszielen und Wochenstand. Fortschritt wird nach jedem Satz gespeichert, Abbrechen und später Fortsetzen ist möglich. Bildschirm bleibt im Training an (Wake Lock, nur über HTTPS).
+- **Geführtes Training:** Kurz-Check (Schlaf, Muskelkater, Knie, Motivation), dann Schritt für Schritt: Warm-up mit Timer, Sätze mit Eingabe von Wiederholungen, Bio-Force-Skalenwert (lb pro Seite, kg wird daneben angezeigt) und RIR, Vorschlag aus der letzten Ausführung, Pausen-Countdown mit Signaltönen, Supersätze im Wechsel, Umbau-Hinweis als eigener Schritt (Sitz ab- oder anbauen, höchstens einmal pro Einheit), Tests mit Benchmark-Speicherung, AMRAP mit Countdown und Zähler, Intervalle mit Arbeits- und Pausenphasen, Cardio mit Countdown und Eingabe von Distanz und Puls, Challenge-Block mit Tageszielen und Wochenstand. Fortschritt wird nach jedem Satz gespeichert, Abbrechen und später Fortsetzen ist möglich. Bildschirm bleibt im Training an (Wake Lock, nur über HTTPS).
 - **Woche:** alle 7 Tage mit Status (geplant, begonnen, erledigt, offen), Blättern durch alle 16 Wochen.
 - **Plan:** 4 Blöcke, 16 Wochen, Challenge-Wochenziele aus den Tests berechnet.
-- **Übungen:** Bibliothek mit Suche, Muskelgruppen (primär orange, sekundär grau), Herstellerfotos der Bio Force (Start, Ende, Rollenposition), Geräteeinstellung, Ausführung, Hinweise, Kniehinweise. Pro Übung Bestwerte und Verlauf.
+- **Übungen:** Bibliothek mit Suche, Muskelgruppen (primär orange, sekundär grau), Herstellerfotos der Bio Force (Start, Ende, Rollenposition; Tipp auf ein Foto vergrößert es), Chip „Sitz angebracht“ oder „Sitz entfernt“, Geräteeinstellung, Ausführung, Hinweise, Kniehinweise. Pro Übung Bestwerte und Verlauf.
 - **Nachtragen:** Einheit mit Datum und allen Sätzen im Nachhinein eintragen (auch Tests, dann werden die Benchmarks gesetzt).
 - **Körper:** Gewicht und Taille mit Verlaufskurve, Kalorienbedarf nach Mifflin-St Jeor, Proteinziel.
 - **Einstellungen:** Profil (Name, Geburtsjahr, Größe, Planstart, HF max), Signaltöne, Sprachansagen, mehrere Profile, Export und Import als JSON, alles löschen.
@@ -51,6 +51,12 @@ Vor dem Umzug von Weg A auf Weg B: in der WLAN-Version Einstellungen → Exporti
 
 Update veröffentlichen: Änderungen committen und `git push`. Der Workflow läuft ca. 1 Minute; Status mit `gh run list` oder im Repo unter „Actions“.
 
+## Wenn etwas hängt
+
+- Bleibt der Trainingsstart bei „Lade …“ stehen, erscheint nach 8 Sekunden eine Fehlermeldung mit „Erneut versuchen“. Hilft das nicht: App komplett schließen (aus der Liste der letzten Apps wischen) und neu öffnen. Die Daten bleiben erhalten.
+- Welche Version läuft, steht unter „Mehr“ ganz unten (Build-Zeit in UTC).
+- Dreht sich der Bildschirm trotz Hochformat-Sperre: App einmal deinstallieren und neu installieren (vorher exportieren).
+
 ## Entwicklung
 
 ```bash
@@ -63,6 +69,8 @@ Struktur:
 - `src/data/plan.ts` Plan als Daten: Blöcke, Wochen, Einheiten, Abschnitte
 - `src/lib/steps.ts` verwandelt eine Einheit in die Schrittfolge des geführten Modus
 - `src/lib/planEngine.ts` Tageslogik, Challenge-Ziele, Progressionsvorschlag
+- `src/lib/bioforce.ts` Umrechnung Bio-Force-Skala (lb pro Seite) und kg
+- `src/components/UpdateBanner.tsx` PWA-Update auf Knopfdruck, `src/components/ErrorBoundary.tsx` Fehleranzeige
 - `src/db/` Dexie-Datenbank (Profile, Workouts, Sätze, Körperwerte, Benchmarks)
 - `src/pages/` Bildschirme
-- `public/img/bioforce/` 110 Herstellerübungen als Fotos (aus der Bedienungsanleitung, `docs/BioForce-Bedienungsanleitung.pdf`)
+- `public/img/bioforce/` 110 Herstellerübungen als Fotos (WebP, 457 × 644 px, aus der Anleitung der Bio Force Extreme; Nummerierung nach `docs/BioForce-Bedienungsanleitung.pdf`)

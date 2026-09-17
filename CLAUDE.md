@@ -23,6 +23,7 @@ Vite + React 19 + TypeScript, Tailwind v4 (Theme-Tokens in `src/index.css`), Dex
 - `src/lib/steps.ts` – Einheit → Schrittfolge für den geführten Modus.
 - `src/lib/planEngine.ts` – Tageslogik, Challenge-Ziele, Progressionsvorschlag.
 - `src/pages/Workout.tsx` – geführter Modus (größte Datei).
+- `src/lib/bioforce.ts` – Skala lb ↔ kg. `src/components/UpdateBanner.tsx` – PWA-Update nur auf Knopfdruck (`registerType: 'prompt'`, nie zurück auf `autoUpdate`: ein automatischer Reload hat am 17.09.2026 die Tabelle `workouts` blockiert). `src/components/ErrorBoundary.tsx` – Fehleranzeige; Build-Kennung `__BUILD__` unter „Mehr“.
 
 Befehle im Ordner `app`: `npm run dev`, `npm run build` (führt `tsc -b` aus), `npm run preview -- --host` (LAN-Test). Dev-Server für den Browser-Pane: `.claude/launch.json` → „app“.
 
@@ -31,7 +32,7 @@ Befehle im Ordner `app`: `npm run dev`, `npm run build` (führt `tsc -b` aus), `
 - TypeScript strikt (`verbatimModuleSyntax`, `erasableSyntaxOnly`, keine unbenutzten Variablen). Vor Abschluss immer `npx tsc -b` im Ordner `app`.
 - `findSession()` und ähnliche Lookups in Komponenten mit `useMemo` kapseln (sonst Endlos-Rerender, siehe Workout.tsx).
 - Bio-Force-Lasten: Die Geräteskala zeigt lb pro Seite (5–125, 5er-Rasten). Eingabe und Anzeige in lb, gespeichert wird `weightKg` (kg pro Seite); Umrechnung nur über `src/lib/bioforce.ts`.
-- Supersätze: nie Bio-Force-Übungen mit `seat: 'on'` und `seat: 'off'` mischen; pro Einheit höchstens ein Sitz-Umbau, davor `SEAT_ON`/`SEAT_OFF` in `plan.ts` einfügen.
+- Supersätze: nie Bio-Force-Übungen mit `seat: 'on'` und `seat: 'off'` mischen; pro Einheit höchstens ein Sitz-Umbau, davor `SEAT_ON`/`SEAT_OFF` in `plan.ts` einfügen. Prüfen mit `node scripts/check-plan.mjs` im Ordner `app`.
 - Dokumente in `docs/` sind die Quelle für Plan und Übungen; bei Änderungen Doku und `src/data` zusammen anpassen.
 - Git-Repository: Zweig `main`, Remote `origin` = `https://github.com/rene-777/Fitnessapp.git` (öffentlich). `gh` ist installiert und angemeldet. Commits mit `Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>`; Commit-Autor René <rene.sch@gmx.net>.
-- Hosting: **GitHub Pages**, live unter `https://rene-777.github.io/Fitnessapp/`. Jeder Push auf `main` deployt automatisch (`.github/workflows/deploy.yml`). Basispfad `/Fitnessapp/` gilt in Vite, Router, Manifest und Bildpfaden; neue statische Pfade immer mit `import.meta.env.BASE_URL` präfixen. Dev-Adresse: `http://localhost:5173/Fitnessapp/`.
+- Hosting: **GitHub Pages**, live unter `https://rene-777.github.io/Fitnessapp/`. Jeder Push auf `main` deployt automatisch (`.github/workflows/deploy.yml`); Ergebnis prüfen mit `& "C:\Program Files\GitHub CLI\gh.exe" run list -R rene-777/Fitnessapp -L 1` (`gh` liegt evtl. nicht im PATH der Shell). Basispfad `/Fitnessapp/` gilt in Vite, Router, Manifest und Bildpfaden; neue statische Pfade immer mit `import.meta.env.BASE_URL` präfixen. Dev-Adresse: `http://localhost:5173/Fitnessapp/`.
