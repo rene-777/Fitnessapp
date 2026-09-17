@@ -26,7 +26,7 @@ export default defineConfig({
     react(),
     tailwindcss(),
     VitePWA({
-      registerType: 'autoUpdate',
+      registerType: 'prompt', // Update nur auf Knopfdruck, siehe UpdateBanner
       includeAssets: ['img/bioforce/*'],
       manifest: {
         name: 'Transformation 16',

@@ -19,6 +19,8 @@
 
 ## Bekannte Kleinigkeiten
 
+- Am 17.09.2026 blieb der Trainingsstart auf dem Handy bei „Lade …“ hängen, bis die App komplett neu gestartet wurde. Vermutete Ursache: automatischer Reload durch das PWA-Update während einer Datenbank-Aktion (blockierte Tabelle `workouts`). Seitdem: PWA-Update nur auf Knopfdruck (`registerType: 'prompt'`, `UpdateBanner.tsx`), Fehler und 8-s-Zeitüberschreitung beim Trainingsstart werden angezeigt (`ErrorBoundary.tsx`), Versionsanzeige unter „Mehr“.
+
 - Face Pulls und Pallof Press haben keine eigene Herstellerübung; Face Pulls zeigen das Foto von Nr. 68 (Delta-Rudern), Pallof Press hat kein Foto.
 - Bei liegenden Beinübungen (Nr. 19–26) fehlt das „Ende“-Foto (im Handbuch nur ein Bild). Diese Übungen sind im Plan nicht enthalten.
 - Gerät des Users ist die **Bio Force Extreme**. Deren Anleitung (`docs/BioForce-Bedienungsanleitung-NEU.pdf`, 73 MB, per `.gitignore` nur lokal, Quelle https://manuals.hammer.de/3841.pdf) bestätigt die Skala: lb pro Schwingarm, 5–125. Die Übungsfotos stammen seit 17.09.2026 aus dieser Anleitung (WebP, 457 × 644 px, zusammen 4,5 MB), zugeordnet per Bildvergleich zu den bisherigen Nummern. Die PDF ist in Druckbogen-Reihenfolge gespeichert und teilt die Übungen anders auf die Seiten auf als die alte Anleitung.

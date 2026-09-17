@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom'
 import BottomNav from './components/BottomNav'
+import UpdateBanner from './components/UpdateBanner'
 import ErrorBoundary, { ErrorCard, errorText } from './components/ErrorBoundary'
 import { ensureDefaults } from './hooks/useProfile'
 import Today from './pages/Today'
@@ -38,6 +39,7 @@ function Shell() {
         </Routes>
       </main>
       {!fullscreen && <BottomNav />}
+      <UpdateBanner hidden={fullscreen} />
     </div>
   )
 }

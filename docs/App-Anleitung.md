@@ -45,7 +45,7 @@ Adresse: **https://rene-777.github.io/Fitnessapp/**
 
 Das Projekt liegt im öffentlichen GitHub-Repository `rene-777/Fitnessapp`. Ein GitHub-Actions-Workflow (`.github/workflows/deploy.yml`) baut die App bei jedem Push auf `main` und veröffentlicht sie unter dieser Adresse. Die App enthält keinen Server und sendet keine Daten; die Trainingsdaten bleiben nur auf dem Handy. Öffentlich sind nur Code und Plandokumente.
 
-Auf dem Handy die Adresse in Chrome öffnen → Chrome-Menü „App installieren“. Ab dann: eigenes Icon, Vollbild, offline nutzbar, Bildschirm bleibt im Training an, Updates automatisch beim nächsten Öffnen nach jedem Push.
+Auf dem Handy die Adresse in Chrome öffnen → Chrome-Menü „App installieren“. Ab dann: eigenes Icon, Vollbild, offline nutzbar, Bildschirm bleibt im Training an, Updates nach jedem Push: Beim Öffnen erscheint oben der Balken „Neue Version verfügbar“, ein Tipp auf „Jetzt aktualisieren“ lädt sie (nie automatisch und nie im laufenden Training). Die laufende Version steht unter „Mehr“ ganz unten.
 
 Vor dem Umzug von Weg A auf Weg B: in der WLAN-Version Einstellungen → Exportieren, in der installierten App Importieren. Die beiden Adressen haben getrennte Datenbanken.
 
