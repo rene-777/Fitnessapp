@@ -23,7 +23,7 @@ Damit die Daten nicht verloren gehen: mindestens einmal pro Woche exportieren (z
 
 ## Auf dem Handy nutzen: zwei Wege
 
-### Weg A: sofort, über das Heimnetz (zum Testen)
+### Weg A: über das Heimnetz (nur noch zum Testen)
 
 Auf dem PC im Ordner `app`:
 
@@ -35,19 +35,21 @@ npm run build
 npm run preview -- --host
 ```
 
-Dann auf dem Android-Handy im selben WLAN die angezeigte Netzwerk-Adresse öffnen, z. B. `http://192.168.178.53:4173`. Chrome-Menü → „Zum Startbildschirm hinzufügen“.
+Dann auf dem Android-Handy im selben WLAN die angezeigte Netzwerk-Adresse öffnen, z. B. `http://192.168.178.53:4173/Fitnessapp/`. Chrome-Menü → „Zum Startbildschirm hinzufügen“.
 
 Einschränkungen: Der PC muss laufen. Ohne HTTPS gibt es keinen Offline-Modus und keinen Wake Lock (Bildschirm bleibt nicht automatisch an; in den Android-Einstellungen die Bildschirmsperre auf 10 min stellen hilft).
 
-### Weg B: als echte installierbare App über GitHub Pages (entschieden)
+### Weg B: als echte installierbare App über GitHub Pages (eingerichtet, Standard)
 
-Das Projekt wird in ein öffentliches GitHub-Repository `Fitnessapp` gepusht. Ein GitHub-Actions-Workflow baut die App bei jedem Push und veröffentlicht sie unter `https://<benutzername>.github.io/Fitnessapp/`. Die App enthält keinen Server und sendet keine Daten; die Trainingsdaten bleiben nur auf dem Handy. Öffentlich sind nur Code und Plandokumente.
+Adresse: **https://rene-777.github.io/Fitnessapp/**
 
-Dann auf dem Handy die Adresse öffnen → Chrome-Menü „App installieren“. Ab dann: eigenes Icon, Vollbild, offline nutzbar, Bildschirm bleibt im Training an, Updates automatisch beim nächsten Öffnen nach jedem Push.
+Das Projekt liegt im öffentlichen GitHub-Repository `rene-777/Fitnessapp`. Ein GitHub-Actions-Workflow (`.github/workflows/deploy.yml`) baut die App bei jedem Push auf `main` und veröffentlicht sie unter dieser Adresse. Die App enthält keinen Server und sendet keine Daten; die Trainingsdaten bleiben nur auf dem Handy. Öffentlich sind nur Code und Plandokumente.
+
+Auf dem Handy die Adresse in Chrome öffnen → Chrome-Menü „App installieren“. Ab dann: eigenes Icon, Vollbild, offline nutzbar, Bildschirm bleibt im Training an, Updates automatisch beim nächsten Öffnen nach jedem Push.
 
 Vor dem Umzug von Weg A auf Weg B: in der WLAN-Version Einstellungen → Exportieren, in der installierten App Importieren. Die beiden Adressen haben getrennte Datenbanken.
 
-Die Einrichtung (Remote, Basispfad, Workflow) ist in `Uebergabe.md` beschrieben und wird im nächsten Chat gemeinsam gemacht.
+Update veröffentlichen: Änderungen committen und `git push`. Der Workflow läuft ca. 1 Minute; Status mit `gh run list` oder im Repo unter „Actions“.
 
 ## Entwicklung
 

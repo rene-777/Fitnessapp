@@ -6,24 +6,15 @@
 - **Block 1 komplett:** `Block1-Wochen1-4.md`, Start Montag 21.09.2026, Woche 1 mit Einstufung (10RM an der Bio Force, Max-Tests Push-Ups, Pull-Ups, Dips, Plank, 5-min-Burpees, Cooper-Test in Woche 2), Woche 4 Kraftausdauer-Challenge mit Formeln.
 - **Übungsbibliothek:** `Uebungsbibliothek.md`, nach der offiziellen Finnlo-Anleitung (`BioForce-Bedienungsanleitung.pdf`, 110 Übungen). Fotos aller 110 Übungen extrahiert nach `app/public/img/bioforce/` (Start, Ende, Rollenposition, Index in `index.json`).
 - **App Phase 1:** läuft, Build sauber, im Browser getestet. Läuft beim User bereits über WLAN (`npm run preview -- --host`) auf dem Android-Handy. PowerShell-Skriptsperre wurde vom User mit `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` gelöst.
+- **Hosting (17.09.2026):** App ist live unter **https://rene-777.github.io/Fitnessapp/** (GitHub Pages, Repo `rene-777/Fitnessapp`, öffentlich). Basispfad `/Fitnessapp/` in Vite, Router, Manifest und Bildpfaden; `404.html` als SPA-Fallback; Workflow `.github/workflows/deploy.yml` deployt bei jedem Push auf `main`. GitHub CLI (`gh`) ist installiert und als `rene-777` angemeldet (`C:\Program Files\GitHub CLI\gh.exe`). Live geprüft: Unterpfade, Manifest, Icons, Übungsfotos, Service Worker.
 
-## Unmittelbar nächster Schritt: GitHub Pages als installierbare App (HTTPS)
+## Unmittelbar nächster Schritt: App am Handy installieren (User)
 
-**Entschieden am 17.09.2026:** Hosting über GitHub Pages. Der User hat ein GitHub-Konto angelegt (Benutzername noch nicht bekannt, im nächsten Chat erfragen). Netlify ist damit vom Tisch.
+1. Falls in der WLAN-Version schon Daten eingetragen sind: dort Einstellungen → Exportieren (die neue Adresse hat eine eigene, leere Datenbank).
+2. Am Android-Handy in Chrome `https://rene-777.github.io/Fitnessapp/` öffnen → Menü „App installieren“.
+3. Ggf. in der installierten App Einstellungen → Importieren. Die alte Startbildschirm-Verknüpfung der WLAN-Version löschen.
 
-Lokales Git-Repository existiert bereits (Zweig `main`, 2 Commits, Arbeitsbaum sauber, kein Remote). `.gitignore` schließt `node_modules`, `dist`, Logs und `.claude/settings.local.json` aus.
-
-Ablauf im nächsten Chat:
-1. GitHub-Benutzernamen erfragen. Repository `Fitnessapp` anlegen, **öffentlich** (GitHub Pages ist im kostenlosen Tarif nur für öffentliche Repos verfügbar; Trainingsdaten sind nie im Repo, nur Code und Plandokumente). Anlegen per `gh repo create` (falls `gh` installiert und eingeloggt) oder der User legt es im Browser an und nennt die URL.
-2. Remote setzen und pushen: `git remote add origin https://github.com/<user>/Fitnessapp.git`, `git push -u origin main`.
-3. `app/vite.config.ts`: `base: '/Fitnessapp/'` setzen, und in der PWA-Manifest-Konfiguration `start_url` und `scope` auf `/Fitnessapp/` sowie die Icon-Pfade relativ machen. React Router: `<BrowserRouter basename={import.meta.env.BASE_URL}>` in `src/App.tsx`. Bildpfade in `src/data/exercises.ts` (`/img/bioforce/...`) und Icon-Pfad in `index.html` mit `import.meta.env.BASE_URL` präfixen.
-4. GitHub-Actions-Workflow `.github/workflows/deploy.yml`: bei Push auf `main` im Ordner `app` `npm ci` und `npm run build`, dann `actions/upload-pages-artifact` mit `app/dist` und `actions/deploy-pages`. Im Repo unter Settings → Pages die Quelle „GitHub Actions“ wählen.
-5. SPA-Fallback: Beim Build eine Kopie von `dist/index.html` als `dist/404.html` ablegen (sonst 404 bei direktem Aufruf von Unterpfaden wie `/Fitnessapp/week`).
-6. Adresse `https://<user>.github.io/Fitnessapp/` am Handy öffnen → Chrome-Menü „App installieren“. Updates kommen künftig automatisch mit jedem Push.
-
-Wichtig vor dem Umzug: Daten vom WLAN-Stand in der App per Einstellungen → Exportieren sichern und in der installierten App importieren, weil die Adresse (Origin) wechselt und IndexedDB pro Origin getrennt ist.
-
-Alternative, falls GitHub Pages doch nicht gewünscht: Netlify Drop (Ordner `app/dist` per Drag-and-drop, Konto nötig, Updates manuell).
+Lokale Entwicklung läuft jetzt unter `http://localhost:5173/Fitnessapp/`.
 
 ## Danach: Phase 2 und 3
 

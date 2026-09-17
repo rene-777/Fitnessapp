@@ -32,5 +32,5 @@ Befehle im Ordner `app`: `npm run dev`, `npm run build` (führt `tsc -b` aus), `
 - `findSession()` und ähnliche Lookups in Komponenten mit `useMemo` kapseln (sonst Endlos-Rerender, siehe Workout.tsx).
 - Bio-Force-Lasten immer in kg pro Seite.
 - Dokumente in `docs/` sind die Quelle für Plan und Übungen; bei Änderungen Doku und `src/data` zusammen anpassen.
-- Git-Repository lokal vorhanden (Zweig `main`), noch kein Remote. Commits mit `Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>`; Commit-Autor René <rene.sch@gmx.net>.
-- Hosting-Entscheidung: **GitHub Pages** (User hat GitHub-Konto). Ablauf steht in `docs/Uebergabe.md`. Nach dem Umzug auf Pages gilt der Basispfad `/Fitnessapp/` in Vite, Router, Manifest und Bildpfaden.
+- Git-Repository: Zweig `main`, Remote `origin` = `https://github.com/rene-777/Fitnessapp.git` (öffentlich). `gh` ist installiert und angemeldet. Commits mit `Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>`; Commit-Autor René <rene.sch@gmx.net>.
+- Hosting: **GitHub Pages**, live unter `https://rene-777.github.io/Fitnessapp/`. Jeder Push auf `main` deployt automatisch (`.github/workflows/deploy.yml`). Basispfad `/Fitnessapp/` gilt in Vite, Router, Manifest und Bildpfaden; neue statische Pfade immer mit `import.meta.env.BASE_URL` präfixen. Dev-Adresse: `http://localhost:5173/Fitnessapp/`.
