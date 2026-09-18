@@ -7,6 +7,7 @@ import { useProfile } from '../hooks/useProfile'
 import { fmtDate } from '../lib/dates'
 import { fmtLb, kgToLb, loadText } from '../lib/bioforce'
 import { epley1RM } from '../lib/planEngine'
+import { FREE_SEGMENT_LABEL, deleteSet } from '../lib/workouts'
 
 export default function ExerciseDetail() {
   const { id = '' } = useParams()
@@ -36,6 +37,7 @@ export default function ExerciseDetail() {
         <ExerciseImages e={e} />
         <ExerciseDescription e={e} />
       </div>
+      <Link to={`/log/exercise/${e.id}`} className="btn-ghost block text-center">Eintrag nachtragen</Link>
       {alive.length > 0 && (
         <div className="card">
           <div className="h2 mb-2">Bestwerte</div>
@@ -63,7 +65,13 @@ export default function ExerciseDetail() {
                   if (s.distanceM !== undefined) parts.push(`${s.distanceM} m`)
                   if (s.weightKg !== undefined) parts.push(`@ ${e.loadType === 'bioforce' ? `${fmtLb(kgToLb(s.weightKg))} lb` : loadText(s.weightKg, e.loadType)}`)
                   if (s.rir !== undefined) parts.push(`RIR ${s.rir}`)
-                  return <span key={s.id} className="inline-block ml-2">{parts.join(' ')}{s.isTest ? ' (Test)' : ''}{s.side ? ` ${s.side}` : ''}</span>
+                  const free = s.segmentLabel === FREE_SEGMENT_LABEL
+                  return (
+                    <span key={s.id} className="inline-block ml-2">
+                      {parts.join(' ')}{s.isTest ? ' (Test)' : ''}{s.side ? ` ${s.side}` : ''}
+                      {free && <button type="button" className="ml-1 text-bad text-xs" title="Freien Eintrag löschen" onClick={() => { if (confirm('Diesen Eintrag löschen?')) void deleteSet(s.id) }}>✕</button>}
+                    </span>
+                  )
                 })}
               </div>
             </div>

@@ -5,7 +5,7 @@ import type { Benchmark, SetLog, Workout } from '../db/types'
 import { dateOf, mondayOfWeek, parseISO } from './dates'
 import { sessionExerciseIds } from './planEngine'
 import { isStrengthSet } from './stats'
-import { BENCHMARK_LABELS } from './workouts'
+import { BENCHMARK_LABELS, isFreeWorkout } from './workouts'
 
 // Kennzahlen für den Startbildschirm, als reine Funktionen wie in stats.ts.
 
@@ -17,7 +17,7 @@ export const planProgress = (date: string, start: string) => Math.min(1, Math.ma
 
 export interface Totals { sessions: number; minutes: number }
 export function totals(workouts: Workout[]): Totals {
-  const done = workouts.filter((w) => !w.deleted && w.status === 'fertig')
+  const done = workouts.filter((w) => !w.deleted && !isFreeWorkout(w) && w.status === 'fertig')
   return { sessions: done.length, minutes: done.reduce((a, w) => a + (w.durationMin ?? 0), 0) }
 }
 

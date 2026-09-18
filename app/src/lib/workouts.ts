@@ -23,6 +23,39 @@ export async function getOrCreateWorkout(profileId: string, date: string, week: 
   return w
 }
 
+/** Freie Einträge (einzelne Übungen ohne Plan-Einheit) hängen an einem Training je Tag mit diesem Schlüssel. Zählt nicht als Plan-Einheit. */
+export const FREE_SESSION_KEY = 'frei'
+export const FREE_SEGMENT_LABEL = 'frei'
+export const isFreeWorkout = (w: Workout) => w.sessionKey === FREE_SESSION_KEY
+
+export async function getOrCreateFreeWorkout(profileId: string, date: string, week: number): Promise<Workout> {
+  const existing = await findWorkout(profileId, FREE_SESSION_KEY, date)
+  if (existing && existing.date === date) return existing
+  const w: Workout = { id: uuid(), profileId, date, week, sessionKey: FREE_SESSION_KEY, title: 'Freies Training', status: 'fertig', backfilled: true, startedAt: now(), finishedAt: now(), updatedAt: now() }
+  await db.workouts.put(w)
+  return w
+}
+
+/** Einzelnen Satz löschen (als gelöscht markiert). Ein zugehöriger Testwert desselben Trainings wird mitgelöscht. */
+export async function deleteSet(id: string) {
+  const s = await db.sets.get(id)
+  if (!s) return
+  const t = now()
+  await db.sets.put({ ...s, deleted: true, updatedAt: t })
+  if (s.isTest) {
+    const benchmarks = (await db.benchmarks.where('profileId').equals(s.profileId).toArray()).filter((b) => b.workoutId === s.workoutId && !b.deleted)
+    await db.benchmarks.bulkPut(benchmarks.map((b) => ({ ...b, deleted: true, updatedAt: t })))
+  }
+}
+
+/** Übungen, deren Max-Test als Benchmark gespeichert werden kann (freier Eintrag mit Schalter „Max-Test“). */
+export const EXERCISE_BENCHMARK: Record<string, { key: string; unit: 'reps' | 'seconds' }> = {
+  pushup: { key: 'pushupsMax', unit: 'reps' },
+  pullup: { key: 'pullupsMax', unit: 'reps' },
+  dips: { key: 'dipsMax', unit: 'reps' },
+  plank: { key: 'plankMax', unit: 'seconds' },
+}
+
 export async function patchWorkout(id: string, patch: Partial<Workout>) {
   const w = await db.workouts.get(id)
   if (w) await db.workouts.put({ ...w, ...patch, updatedAt: now() })

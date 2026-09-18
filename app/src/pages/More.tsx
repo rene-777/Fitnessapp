@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom'
 export default function More() {
   const items = [
     { to: '/body', title: 'Körper und Kalorien', sub: 'Gewicht, Taille, Kalorienbedarf, Proteinziel' },
-    { to: '/log', title: 'Einheit nachtragen', sub: 'Vergangene Trainings mit Datum eintragen' },
+    { to: '/log', title: 'Einheit nachtragen', sub: 'Vergangene Plan-Einheit komplett eintragen' },
+    { to: '/log/exercise', title: 'Übung nachtragen', sub: 'Einzelne Übung mit Sätzen, außerhalb des Plans' },
     { to: '/settings', title: 'Einstellungen', sub: 'Profil, Startdatum, Audio, Sicherung' },
   ]
   return (

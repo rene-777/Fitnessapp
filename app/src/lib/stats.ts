@@ -3,6 +3,7 @@ import { MUSCLE_GROUPS, type MuscleKey } from '../data/muscles'
 import { weekByNumber } from '../data/plan'
 import type { Benchmark, SetLog, Workout } from '../db/types'
 import { planWeekOf } from './dates'
+import { isFreeWorkout } from './workouts'
 
 // Auswertung: reine Funktionen über die gespeicherten Zeilen, damit die Seite nur noch darstellt.
 // Volumen zählt Sätze (primär 1, sekundär 0,5), nicht kg: an der Bio Force ist die Last pro Übung
@@ -112,7 +113,7 @@ export interface WeekFrequency {
 export function frequencyByWeek(workouts: Workout[], start: string, upToWeek: number): WeekFrequency[] {
   const out: WeekFrequency[] = []
   for (let week = 1; week <= upToWeek; week++) {
-    const rows = workouts.filter((w) => !w.deleted && w.status === 'fertig' && planWeekOf(w.date, start) === week)
+    const rows = workouts.filter((w) => !w.deleted && !isFreeWorkout(w) && w.status === 'fertig' && planWeekOf(w.date, start) === week)
     out.push({ week, planned: weekByNumber(week)?.sessions.length || 5, done: new Set(rows.map((w) => w.sessionKey)).size, minutes: rows.reduce((a, w) => a + (w.durationMin ?? 0), 0) })
   }
   return out

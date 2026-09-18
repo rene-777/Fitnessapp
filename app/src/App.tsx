@@ -10,6 +10,7 @@ import PlanPage from './pages/PlanPage'
 import SessionPreview from './pages/SessionPreview'
 import Workout from './pages/Workout'
 import LogPast from './pages/LogPast'
+import LogExercise from './pages/LogExercise'
 import Exercises from './pages/Exercises'
 import ExerciseDetail from './pages/ExerciseDetail'
 import Body from './pages/Body'
@@ -32,6 +33,8 @@ function Shell() {
           <Route path="/workout/:date/:sessionKey" element={<Workout />} />
           <Route path="/log" element={<LogPast />} />
           <Route path="/log/:date/:sessionKey" element={<LogPast />} />
+          <Route path="/log/exercise" element={<LogExercise />} />
+          <Route path="/log/exercise/:id" element={<LogExercise />} />
           <Route path="/exercises" element={<Exercises />} />
           <Route path="/exercises/:id" element={<ExerciseDetail />} />
           <Route path="/stats" element={<Stats />} />
