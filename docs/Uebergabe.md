@@ -1,8 +1,8 @@
-# Übergabe – Stand 18.09.2026 (alle KI-Bilder fertig)
+# Übergabe – Stand 18.09.2026 (Session-Ende, spätabends)
 
 ## Kurzfassung
 
-Die App ist live unter **https://rene-777.github.io/Fitnessapp/**, auf dem Android-Handy des Users installiert und startklar für Woche 1 (Start Montag 21.09.2026). Phase 1 (geführtes Training), Phase 2 (Auswertungs-Tab, Dashboard) und das freie Training (einzelne Übungen außerhalb des Plans, mit Stoppuhr) sind fertig; der User hat alles vom 18.09. am Handy getestet und für gut befunden. Arbeitsbaum sauber, alles auf `origin/main` gepusht und deployt. Nächstes großes Arbeitspaket: **Blöcke 2–4**, sobald die Einstufungswerte aus Woche 1 vorliegen. Die KI-Bilder für alle Übungen ohne Herstellerfoto sind fertig und abgenommen (Kie.ai, GPT Image 2; Video-Pilot gestrichen). Bis dahin: Rückmeldungen des Users vom Handy abarbeiten.
+Die App ist live unter **https://rene-777.github.io/Fitnessapp/**, auf dem Android-Handy des Users installiert und startklar für Woche 1 (Start Montag 21.09.2026). Phase 1 (geführtes Training), Phase 2 (Auswertungs-Tab, Dashboard) und das freie Training (einzelne Übungen außerhalb des Plans, mit Stoppuhr) sind fertig; der User hat alles vom 18.09. am Handy getestet und für gut befunden. Arbeitsbaum sauber, alles auf `origin/main` gepusht und deployt. Nächstes großes Arbeitspaket: **Blöcke 2–4**, sobald die Einstufungswerte aus Woche 1 vorliegen. Die KI-Bilder für alle Übungen ohne Herstellerfoto sind fertig und abgenommen (Kie.ai, GPT Image 2; Video-Pilot gestrichen); das Kie.ai-Wissen liegt zusätzlich als persönlicher Skill `~/.claude/skills/kie-ai` (projektübergreifend). Alle Zahlenfelder nehmen Kommazahlen an. Der User meldet sich voraussichtlich am **Sonntag, 20.09.2026** für letzte Anpassungen vor dem Start; bis dahin: Rückmeldungen vom Handy abarbeiten.
 
 Arbeitsweise: Der User testet jede Änderung direkt am Handy (Update-Knopf) und meldet Auffälligkeiten. Getestete Änderungen dürfen ohne Rückfrage committet und gepusht werden (siehe Memory `feedback-commit-push-allowed`); in der Shell ist keine Git-Identität gesetzt, deshalb `git -c user.name="René" -c user.email="rene.sch@gmx.net" commit …`.
 
@@ -122,7 +122,7 @@ Der User will für die Übungen ohne Herstellerfoto KI-generierte Bilder im Stil
 
 ## Was der User als Nächstes tun sollte
 
-- Stand am Handy: Build vom 18.09.2026 ab ca. 16:45 UTC ist getestet.
+- Stand am Handy: letzter Build vom 18.09.2026 ca. 20:15 UTC (Komma-Eingabe in allen Zahlenfeldern, KI-Bilder). Nach dem Update einmal Gewicht mit Komma eintragen und ein lb-Feld mit Komma tippen, um es auf dem Gerät zu bestätigen.
 - **Vor dem Start am Montag:** Einstellungen → „Alle Daten löschen“ (gemischte Test- und Echtdaten entfernen). Das Profil wird automatisch neu angelegt (René, 1970, 172 cm, Start 21.09.2026); nur Gewicht und Taille unter „Körper“ neu eintragen.
 - Einmal den Flugmodus testen (Offline-Betrieb).
 - Montag 21.09. mit Woche 1 starten. Einmal pro Woche Einstellungen → Exportieren (z. B. in die Dropbox).
