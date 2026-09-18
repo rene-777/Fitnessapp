@@ -1,13 +1,14 @@
 import { useCallback, useMemo, useRef, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { MuscleChips } from '../components/ExerciseCard'
 import NumberInput from '../components/NumberInput'
 import { Stopwatch } from '../components/Timer'
 import { CATEGORY_LABEL, EXERCISES, EXERCISE_MAP, type Category } from '../data/exercises'
 import { db } from '../db/db'
-import { unlockAudio } from '../lib/audio'
+import type { SetLog } from '../db/types'
 import { useProfile } from '../hooks/useProfile'
+import { unlockAudio } from '../lib/audio'
 import { BF_MAX_LB, BF_MIN_LB, BF_STEP_LB, fmtKg, fmtLb, kgToLb, lbToKg } from '../lib/bioforce'
 import { fmtSec, planWeekOf, today } from '../lib/dates'
 import { EXERCISE_BENCHMARK, FREE_SEGMENT_LABEL, deleteSet, getOrCreateFreeWorkout, saveBenchmark, saveSet } from '../lib/workouts'
@@ -32,16 +33,28 @@ function HoldStopwatch({ onSeconds }: { onSeconds: (s: number) => void }) {
   return <Stopwatch leadIn onChange={onChange} />
 }
 
-/** Freies Training: einzelne Übung außerhalb einer Plan-Einheit. Die Sätze hängen an einem „Freien Training“ des Tages. */
+/** Ein gespeicherter Satz als Kurztext, z. B. „8 Wdh. · @ 12,5 lb · RIR 2“. */
+function setText(s: SetLog) {
+  const e = EXERCISE_MAP[s.exerciseId]
+  const parts: string[] = []
+  if (s.reps !== undefined) parts.push(`${s.reps} Wdh.`)
+  if (s.seconds !== undefined && s.reps === undefined) parts.push(e?.unit === 'meters' ? `${fmtSec(s.seconds)} min` : `${s.seconds} s`)
+  if (s.distanceM !== undefined) parts.push(`${s.distanceM} m`)
+  if (s.weightKg !== undefined) parts.push(e?.loadType === 'bioforce' ? `@ ${fmtLb(kgToLb(s.weightKg))} lb` : `@ ${fmtKg(s.weightKg)} kg`)
+  if (s.rir !== undefined) parts.push(`RIR ${s.rir}`)
+  return `${parts.join(' · ')}${s.isTest ? ' (Test)' : ''}`
+}
+
+/** Freies Training: beliebig viele Übungen nacheinander, außerhalb einer Plan-Einheit. Die Sätze hängen an einem „Freien Training“ des Tages. */
 export default function FreeTraining() {
   const params = useParams()
-  const navigate = useNavigate()
   const profile = useProfile()
   const [date, setDate] = useState(today())
   const [exerciseId, setExerciseId] = useState(params.id && EXERCISE_MAP[params.id] ? params.id : '')
   const [rows, setRows] = useState<RowInput[]>([{ ...EMPTY }])
   const [isTest, setIsTest] = useState(false)
   const [error, setError] = useState<string>()
+  const [done, setDone] = useState<string>() // Meldung nach dem Speichern
   const [watch, setWatch] = useState<number | null>(null) // Zeile, deren Stoppuhr offen ist
   const [saving, setSaving] = useState(false)
 
@@ -51,22 +64,25 @@ export default function FreeTraining() {
   const showRir = !!e && e.loadType !== 'none' && !isTest
   const bench = e ? EXERCISE_BENCHMARK[e.id] : undefined
 
-  // Schon gespeicherte freie Einträge dieser Übung an diesem Tag
-  const existing = useLiveQuery(
-    () => (profile && exerciseId ? db.sets.where('[profileId+exerciseId]').equals([profile.id, exerciseId]).toArray() : []),
-    [profile?.id, exerciseId],
+  // Alle freien Einträge dieses Tages, über alle Übungen
+  const dayRows = useLiveQuery(() => (profile ? db.sets.where('date').equals(date).toArray() : []), [profile?.id, date])
+  const daySets = useMemo(
+    () => (dayRows ?? []).filter((s) => profile && s.profileId === profile.id && !s.deleted && s.segmentLabel === FREE_SEGMENT_LABEL).sort((a, b) => (a.updatedAt < b.updatedAt ? -1 : 1)),
+    [dayRows, profile],
   )
-  const savedToday = useMemo(
-    () => (existing ?? []).filter((s) => !s.deleted && s.date === date && s.segmentLabel === FREE_SEGMENT_LABEL).sort((a, b) => a.setIndex - b.setIndex),
-    [existing, date],
-  )
+  const savedForExercise = useMemo(() => daySets.filter((s) => s.exerciseId === exerciseId).sort((a, b) => a.setIndex - b.setIndex), [daySets, exerciseId])
+  const byExercise = useMemo(() => {
+    const m = new Map<string, SetLog[]>()
+    for (const s of daySets) m.set(s.exerciseId, [...(m.get(s.exerciseId) ?? []), s])
+    return [...m.entries()].map(([id, sets]) => ({ id, sets: sets.sort((a, b) => a.setIndex - b.setIndex) }))
+  }, [daySets])
 
   if (!profile) return null
 
   const setRow = (i: number, patch: Partial<RowInput>) => { setRows((old) => old.map((r, j) => (j === i ? { ...r, ...patch } : r))); setError(undefined) }
   const addRow = () => setRows((old) => [...old, { ...old[old.length - 1] }])
   const removeRow = (i: number) => { setRows((old) => (old.length > 1 ? old.filter((_, j) => j !== i) : old)); setWatch(null) }
-  const pick = (id: string) => { setExerciseId(id); setRows([{ ...EMPTY }]); setIsTest(false); setError(undefined); setWatch(null) }
+  const pick = (id: string) => { setExerciseId(id); setRows([{ ...EMPTY }]); setIsTest(false); setError(undefined); setWatch(null); if (id) setDone(undefined) }
 
   const save = async () => {
     if (!e) return
@@ -74,7 +90,7 @@ export default function FreeTraining() {
     if (filled.length === 0) { setError(e.unit === 'reps' ? 'Bitte mindestens einen Satz mit Wiederholungen eintragen.' : e.unit === 'seconds' ? 'Bitte die Sekunden eintragen.' : 'Bitte Minuten oder Meter eintragen.'); return }
     setSaving(true)
     const w = await getOrCreateFreeWorkout(profile.id, date, planWeekOf(date, profile.planStartDate) || 0)
-    let index = savedToday.length
+    let index = savedForExercise.length
     let best = 0
     for (const r of filled) {
       index++
@@ -92,19 +108,28 @@ export default function FreeTraining() {
     }
     if (isTest && bench && best > 0) await saveBenchmark(w, bench.key, best, bench.unit)
     setSaving(false)
-    navigate(`/exercises/${e.id}`)
+    // Übungswahl freigeben: die nächste Übung kommt gleich hinterher
+    pick('')
+    setDone(`${e.name}: ${filled.length} ${filled.length === 1 ? 'Satz' : 'Sätze'} gespeichert.${isTest && bench ? ' Als Max-Test übernommen.' : ''}`)
+    window.scrollTo({ top: 0 })
   }
 
   return (
     <div className="space-y-4">
       <h1 className="h1">Freies Training</h1>
+      {done && (
+        <div className="rounded-xl bg-ok/10 border border-ok/40 p-3 text-sm">
+          <div className="text-ok">{done}</div>
+          <div className="text-muted mt-1">Nächste Übung wählen oder unten die Einträge des Tages ansehen.</div>
+        </div>
+      )}
       <div className="card space-y-3">
         <div>
           <div className="label mb-1">Datum</div>
           <input type="date" className="input" value={date} onChange={(ev) => setDate(ev.target.value)} />
         </div>
         <div>
-          <div className="label mb-1">Übung</div>
+          <div className="label mb-1">{done ? 'Nächste Übung' : 'Übung'}</div>
           <select className="input" value={exerciseId} onChange={(ev) => pick(ev.target.value)}>
             <option value="">– wählen –</option>
             {ORDER.map((cat) => (
@@ -128,7 +153,7 @@ export default function FreeTraining() {
           {rows.map((r, i) => (
             <div key={i} className="card space-y-3">
               <div className="flex items-center justify-between">
-                <div className="label">Satz {savedToday.length + i + 1}</div>
+                <div className="label">Satz {savedForExercise.length + i + 1}</div>
                 {rows.length > 1 && <button type="button" className="btn-ghost px-3 py-1 text-sm" onClick={() => removeRow(i)}>Entfernen</button>}
               </div>
               {e.unit === 'reps' && <NumberInput label="Wiederholungen" value={r.reps} onChange={(v) => setRow(i, { reps: v })} />}
@@ -163,29 +188,30 @@ export default function FreeTraining() {
           ))}
           <button type="button" className="btn-ghost w-full" onClick={addRow}>+ Satz</button>
           {error && <div className="text-sm text-bad text-center" role="alert">{error}</div>}
-          <button className="btn-primary w-full" disabled={saving} onClick={save}>Speichern</button>
-
-          {savedToday.length > 0 && (
-            <div className="card space-y-2">
-              <div className="label">Schon eingetragen am {date.split('-').reverse().join('.')}</div>
-              {savedToday.map((s) => {
-                const parts: string[] = []
-                if (s.reps !== undefined) parts.push(`${s.reps} Wdh.`)
-                if (s.seconds !== undefined && s.reps === undefined) parts.push(e.unit === 'meters' ? `${fmtSec(s.seconds)} min` : `${s.seconds} s`)
-                if (s.distanceM !== undefined) parts.push(`${s.distanceM} m`)
-                if (s.weightKg !== undefined) parts.push(isBf ? `@ ${fmtLb(kgToLb(s.weightKg))} lb` : `@ ${fmtKg(s.weightKg)} kg`)
-                if (s.rir !== undefined) parts.push(`RIR ${s.rir}`)
-                return (
-                  <div key={s.id} className="flex items-center justify-between gap-2 text-sm">
-                    <div>Satz {s.setIndex}: {parts.join(' · ')}{s.isTest ? ' (Test)' : ''}</div>
-                    <button type="button" className="btn-ghost px-3 py-1 text-xs text-bad" onClick={() => void deleteSet(s.id)}>Löschen</button>
-                  </div>
-                )
-              })}
-            </div>
-          )}
+          <button className="btn-primary w-full" disabled={saving} onClick={save}>Speichern, dann nächste Übung</button>
           <Link to={`/exercises/${e.id}`} className="btn-ghost block text-center text-sm">Verlauf der Übung ansehen</Link>
         </>
+      )}
+
+      {byExercise.length > 0 && (
+        <section className="card space-y-3">
+          <div className="h2">Freies Training am {date.split('-').reverse().join('.')}</div>
+          {byExercise.map(({ id, sets }) => (
+            <div key={id} className="border-t border-line pt-2 first:border-t-0 first:pt-0 space-y-1">
+              <div className="flex items-center justify-between gap-2">
+                <Link to={`/exercises/${id}`} className="font-semibold">{EXERCISE_MAP[id]?.name ?? id}</Link>
+                <button type="button" className="text-xs text-accent" onClick={() => { pick(id); window.scrollTo({ top: 0 }) }}>+ Satz</button>
+              </div>
+              {sets.map((s) => (
+                <div key={s.id} className="flex items-center justify-between gap-2 text-sm">
+                  <div>Satz {s.setIndex}: {setText(s)}</div>
+                  <button type="button" className="btn-ghost px-3 py-1 text-xs text-bad" onClick={() => void deleteSet(s.id)}>Löschen</button>
+                </div>
+              ))}
+            </div>
+          ))}
+          <div className="text-xs text-muted">Zählt in Verlauf, Bestwerten und Auswertung, nicht als Plan-Einheit.</div>
+        </section>
       )}
     </div>
   )
