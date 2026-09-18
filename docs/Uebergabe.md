@@ -55,22 +55,22 @@ Der User hat die Dienstag-Einheit (Beine + Hüfte) probeweise durchgemacht. Zwei
 Der User will für die Übungen ohne Herstellerfoto KI-generierte Bilder im Stil der Bio-Force-Fotos, dazu einen Video-Pilot (Start- und Endfoto zu Clip) und die Anbindung seines Kie.ai-Kontos. Recherche und Einschätzung sind abgeschlossen, das Vorgehen ist beschlossen, die Anbindung steht.
 
 **Anbindung (fertig, committet):**
--  im Projekt startet den Server  über ; das Skript startet  (Community-Server, MIT, Version 5.x). Der API-Key liegt nur als Windows-Benutzervariable ; das Skript liest sie per PowerShell aus der Registrierung, falls der Claude-Prozess sie nicht geerbt hat (Claude Desktop lief beim Setzen bereits). Repo ist öffentlich: Key nie in Dateien.
-- Getestet: Server meldet 10 Werkzeuge (, , , , , , , , , ), 38 Modelle. Guthaben-Abfrage () lieferte 1056 Credits.
-- Offen: Beim nächsten Session-Start muss der User den Server aus  im Dialog freigeben (Eintrag  in  darf Claude nicht selbst schreiben). Danach erscheinen die Werkzeuge als .
-- Alternative für den Massenlauf: eigenes Node-Skript in  gegen die Kie-API (createTask + Polling), Key wie oben; für die Prompt-Iteration ist der MCP-Server bequemer.
+- `.mcp.json` im Projekt startet den Server `kie-ai` über `app/scripts/kie-mcp.mjs`; das Skript startet `npx -y @felores/kie-ai-mcp-server` (Community-Server, MIT, Version 5.x). Der API-Key liegt nur als Windows-Benutzervariable `KIE_AI_API_KEY`; das Skript liest sie per PowerShell aus der Registrierung, falls der Claude-Prozess sie nicht geerbt hat (Claude Desktop lief beim Setzen bereits). Repo ist öffentlich: Key nie in Dateien.
+- Getestet: Server meldet 10 Werkzeuge (`list_models`, `prepare_media_generation`, `submit_media_generation`, `wait_for_task`, `get_task_status`, `list_tasks`, `upload_file`, `get_upload_url`, `finalize_upload`, `upload_widget`), 38 Modelle. Guthaben-Abfrage (`GET https://api.kie.ai/api/v1/chat/credit`) lieferte 1056 Credits.
+- Offen: Beim nächsten Session-Start muss der User den Server aus `.mcp.json` im Dialog freigeben (den Eintrag `enabledMcpjsonServers` in `~/.claude.json` darf Claude nicht selbst schreiben). Danach erscheinen die Werkzeuge als `mcp__kie-ai__*`.
+- Alternative für den Massenlauf: eigenes Node-Skript in `app/scripts/` gegen die Kie-API (createTask + Polling), Key wie oben; für die Prompt-Iteration ist der MCP-Server bequemer.
 
 **Recherche-Ergebnis (Kurzfassung):**
-- Bilder: **Nano Banana Pro** (, Gemini 3 Pro Image), bis 8 Referenzbilder als URL (), 1K/2K/4K, ca. 0,12 $ bzw. ~24 Credits je Bild. Referenzen: die Herstellerfotos liegen öffentlich unter , kein Upload nötig. Stilvorgabe: Schwarzweiß-Studiofoto, gleicher Mann in schwarzem ärmellosem Shirt und grauen Shorts, hellgrauer Hintergrund, Hochformat 3:4 (Fotos sind 457 × 644 px). Endbild mit dem generierten Startbild als Referenz erzeugen, damit die Person gleich bleibt.
-- Video: **Seedance 2.0** () und **Seedance 2.5** () haben  + , 4–15 s (2.5: bis 30 s), 480p–1080p,  setzen. Seedance 2.0 Standard ca. 0,10 $/s; für 2.5 nennt Kie.ai noch keinen offiziellen Preis (Drittquellen ~0,30 $/s). Einschätzung: Gimmick mit Risiko (Seile/Rollen morphen, Clip läuft nur A→B), Datenvolumen 1–2 MB je Clip, nur bei Bedarf laden, nicht precachen. Erst Pilot mit zwei Clips.
+- Bilder: **Nano Banana Pro** (`google/nano-banana-pro`, Gemini 3 Pro Image), bis 8 Referenzbilder als URL (`image_input`), 1K/2K/4K, ca. 0,12 $ bzw. ~24 Credits je Bild. Referenzen: die Herstellerfotos liegen öffentlich unter `https://rene-777.github.io/Fitnessapp/img/bioforce/bf{NNN}_{start|end}.webp`, kein Upload nötig. Stilvorgabe: Schwarzweiß-Studiofoto, gleicher Mann in schwarzem ärmellosem Shirt und grauen Shorts, hellgrauer Hintergrund, Hochformat 3:4 (Fotos sind 457 × 644 px). Endbild mit dem generierten Startbild als Referenz erzeugen, damit die Person gleich bleibt.
+- Video: **Seedance 2.0** (`bytedance/seedance-2`) und **Seedance 2.5** (`bytedance/seedance-2-5`) haben `first_frame_url` + `last_frame_url`, 4–15 s (2.5: bis 30 s), 480p–1080p, `generate_audio: false` setzen. Seedance 2.0 Standard ca. 0,10 $/s; für 2.5 nennt Kie.ai noch keinen offiziellen Preis (Drittquellen ~0,30 $/s). Einschätzung: Gimmick mit Risiko (Seile/Rollen morphen, Clip läuft nur A→B), Datenvolumen 1–2 MB je Clip, nur bei Bedarf laden, nicht precachen. Erst Pilot mit zwei Clips.
 - Bekannte Schwäche generierter Übungsbilder: Anatomie/Ausführung; jedes Bild vom User prüfen lassen.
 
 **Übungen ohne Foto (25, davon 19 bildwürdig):** Push-Ups, Defizit-Push-Ups, Plyo-Push-Ups, Dips, Pull-Ups, Australian Pull-Ups, Scapula-Push-Ups, Scapula Pull-Ups, Step-Up, Wall Sit, Kniebeugen (Körpergewicht), Kettlebell-Swing, Superman, Elbow Plank, Side Plank, Hanging Knee Raises, Dead Bug, Mountain Climbers, Burpees. Ohne Bildbedarf: Seilspringen, Laufen Zone 2, Walk-Run, Laufintervalle, Sprints, Cooper-Test. Zu klären: an welchem Gerät der User Pull-Ups, Dips, Australian Pull-Ups und Hanging Knee Raises macht (Bio Force, Stange, Dip-Barren), damit das Bild die echte Umgebung zeigt.
 
 **Beschlossenes Vorgehen:**
 1. Session neu starten, Server freigeben, Werkzeuge prüfen.
-2. Pilot: Push-Ups und Elbow Plank, je Start- und Endbild, Nano Banana Pro mit 3–4 Herstellerfotos als Referenz. Ergebnisse nach  (WebP, 457 × 644), User prüft am Handy.
-3. Bei Gefallen alle 19 Übungen; in  neues Feld (z. B.  oder ),  zeigt „KI-generiert“ statt „Bio Force Anleitung Nr.“; Bildpfade mit .
+2. Pilot: Push-Ups und Elbow Plank, je Start- und Endbild, Nano Banana Pro mit 3–4 Herstellerfotos als Referenz. Ergebnisse nach `app/public/img/gen/` (WebP, 457 × 644), User prüft am Handy.
+3. Bei Gefallen alle 19 Übungen; in `exercises.ts` neues Feld (z. B. `genImage: true` oder `imageKey`), `ExerciseCard.tsx` zeigt „KI-generiert“ statt „Bio Force Anleitung Nr.“; Bildpfade mit `import.meta.env.BASE_URL`.
 4. Danach Video-Pilot: zwei Clips (Kabel-Schrägdrücken Nr. 34, Latzug) mit Seedance 2.0, ohne Audio, 720p, 5 s.
 
 ## Nächste Schritte
