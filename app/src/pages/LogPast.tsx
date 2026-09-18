@@ -10,6 +10,7 @@ import { planWeekOf, today } from '../lib/dates'
 import { prescriptionText } from '../lib/planEngine'
 import { buildSteps } from '../lib/steps'
 import { saveBenchmark, saveSet } from '../lib/workouts'
+import NumberInput from '../components/NumberInput'
 import { lbToKg } from '../lib/bioforce'
 
 interface Row {
@@ -128,10 +129,7 @@ export default function LogPast() {
               <div><div className="font-semibold">{r.title}</div><div className="text-xs text-muted">{r.sub}</div></div>
               <div className="flex gap-2">
                 {r.fields.map((f) => (
-                  <div key={f} className="flex-1">
-                    <div className="label mb-1">{f === 'weight' && r.bioforce ? 'lb/Seite' : FIELD_LABEL[f]}</div>
-                    <input type="number" inputMode="decimal" className="input text-center px-1" value={get(r.key, f)} onChange={(e) => setVal(r.key, f, e.target.value === '' ? '' : Number(e.target.value))} />
-                  </div>
+                  <NumberInput key={f} compact label={f === 'weight' && r.bioforce ? 'lb/Seite' : FIELD_LABEL[f]} value={get(r.key, f)} onChange={(v) => setVal(r.key, f, v)} />
                 ))}
               </div>
             </div>

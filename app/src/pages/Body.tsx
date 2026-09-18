@@ -5,15 +5,13 @@ import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YA
 import { db, now } from '../db/db'
 import { useProfile } from '../hooks/useProfile'
 import { fmtDate, today } from '../lib/dates'
+import { fmtDec, parseDecimal } from '../lib/decimal'
 
 /** "74,1" oder "74.1" → 74.1 (auf Zehntel gerundet); leer oder unbrauchbar → undefined. */
-function parseDecimal(s: string): number | undefined {
-  const t = s.trim().replace(',', '.')
-  if (t === '') return undefined
-  const n = Number(t)
-  return Number.isFinite(n) && n > 0 ? Math.round(n * 10) / 10 : undefined
+function parseBody(s: string): number | undefined {
+  const n = parseDecimal(s, 1)
+  return n !== '' && n > 0 ? n : undefined
 }
-const fmtDec = (n?: number) => (n === undefined ? undefined : n.toLocaleString('de-DE', { maximumFractionDigits: 1 }))
 
 export default function Body() {
   const profile = useProfile()
@@ -35,8 +33,8 @@ export default function Body() {
   const target = goal === 'defizit' ? tdee - 350 : goal === 'aufbau' ? tdee + 200 : tdee
   const protein = [Math.round(w * 1.6), Math.round(w * 2.0)]
 
-  const weightNum = parseDecimal(weight)
-  const waistNum = parseDecimal(waist)
+  const weightNum = parseBody(weight)
+  const waistNum = parseBody(waist)
   const weightBad = weight.trim() !== '' && weightNum === undefined
   const waistBad = waist.trim() !== '' && waistNum === undefined
   const save = async () => {
