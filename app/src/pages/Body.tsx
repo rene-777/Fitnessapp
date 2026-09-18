@@ -6,12 +6,22 @@ import { db, now } from '../db/db'
 import { useProfile } from '../hooks/useProfile'
 import { fmtDate, today } from '../lib/dates'
 
+/** "74,1" oder "74.1" → 74.1 (auf Zehntel gerundet); leer oder unbrauchbar → undefined. */
+function parseDecimal(s: string): number | undefined {
+  const t = s.trim().replace(',', '.')
+  if (t === '') return undefined
+  const n = Number(t)
+  return Number.isFinite(n) && n > 0 ? Math.round(n * 10) / 10 : undefined
+}
+const fmtDec = (n?: number) => (n === undefined ? undefined : n.toLocaleString('de-DE', { maximumFractionDigits: 1 }))
+
 export default function Body() {
   const profile = useProfile()
   const rows = useLiveQuery(() => (profile ? db.body.where('profileId').equals(profile.id).toArray() : []), [profile?.id])
   const [date, setDate] = useState(today())
-  const [weight, setWeight] = useState<number | ''>('')
-  const [waist, setWaist] = useState<number | ''>('')
+  // Texteingabe statt type="number": die deutsche Android-Tastatur liefert ein Komma, das ein Zahlenfeld verwirft.
+  const [weight, setWeight] = useState('')
+  const [waist, setWaist] = useState('')
   const [activity, setActivity] = useState(1.55)
   const [goal, setGoal] = useState<'erhalt' | 'defizit' | 'aufbau'>('erhalt')
   if (!profile) return null
@@ -25,10 +35,14 @@ export default function Body() {
   const target = goal === 'defizit' ? tdee - 350 : goal === 'aufbau' ? tdee + 200 : tdee
   const protein = [Math.round(w * 1.6), Math.round(w * 2.0)]
 
+  const weightNum = parseDecimal(weight)
+  const waistNum = parseDecimal(waist)
+  const weightBad = weight.trim() !== '' && weightNum === undefined
+  const waistBad = waist.trim() !== '' && waistNum === undefined
   const save = async () => {
-    if (weight === '' && waist === '') return
+    if ((weightNum === undefined && waistNum === undefined) || weightBad || waistBad) return
     const existing = list.find((r) => r.date === date)
-    await db.body.put({ id: existing?.id ?? uuid(), profileId: profile.id, date, weightKg: weight === '' ? existing?.weightKg : Number(weight), waistCm: waist === '' ? existing?.waistCm : Number(waist), updatedAt: now() })
+    await db.body.put({ id: existing?.id ?? uuid(), profileId: profile.id, date, weightKg: weightNum ?? existing?.weightKg, waistCm: waistNum ?? existing?.waistCm, updatedAt: now() })
     setWeight(''); setWaist('')
   }
   const chart = list.filter((r) => r.weightKg).map((r) => ({ d: fmtDate(r.date, { day: '2-digit', month: '2-digit' }), kg: r.weightKg }))
@@ -41,9 +55,10 @@ export default function Body() {
           <div className="flex-1"><div className="label mb-1">Datum</div><input type="date" className="input" value={date} onChange={(e) => setDate(e.target.value)} /></div>
         </div>
         <div className="flex gap-2">
-          <div className="flex-1"><div className="label mb-1">Gewicht (kg)</div><input type="number" inputMode="decimal" step={0.1} className="input" value={weight} onChange={(e) => setWeight(e.target.value === '' ? '' : Number(e.target.value))} placeholder={last?.weightKg?.toString()} /></div>
-          <div className="flex-1"><div className="label mb-1">Taille (cm)</div><input type="number" inputMode="decimal" step={0.5} className="input" value={waist} onChange={(e) => setWaist(e.target.value === '' ? '' : Number(e.target.value))} placeholder={last?.waistCm?.toString()} /></div>
+          <div className="flex-1"><div className="label mb-1">Gewicht (kg)</div><input type="text" inputMode="decimal" className={`input ${weightBad ? '!border-bad' : ''}`} value={weight} onChange={(e) => setWeight(e.target.value)} placeholder={fmtDec(last?.weightKg)} aria-invalid={weightBad} /></div>
+          <div className="flex-1"><div className="label mb-1">Taille (cm)</div><input type="text" inputMode="decimal" className={`input ${waistBad ? '!border-bad' : ''}`} value={waist} onChange={(e) => setWaist(e.target.value)} placeholder={fmtDec(last?.waistCm)} aria-invalid={waistBad} /></div>
         </div>
+        {(weightBad || waistBad) && <div className="text-xs text-bad" role="alert">Bitte eine Zahl eingeben, z. B. 74,1</div>}
         <button className="btn-primary w-full" onClick={save}>Speichern</button>
       </div>
 
@@ -66,7 +81,7 @@ export default function Body() {
 
       <div className="card space-y-3">
         <div className="h2">Kalorienbedarf</div>
-        <div className="text-xs text-muted">Mifflin-St Jeor mit {w} kg, {h} cm, {age} Jahre. Grundumsatz {Math.round(bmr)} kcal.</div>
+        <div className="text-xs text-muted">Mifflin-St Jeor mit {fmtDec(w)} kg, {h} cm, {age} Jahre. Grundumsatz {Math.round(bmr)} kcal.</div>
         <div>
           <div className="label mb-1">Aktivität</div>
           <select className="input" value={activity} onChange={(e) => setActivity(Number(e.target.value))}>
@@ -98,7 +113,7 @@ export default function Body() {
             {[...list].reverse().slice(0, 30).map((r) => (
               <div key={r.id} className="py-1.5 flex justify-between">
                 <span className="text-muted">{fmtDate(r.date)}</span>
-                <span>{r.weightKg ? `${r.weightKg} kg` : ''} {r.waistCm ? `· ${r.waistCm} cm` : ''}</span>
+                <span>{r.weightKg ? `${fmtDec(r.weightKg)} kg` : ''} {r.waistCm ? `· ${fmtDec(r.waistCm)} cm` : ''}</span>
               </div>
             ))}
           </div>

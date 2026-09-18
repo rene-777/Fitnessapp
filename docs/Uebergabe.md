@@ -96,6 +96,8 @@ Der User will für die Übungen ohne Herstellerfoto KI-generierte Bilder im Stil
 - **Ergebnis:** 19 Übungen mit `genImage` in `exercises.ts` (Wall Sit, Side Plank, Elbow Plank mit `noEndPhoto` als Einzelbild „Haltung"), 36 WebP-Dateien in `app/public/img/gen/` (zusammen ca. 0,3 MB). Doku ergänzt (App-Anleitung, Übungsbibliothek). Vom User am 18.09. abgenommen („passt alles“). Bekannte Kleinigkeiten, bewusst so gelassen: Australian Pull-Ups zeigen eine niedrige Stange statt der zwei Dip-Bügel, Scapula-Übungen unterscheiden sich zwischen Start und Ende nur subtil.
 - **Kosten:** GPT Image 2 ca. 18 Credits je Bild; Guthaben nach dem Abend siehe `GET /api/v1/chat/credit`.
 
+- **Gewicht mit Nachkommastelle** (Wunsch des Users, 18.09.): Die Felder Gewicht und Taille auf „Körper“ waren `type="number"`; die deutsche Android-Tastatur liefert ein Komma, das ein Zahlenfeld verwirft, also kamen nur ganze Kilo an. Jetzt Textfelder mit `inputMode="decimal"`, `parseDecimal()` akzeptiert Komma und Punkt, rundet auf Zehntel, ungültige Eingabe blockiert das Speichern mit Hinweis; Anzeige überall mit Komma (`fmtDec`). Im Dev-Browser geprüft. Hinweis: `NumberInput` (Wiederholungen, lb-Skala) ist weiterhin `type="number"`; die lb-Werte werden über die ±-Knöpfe in 2,5er-Rasten gesetzt, tippen mit Komma könnte dort dasselbe Problem haben, bisher nicht gemeldet.
+
 ## Nächste Schritte
 
 - **KI-Bilder sind abgeschlossen.** Bei Bedarf einzelne Bilder nachbessern: Prompt in `spec.mjs` anpassen, Job-Datei neu erzeugen, einzeln mit `--job` generieren; bei Endbildern das Startbild vorher mit `kie-upload.mjs` hochladen. **Video-Pilot gestrichen** (Beschluss des Users am 18.09.: Aufwand und Trefferquote bei Posen rechtfertigen keine Clips).
