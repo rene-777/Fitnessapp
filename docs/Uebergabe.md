@@ -1,4 +1,4 @@
-# Übergabe – Stand 18.09.2026 (Session-Ende, spätabends)
+# Übergabe – Stand 18.09.2026 (Kie.ai-Pilot läuft)
 
 ## Kurzfassung
 
@@ -65,7 +65,7 @@ Der User will für die Übungen ohne Herstellerfoto KI-generierte Bilder im Stil
 - Video: **Seedance 2.0** (`bytedance/seedance-2`) und **Seedance 2.5** (`bytedance/seedance-2-5`) haben `first_frame_url` + `last_frame_url`, 4–15 s (2.5: bis 30 s), 480p–1080p, `generate_audio: false` setzen. Seedance 2.0 Standard ca. 0,10 $/s; für 2.5 nennt Kie.ai noch keinen offiziellen Preis (Drittquellen ~0,30 $/s). Einschätzung: Gimmick mit Risiko (Seile/Rollen morphen, Clip läuft nur A→B), Datenvolumen 1–2 MB je Clip, nur bei Bedarf laden, nicht precachen. Erst Pilot mit zwei Clips.
 - Bekannte Schwäche generierter Übungsbilder: Anatomie/Ausführung; jedes Bild vom User prüfen lassen.
 
-**Übungen ohne Foto (25, davon 19 bildwürdig):** Push-Ups, Defizit-Push-Ups, Plyo-Push-Ups, Dips, Pull-Ups, Australian Pull-Ups, Scapula-Push-Ups, Scapula Pull-Ups, Step-Up, Wall Sit, Kniebeugen (Körpergewicht), Kettlebell-Swing, Superman, Elbow Plank, Side Plank, Hanging Knee Raises, Dead Bug, Mountain Climbers, Burpees. Ohne Bildbedarf: Seilspringen, Laufen Zone 2, Walk-Run, Laufintervalle, Sprints, Cooper-Test. Zu klären: an welchem Gerät der User Pull-Ups, Dips, Australian Pull-Ups und Hanging Knee Raises macht (Bio Force, Stange, Dip-Barren), damit das Bild die echte Umgebung zeigt.
+**Übungen ohne Foto (25, davon 19 bildwürdig):** Push-Ups, Defizit-Push-Ups, Plyo-Push-Ups, Dips, Pull-Ups, Australian Pull-Ups, Scapula-Push-Ups, Scapula Pull-Ups, Step-Up, Wall Sit, Kniebeugen (Körpergewicht), Kettlebell-Swing, Superman, Elbow Plank, Side Plank, Hanging Knee Raises, Dead Bug, Mountain Climbers, Burpees. Ohne Bildbedarf: Seilspringen, Laufen Zone 2, Walk-Run, Laufintervalle, Sprints, Cooper-Test. Geräte dafür sind geklärt (siehe Abschnitt „Kie.ai-Pilot“).
 
 **Beschlossenes Vorgehen:**
 1. Session neu starten, Server freigeben, Werkzeuge prüfen.
@@ -73,9 +73,23 @@ Der User will für die Übungen ohne Herstellerfoto KI-generierte Bilder im Stil
 3. Bei Gefallen alle 19 Übungen; in `exercises.ts` neues Feld (z. B. `genImage: true` oder `imageKey`), `ExerciseCard.tsx` zeigt „KI-generiert“ statt „Bio Force Anleitung Nr.“; Bildpfade mit `import.meta.env.BASE_URL`.
 4. Danach Video-Pilot: zwei Clips (Kabel-Schrägdrücken Nr. 34, Latzug) mit Seedance 2.0, ohne Audio, 720p, 5 s.
 
+## Was am 18.09.2026 abends passiert ist (Kie.ai-Pilot)
+
+**Ausrüstung des Users geklärt** (Amazon-Seiten angesehen, in `exercises.ts`, `Uebungsbibliothek.md` und `Trainingskonzept.md` eingetragen):
+- Dips und Australian Pull-Ups: **DH FitLife Dip-Barren**, zwei freistehende schwarze Stahlbügel (umgedrehtes U), Höhe 80/90/100 cm, Abstand verstellbar, Schaumstoffgriffe, unten verbunden. Australian Pull-Ups hängend unter den Bügeln, neutraler Griff.
+- Pull-Ups, Hanging Knee Raises, Scapula Pull-Ups: **Gravity Fitness Klimmzuggestell**, freistehender schwarzer Stahlrahmen, zwei Stützen auf H-förmigem Bodenfuß, Stange oben (192 cm).
+- Defizit-Push-Ups: **Parallettes** (Buchenholzgriffe auf schwarzen Stahlfüßen; Größe XS 23 × 16 × 12 cm oder Large). Empfehlung gegenüber den drehbaren „Perfect Pushup“-Griffen: fester Stand, mehr Tiefe, keine Rotation.
+- Step-Ups: **Plyo-Box** in 20/24/30 in, für Step-Ups 20 in (51 cm, etwa Kniehöhe).
+
+**MCP-Server und API:** Der Server `kie-ai` war freigegeben, aber `prepare_media_generation` verlangt eine Freigabe über einen Host-Dialog, den Claude Code nicht bietet (`submit_media_generation` meldet „Plan is not approved“). Deshalb eigenes Skript `app/scripts/kie-gen.mjs`: liest den Key wie `kie-mcp.mjs`, ruft `POST https://api.kie.ai/api/v1/jobs/createTask` auf, pollt `GET /jobs/recordInfo?taskId=`, lädt das Ergebnis und wandelt es mit ffmpeg (im PATH) in WebP 457 × 644 um. Aufruf im Ordner `app`: `node scripts/kie-gen.mjs --job scripts/kie-jobs/<name>.json`. Job-Dateien liegen in `app/scripts/kie-jobs/` (Modell, Zielpfad, Prompt, Referenzen). Modell-ID bei Kie.ai ist `nano-banana-pro` (nicht `google/nano-banana-pro`); Parameter `prompt`, `image_input` (URLs), `aspect_ratio: '3:4'`, `resolution: '1K'`, `output_format: 'png'`. Kosten: 18 Credits je Bild (Guthaben 1056 → 984 nach vier Bildern). Der MCP-Server bleibt nützlich für `upload_file` (Base64 → temporäre URL, 1–3 Tage), `list_models` und Statusabfragen.
+
+**Pilotbilder (fertig, in `app/public/img/gen/`):** `pushup_start`, `pushup_end`, `elbow_plank_start`. Referenzen waren die Herstellerfotos Nr. 2, 108 und 34 (öffentliche URLs auf GitHub Pages); der Stil (gleicher Mann, schwarzes Shirt, graue Shorts, hellgrauer Studiohintergrund, Schwarzweiß) wurde gut getroffen. Erster Versuch des Endbilds war spiegelverkehrt zum Startbild und hatte einen schwarzen Rahmenrest; zweiter Versuch mit dem Startbild als erster Referenz (hochgeladen per MCP `upload_file`) und der Vorgabe „athlete facing to the RIGHT, no black border“ passt. **Lehre:** Endbild immer mit dem Startbild als erster Referenz erzeugen. Beim Plank sind die Hände gefaltet (Prompt sagte „not clasped“), toleriert. Rohbilder (PNG, 1–2 MB) sind per `.gitignore` ausgeschlossen, ins Repo kommen nur die WebP-Dateien (7–10 kB).
+
+**App-Anbindung:** neues Feld `genImage` in `Exercise` (Basisname der Datei; mit `noEndPhoto: true` nur ein Bild, Beschriftung „Haltung“). `exerciseImages()` liefert dann `img/gen/{genImage}_{start|end}.webp`, `ExerciseDescription` zeigt „Bild KI-generiert (Nano Banana Pro) im Stil der Bio Force Anleitung“. Push-Ups (`pushup`) und Elbow Plank (`plank`) sind verknüpft; im Dev-Browser geprüft. **Rückmeldung des Users vom Handy steht aus.**
+
 ## Nächste Schritte
 
-- **Kie.ai-Pilot** (siehe oben): Server freigeben, zwei Übungen bebildern, dann entscheiden.
+- **Kie.ai-Pilot:** User beurteilt Push-Ups und Elbow Plank am Handy. Bei Gefallen die übrigen 17 Übungen: je eine Job-Datei in `app/scripts/kie-jobs/`, Startbild zuerst, Endbild mit Startbild als erster Referenz (Upload per MCP `upload_file`), Geräte laut Ausrüstungsliste beschreiben (Dip-Bügel, Klimmzuggestell, Parallettes, Plyo-Box), Sitz-/Bodenübungen ohne Gerät. Danach Video-Pilot (Seedance 2.0, zwei Clips).
 - **Dashboard mit echten Daten** ab 21.09. ansehen (der User will es erst im Lauf der Woche beurteilen). Auswertungs-Tab passt laut User. Mit echten Daten prüfen, vor allem die Satz-Zählung je Muskelgruppe („Schultern“ fällt hoch aus, weil jede Drückübung die vordere Schulter halb mitzählt; bei Bedarf Gruppen feiner aufteilen).
 - **Nach Woche 1:** Dauer des Mittwochs (Pull) ansehen; bei Bedarf D1 einarmiges Rudern → Face Pulls (Beschluss vom 18.09.).
 - **Blöcke 2–4 als Daten** in `src/data/plan.ts`, nach Auswertung von Woche 1 (Einstufungswerte). Konzept in `Trainingskonzept.md` Abschnitt 3, Ausblick in `Block1-Wochen1-4.md` Abschnitt 7. Sitz-Regel und Geräte-Setup (Zugpunkt, Zubehör) von Anfang an mitdenken; 2,5-lb-Rasten für feinere Lastvorgaben nutzen.

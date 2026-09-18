@@ -13,7 +13,8 @@ export interface Exercise {
   loadType: LoadType
   unit: Unit
   bioforceNo?: number // Nummer in der Finnlo-Anleitung, liefert die Fotos
-  noEndPhoto?: boolean // Foto einer verwandten Herstellerübung: nur Start und Rollen zeigen, das Endfoto wäre irreführend
+  noEndPhoto?: boolean // Foto einer verwandten Herstellerübung: nur Start und Rollen zeigen, das Endfoto wäre irreführend; bei genImage: nur ein Bild (Halteübung)
+  genImage?: string // KI-generiertes Bild (Nano Banana Pro über Kie.ai, Stil der Bio-Force-Fotos): public/img/gen/{genImage}_{start|end}.webp, erzeugt mit scripts/kie-gen.mjs
   smallStep?: boolean // kleine Übung: nur eine Raste (2,5 lb) steigern, und erst bei Wiederholungen über dem Ziel (siehe suggestLoad)
   seat?: 'on' | 'off' // Bio Force: Sitz angebracht oder entfernt; innerhalb eines Supersatzes nie mischen
   equipment: string
@@ -61,7 +62,7 @@ export const EXERCISES: Exercise[] = [
   },
   {
     id: 'pushup', name: 'Push-Ups (Goliaz-Standard)', category: 'push',
-    primary: ['brust', 'trizeps', 'schulter_vorn'], secondary: ['bauch'], loadType: 'bodyweight', unit: 'reps',
+    primary: ['brust', 'trizeps', 'schulter_vorn'], secondary: ['bauch'], loadType: 'bodyweight', unit: 'reps', genImage: 'pushup',
     equipment: 'Boden',
     steps: [
       'Hände etwas breiter als schulterbreit, Körper von Kopf bis Ferse eine Linie.',
@@ -73,15 +74,15 @@ export const EXERCISES: Exercise[] = [
   {
     id: 'pushup-defizit', name: 'Defizit-Push-Ups', category: 'push',
     primary: ['brust', 'trizeps'], secondary: ['schulter_vorn', 'bauch'], loadType: 'bodyweight', unit: 'reps',
-    equipment: 'Kettlebell-Griffe oder zwei stabile Erhöhungen',
-    setup: 'Hände auf den Griffen der Kettlebells, sodass die Brust tiefer als die Hände kommt.',
+    equipment: 'Parallettes (Holzgriffe auf Stahlfüßen)',
+    setup: 'Hände auf den Parallettes, neutraler Griff (Handflächen zueinander), sodass die Brust tiefer als die Hände kommt.',
     steps: ['Wie Push-Ups, unten 1 s in der Dehnung halten.', 'Hochdrücken bis zur vollen Streckung.'],
     tips: ['Schultern unten nicht hochziehen.', 'Kein Abheben der Hände.'],
   },
   {
     id: 'dips', name: 'Dips', category: 'push',
     primary: ['brust', 'trizeps'], secondary: ['schulter_vorn'], loadType: 'bodyweight', unit: 'reps',
-    equipment: 'Dip-Barren',
+    equipment: 'Dip-Barren (zwei freistehende Bügel, Höhe 80–100 cm)',
     steps: [
       'Stütz auf dem Barren, Oberkörper leicht nach vorn (mehr Brust) oder aufrecht (mehr Trizeps).',
       'Absenken bis der Oberarm waagerecht ist, Ellbogen etwa 90°.',
@@ -137,7 +138,7 @@ export const EXERCISES: Exercise[] = [
   {
     id: 'pullup', name: 'Pull-Ups strikt', category: 'pull',
     primary: ['lat', 'bizeps'], secondary: ['ruecken_oben', 'unterarme', 'bauch'], loadType: 'bodyweight', unit: 'reps',
-    equipment: 'Klimmzugstange',
+    equipment: 'Klimmzuggestell (freistehend, Stange auf 192 cm)',
     steps: [
       'Obergriff etwas breiter als schulterbreit, aus dem vollen Hang.',
       'Schulterblätter nach unten ziehen, dann Ellbogen nach unten-hinten, bis das Kinn über der Stange ist.',
@@ -178,7 +179,7 @@ export const EXERCISES: Exercise[] = [
   {
     id: 'australian-pullup', name: 'Australian Pull-Ups', category: 'pull',
     primary: ['ruecken_oben', 'lat'], secondary: ['bizeps', 'schulter_hinten', 'bauch'], loadType: 'bodyweight', unit: 'reps',
-    equipment: 'Niedrige Stange oder Dip-Barren',
+    equipment: 'Dip-Barren, unter den Bügeln hängend (neutraler Griff)',
     steps: ['Unter der Stange hängen, Fersen am Boden, Körper gerade.', 'Brust zur Stange ziehen, Schulterblätter zusammen.', 'Langsam ablassen bis zum gestreckten Arm.'],
     tips: ['Schwerer: Füße erhöht. Leichter: Knie beugen.', 'Ersatz: Rudern stehend mit Griffen.'],
   },
@@ -276,7 +277,7 @@ export const EXERCISES: Exercise[] = [
   {
     id: 'step-up', name: 'Step-Up', category: 'beine',
     primary: ['quadrizeps', 'gesaess'], secondary: ['waden'], loadType: 'extern', unit: 'reps',
-    equipment: 'Stabile Stufe (kniehoch oder niedriger), Kettlebell',
+    equipment: 'Plyo-Box 20 in (51 cm), Kettlebell',
     steps: ['Ganzer Fuß auf der Stufe, mit dem oberen Bein hochdrücken. Das untere Bein schiebt nicht mit.', 'Oben kurz stehen, langsam (3 s) absteigen.', 'Alle Wiederholungen einer Seite, dann wechseln.'],
   },
   {
@@ -357,7 +358,7 @@ export const EXERCISES: Exercise[] = [
   },
   {
     id: 'plank', name: 'Elbow Plank', category: 'core',
-    primary: ['bauch'], secondary: ['schulter_vorn', 'gesaess'], loadType: 'bodyweight', unit: 'seconds',
+    primary: ['bauch'], secondary: ['schulter_vorn', 'gesaess'], loadType: 'bodyweight', unit: 'seconds', genImage: 'elbow_plank', noEndPhoto: true,
     equipment: 'Boden',
     steps: ['Unterarmstütz, Ellbogen unter den Schultern, Körper gerade.', 'Gesäß anspannen, Bauch fest, atmen.'],
   },
@@ -370,7 +371,7 @@ export const EXERCISES: Exercise[] = [
   {
     id: 'hanging-knee-raise', name: 'Hanging Knee Raises', category: 'core',
     primary: ['bauch', 'huefte'], secondary: ['unterarme'], loadType: 'bodyweight', unit: 'reps',
-    equipment: 'Klimmzugstange',
+    equipment: 'Klimmzuggestell (freistehend)',
     steps: ['Hang an der Stange, Knie langsam zur Brust ziehen, Becken leicht einrollen.', 'Langsam ablassen, kein Schwung.'],
   },
   {
@@ -448,7 +449,7 @@ export const EXERCISES: Exercise[] = [
   {
     id: 'scapula-pullup', name: 'Scapula Pull-Ups', category: 'warmup',
     primary: ['lat', 'ruecken_oben'], secondary: [], loadType: 'bodyweight', unit: 'reps',
-    equipment: 'Klimmzugstange',
+    equipment: 'Klimmzuggestell (freistehend)',
     steps: ['Im Hang mit gestreckten Armen nur die Schulterblätter nach unten ziehen, der Körper hebt sich wenige Zentimeter. Langsam zurück.'],
   },
 ]
@@ -461,6 +462,10 @@ export const ex = (id: string): Exercise => {
 }
 
 export function exerciseImages(e: Exercise): { start?: string; end?: string; pulley?: string } {
+  if (e.genImage) {
+    const dir = `${import.meta.env.BASE_URL}img/gen`
+    return { start: `${dir}/${e.genImage}_start.webp`, end: e.noEndPhoto ? undefined : `${dir}/${e.genImage}_end.webp` }
+  }
   if (!e.bioforceNo) return {}
   const n = String(e.bioforceNo).padStart(3, '0')
   const dir = `${import.meta.env.BASE_URL}img/bioforce`

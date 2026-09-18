@@ -1,0 +1,15 @@
+{
+  "model": "nano-banana-pro",
+  "out": "public/img/gen/elbow_plank",
+  "input": {
+    "prompt": "Black-and-white studio photograph in exactly the style of the reference images from a home-gym instruction manual: the same athletic man as in the references (short dark hair, clean-shaven, black sleeveless shirt, grey athletic shorts, white running shoes), plain light-grey seamless backdrop and light-grey floor, soft even studio lighting, slightly grainy monochrome print look, full body visible, nothing cropped, no gym equipment, no text, no watermark, no logos. He is holding an ELBOW PLANK: forearms flat on the floor, elbows directly under the shoulders, hands not clasped, toes on the floor, body a perfectly straight line from head to heels, hips neither sagging nor raised, head neutral looking at the floor. Camera at floor level from the side, slightly from the front.",
+    "image_input": [
+      "https://rene-777.github.io/Fitnessapp/img/bioforce/bf002_start.webp",
+      "https://rene-777.github.io/Fitnessapp/img/bioforce/bf108_start.webp",
+      "https://rene-777.github.io/Fitnessapp/img/bioforce/bf034_start.webp"
+    ],
+    "aspect_ratio": "3:4",
+    "resolution": "1K",
+    "output_format": "png"
+  }
+}

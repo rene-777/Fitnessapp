@@ -61,10 +61,11 @@ Die Skala an den Schwingarmen zeigt amerikanische Pfund (lb) pro Seite: 5 bis 12
 
 ### Defizit-Push-Ups
 - **Muskeln:** wie Push-Ups, stärkere Dehnung der Brust
-- **Aufbau:** Hände auf den Griffen der Kettlebells oder auf zwei stabilen Erhöhungen, sodass die Brust tiefer als die Hände kommt.
+- **Aufbau:** Hände auf den Parallettes (Holzgriffe, neutraler Griff), sodass die Brust tiefer als die Hände kommt. Die Parallettes sind den drehbaren Push-Up-Griffen vorzuziehen: fester Stand, mehr Tiefe, keine Rotation, die die Ausführung verändert.
 - **Ausführung:** Wie Push-Ups, unten 1 s in der Dehnung halten, ohne die Schultern hochzuziehen. Kein Abheben der Hände.
 
 ### Dips (Barren)
+- **Gerät:** zwei freistehende Dip-Bügel (DH FitLife), Höhe 80–100 cm, Abstand verstellbar
 - **Muskeln:** primär untere Brust, Trizeps · sekundär vordere Schulter
 - **Ausführung:**
   1. Stütz auf dem Barren, Oberkörper leicht nach vorn geneigt (mehr Brust) oder aufrecht (mehr Trizeps).
@@ -109,6 +110,7 @@ Die Skala an den Schwingarmen zeigt amerikanische Pfund (lb) pro Seite: 5 bis 12
 ## B. Rücken und Ziehen
 
 ### Pull-Ups strikt
+- **Gerät:** freistehendes Klimmzuggestell (Gravity Fitness), Stange auf 192 cm
 - **Muskeln:** primär Latissimus, Bizeps · sekundär oberer Rücken, Unterarme, Bauch
 - **Ausführung:**
   1. Obergriff etwas breiter als schulterbreit, aus dem vollen Hang mit gestreckten Armen.
@@ -143,6 +145,7 @@ Die Skala an den Schwingarmen zeigt amerikanische Pfund (lb) pro Seite: 5 bis 12
 - **Ausführung:** Schrittstellung, freie Hand am Gerät abstützen. Arm weit nach vorn strecken lassen (Dehnung), dann Ellbogen zur Hüfte ziehen. Beide Seiten.
 
 ### Australian Pull-Ups (Rudern am Barren oder an niedriger Stange)
+- **Gerät:** die Dip-Bügel, unter den Bügeln hängend, neutraler Griff; Bügel auf 80 cm für mehr Bewegungsweg
 - **Muskeln:** primär oberer Rücken, Latissimus · sekundär Bizeps, hintere Schulter, Core
 - **Ausführung:**
   1. Unter der Stange hängen, Fersen am Boden, Körper gerade wie ein Brett.
@@ -246,7 +249,7 @@ Die Skala an den Schwingarmen zeigt amerikanische Pfund (lb) pro Seite: 5 bis 12
 
 ### Step-Up
 - **Muskeln:** primär Quadrizeps, Gesäß · sekundär Waden
-- **Aufbau:** Stabile Stufe, Kniehöhe oder niedriger. Kettlebell 8 kg vor der Brust oder in einer Hand.
+- **Aufbau:** Plyo-Box auf 20 in (51 cm, etwa Kniehöhe; die Box hat auch 24 und 30 in, die sind für die Knie zu hoch). Kettlebell 8 kg vor der Brust oder in einer Hand.
 - **Ausführung:** Ganzer Fuß auf der Stufe, mit dem oberen Bein hochdrücken, das untere Bein schiebt nicht mit. Oben kurz stehen, langsam (3 s) absteigen. Alle Wiederholungen einer Seite, dann wechseln.
 
 ### Hüftabduktion mit Fußschlaufe (Bio Force Nr. 16)
@@ -314,6 +317,7 @@ Die Skala an den Schwingarmen zeigt amerikanische Pfund (lb) pro Seite: 5 bis 12
 - **Ausführung:** Seitlicher Unterarmstütz, Hüfte hoch, Körper gerade. Leichter: unteres Knie am Boden.
 
 ### Hanging Knee Raises
+- **Gerät:** Klimmzuggestell
 - **Muskeln:** primär Hüftbeuger, gerade Bauchmuskeln (unterer Anteil) · sekundär Unterarme
 - **Ausführung:** Hang an der Stange, Knie langsam zur Brust ziehen, Becken dabei leicht einrollen, langsam ablassen. Kein Schwung.
 
