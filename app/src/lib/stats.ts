@@ -63,6 +63,7 @@ export function repsByWeek(sets: SetLog[], start: string): Map<number, Record<st
 // ---------- Benchmarks ----------
 export interface BenchmarkSeries {
   key: string
+  unit: string // 'reps' | 'seconds' | 'meters' | 'rounds', wie beim Test gespeichert
   points: { date: string; value: number }[]
   first: number
   latest: number
@@ -74,7 +75,7 @@ export function benchmarkSeries(benchmarks: Benchmark[]): BenchmarkSeries[] {
   for (const b of benchmarks) if (!b.deleted) byKey.set(b.key, [...(byKey.get(b.key) ?? []), b])
   return [...byKey.entries()].map(([key, rows]) => {
     const points = rows.sort((a, b) => (a.date < b.date ? -1 : 1)).map((b) => ({ date: b.date, value: b.value }))
-    return { key, points, first: points[0].value, latest: points[points.length - 1].value, best: Math.max(...points.map((p) => p.value)) }
+    return { key, unit: rows[rows.length - 1].unit, points, first: points[0].value, latest: points[points.length - 1].value, best: Math.max(...points.map((p) => p.value)) }
   })
 }
 

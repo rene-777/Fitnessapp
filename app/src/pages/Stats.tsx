@@ -7,7 +7,7 @@ import { WEEKS } from '../data/plan'
 import { db } from '../db/db'
 import { useProfile } from '../hooks/useProfile'
 import { fmtLb, kgToLb } from '../lib/bioforce'
-import { fmtDate, planWeekOf, today } from '../lib/dates'
+import { fmtDate, fmtSec, planWeekOf, today } from '../lib/dates'
 import { blockLabel } from '../lib/planEngine'
 import { GROUP_NAMES, REP_GROUPS, benchmarkSeries, cardioPoints, frequencyByWeek, loadRecords, readinessPoints, repsByWeek, volumeByGroup } from '../lib/stats'
 import { BENCHMARK_LABELS } from '../lib/workouts'
@@ -33,10 +33,15 @@ function TrendChart({ data, unit, height = 'h-36', whole }: { data: { date: stri
   )
 }
 
-function Delta({ from, to }: { from: number; to: number }) {
+function Delta({ from, to, unit }: { from: number; to: number; unit?: string }) {
   const d = Math.round((to - from) * 10) / 10
   if (d === 0) return <span className="text-muted">±0</span>
-  return <span><span className={d > 0 ? 'text-ok' : 'text-bad'}>{d > 0 ? '▲' : '▼'}</span> {d > 0 ? '+' : '−'}{num(Math.abs(d))}</span>
+  return <span><span className={d > 0 ? 'text-ok' : 'text-bad'}>{d > 0 ? '▲' : '▼'}</span> {d > 0 ? '+' : '−'}{num(Math.abs(d))}{unit ? ` ${unit}` : ''}</span>
+}
+
+/** Testwert lesbar: Sekunden als m:ss, sonst Zahl. */
+function benchValue(v: number, unit: string) {
+  return unit === 'seconds' ? fmtSec(v) : num(v)
 }
 
 export default function Stats() {
@@ -166,18 +171,19 @@ export default function Stats() {
         <div className="h2">Benchmarks</div>
         {series.length === 0 && <div className="text-sm text-muted">Die Tests aus Woche 1 erscheinen hier, ab dem zweiten Test mit Verlauf.</div>}
         {series.map((s) => {
-          const unit = s.key === 'plankMax' ? 's' : s.key === 'cooper12' ? 'm' : ''
+          const unit = s.unit === 'seconds' ? 'min' : s.unit === 'meters' ? 'm' : ''
+          const chartUnit = s.unit === 'seconds' ? 's' : unit
           return (
             <div key={s.key} className="border-t border-line first:border-t-0 pt-3 first:pt-0 space-y-2">
               <div className="flex items-baseline justify-between gap-2">
                 <div className="text-sm text-muted">{BENCHMARK_LABELS[s.key] ?? s.key}</div>
-                <div className="text-sm">{s.points.length > 1 && <Delta from={s.first} to={s.latest} />}</div>
+                <div className="text-sm">{s.points.length > 1 && <Delta from={s.first} to={s.latest} unit={chartUnit} />}</div>
               </div>
               <div className="flex items-baseline gap-3">
-                <div className="text-3xl font-bold tabular-nums">{num(s.latest)}{unit && <span className="text-base font-normal text-muted"> {unit}</span>}</div>
-                <div className="text-xs text-muted">{shortDate(s.points[s.points.length - 1].date)}{s.best > s.latest ? ` · Bestwert ${num(s.best)}` : ''}{s.points.length > 1 ? ` · Start ${num(s.first)}` : ''}</div>
+                <div className="text-3xl font-bold tabular-nums">{benchValue(s.latest, s.unit)}{unit && <span className="text-base font-normal text-muted"> {unit}</span>}</div>
+                <div className="text-xs text-muted">{shortDate(s.points[s.points.length - 1].date)}{s.best > s.latest ? ` · Bestwert ${benchValue(s.best, s.unit)}` : ''}{s.points.length > 1 ? ` · Start ${benchValue(s.first, s.unit)}` : ''}</div>
               </div>
-              {s.points.length > 1 && <TrendChart data={s.points} unit={unit} height="h-28" whole />}
+              {s.points.length > 1 && <TrendChart data={s.points} unit={chartUnit} height="h-28" whole />}
             </div>
           )
         })}

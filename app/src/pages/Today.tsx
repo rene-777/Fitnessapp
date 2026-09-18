@@ -7,7 +7,7 @@ import { EXERCISE_MAP } from '../data/exercises'
 import { WEEKS, weekByNumber } from '../data/plan'
 import { fmtLb, kgToLb } from '../lib/bioforce'
 import { latestKnee, latestRecord, lastPerformance, nextMilestone, planProgress, sessionStreak, totals } from '../lib/dashboard'
-import { WEEKDAY_SHORT, dateOf, fmtDate, fmtDateLong, parseISO, today } from '../lib/dates'
+import { WEEKDAY_SHORT, dateOf, fmtDate, fmtDateLong, fmtSec, parseISO, today } from '../lib/dates'
 import { blockLabel, dayInfo, sessionExerciseIds } from '../lib/planEngine'
 
 const RING_R = 42
@@ -196,7 +196,7 @@ export default function Today() {
           <div className="font-semibold">
             {record.title}{' '}
             <span className="text-accent">
-              {record.kind === 'load' ? `${fmtLb(kgToLb(record.weightKg!))} lb × ${record.reps}` : `${record.previous!.toLocaleString('de-DE')} → ${record.value!.toLocaleString('de-DE')}`}
+              {record.kind === 'load' ? `${fmtLb(kgToLb(record.weightKg!))} lb × ${record.reps}` : (record.unit === 'seconds' ? `${fmtSec(record.previous!)} → ${fmtSec(record.value!)} min` : `${record.previous!.toLocaleString('de-DE')} → ${record.value!.toLocaleString('de-DE')}`)}
             </span>
           </div>
         </Link>

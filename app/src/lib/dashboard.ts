@@ -69,6 +69,7 @@ export interface RecordNews {
   reps?: number
   value?: number
   previous?: number
+  unit?: string
 }
 
 /** Jüngste Bestleistung: schwererer Satz an der Bio Force oder verbesserter Benchmark. Der erste Wert zählt nicht als Rekord. */
@@ -95,7 +96,7 @@ export function latestRecord(sets: SetLog[], benchmarks: Benchmark[]): RecordNew
   for (const [key, rows] of byKey) {
     let best: number | undefined
     for (const b of rows.sort((a, c) => (a.date < c.date ? -1 : 1))) {
-      if (best !== undefined && b.value > best) consider({ date: b.date, title: BENCHMARK_LABELS[key] ?? key, kind: 'benchmark', value: b.value, previous: best })
+      if (best !== undefined && b.value > best) consider({ date: b.date, title: BENCHMARK_LABELS[key] ?? key, kind: 'benchmark', value: b.value, previous: best, unit: b.unit })
       best = best === undefined ? b.value : Math.max(best, b.value)
     }
   }

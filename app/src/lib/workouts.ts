@@ -83,7 +83,7 @@ export const BENCHMARK_LABELS: Record<string, string> = {
   pushupsMax: 'Push-Ups max',
   pullupsMax: 'Pull-Ups max',
   dipsMax: 'Dips max',
-  plankMax: 'Plank max (s)',
+  plankMax: 'Plank max',
   burpees5min: 'Burpees in 5 min',
   pushups5min: 'Push-Ups in 5 min',
   squats1min: 'Kniebeugen in 1 min',
