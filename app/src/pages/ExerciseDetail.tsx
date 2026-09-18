@@ -37,7 +37,7 @@ export default function ExerciseDetail() {
         <ExerciseImages e={e} />
         <ExerciseDescription e={e} />
       </div>
-      <Link to={`/log/exercise/${e.id}`} className="btn-ghost block text-center">Eintrag nachtragen</Link>
+      <Link to={`/free/${e.id}`} className="btn-ghost block text-center">Freies Training mit dieser Übung</Link>
       {alive.length > 0 && (
         <div className="card">
           <div className="h2 mb-2">Bestwerte</div>

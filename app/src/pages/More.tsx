@@ -4,7 +4,7 @@ export default function More() {
   const items = [
     { to: '/body', title: 'Körper und Kalorien', sub: 'Gewicht, Taille, Kalorienbedarf, Proteinziel' },
     { to: '/log', title: 'Einheit nachtragen', sub: 'Vergangene Plan-Einheit komplett eintragen' },
-    { to: '/log/exercise', title: 'Übung nachtragen', sub: 'Einzelne Übung mit Sätzen, außerhalb des Plans' },
+    { to: '/free', title: 'Freies Training', sub: 'Einzelne Übungen außerhalb des Plans, mit Stoppuhr für Halteübungen' },
     { to: '/settings', title: 'Einstellungen', sub: 'Profil, Startdatum, Audio, Sicherung' },
   ]
   return (

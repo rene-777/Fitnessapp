@@ -1,10 +1,12 @@
-import { useMemo, useState } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { MuscleChips } from '../components/ExerciseCard'
 import NumberInput from '../components/NumberInput'
+import { Stopwatch } from '../components/Timer'
 import { CATEGORY_LABEL, EXERCISES, EXERCISE_MAP, type Category } from '../data/exercises'
 import { db } from '../db/db'
+import { unlockAudio } from '../lib/audio'
 import { useProfile } from '../hooks/useProfile'
 import { BF_MAX_LB, BF_MIN_LB, BF_STEP_LB, fmtKg, fmtLb, kgToLb, lbToKg } from '../lib/bioforce'
 import { fmtSec, planWeekOf, today } from '../lib/dates'
@@ -22,8 +24,16 @@ interface RowInput {
 }
 const EMPTY: RowInput = { reps: '', seconds: '', minutes: '', distance: '', weight: '', rir: '' }
 
-/** Einzelne Übung außerhalb einer Plan-Einheit eintragen. Die Sätze hängen an einem „Freien Training“ des Tages. */
-export default function LogExercise() {
+/** Stoppuhr für Halteübungen: mit 3-2-1-Vorlauf, die gestoppte Zeit landet gerundet im Sekundenfeld. */
+function HoldStopwatch({ onSeconds }: { onSeconds: (s: number) => void }) {
+  const ref = useRef(onSeconds)
+  ref.current = onSeconds
+  const onChange = useCallback((s: number) => ref.current(Math.round(s)), [])
+  return <Stopwatch leadIn onChange={onChange} />
+}
+
+/** Freies Training: einzelne Übung außerhalb einer Plan-Einheit. Die Sätze hängen an einem „Freien Training“ des Tages. */
+export default function FreeTraining() {
   const params = useParams()
   const navigate = useNavigate()
   const profile = useProfile()
@@ -32,6 +42,7 @@ export default function LogExercise() {
   const [rows, setRows] = useState<RowInput[]>([{ ...EMPTY }])
   const [isTest, setIsTest] = useState(false)
   const [error, setError] = useState<string>()
+  const [watch, setWatch] = useState<number | null>(null) // Zeile, deren Stoppuhr offen ist
   const [saving, setSaving] = useState(false)
 
   const e = exerciseId ? EXERCISE_MAP[exerciseId] : undefined
@@ -54,8 +65,8 @@ export default function LogExercise() {
 
   const setRow = (i: number, patch: Partial<RowInput>) => { setRows((old) => old.map((r, j) => (j === i ? { ...r, ...patch } : r))); setError(undefined) }
   const addRow = () => setRows((old) => [...old, { ...old[old.length - 1] }])
-  const removeRow = (i: number) => setRows((old) => (old.length > 1 ? old.filter((_, j) => j !== i) : old))
-  const pick = (id: string) => { setExerciseId(id); setRows([{ ...EMPTY }]); setIsTest(false); setError(undefined) }
+  const removeRow = (i: number) => { setRows((old) => (old.length > 1 ? old.filter((_, j) => j !== i) : old)); setWatch(null) }
+  const pick = (id: string) => { setExerciseId(id); setRows([{ ...EMPTY }]); setIsTest(false); setError(undefined); setWatch(null) }
 
   const save = async () => {
     if (!e) return
@@ -86,7 +97,7 @@ export default function LogExercise() {
 
   return (
     <div className="space-y-4">
-      <h1 className="h1">Übung nachtragen</h1>
+      <h1 className="h1">Freies Training</h1>
       <div className="card space-y-3">
         <div>
           <div className="label mb-1">Datum</div>
@@ -121,7 +132,14 @@ export default function LogExercise() {
                 {rows.length > 1 && <button type="button" className="btn-ghost px-3 py-1 text-sm" onClick={() => removeRow(i)}>Entfernen</button>}
               </div>
               {e.unit === 'reps' && <NumberInput label="Wiederholungen" value={r.reps} onChange={(v) => setRow(i, { reps: v })} />}
-              {e.unit === 'seconds' && <NumberInput label="Sekunden" value={r.seconds} onChange={(v) => setRow(i, { seconds: v })} step={5} />}
+              {e.unit === 'seconds' && (
+                <>
+                  {watch === i
+                    ? <HoldStopwatch onSeconds={(s) => setRow(i, { seconds: s })} />
+                    : <button type="button" className="btn-ghost w-full" onClick={() => { unlockAudio(); setWatch(i) }}>Stoppuhr starten</button>}
+                  <NumberInput label="Sekunden" value={r.seconds} onChange={(v) => setRow(i, { seconds: v })} step={5} />
+                </>
+              )}
               {e.unit === 'meters' && (
                 <div className="flex gap-2">
                   <NumberInput label="Minuten" value={r.minutes} onChange={(v) => setRow(i, { minutes: v })} compact />

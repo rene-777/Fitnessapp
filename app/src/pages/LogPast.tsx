@@ -98,7 +98,7 @@ export default function LogPast() {
   return (
     <div className="space-y-4">
       <h1 className="h1">Einheit nachtragen</h1>
-      <Link to="/log/exercise" className="text-sm text-accent block px-1">Nur eine einzelne Übung? Übung nachtragen ›</Link>
+      <Link to="/free" className="text-sm text-accent block px-1">Nur einzelne Übungen? Freies Training ›</Link>
       <div className="card space-y-3">
         <div>
           <div className="label mb-1">Datum</div>
