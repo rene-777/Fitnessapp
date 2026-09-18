@@ -289,6 +289,7 @@ function SetStepView({ step, workout, onSaved, onSkip }: { step: SetStep; workou
   const [init, setInit] = useState(false)
   const [holdTimer, setHoldTimer] = useState<'off' | 'ready' | 'on'>('off')
   const [missing, setMissing] = useState(false)
+  const [noLoad, setNoLoad] = useState(false) // Bio Force ohne Skalenwert: erst Hinweis, zweiter Tipp speichert
 
   useEffect(() => {
     if (init || existing === undefined || suggestion === undefined) return
@@ -309,6 +310,7 @@ function SetStepView({ step, workout, onSaved, onSkip }: { step: SetStep; workou
   const save = async () => {
     const value = timed ? seconds : reps
     if (value === '' || value === 0) { setMissing(true); return }
+    if (isBf && weight === '' && !noLoad) { setNoLoad(true); return }
     setMissing(false)
     await saveSet(workout, {
       exerciseId: step.exerciseId, segmentLabel: step.label, setIndex: step.setIndex,
@@ -341,7 +343,7 @@ function SetStepView({ step, workout, onSaved, onSkip }: { step: SetStep; workou
         {!timed && <NumberInput label={step.p.perSide ? 'Wiederholungen je Seite' : 'Wiederholungen'} value={reps} onChange={(v) => { setReps(v); setMissing(false) }} error={missing ? 'Bitte die Wiederholungen eintragen.' : undefined} />}
         <div className="space-y-3">
           {showWeight && (isBf
-            ? <NumberInput label="Skala (lb) pro Seite" value={weight} onChange={setWeight} step={BF_STEP_LB} min={BF_MIN_LB} max={BF_MAX_LB} hint={weight === '' ? 'Wert am Schwingarm, 5–125 in 2,5er-Rasten' : `≈ ${fmtKg(lbToKg(Number(weight)))} kg pro Seite`} />
+            ? <NumberInput label="Skala (lb) pro Seite" value={weight} onChange={(v) => { setWeight(v); setNoLoad(false) }} step={BF_STEP_LB} min={BF_MIN_LB} max={BF_MAX_LB} hint={weight === '' ? 'Wert am Schwingarm, 5–125 in 2,5er-Rasten' : `≈ ${fmtKg(lbToKg(Number(weight)))} kg pro Seite`} error={noLoad ? 'Kein Skalenwert eingetragen. Nochmal tippen, um ohne Last zu speichern.' : undefined} />
             : <NumberInput label="kg" value={weight} onChange={setWeight} step={1} />)}
           {showRir && (
             <div className="flex-1">
@@ -354,7 +356,7 @@ function SetStepView({ step, workout, onSaved, onSkip }: { step: SetStep; workou
             </div>
           )}
         </div>
-        <button className="btn-primary w-full" onClick={save}>Satz speichern{step.restSec > 0 ? ` · Pause ${step.restSec} s` : ''}</button>
+        <button className="btn-primary w-full" onClick={save}>{noLoad ? 'Ohne Last speichern' : 'Satz speichern'}{step.restSec > 0 ? ` · Pause ${step.restSec} s` : ''}</button>
         <button className="btn-ghost w-full text-sm" onClick={onSkip}>Satz auslassen</button>
       </div>
     </div>

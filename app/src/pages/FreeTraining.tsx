@@ -54,6 +54,7 @@ export default function FreeTraining() {
   const [rows, setRows] = useState<RowInput[]>([{ ...EMPTY }])
   const [isTest, setIsTest] = useState(false)
   const [error, setError] = useState<string>()
+  const [noLoad, setNoLoad] = useState(false) // Bio Force ohne Skalenwert: erst Hinweis, zweiter Tipp speichert
   const [done, setDone] = useState<string>() // Meldung nach dem Speichern
   const [watch, setWatch] = useState<number | null>(null) // Zeile, deren Stoppuhr offen ist
   const [saving, setSaving] = useState(false)
@@ -79,15 +80,19 @@ export default function FreeTraining() {
 
   if (!profile) return null
 
-  const setRow = (i: number, patch: Partial<RowInput>) => { setRows((old) => old.map((r, j) => (j === i ? { ...r, ...patch } : r))); setError(undefined) }
+  const setRow = (i: number, patch: Partial<RowInput>) => { setRows((old) => old.map((r, j) => (j === i ? { ...r, ...patch } : r))); setError(undefined); setNoLoad(false) }
   const addRow = () => setRows((old) => [...old, { ...old[old.length - 1] }])
   const removeRow = (i: number) => { setRows((old) => (old.length > 1 ? old.filter((_, j) => j !== i) : old)); setWatch(null) }
-  const pick = (id: string) => { setExerciseId(id); setRows([{ ...EMPTY }]); setIsTest(false); setError(undefined); setWatch(null); if (id) setDone(undefined) }
+  const pick = (id: string) => { setExerciseId(id); setRows([{ ...EMPTY }]); setIsTest(false); setError(undefined); setNoLoad(false); setWatch(null); if (id) setDone(undefined) }
+
+  // Ein Satz zählt als ausgefüllt, wenn der Hauptwert (Wdh., Sekunden oder Minuten/Meter) drin ist
+  const isFilled = (r: RowInput) => (e?.unit === 'reps' ? r.reps !== '' && r.reps !== 0 : e?.unit === 'seconds' ? r.seconds !== '' && r.seconds !== 0 : (r.minutes !== '' && r.minutes !== 0) || (r.distance !== '' && r.distance !== 0))
 
   const save = async () => {
     if (!e) return
-    const filled = rows.filter((r) => (e.unit === 'reps' ? r.reps !== '' && r.reps !== 0 : e.unit === 'seconds' ? r.seconds !== '' && r.seconds !== 0 : (r.minutes !== '' && r.minutes !== 0) || (r.distance !== '' && r.distance !== 0)))
+    const filled = rows.filter(isFilled)
     if (filled.length === 0) { setError(e.unit === 'reps' ? 'Bitte mindestens einen Satz mit Wiederholungen eintragen.' : e.unit === 'seconds' ? 'Bitte die Sekunden eintragen.' : 'Bitte Minuten oder Meter eintragen.'); return }
+    if (isBf && filled.some((r) => r.weight === '') && !noLoad) { setNoLoad(true); return }
     setSaving(true)
     const w = await getOrCreateFreeWorkout(profile.id, date, planWeekOf(date, profile.planStartDate) || 0)
     let index = savedForExercise.length
@@ -172,7 +177,7 @@ export default function FreeTraining() {
                 </div>
               )}
               {showWeight && (isBf
-                ? <NumberInput label="Skala (lb) pro Seite" value={r.weight} onChange={(v) => setRow(i, { weight: v })} step={BF_STEP_LB} min={BF_MIN_LB} max={BF_MAX_LB} hint={r.weight === '' ? 'Wert am Schwingarm, 5–125 in 2,5er-Rasten' : `≈ ${fmtKg(lbToKg(Number(r.weight)))} kg pro Seite`} />
+                ? <NumberInput label="Skala (lb) pro Seite" value={r.weight} onChange={(v) => setRow(i, { weight: v })} step={BF_STEP_LB} min={BF_MIN_LB} max={BF_MAX_LB} hint={r.weight === '' ? 'Wert am Schwingarm, 5–125 in 2,5er-Rasten' : `≈ ${fmtKg(lbToKg(Number(r.weight)))} kg pro Seite`} error={noLoad && r.weight === '' && isFilled(r) ? 'Kein Skalenwert eingetragen. Nochmal tippen, um ohne Last zu speichern.' : undefined} />
                 : <NumberInput label="kg" value={r.weight} onChange={(v) => setRow(i, { weight: v })} step={1} />)}
               {showRir && (
                 <div>
@@ -188,7 +193,7 @@ export default function FreeTraining() {
           ))}
           <button type="button" className="btn-ghost w-full" onClick={addRow}>+ Satz</button>
           {error && <div className="text-sm text-bad text-center" role="alert">{error}</div>}
-          <button className="btn-primary w-full" disabled={saving} onClick={save}>Speichern, dann nächste Übung</button>
+          <button className="btn-primary w-full" disabled={saving} onClick={save}>{noLoad ? 'Ohne Last speichern' : 'Speichern, dann nächste Übung'}</button>
           <Link to={`/exercises/${e.id}`} className="btn-ghost block text-center text-sm">Verlauf der Übung ansehen</Link>
         </>
       )}
