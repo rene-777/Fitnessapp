@@ -175,8 +175,9 @@ Die Skala an den Schwingarmen zeigt amerikanische Pfund (lb) pro Seite: 5 bis 12
 - **Einstellung:** Sitz entfernt, Handgriffe (oder Latstange, Nr. 87), untere Haken, Rücken zum Gerät
 - **Ausführung:** Untergriff, Ellbogen am Körper fixiert, Arme beugen, kurz anspannen, langsam strecken. Ellbogen nicht nach vorn schwingen.
 
-### Hammer-Curls (Bio Force Nr. 83 oder mit Kurzhanteln)
+### Hammer-Curls (Bio Force Nr. 83)
 - **Muskeln:** primär Bizeps, Brachialis · sekundär Unterarme
+- **Einstellung:** Sitz entfernt, Handgriffe an den unteren Haken, Rücken zum Gerät, Last in lb pro Seite
 - **Ausführung:** Wie Curls, aber Daumen zeigen nach oben (neutraler Griff).
 
 ### Shrugs (Bio Force Nr. 62)

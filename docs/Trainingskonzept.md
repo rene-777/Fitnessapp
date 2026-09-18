@@ -123,7 +123,7 @@ Jede Laufeinheit hat eine gleichwertige Indoor-Alternative (Seil- oder Burpee-In
 
 **Push:** Kabel-Schrägdrücken von unten (obere Brust), Fliegende tief nach hoch (obere Brust, Dehnung), Goliaz-Push-Ups, Defizit-Push-Ups auf Kettlebells, Push-Ups Füße erhöht, Dips, Schulterdrücken am Kabel, Seitheben am Kabel (Arm hinter dem Körper), Frontheben, Trizeps über Kopf am Kabel, Trizepsdrücken.
 
-**Pull:** Pull-Ups (später mit Rucksack als Zusatzlast), Chin-Ups, Latzug (Latstange), Rudern sitzend mit Latstange, einarmiges Rudern am Kabel, Australian Pull-Ups, Face Pulls, Reverse Flys am Kabel, Shrugs, Bizeps-Curls am Kabel, Hammer-Curls mit Kurzhanteln.
+**Pull:** Pull-Ups (später mit Rucksack als Zusatzlast), Chin-Ups, Latzug (Latstange), Rudern sitzend mit Latstange, einarmiges Rudern am Kabel, Australian Pull-Ups, Face Pulls, Reverse Flys am Kabel, Shrugs, Bizeps-Curls am Kabel, Hammer-Curls am Kabel.
 
 **Beine und Hüfte (kniefreundlich):** Kabel-Kniebeuge (Griffe an unteren Zugpunkten), Split Squats, Bulgarian Split Squats, Step-Ups auf mittlere Höhe, Romanian Deadlift mit Latstange an den unteren Zugpunkten, Beinbeuger und Beinstrecker am Beinmodul im Tempo 3-1-3, Cable Pull-Through, Hüftabduktion und -adduktion mit Fußschlaufen, Hip Thrust einbeinig, Wadenheben, Wall Sit und Spanish Squat isometrisch.
 

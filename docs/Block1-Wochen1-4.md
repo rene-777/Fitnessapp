@@ -110,7 +110,7 @@ Volumen bewusst reduziert. Die Einstufung ist eingebaut: bei Bio-Force-Übungen 
 | D2 | Australian Pull-Ups | 3 × 10–12 | 90 s | Ersatz: Rudern mit Griffen |
 | Umbau | **Sitz abbauen** | | | |
 | E | Reverse Flys | 3 × 15 | 45 s | 1–2 RIR |
-| F | Bizeps-Curls am Kabel + Hammer-Curls (Kurzhanteln) | 2 × 12 / 2 × 12 | 45 s | |
+| F | Bizeps-Curls am Kabel + Hammer-Curls am Kabel | 2 × 12 / 2 × 12 | 45 s | |
 | Core | Hanging Knee Raises + Side Plank | 3 × 10 / 2 × 30 s je Seite | 45 s | |
 | Cool-down 3 min | Lat- und Bizepsdehnung | | | |
 

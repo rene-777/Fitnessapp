@@ -208,8 +208,8 @@ export const EXERCISES: Exercise[] = [
   },
   {
     id: 'hammer-curl', name: 'Hammer-Curls', category: 'pull',
-    primary: ['bizeps'], secondary: ['unterarme'], loadType: 'extern', unit: 'reps', bioforceNo: bf(83),
-    equipment: 'Kurzhanteln oder Bio Force (Nr. 83)',
+    primary: ['bizeps'], secondary: ['unterarme'], loadType: 'bioforce', seat: 'off', unit: 'reps', bioforceNo: bf(83),
+    equipment: 'Bio Force, Sitz entfernt, Handgriffe an den unteren Haken, Rücken zum Gerät, neutraler Griff (Nr. 83)',
     steps: ['Daumen zeigen nach oben (neutraler Griff).', 'Arme beugen, kurz anspannen, langsam strecken.'],
   },
   {
