@@ -1,8 +1,8 @@
-# Übergabe – Stand 18.09.2026 (Session-Ende, abends)
+# Übergabe – Stand 18.09.2026 (Session-Ende, spätabends)
 
 ## Kurzfassung
 
-Die App ist live unter **https://rene-777.github.io/Fitnessapp/**, auf dem Android-Handy des Users installiert und startklar für Woche 1 (Start Montag 21.09.2026). Phase 1 (geführtes Training), Phase 2 (Auswertungs-Tab, Dashboard) und das freie Training (einzelne Übungen außerhalb des Plans, mit Stoppuhr) sind fertig; der User hat alles vom 18.09. am Handy getestet und für gut befunden. Arbeitsbaum sauber, alles auf `origin/main` gepusht und deployt. Nächstes großes Arbeitspaket: **Blöcke 2–4**, sobald die Einstufungswerte aus Woche 1 vorliegen. Bis dahin: Rückmeldungen des Users vom Handy abarbeiten.
+Die App ist live unter **https://rene-777.github.io/Fitnessapp/**, auf dem Android-Handy des Users installiert und startklar für Woche 1 (Start Montag 21.09.2026). Phase 1 (geführtes Training), Phase 2 (Auswertungs-Tab, Dashboard) und das freie Training (einzelne Übungen außerhalb des Plans, mit Stoppuhr) sind fertig; der User hat alles vom 18.09. am Handy getestet und für gut befunden. Arbeitsbaum sauber, alles auf `origin/main` gepusht und deployt. Nächstes großes Arbeitspaket: **Blöcke 2–4**, sobald die Einstufungswerte aus Woche 1 vorliegen. Bis dahin: Rückmeldungen des Users vom Handy abarbeiten und das **Kie.ai-Vorhaben** (KI-Bilder für Übungen ohne Herstellerfoto, siehe unten) umsetzen.
 
 Arbeitsweise: Der User testet jede Änderung direkt am Handy (Update-Knopf) und meldet Auffälligkeiten. Getestete Änderungen dürfen ohne Rückfrage committet und gepusht werden (siehe Memory `feedback-commit-push-allowed`); in der Shell ist keine Git-Identität gesetzt, deshalb `git -c user.name="René" -c user.email="rene.sch@gmx.net" commit …`.
 
@@ -50,8 +50,32 @@ Der User hat die Dienstag-Einheit (Beine + Hüfte) probeweise durchgemacht. Zwei
 - **Freies Training** (`src/pages/FreeTraining.tsx`, Routen `/free` und `/free/:id`; Einstieg über „Mehr“, die Übungsseite und einen Link auf „Einheit nachtragen“; auf Wunsch des Users so benannt, nicht „Übung nachtragen“): einzelne Übungen ohne Plan-Einheit eintragen. Bei Halteübungen (`unit: 'seconds'`) gibt es je Satz „Stoppuhr starten“ (`HoldStopwatch`, `Stopwatch leadIn` mit 3-2-1-Vorlauf), die gestoppte Zeit landet gerundet im Sekundenfeld. Mehrere Übungen nacheinander: Speichern gibt die Übungswahl wieder frei (Meldung oben, `done`), darunter die Tagesliste aller freien Sätze (`daySets` über den Index `date`, gruppiert je Übung, „+ Satz“ wählt die Übung erneut, Löschen je Satz). Sätze hängen an einem „Freien Training“ je Tag (`getOrCreateFreeWorkout()`, `sessionKey = FREE_SESSION_KEY = 'frei'`, `segmentLabel = 'frei'`, Status fertig, `backfilled`). Freie Trainings sind in `frequencyByWeek()` und `totals()` ausgenommen (`isFreeWorkout()`), Sätze zählen überall sonst normal mit. Schalter „Als Max-Test speichern“ für Übungen in `EXERCISE_BENCHMARK` (Push-Ups, Pull-Ups, Dips, Plank), bester Satz wird Benchmark. `deleteSet()` löscht einen Satz weich und den Testwert desselben Trainings mit; Löschknöpfe auf der Seite „Freies Training“ (ohne Rückfrage) und im Verlauf der Übungsseite (✕, mit `confirm()`). Geprüft im Dev-Browser mit Split Squat (lb) und Plank als Max-Test, Einträge wieder gelöscht.
 - **Vorschau in der Pause** (`NextPreview` in `Workout.tsx`): Während der Pausen-Countdown läuft, stehen darunter die anstehenden Umbau-Hinweise (Sitz an/ab, orange hervorgehoben) und die nächste Übung mit Vorgabe, Muskeln, Gerät, Ausgangsposition und Fotos. Bei gleicher Übung nur „Gleiche Übung, kein Umbau“. Umbau-Hinweise, die in der Pause zu sehen waren, werden nach der Pause übersprungen (`upcoming` in `Workout.tsx`); folgt der Hinweis auf einen Schritt ohne Pause, erscheint er weiterhin als eigener Schritt.
 
+## Was am 18.09.2026 spätabends passiert ist (Kie.ai)
+
+Der User will für die Übungen ohne Herstellerfoto KI-generierte Bilder im Stil der Bio-Force-Fotos, dazu einen Video-Pilot (Start- und Endfoto zu Clip) und die Anbindung seines Kie.ai-Kontos. Recherche und Einschätzung sind abgeschlossen, das Vorgehen ist beschlossen, die Anbindung steht.
+
+**Anbindung (fertig, committet):**
+-  im Projekt startet den Server  über ; das Skript startet  (Community-Server, MIT, Version 5.x). Der API-Key liegt nur als Windows-Benutzervariable ; das Skript liest sie per PowerShell aus der Registrierung, falls der Claude-Prozess sie nicht geerbt hat (Claude Desktop lief beim Setzen bereits). Repo ist öffentlich: Key nie in Dateien.
+- Getestet: Server meldet 10 Werkzeuge (, , , , , , , , , ), 38 Modelle. Guthaben-Abfrage () lieferte 1056 Credits.
+- Offen: Beim nächsten Session-Start muss der User den Server aus  im Dialog freigeben (Eintrag  in  darf Claude nicht selbst schreiben). Danach erscheinen die Werkzeuge als .
+- Alternative für den Massenlauf: eigenes Node-Skript in  gegen die Kie-API (createTask + Polling), Key wie oben; für die Prompt-Iteration ist der MCP-Server bequemer.
+
+**Recherche-Ergebnis (Kurzfassung):**
+- Bilder: **Nano Banana Pro** (, Gemini 3 Pro Image), bis 8 Referenzbilder als URL (), 1K/2K/4K, ca. 0,12 $ bzw. ~24 Credits je Bild. Referenzen: die Herstellerfotos liegen öffentlich unter , kein Upload nötig. Stilvorgabe: Schwarzweiß-Studiofoto, gleicher Mann in schwarzem ärmellosem Shirt und grauen Shorts, hellgrauer Hintergrund, Hochformat 3:4 (Fotos sind 457 × 644 px). Endbild mit dem generierten Startbild als Referenz erzeugen, damit die Person gleich bleibt.
+- Video: **Seedance 2.0** () und **Seedance 2.5** () haben  + , 4–15 s (2.5: bis 30 s), 480p–1080p,  setzen. Seedance 2.0 Standard ca. 0,10 $/s; für 2.5 nennt Kie.ai noch keinen offiziellen Preis (Drittquellen ~0,30 $/s). Einschätzung: Gimmick mit Risiko (Seile/Rollen morphen, Clip läuft nur A→B), Datenvolumen 1–2 MB je Clip, nur bei Bedarf laden, nicht precachen. Erst Pilot mit zwei Clips.
+- Bekannte Schwäche generierter Übungsbilder: Anatomie/Ausführung; jedes Bild vom User prüfen lassen.
+
+**Übungen ohne Foto (25, davon 19 bildwürdig):** Push-Ups, Defizit-Push-Ups, Plyo-Push-Ups, Dips, Pull-Ups, Australian Pull-Ups, Scapula-Push-Ups, Scapula Pull-Ups, Step-Up, Wall Sit, Kniebeugen (Körpergewicht), Kettlebell-Swing, Superman, Elbow Plank, Side Plank, Hanging Knee Raises, Dead Bug, Mountain Climbers, Burpees. Ohne Bildbedarf: Seilspringen, Laufen Zone 2, Walk-Run, Laufintervalle, Sprints, Cooper-Test. Zu klären: an welchem Gerät der User Pull-Ups, Dips, Australian Pull-Ups und Hanging Knee Raises macht (Bio Force, Stange, Dip-Barren), damit das Bild die echte Umgebung zeigt.
+
+**Beschlossenes Vorgehen:**
+1. Session neu starten, Server freigeben, Werkzeuge prüfen.
+2. Pilot: Push-Ups und Elbow Plank, je Start- und Endbild, Nano Banana Pro mit 3–4 Herstellerfotos als Referenz. Ergebnisse nach  (WebP, 457 × 644), User prüft am Handy.
+3. Bei Gefallen alle 19 Übungen; in  neues Feld (z. B.  oder ),  zeigt „KI-generiert“ statt „Bio Force Anleitung Nr.“; Bildpfade mit .
+4. Danach Video-Pilot: zwei Clips (Kabel-Schrägdrücken Nr. 34, Latzug) mit Seedance 2.0, ohne Audio, 720p, 5 s.
+
 ## Nächste Schritte
 
+- **Kie.ai-Pilot** (siehe oben): Server freigeben, zwei Übungen bebildern, dann entscheiden.
 - **Dashboard mit echten Daten** ab 21.09. ansehen (der User will es erst im Lauf der Woche beurteilen). Auswertungs-Tab passt laut User. Mit echten Daten prüfen, vor allem die Satz-Zählung je Muskelgruppe („Schultern“ fällt hoch aus, weil jede Drückübung die vordere Schulter halb mitzählt; bei Bedarf Gruppen feiner aufteilen).
 - **Nach Woche 1:** Dauer des Mittwochs (Pull) ansehen; bei Bedarf D1 einarmiges Rudern → Face Pulls (Beschluss vom 18.09.).
 - **Blöcke 2–4 als Daten** in `src/data/plan.ts`, nach Auswertung von Woche 1 (Einstufungswerte). Konzept in `Trainingskonzept.md` Abschnitt 3, Ausblick in `Block1-Wochen1-4.md` Abschnitt 7. Sitz-Regel und Geräte-Setup (Zugpunkt, Zubehör) von Anfang an mitdenken; 2,5-lb-Rasten für feinere Lastvorgaben nutzen.
