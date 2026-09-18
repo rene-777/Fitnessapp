@@ -11,7 +11,7 @@ import { db } from '../db/db'
 import type { Readiness, Workout as WorkoutRow } from '../db/types'
 import { useProfile } from '../hooks/useProfile'
 import { beepGo, speak, unlockAudio } from '../lib/audio'
-import { fmtSec, mondayOfWeek, addDays } from '../lib/dates'
+import { fmtSec, mondayOfWeek, addDays, today } from '../lib/dates'
 import { challengeStatus, prescriptionText, suggestLoad } from '../lib/planEngine'
 import { buildSteps, type Step } from '../lib/steps'
 import { keepAwake } from '../lib/wakeLock'
@@ -107,11 +107,13 @@ export default function Workout() {
   const step = steps[idx]
 
   if (askReadiness) {
-    // Die Uhr startet erst hier: wer die Einheit vorher nur angesehen hat, soll keine Stunden auf dem Zähler haben
+    // Die Uhr startet erst hier: wer die Einheit vorher nur angesehen hat, soll keine Stunden auf dem Zähler haben.
+    // Das Datum wird auf den tatsächlichen Trainingstag gesetzt: die Route trägt das Plan-Datum, das beim Vorziehen oder Nachholen nicht stimmt.
     return <ReadinessForm onDone={async (r) => {
       const startedAt = new Date().toISOString()
-      await patchWorkout(workout.id, { readiness: r, startedAt })
-      setWorkout({ ...workout, readiness: r, startedAt })
+      const trainedOn = today()
+      await patchWorkout(workout.id, { readiness: r, startedAt, date: trainedOn })
+      setWorkout({ ...workout, readiness: r, startedAt, date: trainedOn })
       unlockAudio(); setAskReadiness(false)
     }} />
   }
