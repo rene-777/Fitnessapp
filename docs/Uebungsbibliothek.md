@@ -237,11 +237,11 @@ Die Skala an den Schwingarmen zeigt amerikanische Pfund (lb) pro Seite: 5 bis 12
 ### Split Squat
 - **Muskeln:** primär Quadrizeps, Gesäß · sekundär hintere Oberschenkel, Adduktoren
 - **Ausführung:**
-  1. Großer Schritt nach vorn, hinterer Fuß auf dem Ballen. Optional Kettlebell vor der Brust.
+  1. Großer Schritt nach vorn, hinterer Fuß auf dem Ballen. Handgriffe an den unteren Haken, Griffe auf Schulterhöhe (Last in lb pro Seite); ohne Last auch nur mit Körpergewicht oder Kettlebell vor der Brust.
   2. Hinteres Knie langsam Richtung Boden, vorderes Knie bleibt über dem Fuß, Oberkörper aufrecht.
   3. Über die vordere Ferse hochdrücken.
 - **Knie:** Kürzerer Schritt und weniger Tiefe entlasten das vordere Knie. Bei Schmerz Step-Up niedrig.
-- **Herstellervariante:** Nr. 2 „Kniebeugen einbeinig“ mit Griffen an den unteren Haken auf Schulterhöhe.
+- **Bio Force:** Nr. 2 „Kniebeugen einbeinig“, Sitz entfernt, Griffe an den unteren Haken auf Schulterhöhe. Leicht starten, die Last kommt zum Körpergewicht dazu.
 
 ### Step-Up
 - **Muskeln:** primär Quadrizeps, Gesäß · sekundär Waden

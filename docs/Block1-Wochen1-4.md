@@ -52,7 +52,8 @@ Kurzübersicht:
 | Cable Crunch (Nr. 106), Pallof Press | Bauch, schräge Bauchmuskeln | sitzend oben / stehend seitlich |
 | Wadenheben (Nr. 9) | Waden | stehend, untere Griffe |
 | Push-Ups, Defizit-Push-Ups, Dips, Pull-Ups, Australian Pull-Ups | Brust, Trizeps, Lat, Rücken | Boden, Barren, Stange |
-| Split Squat, Step-Up, Wall Sit | Quadrizeps, Gesäß | Körpergewicht, Kettlebell |
+| Split Squat (Nr. 2) | Quadrizeps, Gesäß | stehend, Griffe an den unteren Haken, leicht |
+| Step-Up, Wall Sit | Quadrizeps, Gesäß | Körpergewicht, Kettlebell |
 | Plank, Side Plank, Dead Bug, Hanging Knee Raises, Superman | Core, unterer Rücken | Boden, Stange |
 | Burpees (Goliaz-Standard), Seil, Laufen | Herz-Kreislauf | – |
 
@@ -88,7 +89,7 @@ Volumen bewusst reduziert. Die Einstufung ist eingebaut: bei Bio-Force-Übungen 
 | Warm-up 8 min | Marschieren oder Seil leicht 3 min, Hüftkreisen, Beinschwünge, 10 halbe Kniebeugen, Wall Sit 2 × 30 s | | | Wall Sit = Sehnenvorbereitung |
 | A | **Kabel-Kniebeuge** Einstufung | 3 × 10 aufsteigend | 2–3 min | Tempo 3-1-1, 10RM notieren |
 | B | **Romanian Deadlift** Einstufung | 3 × 10 aufsteigend | 2–3 min | 10RM notieren |
-| C1 | Split Squat | 3 × 8 je Seite | 30 s | Körpergewicht |
+| C1 | Split Squat | 3 × 8 je Seite | 30 s | leicht, notfalls ohne Last |
 | C2 | Hüftabduktion | 2 × 15 je Seite | 75 s | |
 | D | Wadenheben + Superman | 2 × 15 / 2 × 12 | 45 s | |
 | Umbau | **Sitz und Beinmodul anbringen** | | | |

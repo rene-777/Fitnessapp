@@ -1,4 +1,4 @@
-# Übergabe – Stand 17.09.2026 (Session-Ende, spät abends)
+# Übergabe – Stand 18.09.2026
 
 ## Kurzfassung
 
@@ -38,6 +38,13 @@ Rückmeldungen des Users: Hochformat-Sperre wirkt, alle Fotos passen, „Lade �
 - **3-2-1-Vorlauf** (`GetReady` in `Timer.tsx`): vor AMRAP/Max-Tests auf Zeit, Intervallen (nur vor Runde 1), Cardio-Countdown, Halte-Timer, Test-Stoppuhr (`Stopwatch leadIn`) und Challenge-Block (Stoppuhr startet danach von selbst, `autoStart`). Nicht vor Pausen- und Warm-up-Timern.
 - **Dashboard:** Der User hat aus drei Entwürfen „A Fokus-Ring“ gewählt, ergänzt um „Letztes Mal“ und „Neuer Bestwert“ (aus B) und den Meilenstein-Countdown (aus C). Fortschrittsring, Heute-Karte, Wochenstreifen, Meilenstein, drei Kennzahlen (Einheiten in Folge, Gewicht, Knie), Bestwert. Geprüft mit Testdaten (Trainingstag in Woche 4) und im Zustand vor dem Planstart. Rückmeldung des Users zum Aussehen am Handy steht noch aus.
 
+## Was am 18.09.2026 passiert ist
+
+Der User hat die Dienstag-Einheit (Beine + Hüfte) probeweise durchgemacht. Zwei Rückmeldungen, beide umgesetzt und live:
+
+- **Split Squat ist jetzt eine Bio-Force-Übung** (, , Nr. 2: Handgriffe an den unteren Haken, Griffe auf Schulterhöhe). Der User macht sie am Gerät, das Feld zeigte aber kg. Jetzt lb-Skala in 2,5er-Rasten wie überall; ohne Last bleibt das Feld leer. Plan-Hinweis Woche 1 „Leicht starten, notfalls ohne Last“, Doku angepasst. Geprüft: Hammer-Curls (Kurzhanteln laut Plan), Step-Ups und Kettlebell-Swing (Kettlebell 8 kg) bleiben bewusst in kg (); Bizeps-Curls am Kabel sind bereits lb.
+- **Vorschau in der Pause** ( in ): Während der Pausen-Countdown läuft, stehen darunter die anstehenden Umbau-Hinweise (Sitz an/ab, orange hervorgehoben) und die nächste Übung mit Vorgabe, Muskeln, Gerät, Ausgangsposition und Fotos. Bei gleicher Übung nur „Gleiche Übung, kein Umbau“. Umbau-Hinweise, die in der Pause zu sehen waren, werden nach der Pause übersprungen ( in ); folgt der Hinweis auf einen Schritt ohne Pause, erscheint er weiterhin als eigener Schritt.
+
 ## Nächste Schritte
 
 - **Rückmeldungen des Users** zum Dashboard und zum Auswertungs-Tab am Handy (Größen, Reihenfolge, Karten). Mit echten Daten ab 21.09. prüfen, vor allem die Satz-Zählung je Muskelgruppe („Schultern“ fällt hoch aus, weil jede Drückübung die vordere Schulter halb mitzählt; bei Bedarf Gruppen feiner aufteilen).
@@ -55,7 +62,7 @@ Rückmeldungen des Users: Hochformat-Sperre wirkt, alle Fotos passen, „Lade �
 - Die `confirm()`-Dialoge („Einheit verlassen?“, „Einheit beenden?“, „Training löschen?“) sind noch Browser-Dialoge; bei Bedarf durch eigene ersetzen.
 - GitHub Actions warnt, dass `actions/checkout@v4`, `setup-node@v4` und `upload-artifact@v4` auf Node 20 zielen (läuft weiter, erzwungen auf Node 24); irgendwann die Versionen in `deploy.yml` anheben.
 - `findWorkout()` fällt ohne Treffer für das Datum auf das jüngste Training derselben Einheit zurück; eine Einheit lässt sich also nicht zweimal an verschiedenen Tagen führen, ohne das alte Training zu löschen. Bisher gewollt.
-- Im Dev-Browser (Browser-Pane) liegt noch ein altes Test-Training vom 23.09.; betrifft nur die lokale Entwicklungsdatenbank.
+- Im Dev-Browser (Browser-Pane) liegen alte Test-Trainings vom 22.09. und 23.09.; betrifft nur die lokale Entwicklungsdatenbank.
 
 ## Was der User als Nächstes tun sollte
 

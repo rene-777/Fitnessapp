@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { ErrorCard, errorText } from '../components/ErrorBoundary'
-import ExerciseCard from '../components/ExerciseCard'
+import ExerciseCard, { ExerciseImages, MuscleChips } from '../components/ExerciseCard'
 import NumberInput from '../components/NumberInput'
 import Timer, { GetReady, Stopwatch } from '../components/Timer'
 import { ex } from '../data/exercises'
@@ -81,6 +81,16 @@ export default function Workout() {
 
   const next = useCallback(() => void goTo(idx + 1), [goTo, idx])
 
+  // Für die Pause: Umbau-Hinweise (note) bis zum nächsten echten Schritt einsammeln.
+  // Sie werden in der Pause angezeigt und danach übersprungen, der Umbau passiert schon während der Pause.
+  const upcoming = useMemo(() => {
+    const notes: Extract<Step, { kind: 'note' }>[] = []
+    let j = idx + 1
+    while (j < steps.length && steps[j].kind === 'note') { notes.push(steps[j] as Extract<Step, { kind: 'note' }>); j++ }
+    return { notes, step: steps[j] as Step | undefined, index: j }
+  }, [steps, idx])
+  const afterRest = useCallback(() => { beepGo(); void goTo(upcoming.index) }, [goTo, upcoming.index])
+
   const afterSet = (rest: number) => {
     const isLast = idx + 1 >= steps.length
     if (rest > 0 && !isLast) {
@@ -146,8 +156,14 @@ export default function Workout() {
 
       {phase === 'rest' && (
         <div className="space-y-3">
-          <Timer key={`rest-${idx}`} seconds={restSec} label="Pause" onDone={() => { beepGo(); next() }} />
-          {steps[idx + 1] && <div className="card text-sm"><span className="label">Als Nächstes</span><div>{stepLabel(steps[idx + 1])}{steps[idx + 1].kind === 'set' ? ` · ${ex((steps[idx + 1] as SetStep).exerciseId).name}` : ''}</div></div>}
+          <Timer key={`rest-${idx}`} seconds={restSec} label="Pause" onDone={afterRest} />
+          {upcoming.notes.map((n, i) => (
+            <div key={i} className="rounded-xl bg-accent/10 border border-accent/50 p-3 text-sm">
+              <span className="label text-accent">Jetzt in der Pause · {n.title}</span>
+              <div>{n.text}</div>
+            </div>
+          ))}
+          {upcoming.step && <NextPreview step={upcoming.step} label={stepLabel(upcoming.step)} currentExerciseId={step?.kind === 'set' ? step.exerciseId : undefined} />}
         </div>
       )}
 
@@ -168,6 +184,44 @@ export default function Workout() {
         <button className="btn-ghost px-3 py-1.5" disabled={idx === 0} onClick={() => void goTo(idx - 1)}>‹ Zurück</button>
         <button className="btn-ghost px-3 py-1.5" onClick={next}>Überspringen ›</button>
       </div>
+    </div>
+  )
+}
+
+// ---------- Vorschau in der Pause ----------
+/** Zeigt den nächsten Schritt so, dass man während der Pause schon umbauen kann: Gerät, Aufstellung, Fotos. */
+function NextPreview({ step, label, currentExerciseId }: { step: Step; label: string; currentExerciseId?: string }) {
+  const ids = (() => {
+    switch (step.kind) {
+      case 'set': return [step.exerciseId]
+      case 'amrap': return step.seg.exercises.map((x) => x.exerciseId)
+      case 'challenge': return step.seg.items.map((x) => x.exerciseId)
+      case 'interval': case 'cardio': return [step.seg.exerciseId]
+      default: return []
+    }
+  })()
+  const changed = ids.filter((id) => id !== currentExerciseId)
+  const sub = step.kind === 'set' ? (step.isTest ? step.description : `${prescriptionText(step.p)}${step.p.loadHint ? ` · ${step.p.loadHint}` : ''}`) : undefined
+  return (
+    <div className="card space-y-3">
+      <div>
+        <span className="label">Als Nächstes · {label}</span>
+        {ids.length > 0 && <div className="h2 leading-tight">{ids.map((id) => ex(id).name).join(' · ')}</div>}
+        {sub && <div className="text-accent2 text-sm mt-0.5">{sub}</div>}
+      </div>
+      {changed.length === 0 && ids.length > 0 && <div className="text-sm text-muted">Gleiche Übung, kein Umbau.</div>}
+      {changed.map((id) => {
+        const e = ex(id)
+        return (
+          <div key={id} className="space-y-2 text-sm border-t border-line pt-3">
+            {changed.length > 1 && <div className="font-semibold">{e.name}</div>}
+            <MuscleChips e={e} />
+            <div><span className="label">Umbau · Gerät</span><div>{e.equipment}</div></div>
+            {e.setup && <div><span className="label">Ausgangsposition</span><div>{e.setup}</div></div>}
+            <ExerciseImages e={e} small />
+          </div>
+        )
+      })}
     </div>
   )
 }

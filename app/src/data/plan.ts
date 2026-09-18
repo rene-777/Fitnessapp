@@ -74,7 +74,7 @@ const w1: Week = {
         WARM_LEGS,
         straight('A', [p('kabel-kniebeuge', 3, { repsMin: 10, repsMax: 10, ramp: true, tempo: '3-1-1', loadHint: '10RM finden' })], 150),
         straight('B', [p('rdl', 3, { repsMin: 10, repsMax: 10, ramp: true, loadHint: '10RM finden' })], 150),
-        superset('C', [reps('split-squat', 3, 8, 8, { perSide: true, loadHint: 'Körpergewicht' }), reps('hueftabduktion', 2, 15, 15, { perSide: true })], 30, 75),
+        superset('C', [reps('split-squat', 3, 8, 8, { perSide: true, loadHint: 'Leicht starten, notfalls ohne Last' }), reps('hueftabduktion', 2, 15, 15, { perSide: true })], 30, 75),
         superset('D', [reps('wadenheben', 2, 15, 15), reps('superman', 2, 12, 12)], 20, 45),
         SEAT_ON,
         superset('E', [reps('beinbeuger', 3, 10, 10, { perSide: true, tempo: '3-1-3', rir: '2' }), reps('beinstrecker', 3, 12, 12, { tempo: '3-1-3', loadHint: 'leicht' })], 30, 75),

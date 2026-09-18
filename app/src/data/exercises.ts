@@ -266,12 +266,12 @@ export const EXERCISES: Exercise[] = [
   },
   {
     id: 'split-squat', name: 'Split Squat', category: 'beine',
-    primary: ['quadrizeps', 'gesaess'], secondary: ['hamstrings', 'huefte'], loadType: 'extern', unit: 'reps', bioforceNo: bf(2),
-    equipment: 'Körpergewicht, optional Kettlebell vor der Brust',
-    setup: 'Großer Schritt nach vorn, hinterer Fuß auf dem Ballen.',
+    primary: ['quadrizeps', 'gesaess'], secondary: ['hamstrings', 'huefte'], loadType: 'bioforce', seat: 'off', unit: 'reps', bioforceNo: bf(2),
+    equipment: 'Bio Force, Sitz entfernt, Handgriffe an den unteren Haken, Griffe auf Schulterhöhe (Nr. 2). Ohne Last auch nur mit Körpergewicht oder Kettlebell vor der Brust.',
+    setup: 'Großer Schritt nach vorn, hinterer Fuß auf dem Ballen, Griffe auf Schulterhöhe halten.',
     steps: ['Hinteres Knie langsam Richtung Boden, vorderes Knie bleibt über dem Fuß, Oberkörper aufrecht.', 'Über die vordere Ferse hochdrücken.'],
     knee: 'Kürzerer Schritt und weniger Tiefe entlasten das vordere Knie. Bei Schmerz Step-Up niedrig.',
-    tips: ['Foto zeigt Herstellervariante Nr. 2 mit Griffen an den unteren Haken.'],
+    tips: ['Leicht starten: die Last der Schwingarme kommt zum Körpergewicht dazu.'],
   },
   {
     id: 'step-up', name: 'Step-Up', category: 'beine',
