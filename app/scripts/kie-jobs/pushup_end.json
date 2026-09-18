@@ -2,12 +2,12 @@
   "model": "nano-banana-pro",
   "out": "public/img/gen/pushup_end",
   "input": {
-    "prompt": "The FIRST reference image shows the exact same man, studio, lighting, camera position and framing that this image must reproduce: black-and-white studio photograph in the style of a home-gym instruction manual, plain light-grey seamless backdrop and floor, soft even lighting, slightly grainy monochrome print look, camera at floor level from the side with the athlete facing to the RIGHT of the frame, full body visible, nothing cropped, no black border, no gym equipment, no text, no watermark, no logos. Same man as in all references (short dark hair, clean-shaven, black sleeveless shirt, grey athletic shorts, white running shoes). Now he is in the END position (bottom) of the same push-up: chest touching the floor, elbows bent and tucked at about 45 degrees to the torso, body still a perfectly straight line from head to heels, toes on the floor, head neutral looking at the floor.",
+    "prompt": "Reproduce the FIRST reference image exactly (same man, same black-and-white studio look, same light-grey seamless backdrop and floor, same soft even lighting, same slightly grainy monochrome print look, same camera position at floor level from the side, athlete facing to the RIGHT of the frame, same framing with the full body visible and nothing cropped, no black border, no gym equipment, no text, no watermark, no logos) with ONE change: this is the bottom of a \"hand-release\" push-up. His chest and the front of his thighs rest flat on the floor, the body stays a straight line from head to heels, toes on the floor, head neutral looking at the floor. Both HANDS ARE LIFTED clearly OFF THE FLOOR: elbows bent and tucked at about 45 degrees to the torso, forearms and open palms raised about 10 centimetres above the floor, fingers pointing forward, no contact between hands and floor. Same man as in all references (short dark hair, clean-shaven, black sleeveless shirt, grey athletic shorts, white running shoes).",
     "image_input": [
+      "https://tempfile.redpandaai.co/kieai/11764900/images/user-uploads/pushup_end_ref.webp",
       "https://tempfile.redpandaai.co/kieai/11764900/images/user-uploads/pushup_start_ref.webp",
       "https://rene-777.github.io/Fitnessapp/img/bioforce/bf002_start.webp",
-      "https://rene-777.github.io/Fitnessapp/img/bioforce/bf108_start.webp",
-      "https://rene-777.github.io/Fitnessapp/img/bioforce/bf034_start.webp"
+      "https://rene-777.github.io/Fitnessapp/img/bioforce/bf108_start.webp"
     ],
     "aspect_ratio": "3:4",
     "resolution": "1K",
