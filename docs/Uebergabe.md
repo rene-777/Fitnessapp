@@ -1,4 +1,4 @@
-# Übergabe – Stand 18.09.2026 (Kie.ai-Pilot läuft)
+# Übergabe – Stand 18.09.2026 (alle KI-Bilder fertig)
 
 ## Kurzfassung
 
@@ -87,9 +87,18 @@ Der User will für die Übungen ohne Herstellerfoto KI-generierte Bilder im Stil
 
 **App-Anbindung:** neues Feld `genImage` in `Exercise` (Basisname der Datei; mit `noEndPhoto: true` nur ein Bild, Beschriftung „Haltung“). `exerciseImages()` liefert dann `img/gen/{genImage}_{start|end}.webp`, `ExerciseDescription` zeigt „Bild KI-generiert (Nano Banana Pro) im Stil der Bio Force Anleitung“. Push-Ups (`pushup`) und Elbow Plank (`plank`) sind verknüpft; im Dev-Browser geprüft. **Rückmeldung des Users vom Handy steht aus.**
 
+## Was am 18.09.2026 nachts passiert ist (alle 19 Übungen bebildert)
+
+- **Push-Up-Endbild** nach Goliaz-Standard (siehe oben) vom User abgenommen: „wesentlich besser als Nano Banana“, auch wenn die Brust nicht ganz aufliegt.
+- **Goliaz-Screenshots** des Users (Burpees, Dips, Pull-Ups, Mountain Climbers) als Posenreferenzen genutzt; zugeschnitten unter `app/public/img/gen/_versuche/refs/` (nur lokal, `.gitignore`).
+- **Werkzeuge:** `scripts/kie-gen.mjs` verarbeitet jetzt mehrere Jobs (`--job a --job b` oder `--jobs <ordner>`, 4 parallel). `scripts/kie-upload.mjs` lädt lokale Bilder per Base64 zu Kie hoch (`https://kieai.redpandaai.co/api/file-base64-upload`, nicht `api.kie.ai`; URLs 1–3 Tage gültig) und merkt sie in `scripts/kie-jobs/uploads.json`. `scripts/kie-jobs/spec.mjs` enthält je Übung Schlüssel, Prompts und Posenreferenzen; `scripts/kie-jobs/make.mjs start|end` erzeugt daraus die Job-Dateien (`batch-start/`, `batch-end/`). `scripts/montage.mjs` legt Bilder als Raster nebeneinander (Sichtprüfung). Ablauf: Startbilder generieren → hochladen → Endbilder mit dem eigenen Startbild als erster Referenz.
+- **Modell:** durchgehend `gpt-image-2-image-to-image` (Feld `input_urls`, bis 16 Bilder), Stil-/Personenreferenzen sind die fertigen Push-Up-Bilder (öffentlich auf GitHub Pages) und Nr. 2 der Herstellerfotos. Alle 33 Bilder im ersten Durchgang brauchbar; einzige Korrektur: das Mountain-Climber-Startbild zeigte schon die Knie-Position, wurde zum Endbild, der Plank als Start nachgeneriert.
+- **Ergebnis:** 19 Übungen mit `genImage` in `exercises.ts` (Wall Sit, Side Plank, Elbow Plank mit `noEndPhoto` als Einzelbild „Haltung"), 36 WebP-Dateien in `app/public/img/gen/` (zusammen ca. 0,3 MB). Doku ergänzt (App-Anleitung, Übungsbibliothek). **Sichtprüfung durch den User am Handy steht aus**, besonders: Australian Pull-Ups (Bild zeigt eine niedrige Stange, nicht die zwei Dip-Bügel), Scapula-Übungen (Unterschied Start/Ende ist subtil), Dead Bug (Diagonale).
+- **Kosten:** GPT Image 2 ca. 18 Credits je Bild; Guthaben nach dem Abend siehe `GET /api/v1/chat/credit`.
+
 ## Nächste Schritte
 
-- **Kie.ai-Pilot:** User beurteilt Push-Ups und Elbow Plank am Handy. Bei Gefallen die übrigen 17 Übungen: je eine Job-Datei in `app/scripts/kie-jobs/`, Startbild zuerst, Endbild mit Startbild als erster Referenz (Upload per MCP `upload_file`), Geräte laut Ausrüstungsliste beschreiben (Dip-Bügel, Klimmzuggestell, Parallettes, Plyo-Box), Sitz-/Bodenübungen ohne Gerät. Danach Video-Pilot (Seedance 2.0, zwei Clips).
+- **KI-Bilder:** User prüft alle 19 Übungen am Handy (Übungen → jede Übung → Bilder). Korrekturen: Prompt in `spec.mjs` anpassen, Job-Datei neu erzeugen, einzeln mit `--job` generieren; bei Endbildern das Startbild vorher mit `kie-upload.mjs` hochladen. Danach Video-Pilot (Seedance, zwei Clips).
 - **Dashboard mit echten Daten** ab 21.09. ansehen (der User will es erst im Lauf der Woche beurteilen). Auswertungs-Tab passt laut User. Mit echten Daten prüfen, vor allem die Satz-Zählung je Muskelgruppe („Schultern“ fällt hoch aus, weil jede Drückübung die vordere Schulter halb mitzählt; bei Bedarf Gruppen feiner aufteilen).
 - **Nach Woche 1:** Dauer des Mittwochs (Pull) ansehen; bei Bedarf D1 einarmiges Rudern → Face Pulls (Beschluss vom 18.09.).
 - **Blöcke 2–4 als Daten** in `src/data/plan.ts`, nach Auswertung von Woche 1 (Einstufungswerte). Konzept in `Trainingskonzept.md` Abschnitt 3, Ausblick in `Block1-Wochen1-4.md` Abschnitt 7. Sitz-Regel und Geräte-Setup (Zugpunkt, Zubehör) von Anfang an mitdenken; 2,5-lb-Rasten für feinere Lastvorgaben nutzen.

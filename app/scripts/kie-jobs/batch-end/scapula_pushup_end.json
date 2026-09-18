@@ -1,0 +1,13 @@
+{
+  "model": "gpt-image-2-image-to-image",
+  "out": "public/img/gen/scapula_pushup_end",
+  "input": {
+    "prompt": "The FIRST image is the start position of this exercise: keep the same man, clothing, equipment, background, lighting, camera position and framing exactly, and change only the body position. Black-and-white studio instruction photo for a home-gym exercise manual, in exactly the style of the reference photos: the same man (short dark hair, clean-shaven, black sleeveless shirt, grey athletic shorts, white running shoes), plain light-grey seamless backdrop and light-grey floor, soft even studio lighting, slightly grainy monochrome print look, full body visible, nothing cropped, portrait format. No text, no watermark, no border, no logos, no mat. POSE: Scapula push-up, end: same high plank with arms still straight and locked, but the shoulder blades are squeezed together so the chest sinks down between the shoulders, body straight from head to heels. Camera at floor level from the side, athlete facing to the right of the frame.",
+    "input_urls": [
+      "https://tempfile.redpandaai.co/kieai/11764900/fitnessapp/scapula_pushup_start.webp",
+      "https://rene-777.github.io/Fitnessapp/img/gen/pushup_start.webp"
+    ],
+    "aspect_ratio": "3:4",
+    "resolution": "1K"
+  }
+}

@@ -72,7 +72,7 @@ export function ExerciseDescription({ e }: { e: Exercise }) {
         </div>
       )}
       {e.knee && <div className="rounded-lg bg-warn/10 border border-warn/40 p-2"><span className="label text-warn">Knie</span><div>{e.knee}</div></div>}
-      {e.genImage && <div className="text-xs text-muted">Bild KI-generiert (Nano Banana Pro) im Stil der Bio Force Anleitung</div>}
+      {e.genImage && <div className="text-xs text-muted">Bild KI-generiert im Stil der Bio Force Anleitung</div>}
       {e.bioforceNo && <div className="text-xs text-muted">{e.noEndPhoto ? 'Foto aus Bio Force Anleitung' : 'Bio Force Anleitung'} Nr. {e.bioforceNo}</div>}
     </div>
   )

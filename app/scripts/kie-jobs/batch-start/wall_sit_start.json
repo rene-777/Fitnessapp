@@ -1,0 +1,14 @@
+{
+  "model": "gpt-image-2-image-to-image",
+  "out": "public/img/gen/wall_sit_start",
+  "input": {
+    "prompt": "The reference images define the person and the photo style. Black-and-white studio instruction photo for a home-gym exercise manual, in exactly the style of the reference photos: the same man (short dark hair, clean-shaven, black sleeveless shirt, grey athletic shorts, white running shoes), plain light-grey seamless backdrop and light-grey floor, soft even studio lighting, slightly grainy monochrome print look, full body visible, nothing cropped, portrait format. No text, no watermark, no border, no logos, no mat. POSE: Wall sit: back and shoulders flat against a plain light-grey wall, thighs parallel to the floor, knees bent at 90 degrees directly above the ankles, feet flat on the floor, arms crossed in front of the chest. Camera at floor level from the side, athlete facing to the right of the frame.",
+    "input_urls": [
+      "https://rene-777.github.io/Fitnessapp/img/gen/pushup_start.webp",
+      "https://rene-777.github.io/Fitnessapp/img/gen/pushup_end.webp",
+      "https://rene-777.github.io/Fitnessapp/img/bioforce/bf002_start.webp"
+    ],
+    "aspect_ratio": "3:4",
+    "resolution": "1K"
+  }
+}

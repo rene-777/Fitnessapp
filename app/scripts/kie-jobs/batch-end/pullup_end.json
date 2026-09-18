@@ -1,0 +1,14 @@
+{
+  "model": "gpt-image-2-image-to-image",
+  "out": "public/img/gen/pullup_end",
+  "input": {
+    "prompt": "The FIRST image is the start position of this exercise: keep the same man, clothing, equipment, background, lighting, camera position and framing exactly, and change only the body position. The SECOND image shows the body position to copy. Black-and-white studio instruction photo for a home-gym exercise manual, in exactly the style of the reference photos: the same man (short dark hair, clean-shaven, black sleeveless shirt, grey athletic shorts, white running shoes), plain light-grey seamless backdrop and light-grey floor, soft even studio lighting, slightly grainy monochrome print look, full body visible, nothing cropped, portrait format. No text, no watermark, no border, no logos, no mat. POSE: Top position of the pull-up on the same rack: chin above the bar, elbows pulled down and back, chest toward the bar, feet off the floor, knees slightly bent and ankles crossed. Camera at chest height from a front three-quarter angle.",
+    "input_urls": [
+      "https://tempfile.redpandaai.co/kieai/11764900/fitnessapp/pullup_start.webp",
+      "https://tempfile.redpandaai.co/kieai/11764900/fitnessapp/goliaz_7.jpg",
+      "https://rene-777.github.io/Fitnessapp/img/gen/pushup_start.webp"
+    ],
+    "aspect_ratio": "3:4",
+    "resolution": "1K"
+  }
+}

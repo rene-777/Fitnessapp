@@ -1,0 +1,14 @@
+{
+  "model": "gpt-image-2-image-to-image",
+  "out": "public/img/gen/step_up_start",
+  "input": {
+    "prompt": "The reference images define the person and the photo style. Black-and-white studio instruction photo for a home-gym exercise manual, in exactly the style of the reference photos: the same man (short dark hair, clean-shaven, black sleeveless shirt, grey athletic shorts, white running shoes), plain light-grey seamless backdrop and light-grey floor, soft even studio lighting, slightly grainy monochrome print look, full body visible, nothing cropped, portrait format. No text, no watermark, no border, no logos, no mat. POSE: Step-up, start: standing in front of a sturdy black plyo box about 50 cm high, the left foot placed fully on top of the box, the right foot on the floor, holding an 8 kg cast-iron kettlebell with both hands in front of the chest, torso upright. Camera at floor level from the side, athlete facing to the right of the frame.",
+    "input_urls": [
+      "https://rene-777.github.io/Fitnessapp/img/gen/pushup_start.webp",
+      "https://rene-777.github.io/Fitnessapp/img/gen/pushup_end.webp",
+      "https://rene-777.github.io/Fitnessapp/img/bioforce/bf002_start.webp"
+    ],
+    "aspect_ratio": "3:4",
+    "resolution": "1K"
+  }
+}

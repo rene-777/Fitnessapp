@@ -14,7 +14,7 @@ export interface Exercise {
   unit: Unit
   bioforceNo?: number // Nummer in der Finnlo-Anleitung, liefert die Fotos
   noEndPhoto?: boolean // Foto einer verwandten Herstellerübung: nur Start und Rollen zeigen, das Endfoto wäre irreführend; bei genImage: nur ein Bild (Halteübung)
-  genImage?: string // KI-generiertes Bild (Nano Banana Pro über Kie.ai, Stil der Bio-Force-Fotos): public/img/gen/{genImage}_{start|end}.webp, erzeugt mit scripts/kie-gen.mjs
+  genImage?: string // KI-generiertes Bild (GPT Image 2 über Kie.ai, Stil der Bio-Force-Fotos): public/img/gen/{genImage}_{start|end}.webp, erzeugt mit scripts/kie-gen.mjs
   smallStep?: boolean // kleine Übung: nur eine Raste (2,5 lb) steigern, und erst bei Wiederholungen über dem Ziel (siehe suggestLoad)
   seat?: 'on' | 'off' // Bio Force: Sitz angebracht oder entfernt; innerhalb eines Supersatzes nie mischen
   equipment: string
@@ -73,7 +73,7 @@ export const EXERCISES: Exercise[] = [
   },
   {
     id: 'pushup-defizit', name: 'Defizit-Push-Ups', category: 'push',
-    primary: ['brust', 'trizeps'], secondary: ['schulter_vorn', 'bauch'], loadType: 'bodyweight', unit: 'reps',
+    primary: ['brust', 'trizeps'], secondary: ['schulter_vorn', 'bauch'], loadType: 'bodyweight', unit: 'reps', genImage: 'pushup_defizit',
     equipment: 'Parallettes (Holzgriffe auf Stahlfüßen)',
     setup: 'Hände auf den Parallettes, neutraler Griff (Handflächen zueinander), sodass die Brust tiefer als die Hände kommt.',
     steps: ['Wie Push-Ups, unten 1 s in der Dehnung halten.', 'Hochdrücken bis zur vollen Streckung.'],
@@ -81,7 +81,7 @@ export const EXERCISES: Exercise[] = [
   },
   {
     id: 'dips', name: 'Dips', category: 'push',
-    primary: ['brust', 'trizeps'], secondary: ['schulter_vorn'], loadType: 'bodyweight', unit: 'reps',
+    primary: ['brust', 'trizeps'], secondary: ['schulter_vorn'], loadType: 'bodyweight', unit: 'reps', genImage: 'dips',
     equipment: 'Dip-Barren (zwei freistehende Bügel, Höhe 80–100 cm)',
     steps: [
       'Stütz auf dem Barren, Oberkörper leicht nach vorn (mehr Brust) oder aufrecht (mehr Trizeps).',
@@ -123,7 +123,7 @@ export const EXERCISES: Exercise[] = [
   },
   {
     id: 'plyo-pushup', name: 'Plyo-Push-Ups', category: 'push',
-    primary: ['brust', 'trizeps'], secondary: ['schulter_vorn'], loadType: 'bodyweight', unit: 'reps',
+    primary: ['brust', 'trizeps'], secondary: ['schulter_vorn'], loadType: 'bodyweight', unit: 'reps', genImage: 'plyo_pushup',
     equipment: 'Boden',
     steps: ['Push-Up mit so viel Kraft, dass die Hände kurz vom Boden abheben.', 'Weich landen, Ellbogen fangen ab.'],
   },
@@ -137,7 +137,7 @@ export const EXERCISES: Exercise[] = [
   // ---------- PULL ----------
   {
     id: 'pullup', name: 'Pull-Ups strikt', category: 'pull',
-    primary: ['lat', 'bizeps'], secondary: ['ruecken_oben', 'unterarme', 'bauch'], loadType: 'bodyweight', unit: 'reps',
+    primary: ['lat', 'bizeps'], secondary: ['ruecken_oben', 'unterarme', 'bauch'], loadType: 'bodyweight', unit: 'reps', genImage: 'pullup',
     equipment: 'Klimmzuggestell (freistehend, Stange auf 192 cm)',
     steps: [
       'Obergriff etwas breiter als schulterbreit, aus dem vollen Hang.',
@@ -178,7 +178,7 @@ export const EXERCISES: Exercise[] = [
   },
   {
     id: 'australian-pullup', name: 'Australian Pull-Ups', category: 'pull',
-    primary: ['ruecken_oben', 'lat'], secondary: ['bizeps', 'schulter_hinten', 'bauch'], loadType: 'bodyweight', unit: 'reps',
+    primary: ['ruecken_oben', 'lat'], secondary: ['bizeps', 'schulter_hinten', 'bauch'], loadType: 'bodyweight', unit: 'reps', genImage: 'australian_pullup',
     equipment: 'Dip-Barren, unter den Bügeln hängend (neutraler Griff)',
     steps: ['Unter der Stange hängen, Fersen am Boden, Körper gerade.', 'Brust zur Stange ziehen, Schulterblätter zusammen.', 'Langsam ablassen bis zum gestreckten Arm.'],
     tips: ['Schwerer: Füße erhöht. Leichter: Knie beugen.', 'Ersatz: Rudern stehend mit Griffen.'],
@@ -276,7 +276,7 @@ export const EXERCISES: Exercise[] = [
   },
   {
     id: 'step-up', name: 'Step-Up', category: 'beine',
-    primary: ['quadrizeps', 'gesaess'], secondary: ['waden'], loadType: 'extern', unit: 'reps',
+    primary: ['quadrizeps', 'gesaess'], secondary: ['waden'], loadType: 'extern', unit: 'reps', genImage: 'step_up',
     equipment: 'Plyo-Box 20 in (51 cm), Kettlebell',
     steps: ['Ganzer Fuß auf der Stufe, mit dem oberen Bein hochdrücken. Das untere Bein schiebt nicht mit.', 'Oben kurz stehen, langsam (3 s) absteigen.', 'Alle Wiederholungen einer Seite, dann wechseln.'],
   },
@@ -302,20 +302,20 @@ export const EXERCISES: Exercise[] = [
   },
   {
     id: 'wall-sit', name: 'Wall Sit', category: 'beine',
-    primary: ['quadrizeps'], secondary: ['gesaess'], loadType: 'bodyweight', unit: 'seconds',
+    primary: ['quadrizeps'], secondary: ['gesaess'], loadType: 'bodyweight', unit: 'seconds', genImage: 'wall_sit', noEndPhoto: true,
     equipment: 'Wand',
     steps: ['Rücken an der Wand, Füße einen Schritt vor.', 'Hinuntergleiten bis Knie 90° oder höher (weniger Beugung = leichter). Halten, atmen.'],
     tips: ['Isometrische Sehnenvorbereitung im Warm-up.'],
   },
   {
     id: 'kniebeuge-bw', name: 'Kniebeugen (Körpergewicht)', category: 'beine',
-    primary: ['quadrizeps', 'gesaess'], secondary: ['hamstrings'], loadType: 'bodyweight', unit: 'reps',
+    primary: ['quadrizeps', 'gesaess'], secondary: ['hamstrings'], loadType: 'bodyweight', unit: 'reps', genImage: 'kniebeuge_bw',
     equipment: 'Boden',
     steps: ['Füße schulterbreit, Hüfte nach hinten und unten bis Oberschenkel parallel, Fersen am Boden.', 'Hochdrücken. Im Finisher zügig, aber kontrolliert.'],
   },
   {
     id: 'kb-swing', name: 'Kettlebell-Swing', category: 'beine',
-    primary: ['gesaess', 'hamstrings'], secondary: ['ruecken_unten', 'schulter_vorn', 'cardio'], loadType: 'extern', unit: 'reps',
+    primary: ['gesaess', 'hamstrings'], secondary: ['ruecken_unten', 'schulter_vorn', 'cardio'], loadType: 'extern', unit: 'reps', genImage: 'kb_swing',
     equipment: 'Kettlebell 8 kg',
     steps: ['Hüftbeuge wie beim Pull-Through, Kettlebell zwischen den Beinen zurückschwingen.', 'Hüfte explosiv nach vorn, Arme schwingen bis Brusthöhe.'],
     tips: ['Der Schwung kommt aus der Hüfte, nicht aus den Armen. Knie nur leicht gebeugt.'],
@@ -352,7 +352,7 @@ export const EXERCISES: Exercise[] = [
   },
   {
     id: 'superman', name: 'Superman', category: 'core',
-    primary: ['ruecken_unten', 'gesaess'], secondary: [], loadType: 'bodyweight', unit: 'reps',
+    primary: ['ruecken_unten', 'gesaess'], secondary: [], loadType: 'bodyweight', unit: 'reps', genImage: 'superman',
     equipment: 'Boden',
     steps: ['Bauchlage, Arme nach vorn. Brust und Beine gleichzeitig leicht anheben, 2 s halten.', 'Ablassen. Blick zum Boden.'],
   },
@@ -364,25 +364,25 @@ export const EXERCISES: Exercise[] = [
   },
   {
     id: 'side-plank', name: 'Side Plank', category: 'core',
-    primary: ['bauch_schraeg', 'huefte'], secondary: [], loadType: 'bodyweight', unit: 'seconds',
+    primary: ['bauch_schraeg', 'huefte'], secondary: [], loadType: 'bodyweight', unit: 'seconds', genImage: 'side_plank', noEndPhoto: true,
     equipment: 'Boden',
     steps: ['Seitlicher Unterarmstütz, Hüfte hoch, Körper gerade.', 'Leichter: unteres Knie am Boden.'],
   },
   {
     id: 'hanging-knee-raise', name: 'Hanging Knee Raises', category: 'core',
-    primary: ['bauch', 'huefte'], secondary: ['unterarme'], loadType: 'bodyweight', unit: 'reps',
+    primary: ['bauch', 'huefte'], secondary: ['unterarme'], loadType: 'bodyweight', unit: 'reps', genImage: 'hanging_knee_raise',
     equipment: 'Klimmzuggestell (freistehend)',
     steps: ['Hang an der Stange, Knie langsam zur Brust ziehen, Becken leicht einrollen.', 'Langsam ablassen, kein Schwung.'],
   },
   {
     id: 'dead-bug', name: 'Dead Bug', category: 'core',
-    primary: ['bauch'], secondary: [], loadType: 'bodyweight', unit: 'reps',
+    primary: ['bauch'], secondary: [], loadType: 'bodyweight', unit: 'reps', genImage: 'dead_bug',
     equipment: 'Boden',
     steps: ['Rückenlage, Arme senkrecht, Knie 90° über der Hüfte. Unterer Rücken fest am Boden.', 'Gegenüberliegenden Arm und Bein langsam strecken, ohne dass der Rücken abhebt. Zurück, Seite wechseln.'],
   },
   {
     id: 'mountain-climber', name: 'Mountain Climbers', category: 'core',
-    primary: ['bauch', 'huefte'], secondary: ['schulter_vorn', 'cardio'], loadType: 'bodyweight', unit: 'reps',
+    primary: ['bauch', 'huefte'], secondary: ['schulter_vorn', 'cardio'], loadType: 'bodyweight', unit: 'reps', genImage: 'mountain_climber',
     equipment: 'Boden',
     steps: ['Liegestützposition, Knie abwechselnd zügig zur Brust, Hüfte bleibt tief.', 'Zählung: ein Knie = 1.'],
   },
@@ -390,7 +390,7 @@ export const EXERCISES: Exercise[] = [
   // ---------- CARDIO ----------
   {
     id: 'burpee', name: 'Burpees (Goliaz-Standard)', category: 'cardio',
-    primary: ['cardio'], secondary: ['brust', 'schulter_vorn', 'quadrizeps', 'bauch'], loadType: 'bodyweight', unit: 'reps',
+    primary: ['cardio'], secondary: ['brust', 'schulter_vorn', 'quadrizeps', 'bauch'], loadType: 'bodyweight', unit: 'reps', genImage: 'burpee',
     equipment: 'Boden',
     steps: [
       'Aus dem Stand in die Liegestützposition, Brust zum Boden (Push-Up).',
@@ -442,13 +442,13 @@ export const EXERCISES: Exercise[] = [
   // ---------- WARM-UP ----------
   {
     id: 'scapula-pushup', name: 'Scapula-Push-Ups', category: 'warmup',
-    primary: ['ruecken_oben'], secondary: [], loadType: 'bodyweight', unit: 'reps',
+    primary: ['ruecken_oben'], secondary: [], loadType: 'bodyweight', unit: 'reps', genImage: 'scapula_pushup',
     equipment: 'Boden',
     steps: ['Liegestützposition mit gestreckten Armen. Nur die Schulterblätter zusammenziehen und wieder auseinanderdrücken.'],
   },
   {
     id: 'scapula-pullup', name: 'Scapula Pull-Ups', category: 'warmup',
-    primary: ['lat', 'ruecken_oben'], secondary: [], loadType: 'bodyweight', unit: 'reps',
+    primary: ['lat', 'ruecken_oben'], secondary: [], loadType: 'bodyweight', unit: 'reps', genImage: 'scapula_pullup',
     equipment: 'Klimmzuggestell (freistehend)',
     steps: ['Im Hang mit gestreckten Armen nur die Schulterblätter nach unten ziehen, der Körper hebt sich wenige Zentimeter. Langsam zurück.'],
   },

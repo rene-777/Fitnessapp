@@ -1,0 +1,13 @@
+{
+  "model": "gpt-image-2-image-to-image",
+  "out": "public/img/gen/plyo_pushup_end",
+  "input": {
+    "prompt": "The FIRST image is the start position of this exercise: keep the same man, clothing, equipment, background, lighting, camera position and framing exactly, and change only the body position. Black-and-white studio instruction photo for a home-gym exercise manual, in exactly the style of the reference photos: the same man (short dark hair, clean-shaven, black sleeveless shirt, grey athletic shorts, white running shoes), plain light-grey seamless backdrop and light-grey floor, soft even studio lighting, slightly grainy monochrome print look, full body visible, nothing cropped, portrait format. No text, no watermark, no border, no logos, no mat. POSE: Explosive plyometric push-up at the top of the movement: the push was so powerful that both hands have left the floor and hover about 10 cm in the air, arms extended, body a straight line from head to heels, toes still on the floor. Camera at floor level from the side, athlete facing to the right of the frame.",
+    "input_urls": [
+      "https://tempfile.redpandaai.co/kieai/11764900/fitnessapp/plyo_pushup_start.webp",
+      "https://rene-777.github.io/Fitnessapp/img/gen/pushup_start.webp"
+    ],
+    "aspect_ratio": "3:4",
+    "resolution": "1K"
+  }
+}

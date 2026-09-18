@@ -2,12 +2,13 @@
 // Der API-Key kommt aus KIE_AI_API_KEY (Umgebung oder Windows-Benutzervariable),
 // steht nie in einer Datei dieses Repos.
 //
-// Aufruf (im Ordner app):
-//   node scripts/kie-gen.mjs --job scripts/kie-jobs/pushup.json
+// Aufruf (im Ordner app), ein oder mehrere Jobs, bis zu 4 laufen gleichzeitig:
+//   node scripts/kie-gen.mjs --job scripts/kie-jobs/pushup.json [--job weitere.json …]
+//   node scripts/kie-gen.mjs --jobs scripts/kie-jobs/batch1     (alle *.json im Ordner)
 //
 // Job-Datei (JSON):
 //   {
-//     "model": "google/nano-banana-pro",
+//     "model": "nano-banana-pro",          // oder gpt-image-2-image-to-image (Feld input_urls)
 //     "out": "public/img/gen/pushup_start",   // Zielpfad ohne Endung
 //     "input": { "prompt": "...", "image_input": ["https://..."], "aspect_ratio": "3:4", ... }
 //   }
@@ -37,20 +38,30 @@ if (!key) {
 const headers = { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' }
 
 const args = process.argv.slice(2)
-const jobArg = args[args.indexOf('--job') + 1]
-if (!args.includes('--job') || !jobArg) {
-  console.error('Aufruf: node scripts/kie-gen.mjs --job <job.json>')
+const jobFiles = []
+for (let i = 0; i < args.length; i++) {
+  if (args[i] === '--job' && args[i + 1]) jobFiles.push(args[++i])
+  else if (args[i] === '--jobs' && args[i + 1]) {
+    const dir = args[++i]
+    for (const f of fs.readdirSync(dir).filter((f) => f.endsWith('.json')).sort()) jobFiles.push(path.join(dir, f))
+  }
+}
+if (!jobFiles.length) {
+  console.error('Aufruf: node scripts/kie-gen.mjs --job <job.json> [--job …] | --jobs <ordner>')
   process.exit(1)
 }
-const job = JSON.parse(fs.readFileSync(jobArg, 'utf8'))
-if (!job.model || !job.out || !job.input) {
-  console.error('Job braucht model, out und input.')
-  process.exit(1)
+const jobs = jobFiles.map((f) => ({ file: f, ...JSON.parse(fs.readFileSync(f, 'utf8')) }))
+for (const job of jobs) {
+  if (!job.model || !job.out || !job.input) {
+    console.error(`${job.file}: Job braucht model, out und input.`)
+    process.exit(1)
+  }
 }
+const CONCURRENCY = 4
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
 
-async function createTask() {
+async function createTask(job) {
   const res = await fetch(`${API}/jobs/createTask`, {
     method: 'POST',
     headers,
@@ -63,7 +74,7 @@ async function createTask() {
   return body.data.taskId
 }
 
-async function waitFor(taskId) {
+async function waitFor(taskId, label) {
   const started = Date.now()
   for (;;) {
     const res = await fetch(`${API}/jobs/recordInfo?taskId=${encodeURIComponent(taskId)}`, { headers })
@@ -73,7 +84,6 @@ async function waitFor(taskId) {
     if (state === 'success') return d
     if (state === 'fail') throw new Error(`Task fehlgeschlagen: ${d.failCode ?? ''} ${d.failMsg ?? JSON.stringify(body)}`)
     if (Date.now() - started > 10 * 60 * 1000) throw new Error('Zeitüberschreitung (10 min)')
-    process.stdout.write(`  ${state ?? '?'} … ${Math.round((Date.now() - started) / 1000)} s\r`)
     await sleep(5000)
   }
 }
@@ -110,14 +120,33 @@ function toWebp(src, base) {
   return out
 }
 
-const taskId = await createTask()
-console.log(`Task ${taskId} (${job.model})`)
-const data = await waitFor(taskId)
-console.log('')
-const urls = resultUrls(data)
-if (!urls.length) throw new Error(`Kein Ergebnis: ${JSON.stringify(data)}`)
-const raw = await download(urls[0], job.out)
-console.log(`Roh: ${raw}`)
-const webp = toWebp(raw, job.out)
-if (webp) console.log(`WebP: ${webp}`)
-if (data.costTime) console.log(`Dauer ${data.costTime} ms`)
+async function runJob(job) {
+  const label = path.basename(job.out)
+  const started = Date.now()
+  const taskId = await createTask(job)
+  console.log(`${label}: Task ${taskId} (${job.model})`)
+  const data = await waitFor(taskId, label)
+  const urls = resultUrls(data)
+  if (!urls.length) throw new Error(`Kein Ergebnis: ${JSON.stringify(data)}`)
+  const raw = await download(urls[0], job.out)
+  const webp = toWebp(raw, job.out)
+  console.log(`${label}: fertig nach ${Math.round((Date.now() - started) / 1000)} s → ${webp || raw}`)
+}
+
+const queue = [...jobs]
+const failures = []
+await Promise.all(Array.from({ length: Math.min(CONCURRENCY, queue.length) }, async () => {
+  while (queue.length) {
+    const job = queue.shift()
+    try {
+      await runJob(job)
+    } catch (e) {
+      failures.push(job.file)
+      console.error(`${path.basename(job.out)}: FEHLER ${e.message}`)
+    }
+  }
+}))
+if (failures.length) {
+  console.error(`Fehlgeschlagen: ${failures.join(', ')}`)
+  process.exit(1)
+}

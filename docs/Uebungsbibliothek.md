@@ -2,7 +2,7 @@
 
 Stand: 16.09.2026. Diese Datei ist die Grundlage für die Übungsdatenbank in der App. Jede Übung hat: beanspruchte Muskeln (primär = Hauptarbeit, sekundär = Mitarbeit), Geräteeinstellung, Ausführung in einfachen Schritten, häufige Fehler und, wo nötig, Kniehinweise.
 
-Die Bio-Force-Übungen folgen der offiziellen Bedienungsanleitung von Finnlo (Kapitel „Bio Force Übungen“, Nr. 1–110). Die Nummer in Klammern ist die Nummer in der Anleitung. Wo ich vom Hersteller abweiche (zum Beispiel Tempo oder Zielmuskel), steht das dabei.
+Die Bio-Force-Übungen folgen der offiziellen Bedienungsanleitung von Finnlo (Kapitel „Bio Force Übungen“, Nr. 1–110). Die Nummer in Klammern ist die Nummer in der Anleitung. Wo ich vom Hersteller abweiche (zum Beispiel Tempo oder Zielmuskel), steht das dabei. Übungen ohne Herstellerfoto (Bodyweight, Kettlebell, Barren, Klimmzuggestell) haben in der App KI-generierte Bilder im Stil der Herstellerfotos (Stand 18.09.2026; Prompts in `app/scripts/kie-jobs/spec.mjs`).
 
 ## Begriffe an der Bio Force
 
