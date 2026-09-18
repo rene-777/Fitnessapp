@@ -1,0 +1,16 @@
+{
+  "model": "nano-banana-pro",
+  "out": "public/img/gen/pushup_end_b",
+  "input": {
+    "prompt": "Re-shoot the FIRST reference image as a black-and-white studio instruction photo: keep its body position exactly, change only the person, clothing, background and lighting. POSE comes from the FIRST reference image and must be copied exactly: bottom of a Goliaz-standard push-up. The man lies almost flat: his CHEST IS RESTING ON THE FLOOR, pressed into it, with no gap at all between chest and floor. Hips, thighs and knees hover only a few centimetres above the floor so the body is a straight, rigid, nearly horizontal line from the chest to the heels; toes on the floor. Both hands are lifted a few centimetres off the floor, palms open and facing down, fingers pointing forward; elbows bent about 90 degrees and pointing up and back toward the hips, upper arms close to the body. Head neutral, face a few centimetres above the floor, looking down. STYLE and PERSON come from the other reference images: black-and-white studio photograph in the style of a home-gym instruction manual, plain light-grey seamless backdrop and light-grey floor, soft even lighting, slightly grainy monochrome print look, the same man (short dark hair, clean-shaven, black sleeveless shirt, grey athletic shorts, white running shoes), athlete facing to the RIGHT of the frame, full body visible, nothing cropped, no black border, no mat, no gym equipment, no text, no watermark, no logos. Camera at floor level from the side like the first image.",
+    "image_input": [
+      "https://tempfile.redpandaai.co/kieai/11764900/images/user-uploads/goliaz_pushup_pose.jpg",
+      "https://tempfile.redpandaai.co/kieai/11764900/images/user-uploads/pushup_start_ref.webp",
+      "https://rene-777.github.io/Fitnessapp/img/bioforce/bf002_start.webp",
+      "https://rene-777.github.io/Fitnessapp/img/bioforce/bf108_start.webp"
+    ],
+    "aspect_ratio": "3:4",
+    "resolution": "1K",
+    "output_format": "png"
+  }
+}

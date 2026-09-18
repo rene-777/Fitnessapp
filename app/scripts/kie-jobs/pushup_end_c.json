@@ -1,0 +1,14 @@
+{
+  "model": "nano-banana-pro",
+  "out": "public/img/gen/pushup_end_c",
+  "input": {
+    "prompt": "Edit the FIRST image and keep everything else identical (same man, clothing, pose, lighting, black-and-white style, background, framing): ONLY raise both hands off the floor. Both palms hover clearly about 5 to 8 centimetres above the floor with a visible gap of light between the hands and the floor, palms open and facing down, fingers pointing forward, elbows bent about 90 degrees pointing up and back; the second image shows this hand position. The chest keeps resting on the floor, hips stay slightly above the floor, toes on the floor. No text, no watermark, no border.",
+    "image_input": [
+      "https://tempfile.redpandaai.co/kieai/11764900/images/user-uploads/pushup_end_b_ref.webp",
+      "https://tempfile.redpandaai.co/kieai/11764900/images/user-uploads/goliaz_pushup_pose.jpg"
+    ],
+    "aspect_ratio": "3:4",
+    "resolution": "1K",
+    "output_format": "png"
+  }
+}

@@ -11,3 +11,4 @@ docs/BioForce-Bedienungsanleitung-NEU.pdf
 # KI-Rohbilder (PNG, 1–2 MB); ins Repo kommen nur die WebP-Dateien
 app/public/img/gen/*.png
 app/public/img/gen/*_v[0-9].*
+app/public/img/gen/_versuche/

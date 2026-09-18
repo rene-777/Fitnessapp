@@ -1,0 +1,14 @@
+{
+  "model": "nano-banana-pro",
+  "out": "public/img/gen/pushup_end_d",
+  "input": {
+    "prompt": "Edit the FIRST image and keep everything else identical (same man, clothing, lighting, black-and-white style, background, framing, and the lifted hands exactly as they are): ONLY lower the torso so that the CHEST LIES ON THE FLOOR, pressed against it, with the chin a couple of centimetres above the floor. The whole body stays a straight line, hips and thighs hover just a few centimetres above the floor, toes on the floor. Both hands remain lifted off the floor, palms down, elbows bent pointing up and back, as in the second image. No text, no watermark, no border.",
+    "image_input": [
+      "https://tempfile.redpandaai.co/kieai/11764900/images/user-uploads/pushup_end_c_ref.webp",
+      "https://tempfile.redpandaai.co/kieai/11764900/images/user-uploads/goliaz_pushup_pose.jpg"
+    ],
+    "aspect_ratio": "3:4",
+    "resolution": "1K",
+    "output_format": "png"
+  }
+}

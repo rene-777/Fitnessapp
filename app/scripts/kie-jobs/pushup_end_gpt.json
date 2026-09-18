@@ -1,0 +1,14 @@
+{
+  "model": "gpt-image-2-image-to-image",
+  "out": "public/img/gen/pushup_end_gpt",
+  "input": {
+    "prompt": "Create a black-and-white studio instruction photo for a home-gym exercise manual. The FIRST image defines the exact body position and must be copied precisely: bottom position of a Goliaz-standard push-up. The chest is pressed onto the floor and touches it (no gap between chest and floor). Hips, thighs and knees hover just above the floor so the body stays one straight rigid line from chest to heels; toes on the floor. Both hands are lifted off the floor: palms open, facing down, hovering a few centimetres above the floor; elbows bent about 90 degrees, pointing up and backwards, upper arms close to the torso. Head neutral, face just above the floor, looking down. The SECOND and THIRD images define the person and the style: the same man (short dark hair, clean-shaven, black sleeveless shirt, grey athletic shorts, white running shoes), plain light-grey seamless backdrop and light-grey floor, soft even studio lighting, slightly grainy monochrome print look. Camera at floor level from the side, athlete facing to the right of the frame, full body visible, nothing cropped. No mat, no equipment, no text, no watermark, no border.",
+    "input_urls": [
+      "https://tempfile.redpandaai.co/kieai/11764900/images/user-uploads/goliaz_pushup_pose.jpg",
+      "https://tempfile.redpandaai.co/kieai/11764900/images/user-uploads/pushup_start_ref.webp",
+      "https://rene-777.github.io/Fitnessapp/img/bioforce/bf002_start.webp"
+    ],
+    "aspect_ratio": "3:4",
+    "resolution": "1K"
+  }
+}
