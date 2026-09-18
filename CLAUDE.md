@@ -24,7 +24,8 @@ Vite + React 19 + TypeScript, Tailwind v4 (Theme-Tokens in `src/index.css`), Dex
 - `src/lib/planEngine.ts` – Tageslogik, Challenge-Ziele, Progressionsvorschlag.
 - `src/lib/dashboard.ts` – Kennzahlen für den Startbildschirm (`src/pages/Today.tsx`), ebenfalls reine Funktionen.
 - `src/lib/stats.ts` – Auswertung als reine Funktionen (Sätze je Muskelgruppe, Wiederholungen, Benchmarks, Frequenz, Cardio); `src/pages/Stats.tsx` stellt nur dar. Diagramme: eine Achse pro Diagramm, eine Farbe (Akzent), keine zweite y-Achse.
-- `src/pages/Workout.tsx` – geführter Modus (größte Datei).
+- `src/pages/Workout.tsx` – geführter Modus (größte Datei). Trainingsdatum = Tag des Kurz-Checks, nicht das Plan-Datum aus der Route.
+- `src/pages/FreeTraining.tsx` – freies Training (Route `/free`, `/free/:id`): einzelne Übungen ohne Plan-Einheit, Sätze hängen an einem Workout je Tag mit `sessionKey = 'frei'` (`FREE_SESSION_KEY` in `src/lib/workouts.ts`); zählt in Verlauf und Auswertung, nicht als Plan-Einheit (`isFreeWorkout()`).
 - `src/lib/bioforce.ts` – Skala lb ↔ kg. `src/components/UpdateBanner.tsx` – PWA-Update nur auf Knopfdruck (`registerType: 'prompt'`, nie zurück auf `autoUpdate`: ein automatischer Reload hat am 17.09.2026 die Tabelle `workouts` blockiert). `src/components/ErrorBoundary.tsx` – Fehleranzeige; Build-Kennung `__BUILD__` unter „Mehr“.
 
 Befehle im Ordner `app`: `npm run dev`, `npm run build` (führt `tsc -b` aus), `npm run preview -- --host` (LAN-Test). Dev-Server für den Browser-Pane: `.claude/launch.json` → „app“.

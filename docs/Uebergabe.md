@@ -1,8 +1,8 @@
-# Übergabe – Stand 18.09.2026
+# Übergabe – Stand 18.09.2026 (Session-Ende, abends)
 
 ## Kurzfassung
 
-Die App ist live unter **https://rene-777.github.io/Fitnessapp/**, auf dem Android-Handy des Users installiert und startklar für Woche 1 (Start Montag 21.09.2026). Phase 1 (geführtes Training) und Phase 2 (Auswertungs-Tab, Dashboard) sind fertig. Arbeitsbaum sauber, alles auf `origin/main` gepusht und deployt. Nächstes großes Arbeitspaket: **Blöcke 2–4**, sobald die Einstufungswerte aus Woche 1 vorliegen. Bis dahin: Rückmeldungen des Users vom Handy abarbeiten.
+Die App ist live unter **https://rene-777.github.io/Fitnessapp/**, auf dem Android-Handy des Users installiert und startklar für Woche 1 (Start Montag 21.09.2026). Phase 1 (geführtes Training), Phase 2 (Auswertungs-Tab, Dashboard) und das freie Training (einzelne Übungen außerhalb des Plans, mit Stoppuhr) sind fertig; der User hat alles vom 18.09. am Handy getestet und für gut befunden. Arbeitsbaum sauber, alles auf `origin/main` gepusht und deployt. Nächstes großes Arbeitspaket: **Blöcke 2–4**, sobald die Einstufungswerte aus Woche 1 vorliegen. Bis dahin: Rückmeldungen des Users vom Handy abarbeiten.
 
 Arbeitsweise: Der User testet jede Änderung direkt am Handy (Update-Knopf) und meldet Auffälligkeiten. Getestete Änderungen dürfen ohne Rückfrage committet und gepusht werden (siehe Memory `feedback-commit-push-allowed`); in der Shell ist keine Git-Identität gesetzt, deshalb `git -c user.name="René" -c user.email="rene.sch@gmx.net" commit …`.
 
@@ -52,7 +52,7 @@ Der User hat die Dienstag-Einheit (Beine + Hüfte) probeweise durchgemacht. Zwei
 
 ## Nächste Schritte
 
-- **Rückmeldungen des Users** zum Dashboard und zum Auswertungs-Tab am Handy (Größen, Reihenfolge, Karten). Mit echten Daten ab 21.09. prüfen, vor allem die Satz-Zählung je Muskelgruppe („Schultern“ fällt hoch aus, weil jede Drückübung die vordere Schulter halb mitzählt; bei Bedarf Gruppen feiner aufteilen).
+- **Dashboard mit echten Daten** ab 21.09. ansehen (der User will es erst im Lauf der Woche beurteilen). Auswertungs-Tab passt laut User. Mit echten Daten prüfen, vor allem die Satz-Zählung je Muskelgruppe („Schultern“ fällt hoch aus, weil jede Drückübung die vordere Schulter halb mitzählt; bei Bedarf Gruppen feiner aufteilen).
 - **Nach Woche 1:** Dauer des Mittwochs (Pull) ansehen; bei Bedarf D1 einarmiges Rudern → Face Pulls (Beschluss vom 18.09.).
 - **Blöcke 2–4 als Daten** in `src/data/plan.ts`, nach Auswertung von Woche 1 (Einstufungswerte). Konzept in `Trainingskonzept.md` Abschnitt 3, Ausblick in `Block1-Wochen1-4.md` Abschnitt 7. Sitz-Regel und Geräte-Setup (Zugpunkt, Zubehör) von Anfang an mitdenken; 2,5-lb-Rasten für feinere Lastvorgaben nutzen.
 - Kurzversionen der Einheiten (30 min), Autoregulation bei Knie ≥ 4 (bisher nur Hinweis im Kurz-Check), Plan pausieren/verschieben (Weihnachtswoche = Woche 14).
@@ -73,7 +73,7 @@ Der User hat die Dienstag-Einheit (Beine + Hüfte) probeweise durchgemacht. Zwei
 
 ## Was der User als Nächstes tun sollte
 
-- Am Handy den Update-Knopf antippen, bis unter „Mehr“ eine Build-Kennung vom 17.09.2026 ab ca. 21:50 UTC steht, dann Dashboard und „Analyse“ ansehen.
+- Stand am Handy: Build vom 18.09.2026 ab ca. 16:45 UTC ist getestet.
 - **Vor dem Start am Montag:** Einstellungen → „Alle Daten löschen“ (gemischte Test- und Echtdaten entfernen). Das Profil wird automatisch neu angelegt (René, 1970, 172 cm, Start 21.09.2026); nur Gewicht und Taille unter „Körper“ neu eintragen.
 - Einmal den Flugmodus testen (Offline-Betrieb).
 - Montag 21.09. mit Woche 1 starten. Einmal pro Woche Einstellungen → Exportieren (z. B. in die Dropbox).
