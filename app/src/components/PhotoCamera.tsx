@@ -41,6 +41,20 @@ const MODES: CamMode[] = [
 ]
 const modeOf = (k: string) => MODES.find((m) => m.key === k) ?? MODES[0]
 
+/** Mittlere Helligkeit (0–255) eines Bildes, gemessen auf 32 × 32 Pixeln. */
+function meanLuma(src: CanvasImageSource, sw: number, sh: number): number {
+  const c = document.createElement('canvas')
+  c.width = 32
+  c.height = 32
+  const ctx = c.getContext('2d', { willReadFrequently: true })
+  if (!ctx) return 128
+  ctx.drawImage(src, 0, 0, sw, sh, 0, 0, 32, 32)
+  const d = ctx.getImageData(0, 0, 32, 32).data
+  let sum = 0
+  for (let i = 0; i < d.length; i += 4) sum += 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2]
+  return sum / (d.length / 4)
+}
+
 /** ImageCapture ist in Chrome vorhanden, aber nicht in allen TypeScript-Bibliotheken deklariert. */
 interface ImageCaptureLike { takePhoto(): Promise<Blob> }
 type ImageCaptureCtor = new (track: MediaStreamTrack) => ImageCaptureLike
@@ -188,19 +202,32 @@ export default function PhotoCamera({ taken, initialPose, onSave, onClose, onPic
     return raw
   }
 
-  /** Rohbild in voller Auflösung über ImageCapture (EXIF-Drehung wird berücksichtigt); null, wenn das nicht geht. */
+  /** Rohbild in voller Auflösung über ImageCapture (EXIF-Drehung wird berücksichtigt); null, wenn das nicht geht.
+   *  Chrome holt das Standbild ohne die Bildverarbeitung der Kamera-App, bei Kunstlicht ist es deutlich dunkler
+   *  als die Vorschau. Deshalb wird die mittlere Helligkeit an das Vorschaubild angeglichen (Faktor bis 2,5). */
   const grabFromImageCapture = async (): Promise<HTMLCanvasElement | null> => {
     const Ctor = getImageCapture()
     const track = streamRef.current?.getVideoTracks()[0]
     if (!Ctor || !track) return null
     try {
+      const preview = grabFromVideo()
       const blob = await new Ctor(track).takePhoto()
       const bmp = await createImageBitmap(blob, { imageOrientation: 'from-image' })
       const raw = document.createElement('canvas')
       raw.width = bmp.width
       raw.height = bmp.height
-      raw.getContext('2d')?.drawImage(bmp, 0, 0)
+      const ctx = raw.getContext('2d')
+      let gain = 1
+      if (preview && ctx) {
+        const want = meanLuma(preview, preview.width, preview.height)
+        const have = meanLuma(bmp, bmp.width, bmp.height)
+        if (have > 1) gain = Math.min(2.5, Math.max(1, want / have))
+        if (gain > 1.05) ctx.filter = `brightness(${gain.toFixed(2)})`
+      }
+      ctx?.drawImage(bmp, 0, 0)
+      if (ctx) ctx.filter = 'none'
       bmp.close()
+      setInfo(gain > 1.05 ? `Helligkeit ×${gain.toFixed(1)} an die Vorschau angeglichen.` : '')
       return raw
     } catch (e) {
       setInfo('ImageCapture fehlgeschlagen (' + (e as Error).message + '), Aufnahme aus dem Videobild.')
