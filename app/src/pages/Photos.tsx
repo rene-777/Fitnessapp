@@ -32,10 +32,17 @@ export default function Photos() {
   const [zoom, setZoom] = useState<ProgressPhoto | null>(null)
   const [busy, setBusy] = useState<Pose | null>(null)
   const [cam, setCam] = useState<Pose | null>(null)
+  /** Aufnahme aus Kamera-App oder Galerie, die noch bestätigt werden muss */
+  const [shot, setShot] = useState<{ pose: Pose; file: File; url: string; source: 'kamera' | 'galerie' } | null>(null)
+  const [shotDims, setShotDims] = useState<[number, number] | null>(null)
+  /** Nach dem Speichern: welche Pose gerade gespeichert wurde (für „Weiter“) */
+  const [justSaved, setJustSaved] = useState<Pose | null>(null)
   const [msg, setMsg] = useState('')
   const fileRef = useRef<HTMLInputElement>(null)
+  const cameraRef = useRef<HTMLInputElement>(null)
   const importRef = useRef<HTMLInputElement>(null)
   const poseRef = useRef<Pose>('vorne')
+  useEffect(() => () => { if (shot) URL.revokeObjectURL(shot.url) }, [shot])
 
   const rows = useMemo(() => (photos ?? []).slice().sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0)), [photos])
   const dates = useMemo(() => [...new Set(rows.map((p) => p.date))], [rows])
@@ -56,16 +63,31 @@ export default function Photos() {
   const takenPoses = current.map((p) => p.pose)
   const firstMissing = POSES.map((p) => p.key).find((k) => !takenPoses.includes(k)) ?? 'vorne'
 
+  const nextMissingAfter = (pose: Pose) => POSES.map((p) => p.key).find((k) => k !== pose && !takenPoses.includes(k))
+
+  /** Galerie: Dateiauswahl ohne capture-Attribut */
   const pick = (pose: Pose) => {
     poseRef.current = pose
     fileRef.current?.click()
   }
-  const onFile = async (f: File) => {
-    const pose = poseRef.current
-    setBusy(pose)
+  /** Kamera-App des Handys: Dateifeld mit capture-Attribut öffnet direkt die Kamera, das Foto kommt in voller Qualität zurück */
+  const shoot = (pose: Pose) => {
+    poseRef.current = pose
+    cameraRef.current?.click()
+  }
+  const onFile = (f: File, source: 'kamera' | 'galerie') => {
+    setJustSaved(null)
+    setShotDims(null)
+    setShot({ pose: poseRef.current, file: f, url: URL.createObjectURL(f), source })
+  }
+  const confirmShot = async () => {
+    if (!shot) return
+    setBusy(shot.pose)
     setMsg('')
     try {
-      await savePhoto(profile.id, date, pose, f)
+      await savePhoto(profile.id, date, shot.pose, shot.file)
+      setJustSaved(shot.pose)
+      setShot(null)
     } catch (e) {
       setMsg('Foto konnte nicht gespeichert werden: ' + (e as Error).message)
     } finally {
@@ -114,8 +136,9 @@ export default function Photos() {
       <section className="card space-y-3">
         <div className="h2">Fotos aufnehmen</div>
         <div><div className="label mb-1">Datum</div><input type="date" className="input" value={date} onChange={(e) => setDate(e.target.value)} /></div>
-        <button className="btn-primary w-full" onClick={() => setCam(firstMissing)}>Foto aufnehmen</button>
-        <div className="text-xs text-muted">Startet die Kamera in der App mit Selbstauslöser (3 oder 10 s) und geht die vier Posen nacheinander durch. Handy hochkant abstellen, Aufnehmen tippen, hinstellen. Alternativ ein vorhandenes Bild aus der Galerie wählen. Bilder werden auf 1280 px verkleinert und bleiben auf diesem Gerät.</div>
+        <button className="btn-primary w-full" onClick={() => shoot(firstMissing)}>Foto aufnehmen ({poseLabel(firstMissing)})</button>
+        <div className="text-xs text-muted">Öffnet die Kamera-App des Handys (volle Bildqualität; Selbstauslöser und Kamerawechsel dort einstellen). Das Foto kommt zurück, wird hier bestätigt und zur Pose gespeichert, danach geht es mit der nächsten Pose weiter. Vorhandene Bilder lassen sich je Pose aus der Galerie wählen. Bilder werden auf 1280 px verkleinert und bleiben auf diesem Gerät.</div>
+        <button className="btn-ghost w-full !text-sm" onClick={() => setCam(firstMissing)}>Kamera in der App mit Selbstauslöser (geringere Qualität)</button>
         <div className="grid grid-cols-2 gap-3">
           {POSES.map((pose) => {
             const p = photoFor(current, pose.key)
@@ -126,7 +149,7 @@ export default function Photos() {
                 {p
                   ? <PhotoImg photo={p} className={`${TILE} cursor-zoom-in`} onClick={() => setZoom(p)} />
                   : (
-                    <button className={`${TILE} border border-dashed border-line flex flex-col items-center justify-center gap-1 text-muted text-sm`} onClick={() => setCam(pose.key)} disabled={loading}>
+                    <button className={`${TILE} border border-dashed border-line flex flex-col items-center justify-center gap-1 text-muted text-sm`} onClick={() => shoot(pose.key)} disabled={loading}>
                       <span className="text-3xl leading-none">{loading ? '…' : '+'}</span>
                       <span>{loading ? 'Speichern …' : 'Aufnehmen'}</span>
                       <span className="text-xs px-2 text-center">{pose.hint}</span>
@@ -135,7 +158,7 @@ export default function Photos() {
                 {p
                   ? (
                     <div className="flex gap-1">
-                      <button className="btn-ghost flex-1 !px-1 !py-1.5 !text-xs" onClick={() => setCam(pose.key)} disabled={loading}>Kamera</button>
+                      <button className="btn-ghost flex-1 !px-1 !py-1.5 !text-xs" onClick={() => shoot(pose.key)} disabled={loading}>Kamera</button>
                       <button className="btn-ghost flex-1 !px-1 !py-1.5 !text-xs" onClick={() => pick(pose.key)} disabled={loading}>{loading ? '…' : 'Galerie'}</button>
                       <button className="btn-ghost !px-2 !py-1.5 !text-xs !text-bad" onClick={() => remove(p)} aria-label="Löschen">✕</button>
                     </div>
@@ -145,7 +168,8 @@ export default function Photos() {
             )
           })}
         </div>
-        <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) void onFile(f); e.target.value = '' }} />
+        <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) onFile(f, 'galerie'); e.target.value = '' }} />
+        <input ref={cameraRef} type="file" accept="image/*" capture="user" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) onFile(f, 'kamera'); e.target.value = '' }} />
       </section>
 
       {dates.length > 0 && (
@@ -189,6 +213,37 @@ export default function Photos() {
           onClose={() => setCam(null)}
           onPickFile={(pose) => { setCam(null); pick(pose) }}
         />
+      )}
+
+      {shot && (
+        <div className="fixed inset-0 z-50 bg-black flex flex-col">
+          <div className="p-3 flex items-center justify-between">
+            <div className="font-semibold">{poseLabel(shot.pose)} · {shot.source === 'kamera' ? 'Kamera-App' : 'Galerie'}</div>
+            <button className="btn-ghost !px-3 !py-1.5 !text-sm" onClick={() => setShot(null)} disabled={busy !== null}>Abbrechen</button>
+          </div>
+          <div className="flex-1 relative min-h-0">
+            <img src={shot.url} alt="Aufnahme" className="absolute inset-0 w-full h-full object-contain" onLoad={(e) => setShotDims([e.currentTarget.naturalWidth, e.currentTarget.naturalHeight])} />
+          </div>
+          <div className="p-3 space-y-2 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+            <div className="text-xs text-muted text-center">{shotDims ? `Aufnahme ${shotDims[0]} × ${shotDims[1]}${shotDims[1] > shotDims[0] ? ' (Hochformat)' : ' (Querformat)'}` : ''} · {fmtSize(shot.file.size)}{photoFor(current, shot.pose) ? ' · ersetzt das vorhandene Foto' : ''}</div>
+            <div className="flex gap-2">
+              <button className="btn-ghost flex-1" onClick={() => (shot.source === 'kamera' ? shoot(shot.pose) : pick(shot.pose))} disabled={busy !== null}>Nochmal</button>
+              <button className="btn-primary flex-1" onClick={confirmShot} disabled={busy !== null}>{busy ? 'Speichern …' : `Speichern als ${poseLabel(shot.pose)}`}</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {justSaved && !shot && (
+        <div className="fixed inset-x-0 bottom-16 z-40 px-4">
+          <div className="card !border-ok/50 space-y-2 shadow-lg">
+            <div className="text-ok font-semibold">✓ {poseLabel(justSaved)} gespeichert</div>
+            <div className="flex gap-2">
+              <button className="btn-ghost flex-1 !py-2" onClick={() => setJustSaved(null)}>Fertig</button>
+              {nextMissingAfter(justSaved) && <button className="btn-primary flex-1 !py-2" onClick={() => shoot(nextMissingAfter(justSaved)!)}>Weiter: {poseLabel(nextMissingAfter(justSaved)!)}</button>}
+            </div>
+          </div>
+        </div>
       )}
 
       {zoom && (
