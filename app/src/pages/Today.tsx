@@ -6,6 +6,7 @@ import { useProfile } from '../hooks/useProfile'
 import { EXERCISE_MAP } from '../data/exercises'
 import { WEEKS, weekByNumber } from '../data/plan'
 import { fmtLb, kgToLb } from '../lib/bioforce'
+import { fmtBody } from '../lib/decimal'
 import { latestKnee, latestRecord, lastPerformance, nextMilestone, planProgress, sessionStreak, totals } from '../lib/dashboard'
 import { WEEKDAY_SHORT, dateOf, fmtDate, fmtDateLong, fmtSec, parseISO, today } from '../lib/dates'
 import { blockLabel, dayInfo, sessionExerciseIds } from '../lib/planEngine'
@@ -180,8 +181,8 @@ export default function Today() {
           <div className="text-xs text-muted">{streak === 1 ? 'Einheit' : 'Einheiten'} in Folge</div>
         </Link>
         <Link to="/body" className="card !p-3">
-          <div className="text-2xl font-bold tabular-nums">{weight ? weight.toLocaleString('de-DE') : '–'}</div>
-          <div className="text-xs text-muted">kg{weightDelta !== undefined && weightDelta !== 0 ? ` · ${weightDelta > 0 ? '+' : '−'}${Math.abs(weightDelta).toLocaleString('de-DE')}` : weight ? '' : ' eintragen'}</div>
+          <div className="text-2xl font-bold tabular-nums">{weight ? fmtBody(weight) : '–'}</div>
+          <div className="text-xs text-muted">kg{weightDelta !== undefined && weightDelta !== 0 ? ` · ${weightDelta > 0 ? '+' : '−'}${fmtBody(Math.abs(weightDelta))}` : weight ? '' : ' eintragen'}</div>
         </Link>
         <Link to="/stats" className="card !p-3">
           <div className="text-2xl font-bold tabular-nums">{knee ?? '–'}{knee !== undefined && <span className="text-sm font-normal text-muted">/10</span>}</div>

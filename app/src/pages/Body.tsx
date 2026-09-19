@@ -5,7 +5,7 @@ import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YA
 import { db, now } from '../db/db'
 import { useProfile } from '../hooks/useProfile'
 import { fmtDate, today } from '../lib/dates'
-import { fmtDec, parseDecimal } from '../lib/decimal'
+import { fmtBody, parseDecimal } from '../lib/decimal'
 
 /** "74,1" oder "74.1" → 74.1 (auf Zehntel gerundet); leer oder unbrauchbar → undefined. */
 function parseBody(s: string): number | undefined {
@@ -53,8 +53,8 @@ export default function Body() {
           <div className="flex-1"><div className="label mb-1">Datum</div><input type="date" className="input" value={date} onChange={(e) => setDate(e.target.value)} /></div>
         </div>
         <div className="flex gap-2">
-          <div className="flex-1"><div className="label mb-1">Gewicht (kg)</div><input type="text" inputMode="decimal" className={`input ${weightBad ? '!border-bad' : ''}`} value={weight} onChange={(e) => setWeight(e.target.value)} placeholder={fmtDec(last?.weightKg)} aria-invalid={weightBad} /></div>
-          <div className="flex-1"><div className="label mb-1">Taille (cm)</div><input type="text" inputMode="decimal" className={`input ${waistBad ? '!border-bad' : ''}`} value={waist} onChange={(e) => setWaist(e.target.value)} placeholder={fmtDec(last?.waistCm)} aria-invalid={waistBad} /></div>
+          <div className="flex-1"><div className="label mb-1">Gewicht (kg)</div><input type="text" inputMode="decimal" className={`input ${weightBad ? '!border-bad' : ''}`} value={weight} onChange={(e) => setWeight(e.target.value)} placeholder={fmtBody(last?.weightKg)} aria-invalid={weightBad} /></div>
+          <div className="flex-1"><div className="label mb-1">Taille (cm)</div><input type="text" inputMode="decimal" className={`input ${waistBad ? '!border-bad' : ''}`} value={waist} onChange={(e) => setWaist(e.target.value)} placeholder={fmtBody(last?.waistCm)} aria-invalid={waistBad} /></div>
         </div>
         {(weightBad || waistBad) && <div className="text-xs text-bad" role="alert">Bitte eine Zahl eingeben, z. B. 74,1</div>}
         <button className="btn-primary w-full" onClick={save}>Speichern</button>
@@ -68,8 +68,8 @@ export default function Body() {
               <LineChart data={chart} margin={{ left: -20, right: 8, top: 8, bottom: 0 }}>
                 <CartesianGrid stroke="#2c2c2c" vertical={false} />
                 <XAxis dataKey="d" tick={{ fill: '#9b9b9b', fontSize: 11 }} />
-                <YAxis domain={['dataMin - 1', 'dataMax + 1']} tick={{ fill: '#9b9b9b', fontSize: 11 }} />
-                <Tooltip contentStyle={{ background: '#171717', border: '1px solid #2c2c2c', borderRadius: 8 }} />
+                <YAxis domain={[(min: number) => Math.floor(min - 0.5), (max: number) => Math.ceil(max + 0.5)]} allowDecimals={false} tick={{ fill: '#9b9b9b', fontSize: 11 }} />
+                <Tooltip contentStyle={{ background: '#171717', border: '1px solid #2c2c2c', borderRadius: 8 }} formatter={(v) => [`${fmtBody(Number(v))} kg`, 'Gewicht']} />
                 <Line type="monotone" dataKey="kg" stroke="#ff7a1a" strokeWidth={2} dot={{ r: 3 }} />
               </LineChart>
             </ResponsiveContainer>
@@ -79,7 +79,7 @@ export default function Body() {
 
       <div className="card space-y-3">
         <div className="h2">Kalorienbedarf</div>
-        <div className="text-xs text-muted">Mifflin-St Jeor mit {fmtDec(w)} kg, {h} cm, {age} Jahre. Grundumsatz {Math.round(bmr)} kcal.</div>
+        <div className="text-xs text-muted">Mifflin-St Jeor mit {fmtBody(w)} kg, {h} cm, {age} Jahre. Grundumsatz {Math.round(bmr)} kcal.</div>
         <div>
           <div className="label mb-1">Aktivität</div>
           <select className="input" value={activity} onChange={(e) => setActivity(Number(e.target.value))}>
@@ -111,7 +111,7 @@ export default function Body() {
             {[...list].reverse().slice(0, 30).map((r) => (
               <div key={r.id} className="py-1.5 flex justify-between">
                 <span className="text-muted">{fmtDate(r.date)}</span>
-                <span>{r.weightKg ? `${fmtDec(r.weightKg)} kg` : ''} {r.waistCm ? `· ${fmtDec(r.waistCm)} cm` : ''}</span>
+                <span>{r.weightKg ? `${fmtBody(r.weightKg)} kg` : ''} {r.waistCm ? `· ${fmtBody(r.waistCm)} cm` : ''}</span>
               </div>
             ))}
           </div>
