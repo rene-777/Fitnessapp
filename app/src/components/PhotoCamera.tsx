@@ -20,16 +20,39 @@ interface Props {
 
 const TIMERS = [3, 10] as const
 const ROT_KEY = (f: Facing) => `t16.photoCamRot.${f}`
+const MODE_KEY = (f: Facing) => `t16.photoCamMode.${f}`
+const CROP_KEY = 't16.photoCamCrop'
+
+/** Verschiedene Anforderungen an die Kamera. Android-Chrome ordnet Wünsche den nativen (Quer-)Modi zu und dreht
+ *  danach für die Anzeige; welcher Wunsch ein echtes Hochformat liefert, ist geräteabhängig. Der User probiert durch. */
+const MODES: { key: string; label: string; video: (f: Facing) => MediaTrackConstraints }[] = [
+  { key: 'p1440', label: 'Hoch 1440×1920', video: (f) => ({ facingMode: f, width: { ideal: 1440 }, height: { ideal: 1920 } }) },
+  { key: 'l1920', label: 'Quer 1920×1440', video: (f) => ({ facingMode: f, width: { ideal: 1920 }, height: { ideal: 1440 } }) },
+  { key: 'p1080', label: 'Hoch 1080×1920', video: (f) => ({ facingMode: f, width: { ideal: 1080 }, height: { ideal: 1920 } }) },
+  { key: 'ratio', label: 'Seitenverhältnis 3:4', video: (f) => ({ facingMode: f, aspectRatio: { ideal: 0.75 }, height: { ideal: 1920 } }) },
+  { key: 'auto', label: 'Standard', video: (f) => ({ facingMode: f }) },
+]
+const loadMode = (f: Facing) => { try { const k = localStorage.getItem(MODE_KEY(f)); return k && MODES.some((m) => m.key === k) ? k : MODES[0].key } catch { return MODES[0].key } }
+const saveMode = (f: Facing, k: string) => { try { localStorage.setItem(MODE_KEY(f), k) } catch { /* egal */ } }
+const loadCrop = () => { try { return localStorage.getItem(CROP_KEY) !== '0' } catch { return true } }
+const saveCrop = (c: boolean) => { try { localStorage.setItem(CROP_KEY, c ? '1' : '0') } catch { /* egal */ } }
 const loadRot = (f: Facing): Rot => {
   try { const n = Number(localStorage.getItem(ROT_KEY(f))); return n === 90 || n === 180 || n === 270 ? n : 0 } catch { return 0 }
 }
 const saveRot = (f: Facing, r: Rot) => { try { localStorage.setItem(ROT_KEY(f), String(r)) } catch { /* egal */ } }
 
-/** Zeichnet ein Bild gedreht in ein Canvas (Breite und Höhe werden bei 90/270 getauscht). */
-function drawRotated(target: HTMLCanvasElement, src: CanvasImageSource, sw: number, sh: number, r: Rot) {
+/** Ausgabegröße nach Drehung und optionalem Hochformat-Ausschnitt (Querformat → mittiges 3:4, volle Höhe bleibt). */
+function outSize(sw: number, sh: number, r: Rot, crop: boolean): [number, number] {
   const swap = r === 90 || r === 270
   const w = swap ? sh : sw
   const h = swap ? sw : sh
+  if (crop && w > h) return [Math.round((h * 3) / 4), h]
+  return [w, h]
+}
+
+/** Zeichnet ein Bild gedreht (und ggf. mittig beschnitten) in ein Canvas. */
+function drawRotated(target: HTMLCanvasElement, src: CanvasImageSource, sw: number, sh: number, r: Rot, crop: boolean) {
+  const [w, h] = outSize(sw, sh, r, crop)
   if (target.width !== w || target.height !== h) { target.width = w; target.height = h }
   const ctx = target.getContext('2d')
   if (!ctx) return
@@ -46,6 +69,8 @@ export default function PhotoCamera({ taken, initialPose, onSave, onClose, onPic
   const [pose, setPose] = useState<Pose>(initialPose)
   const [facing, setFacing] = useState<Facing>('user')
   const [rot, setRot] = useState<Rot>(() => loadRot('user'))
+  const [mode, setMode] = useState<string>(() => loadMode('user'))
+  const [crop, setCrop] = useState<boolean>(loadCrop)
   const [timer, setTimer] = useState<(typeof TIMERS)[number]>(10)
   const [phase, setPhase] = useState<Phase>('live')
   const [left, setLeft] = useState(0)
@@ -60,18 +85,20 @@ export default function PhotoCamera({ taken, initialPose, onSave, onClose, onPic
   const tickRef = useRef<number | null>(null)
   const rafRef = useRef<number>(0)
   const rotRef = useRef<Rot>(rot)
-  useEffect(() => { rotRef.current = rot }, [rot])
+  const cropRef = useRef<boolean>(crop)
+  useEffect(() => { rotRef.current = rot; cropRef.current = crop }, [rot, crop])
 
   const stop = useCallback(() => {
     streamRef.current?.getTracks().forEach((t) => t.stop())
     streamRef.current = null
   }, [])
 
-  const start = useCallback(async (f: Facing) => {
+  const start = useCallback(async (f: Facing, m: string) => {
     stop()
     if (!navigator.mediaDevices?.getUserMedia) { setError('Dieser Browser bietet keinen Kamerazugriff.'); setPhase('error'); return }
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: false, video: { facingMode: f, width: { ideal: 1440 }, height: { ideal: 1920 } } })
+      const video = (MODES.find((x) => x.key === m) ?? MODES[0]).video(f)
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: false, video })
       streamRef.current = stream
       if (videoRef.current) {
         videoRef.current.srcObject = stream
@@ -93,7 +120,7 @@ export default function PhotoCamera({ taken, initialPose, onSave, onClose, onPic
     const draw = () => {
       const v = videoRef.current
       const c = liveRef.current
-      if (v && c && v.videoWidth >= 100) drawRotated(c, v, v.videoWidth, v.videoHeight, rotRef.current)
+      if (v && c && v.videoWidth >= 100) drawRotated(c, v, v.videoWidth, v.videoHeight, rotRef.current, cropRef.current)
       rafRef.current = requestAnimationFrame(draw)
     }
     rafRef.current = requestAnimationFrame(draw)
@@ -103,17 +130,17 @@ export default function PhotoCamera({ taken, initialPose, onSave, onClose, onPic
   useEffect(() => {
     keepAwake(true)
     // Kamera erst im nächsten Tick starten, damit der Effekt selbst keinen State setzt
-    const id = window.setTimeout(() => void start(facing), 0)
+    const id = window.setTimeout(() => void start(facing, mode), 0)
     return () => { window.clearTimeout(id); clearTick(); stop(); keepAwake(false) }
-  }, [facing, start, stop])
+  }, [facing, mode, start, stop])
 
   useEffect(() => () => { if (shot) URL.revokeObjectURL(shot.url) }, [shot])
 
-  const render = (r: Rot) => {
+  const render = (r: Rot, c: boolean) => {
     const raw = rawRef.current
     if (!raw) return
     const out = document.createElement('canvas')
-    drawRotated(out, raw, raw.width, raw.height, r)
+    drawRotated(out, raw, raw.width, raw.height, r, c)
     out.toBlob((blob) => {
       if (!blob) { setError('Foto konnte nicht erstellt werden.'); setPhase('live'); return }
       setShot({ blob, url: URL.createObjectURL(blob) })
@@ -130,7 +157,7 @@ export default function PhotoCamera({ taken, initialPose, onSave, onClose, onPic
     raw.height = v.videoHeight
     raw.getContext('2d')?.drawImage(v, 0, 0)
     rawRef.current = raw
-    render(rotRef.current)
+    render(rotRef.current, cropRef.current)
   }
 
   // Drehen: wirkt sofort auf Live-Bild und Vorschau und wird für diese Kamera gemerkt
@@ -138,7 +165,21 @@ export default function PhotoCamera({ taken, initialPose, onSave, onClose, onPic
     const r = (((rot + 90) % 360) as Rot)
     setRot(r)
     saveRot(facing, r)
-    if (rawRef.current) render(r)
+    if (rawRef.current) render(r, crop)
+  }
+  const toggleCrop = () => {
+    const c = !crop
+    setCrop(c)
+    saveCrop(c)
+    if (rawRef.current) render(rot, c)
+  }
+  // Nächsten Kamera-Modus probieren (Stream startet neu)
+  const nextMode = () => {
+    const i = MODES.findIndex((m) => m.key === mode)
+    const k = MODES[(i + 1) % MODES.length].key
+    saveMode(facing, k)
+    setDims(null)
+    setMode(k)
   }
 
   // Countdown: jede Sekunde ein Piep, bei 0 das Startsignal und der Auslöser
@@ -166,6 +207,7 @@ export default function PhotoCamera({ taken, initialPose, onSave, onClose, onPic
     setError('')
     setDims(null)
     setRot(loadRot(nf))
+    setMode(loadMode(nf))
     setFacing(nf)
   }
   const save = async () => {
@@ -186,8 +228,8 @@ export default function PhotoCamera({ taken, initialPose, onSave, onClose, onPic
   const goNext = () => { if (nextPose) { setPose(nextPose); setPhase('live') } }
   const hint = POSES.find((p) => p.key === pose)?.hint ?? ''
   const busy = phase === 'countdown' || phase === 'saving'
-  const swap = rot === 90 || rot === 270
-  const outDims = dims ? (swap ? [dims[1], dims[0]] : dims) : null
+  const outDims = dims ? outSize(dims[0], dims[1], rot, crop) : null
+  const modeLabel = (MODES.find((m) => m.key === mode) ?? MODES[0]).label
   const showLive = phase === 'live' || phase === 'countdown'
 
   return (
@@ -248,8 +290,12 @@ export default function PhotoCamera({ taken, initialPose, onSave, onClose, onPic
               <button className="btn-ghost !py-2 !px-3 !text-sm" onClick={rotate} disabled={!dims} aria-label="Bild drehen">↻</button>
             </div>
             <button className="btn-primary w-full" onClick={begin}>Aufnehmen ({timer} s Selbstauslöser)</button>
+            <div className="flex gap-2 text-xs">
+              <button className="btn-ghost flex-1 !py-1.5 !px-2 !text-xs !font-normal" onClick={nextMode}>Modus: {modeLabel} ›</button>
+              <button className={`flex-1 rounded-xl py-1.5 px-2 border ${crop ? 'bg-accent/15 border-accent/40 text-accent2' : 'bg-card2 border-line text-muted'}`} onClick={toggleCrop}>Ausschnitt 3:4 {crop ? 'an' : 'aus'}</button>
+            </div>
             <div className="flex justify-between text-xs text-muted">
-              <span>{outDims ? `Bild ${outDims[0]} × ${outDims[1]}${outDims[1] > outDims[0] ? ' (Hochformat)' : ' (Querformat, ↻ drehen)'}` : 'Kamera startet …'}</span>
+              <span>{dims && outDims ? `Kamera ${dims[0]} × ${dims[1]} → Bild ${outDims[0]} × ${outDims[1]}${outDims[1] > outDims[0] ? ' (Hochformat)' : ' (Querformat)'}` : 'Kamera startet …'}</span>
               <button onClick={() => onPickFile(pose)}>Galerie / Kamera-App</button>
             </div>
           </>
@@ -270,7 +316,7 @@ export default function PhotoCamera({ taken, initialPose, onSave, onClose, onPic
         )}
         {phase === 'error' && (
           <div className="flex gap-2">
-            <button className="btn-ghost flex-1" onClick={() => start(facing)}>Nochmal versuchen</button>
+            <button className="btn-ghost flex-1" onClick={() => start(facing, mode)}>Nochmal versuchen</button>
             <button className="btn-primary flex-1" onClick={() => onPickFile(pose)}>Kamera-App / Galerie</button>
           </div>
         )}
