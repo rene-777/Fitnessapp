@@ -3,19 +3,15 @@ import { useLiveQuery } from 'dexie-react-hooks'
 import { db } from '../db/db'
 import type { Pose, ProgressPhoto } from '../db/types'
 import { useProfile } from '../hooks/useProfile'
+import PhotoCamera from '../components/PhotoCamera'
 import { fmtDate, today } from '../lib/dates'
 import { downloadText } from '../lib/exportImport'
 import { POSES, deletePhoto, exportPhotos, fmtSize, importPhotos, photoCheckStatus, poseLabel, savePhoto } from '../lib/photos'
 
 /** Objekt-URL für einen Blob, wird beim Wechsel oder Abbau wieder freigegeben. */
 function useObjectUrl(blob?: Blob): string | undefined {
-  const [url, setUrl] = useState<string>()
-  useEffect(() => {
-    if (!blob) { setUrl(undefined); return }
-    const u = URL.createObjectURL(blob)
-    setUrl(u)
-    return () => URL.revokeObjectURL(u)
-  }, [blob])
+  const url = useMemo(() => (blob ? URL.createObjectURL(blob) : undefined), [blob])
+  useEffect(() => () => { if (url) URL.revokeObjectURL(url) }, [url])
   return url
 }
 
@@ -35,6 +31,7 @@ export default function Photos() {
   const [cmpB, setCmpB] = useState('')
   const [zoom, setZoom] = useState<ProgressPhoto | null>(null)
   const [busy, setBusy] = useState<Pose | null>(null)
+  const [cam, setCam] = useState<Pose | null>(null)
   const [msg, setMsg] = useState('')
   const fileRef = useRef<HTMLInputElement>(null)
   const importRef = useRef<HTMLInputElement>(null)
@@ -56,6 +53,8 @@ export default function Photos() {
   const photoFor = (list: ProgressPhoto[], pose: Pose) => list.find((p) => p.pose === pose)
   const totalBytes = rows.reduce((s, p) => s + p.bytes, 0)
   const next = schedule.find((c) => c.status !== 'fertig')
+  const takenPoses = current.map((p) => p.pose)
+  const firstMissing = POSES.map((p) => p.key).find((k) => !takenPoses.includes(k)) ?? 'vorne'
 
   const pick = (pose: Pose) => {
     poseRef.current = pose
@@ -115,7 +114,8 @@ export default function Photos() {
       <section className="card space-y-3">
         <div className="h2">Fotos aufnehmen</div>
         <div><div className="label mb-1">Datum</div><input type="date" className="input" value={date} onChange={(e) => setDate(e.target.value)} /></div>
-        <div className="text-xs text-muted">Foto mit der Kamera-App aufnehmen (Selbstauslöser 10 s), dann hier auswählen. Das Bild wird auf 1280 px verkleinert und bleibt auf diesem Gerät.</div>
+        <button className="btn-primary w-full" onClick={() => setCam(firstMissing)}>Foto aufnehmen</button>
+        <div className="text-xs text-muted">Startet die Kamera in der App mit Selbstauslöser (3 oder 10 s) und geht die vier Posen nacheinander durch. Handy hochkant abstellen, Aufnehmen tippen, hinstellen. Alternativ ein vorhandenes Bild aus der Galerie wählen. Bilder werden auf 1280 px verkleinert und bleiben auf diesem Gerät.</div>
         <div className="grid grid-cols-2 gap-3">
           {POSES.map((pose) => {
             const p = photoFor(current, pose.key)
@@ -126,18 +126,21 @@ export default function Photos() {
                 {p
                   ? <PhotoImg photo={p} className={`${TILE} cursor-zoom-in`} onClick={() => setZoom(p)} />
                   : (
-                    <button className={`${TILE} border border-dashed border-line flex flex-col items-center justify-center gap-1 text-muted text-sm`} onClick={() => pick(pose.key)} disabled={loading}>
+                    <button className={`${TILE} border border-dashed border-line flex flex-col items-center justify-center gap-1 text-muted text-sm`} onClick={() => setCam(pose.key)} disabled={loading}>
                       <span className="text-3xl leading-none">{loading ? '…' : '+'}</span>
-                      <span>{loading ? 'Speichern …' : 'Foto wählen'}</span>
+                      <span>{loading ? 'Speichern …' : 'Aufnehmen'}</span>
                       <span className="text-xs px-2 text-center">{pose.hint}</span>
                     </button>
                   )}
-                {p && (
-                  <div className="flex gap-1">
-                    <button className="btn-ghost flex-1 !px-1 !py-1.5 !text-xs" onClick={() => pick(pose.key)} disabled={loading}>{loading ? '…' : 'Ersetzen'}</button>
-                    <button className="btn-ghost flex-1 !px-1 !py-1.5 !text-xs !text-bad" onClick={() => remove(p)}>Löschen</button>
-                  </div>
-                )}
+                {p
+                  ? (
+                    <div className="flex gap-1">
+                      <button className="btn-ghost flex-1 !px-1 !py-1.5 !text-xs" onClick={() => setCam(pose.key)} disabled={loading}>Kamera</button>
+                      <button className="btn-ghost flex-1 !px-1 !py-1.5 !text-xs" onClick={() => pick(pose.key)} disabled={loading}>{loading ? '…' : 'Galerie'}</button>
+                      <button className="btn-ghost !px-2 !py-1.5 !text-xs !text-bad" onClick={() => remove(p)} aria-label="Löschen">✕</button>
+                    </div>
+                  )
+                  : <button className="w-full text-xs text-muted py-0.5" onClick={() => pick(pose.key)} disabled={loading}>aus Galerie wählen</button>}
               </div>
             )
           })}
@@ -177,6 +180,16 @@ export default function Photos() {
         <input ref={importRef} type="file" accept="application/json" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) void doImport(f); e.target.value = '' }} />
         <button className="btn-ghost w-full" onClick={() => importRef.current?.click()}>Fotos importieren</button>
       </section>
+
+      {cam && (
+        <PhotoCamera
+          taken={takenPoses}
+          initialPose={cam}
+          onSave={(pose, blob) => savePhoto(profile.id, date, pose, blob).then(() => undefined)}
+          onClose={() => setCam(null)}
+          onPickFile={(pose) => { setCam(null); pick(pose) }}
+        />
+      )}
 
       {zoom && (
         <div className="fixed inset-0 z-50 bg-black/95 flex flex-col items-center justify-center p-4 gap-3" onClick={() => setZoom(null)}>
