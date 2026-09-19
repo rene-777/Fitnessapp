@@ -1,5 +1,5 @@
 import Dexie, { type EntityTable } from 'dexie'
-import type { BodyMetric, Benchmark, Profile, SetLog, Settings, Workout } from './types'
+import type { BodyMetric, Benchmark, Profile, ProgressPhoto, SetLog, Settings, Workout } from './types'
 
 export class FitDB extends Dexie {
   profiles!: EntityTable<Profile, 'id'>
@@ -8,6 +8,7 @@ export class FitDB extends Dexie {
   sets!: EntityTable<SetLog, 'id'>
   body!: EntityTable<BodyMetric, 'id'>
   benchmarks!: EntityTable<Benchmark, 'id'>
+  photos!: EntityTable<ProgressPhoto, 'id'>
 
   constructor() {
     super('transformation16')
@@ -18,6 +19,10 @@ export class FitDB extends Dexie {
       sets: 'id, workoutId, profileId, exerciseId, [profileId+exerciseId], date',
       body: 'id, profileId, date, [profileId+date]',
       benchmarks: 'id, profileId, key, [profileId+key]',
+    })
+    // Version 2 (19.09.2026): Fortschrittsfotos. Nur neue Tabelle, keine Datenwanderung.
+    this.version(2).stores({
+      photos: 'id, profileId, date, [profileId+date]',
     })
   }
 }

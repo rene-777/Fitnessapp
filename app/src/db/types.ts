@@ -90,3 +90,18 @@ export interface Benchmark {
   updatedAt: string
   deleted?: boolean
 }
+
+export type Pose = 'vorne' | 'links' | 'rechts' | 'hinten'
+
+/** Fortschrittsfoto des Foto-Checks. Das Bild liegt als JPEG-Blob in IndexedDB (verkleinert, s. lib/photos.ts). */
+export interface ProgressPhoto {
+  id: string
+  profileId: string
+  date: string
+  pose: Pose
+  blob: Blob
+  width: number
+  height: number
+  bytes: number
+  updatedAt: string
+}

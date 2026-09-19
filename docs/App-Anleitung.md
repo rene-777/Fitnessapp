@@ -1,6 +1,6 @@
 # App „Transformation 16“ – Anleitung und Stand
 
-Stand: 17.09.2026 · Phase 1 und 2 fertig
+Stand: 19.09.2026 · Phase 1 und 2 fertig, Foto-Check ergänzt
 
 ## Was die App kann (Phase 1 und 2)
 
@@ -13,7 +13,8 @@ Stand: 17.09.2026 · Phase 1 und 2 fertig
 - **Übungen:** Bibliothek mit Suche, Muskelgruppen (primär orange, sekundär grau), Herstellerfotos der Bio Force (Start, Ende, Rollenposition; Tipp auf ein Foto vergrößert es) und für Übungen ohne Herstellerfoto KI-generierte Bilder im selben Stil (Hinweis „KI-generiert“ unter der Beschreibung), Chip „Sitz angebracht“ oder „Sitz entfernt“, Geräteeinstellung, Ausführung, Hinweise, Kniehinweise. Pro Übung Bestwerte und Verlauf.
 - **Nachtragen:** Einheit mit Datum und allen Sätzen im Nachhinein eintragen (auch Tests, dann werden die Benchmarks gesetzt).
 - **Freies Training** (Mehr → Freies Training, oder „Freies Training mit dieser Übung“ auf der Übungsseite): einzelne Übung außerhalb des Plans mit Datum und beliebig vielen Sätzen (Wiederholungen oder Sekunden, lb-Skala oder kg, RIR; bei Cardio Minuten und Meter). Bei Halteübungen (Plank, Side Plank, Wall Sit) startet „Stoppuhr starten“ eine Stoppuhr mit 3-2-1-Vorlauf, die gestoppte Zeit steht dann im Sekundenfeld. Nach „Speichern, dann nächste Übung“ ist die Übungswahl wieder frei, so lassen sich beliebig viele Übungen nacheinander durchführen; unten steht die Liste des Tages mit allen Übungen und Sätzen („+ Satz“ wählt die Übung erneut). Bei Push-Ups, Pull-Ups, Dips und Plank lässt sich der Eintrag als Max-Test speichern, der beste Satz wird dann Benchmark. Die Sätze hängen an einem „Freien Training“ des Tages, zählen in Verlauf, Bestwerten und Auswertung mit, aber nicht als Plan-Einheit (Frequenz, Serie). Einzelne freie Einträge lassen sich auf der Seite „Freies Training“ und im Verlauf der Übung (✕) löschen; ein Testwert wird dabei mitgelöscht.
-- **Körper:** Gewicht und Taille mit Verlaufskurve, Kalorienbedarf nach Mifflin-St Jeor, Proteinziel.
+- **Körper:** Gewicht und Taille (immer mit einer Nachkommastelle, Komma-Eingabe) mit Verlaufskurve, Kalorienbedarf nach Mifflin-St Jeor, Proteinziel. Darunter die Karte „Foto-Check“ mit dem nächsten Termin.
+- **Foto-Check** (Mehr → Foto-Check, Karte auf „Körper“, vor dem Start auch Knopf „Fotos“ auf „Heute“): Fortschrittsfotos in vier Posen (vorne, links, rechts, hinten) zu fünf Terminen: Start und die Montage der Wochen 5, 9, 13 und 17 (nach Woche 16); Fotos von Freitag davor bis Donnerstag danach zählen zum Termin. Die Terminliste zeigt erledigt (✓ mit Datum), fällig oder offen. Aufnahme mit der Kamera-App (Selbstauslöser), dann „Foto wählen“; das Bild wird auf 1280 px längste Seite verkleinert (JPEG, ca. 150–300 kB) und bleibt auf dem Gerät. Tipp auf ein Foto vergrößert es, „Ersetzen“ und „Löschen“ je Pose, Datum frei wählbar (ältere Termine nachtragen). „Vergleich“ stellt zwei Termine je Pose nebeneinander (Vorher/Nachher, standardmäßig erster und letzter). Empfehlung: immer gleiche Bedingungen (morgens vor dem Training, gleiches Licht, gleicher Abstand, gleiche Kleidung, Handy hochkant auf Brusthöhe, neutral stehen). Sicherung: eigene Datei „Fotos exportieren“/„Fotos importieren“ auf der Seite, die Fotos sind nicht im JSON-Export der Einstellungen enthalten. Beim ersten Foto fordert die App dauerhaften Speicher an (`navigator.storage.persist`).
 - **Analyse (Auswertung):** Trainingsfrequenz je Woche (erledigt/geplant, Tipp auf eine Woche wählt sie aus), Sätze pro Muskelgruppe für die gewählte Woche mit Vorwochen-Strich (Hauptmuskel 1 Satz, Hilfsmuskel 0,5; nur Kraftsätze und Max-Tests), Wiederholungen gesamt für Burpees, Push-Ups, Pull-Ups, Dips und Kniebeugen (je Woche und Summe, inklusive AMRAP und Challenge), Benchmarks mit Verlauf ab dem zweiten Test (Zeit-Tests wie Plank in Minuten:Sekunden), schwerste Sätze an der Bio Force (Start → Bestwert in lb), Cardio (Ø Puls, Tempo, Tabelle) und Verlauf des Kurz-Checks (Knie, Schlaf).
 - **Einstellungen:** Profil (Name, Geburtsjahr, Größe, Planstart, HF max), Signaltöne, Sprachansagen, mehrere Profile, Export und Import als JSON, alles löschen.
 
@@ -21,7 +22,7 @@ Noch nicht enthalten (Phase 3): Blöcke 2–4 als Daten (folgen nach den Einstuf
 
 ## Wo die Daten liegen
 
-Alle Daten bleiben im Browser des Geräts (IndexedDB). Kein Server, kein Konto. Sicherung: Einstellungen → Exportieren erzeugt eine JSON-Datei. Auf dem PC importieren, um dort auszuwerten. Neuere Einträge gewinnen beim Import.
+Alle Daten bleiben im Browser des Geräts (IndexedDB). Kein Server, kein Konto. Sicherung: Einstellungen → Exportieren erzeugt eine JSON-Datei. Auf dem PC importieren, um dort auszuwerten. Neuere Einträge gewinnen beim Import. Die Fotos des Foto-Checks sichert man getrennt auf ihrer Seite (eigene JSON-Datei mit den Bildern, ein paar MB).
 
 Damit die Daten nicht verloren gehen: mindestens einmal pro Woche exportieren (z. B. in Dropbox). Der Browser kann lokale Daten löschen, wenn der Speicher knapp wird. Bei einer installierten Web-App passiert das praktisch nicht.
 

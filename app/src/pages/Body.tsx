@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { v4 as uuid } from 'uuid'
 import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
@@ -6,6 +7,7 @@ import { db, now } from '../db/db'
 import { useProfile } from '../hooks/useProfile'
 import { fmtDate, today } from '../lib/dates'
 import { fmtBody, parseDecimal } from '../lib/decimal'
+import { photoCheckStatus, photoDates } from '../lib/photos'
 
 /** "74,1" oder "74.1" → 74.1 (auf Zehntel gerundet); leer oder unbrauchbar → undefined. */
 function parseBody(s: string): number | undefined {
@@ -16,6 +18,7 @@ function parseBody(s: string): number | undefined {
 export default function Body() {
   const profile = useProfile()
   const rows = useLiveQuery(() => (profile ? db.body.where('profileId').equals(profile.id).toArray() : []), [profile?.id])
+  const dates = useLiveQuery(() => (profile ? photoDates(profile.id) : []), [profile?.id])
   const [date, setDate] = useState(today())
   // Texteingabe statt type="number": die deutsche Android-Tastatur liefert ein Komma, das ein Zahlenfeld verwirft.
   const [weight, setWeight] = useState('')
@@ -43,6 +46,12 @@ export default function Body() {
     await db.body.put({ id: existing?.id ?? uuid(), profileId: profile.id, date, weightKg: weightNum ?? existing?.weightKg, waistCm: waistNum ?? existing?.waistCm, updatedAt: now() })
     setWeight(''); setWaist('')
   }
+  const checks = photoCheckStatus(profile.planStartDate, dates ?? [], today())
+  const nextCheck = checks.find((c) => c.status !== 'fertig')
+  const lastCheck = [...checks].reverse().find((c) => c.status === 'fertig')
+  const photoText = nextCheck?.status === 'faellig'
+    ? `Jetzt dran: ${nextCheck.label} (${fmtDate(nextCheck.date)})`
+    : `${lastCheck ? `Zuletzt ${fmtDate(lastCheck.doneDate!)}` : 'Noch keine Fotos'}${nextCheck ? ` · nächster: ${nextCheck.label}, ${fmtDate(nextCheck.date)}` : ''}`
   const chart = list.filter((r) => r.weightKg).map((r) => ({ d: fmtDate(r.date, { day: '2-digit', month: '2-digit' }), kg: r.weightKg }))
 
   return (
@@ -59,6 +68,13 @@ export default function Body() {
         {(weightBad || waistBad) && <div className="text-xs text-bad" role="alert">Bitte eine Zahl eingeben, z. B. 74,1</div>}
         <button className="btn-primary w-full" onClick={save}>Speichern</button>
       </div>
+
+      <Link to="/photos" className={`card block ${nextCheck?.status === 'faellig' ? '!border-accent/60' : ''}`}>
+        <div className="flex items-center justify-between gap-2">
+          <div><div className="h2">Foto-Check</div><div className={`text-sm ${nextCheck?.status === 'faellig' ? 'text-accent' : 'text-muted'}`}>{photoText}</div></div>
+          <span className="text-muted text-xl">›</span>
+        </div>
+      </Link>
 
       {chart.length > 1 && (
         <div className="card">

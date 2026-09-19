@@ -42,7 +42,7 @@ export default function SettingsPage() {
   }
   const wipe = async () => {
     if (!confirm('Wirklich ALLE Daten auf diesem Gerät löschen? Vorher exportieren!')) return
-    if (!confirm('Letzte Warnung: Trainings, Sätze, Körperwerte werden unwiderruflich gelöscht.')) return
+    if (!confirm('Letzte Warnung: Trainings, Sätze, Körperwerte und Fotos werden unwiderruflich gelöscht.')) return
     await db.delete()
     location.reload()
   }
@@ -85,7 +85,7 @@ export default function SettingsPage() {
 
       <section className="card space-y-3">
         <div className="h2">Sicherung</div>
-        <div className="text-sm text-muted">Alle Daten als JSON-Datei. Zum Übertragen aufs andere Gerät dort importieren, neuere Einträge gewinnen.</div>
+        <div className="text-sm text-muted">Alle Daten als JSON-Datei. Zum Übertragen aufs andere Gerät dort importieren, neuere Einträge gewinnen. Fotos vom Foto-Check haben eine eigene Sicherung auf ihrer Seite.</div>
         <button className="btn-primary w-full" onClick={doExport}>Exportieren</button>
         <input ref={fileRef} type="file" accept="application/json" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) void doImport(f); e.target.value = '' }} />
         <button className="btn-ghost w-full" onClick={() => fileRef.current?.click()}>Importieren</button>

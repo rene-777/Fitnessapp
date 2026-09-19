@@ -85,11 +85,12 @@ export default function Today() {
           <div>
             <div className="label">Bis zum Start</div>
             <div className="h2">Woche 1 kennenlernen</div>
-            <div className="text-muted text-sm">Übungen anschauen, Bio Force einstellen, Körpergewicht eintragen.</div>
+            <div className="text-muted text-sm">Übungen anschauen, Bio Force einstellen, Körpergewicht eintragen, Startfotos machen.</div>
           </div>
           <div className="flex gap-2">
             <Link to="/session/2026-09-21/w1-push" className="btn-primary flex-1 text-center">Woche 1 Vorschau</Link>
             <Link to="/exercises" className="btn-ghost text-center">Übungen</Link>
+            <Link to="/photos" className="btn-ghost text-center">Fotos</Link>
           </div>
         </div>
       )}

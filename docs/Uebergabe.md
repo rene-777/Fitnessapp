@@ -1,4 +1,4 @@
-# Übergabe – Stand 18.09.2026 (Session-Ende, spätabends)
+# Übergabe – Stand 19.09.2026
 
 ## Kurzfassung
 
@@ -98,7 +98,17 @@ Der User will für die Übungen ohne Herstellerfoto KI-generierte Bilder im Stil
 
 - **Gewicht mit Nachkommastelle** (Wunsch des Users, 18.09.): Die Felder Gewicht und Taille auf „Körper“ waren `type="number"`; die deutsche Android-Tastatur liefert ein Komma, das ein Zahlenfeld verwirft, also kamen nur ganze Kilo an. Jetzt Textfelder mit `inputMode="decimal"`, `parseDecimal()` akzeptiert Komma und Punkt, rundet auf Zehntel, ungültige Eingabe blockiert das Speichern mit Hinweis; Anzeige überall mit Komma (`fmtDec`). Auf Wunsch des Users gleich auch `NumberInput` (Wiederholungen, Sekunden, Meter, lb-Skala, kg im Training, freien Training und Nachtragen) umgestellt: Textfeld mit `inputMode="decimal"`, lokaler Entwurfstext (damit „12,“ beim Tippen stehen bleibt), nach außen weiter `number | ''`; Werte von außen (±-Knöpfe, Vorschlag) werden übernommen, ohne eine laufende Eingabe zu überschreiben (`emitted`-Ref). Gemeinsame Helfer `parseDecimal()`/`fmtDec()` in `src/lib/decimal.ts`; `LogPast` nutzt jetzt `NumberInput compact` statt eigener Felder. Im Dev-Browser geprüft (Komma, Punkt, ± nach Tippen). Verbleibende `type="number"`-Felder nur für ganze Zahlen (Dauer in min, Geburtsjahr, Größe, HF max).
 
+## Was am 19.09.2026 passiert ist
+
+- **Gewicht immer mit einer Nachkommastelle:** „74,0 kg“ statt „74“ (Rückmeldung vom Handy). `fmtBody()` in `src/lib/decimal.ts` (`fmtDec` mit `minDigits`), eingesetzt auf „Körper“ (Platzhalter, Einträge, Kalorientext, Diagramm-Tooltip) und im Dashboard (Kennzahl und Differenz). Die y-Achse des Gewichtsverlaufs läuft in ganzen Kilo statt krummer Werte mit Punkt.
+- **Foto-Check** (Wunsch des Users nach dem Vorbild der Goliaz-App; Einschätzung: als Coach-Input wenig Zusatznutzen, als Fortschrittsdoku wertvoll, weil Waage und Taille bei gleichzeitigem Muskelaufbau und Fettabbau wenig zeigen). Umgesetzt wie besprochen:
+  - Tabelle `photos` (Dexie-Version 2, nur neue Tabelle) mit `ProgressPhoto { id, profileId, date, pose, blob, width, height, bytes, updatedAt }`, `pose` = vorne | links | rechts | hinten. Fotos werden hart gelöscht (kein Soft-Delete, kein Sync-Bedarf).
+  - `src/lib/photos.ts`: `shrinkImage()` (createImageBitmap mit EXIF-Drehung, Fallback `<img>`, Canvas → JPEG 0,85, längste Seite 1280 px), `savePhoto()` (ersetzt ein bestehendes Foto gleicher Pose und gleichen Datums, fordert `navigator.storage.persist()` an), `photoDates()` (nur Index-Schlüssel, ohne Blobs), `photoSchedule()`/`photoCheckStatus()` (Montag der Wochen 1, 5, 9, 13, 17; Fenster Freitag davor bis Donnerstag danach; Status fertig/fällig/offen), `exportPhotos()`/`importPhotos()` (eigene JSON-Datei mit Base64, Zusammenführen nach `updatedAt`).
+  - `src/pages/Photos.tsx` (Route `/photos`): Termine mit Status, Aufnahme (Datum, vier Kacheln 3:4 mit „Foto wählen“/„Ersetzen“/„Löschen“, ein verstecktes `<input type="file" accept="image/*">`), Vergleich (zwei Termine je Pose nebeneinander), Vergrößerung per Tipp, Speicher und Sicherung. Einstiege: Mehr-Seite, Karte auf „Körper“ (nächster Termin, orange wenn fällig), Knopf „Fotos“ in der Startkarte auf „Heute“. Einstellungen: Hinweis, dass Fotos eine eigene Sicherung haben; „Alle Daten löschen“ nennt jetzt auch Fotos.
+  - Geprüft im Dev-Browser: Upload über das Dateifeld (3000 × 4000 → 960 × 1280 JPEG), Termine-Status, Vergleich mit zwei Terminen, Vergrößerung, Export-Meldung, Import einer selbstgebauten Sicherungsdatei, Handybreite. Testfotos wieder gelöscht. **Rückmeldung vom Handy steht aus** (vor allem: Kamera-Auswahl über „Foto wählen“, EXIF-Drehung, Größe der Datei).
+
 ## Nächste Schritte
+
 
 - **KI-Bilder sind abgeschlossen.** Bei Bedarf einzelne Bilder nachbessern: Prompt in `spec.mjs` anpassen, Job-Datei neu erzeugen, einzeln mit `--job` generieren; bei Endbildern das Startbild vorher mit `kie-upload.mjs` hochladen. **Video-Pilot gestrichen** (Beschluss des Users am 18.09.: Aufwand und Trefferquote bei Posen rechtfertigen keine Clips).
 - **Dashboard mit echten Daten** ab 21.09. ansehen (der User will es erst im Lauf der Woche beurteilen). Auswertungs-Tab passt laut User. Mit echten Daten prüfen, vor allem die Satz-Zählung je Muskelgruppe („Schultern“ fällt hoch aus, weil jede Drückübung die vordere Schulter halb mitzählt; bei Bedarf Gruppen feiner aufteilen).
@@ -123,7 +133,7 @@ Der User will für die Übungen ohne Herstellerfoto KI-generierte Bilder im Stil
 ## Was der User als Nächstes tun sollte
 
 - Stand am Handy: letzter Build vom 18.09.2026 ca. 20:15 UTC (Komma-Eingabe in allen Zahlenfeldern, KI-Bilder). Nach dem Update einmal Gewicht mit Komma eintragen und ein lb-Feld mit Komma tippen, um es auf dem Gerät zu bestätigen.
-- **Vor dem Start am Montag:** Einstellungen → „Alle Daten löschen“ (gemischte Test- und Echtdaten entfernen). Das Profil wird automatisch neu angelegt (René, 1970, 172 cm, Start 21.09.2026); nur Gewicht und Taille unter „Körper“ neu eintragen.
+- **Vor dem Start am Montag:** Einstellungen → „Alle Daten löschen“ (gemischte Test- und Echtdaten entfernen; löscht auch Fotos). Das Profil wird automatisch neu angelegt (René, 1970, 172 cm, Start 21.09.2026); nur Gewicht und Taille unter „Körper“ neu eintragen. Danach die **Startfotos** machen (Mehr → Foto-Check, vier Posen; Fotos ab Fr 18.09. zählen zum Start).
 - Einmal den Flugmodus testen (Offline-Betrieb).
 - Montag 21.09. mit Woche 1 starten. Einmal pro Woche Einstellungen → Exportieren (z. B. in die Dropbox).
 - Nach Woche 1 die Einstufungswerte melden, dann wird Block 2 ausgearbeitet.
