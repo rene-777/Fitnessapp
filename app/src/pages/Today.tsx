@@ -10,6 +10,8 @@ import { fmtBody } from '../lib/decimal'
 import { latestKnee, latestRecord, lastPerformance, nextMilestone, planProgress, sessionStreak, totals } from '../lib/dashboard'
 import { WEEKDAY_SHORT, dateOf, fmtDate, fmtDateLong, fmtSec, parseISO, today } from '../lib/dates'
 import { blockLabel, dayInfo, sessionExerciseIds } from '../lib/planEngine'
+import { MOBILITY_CHECK_KEY } from '../data/mobility'
+import { dueMobilityCheck, routineStatus, todaysRoutine } from '../lib/mobility'
 
 const RING_R = 42
 const RING_C = 2 * Math.PI * RING_R
@@ -52,6 +54,9 @@ export default function Today() {
   const record = useMemo(() => latestRecord(sets ?? [], benchmarks ?? []), [sets, benchmarks])
   const lastTime = useMemo(() => (info?.session && sets ? lastPerformance(info.session, sets) : undefined), [info?.session, sets])
   const knee = useMemo(() => latestKnee(workouts ?? []), [workouts])
+  const mob = useMemo(() => routineStatus(workouts ?? [], start, date), [workouts, start, date])
+  const dueCheck = useMemo(() => (start ? dueMobilityCheck(start, workouts ?? [], date) : undefined), [start, workouts, date])
+  const routine = todaysRoutine(date, mob.last)
 
   if (!profile || !info) return null
   const inPlan = info.week > 0 && info.week <= WEEKS.length
@@ -98,7 +103,7 @@ export default function Today() {
       {info.kind === 'training' && info.session && (() => {
         const w = statusOf(info.session.key)
         const s = info.session
-        const names = sessionExerciseIds(s).map((id) => EXERCISE_MAP[id]).filter((e) => e && e.category !== 'warmup' && e.category !== 'cardio').slice(0, 3).map((e) => e.name.replace(/ \(.*\)$/, ''))
+        const names = sessionExerciseIds(s).map((id) => EXERCISE_MAP[id]).filter((e) => e && e.category !== 'warmup' && e.category !== 'cardio' && e.category !== 'mobility').slice(0, 3).map((e) => e.name.replace(/ \(.*\)$/, ''))
         return (
           <div className="card !border-accent/60 space-y-3">
             <div>
@@ -144,7 +149,34 @@ export default function Today() {
         )
       })()}
 
-      {info.kind === 'ruhe' && <div className="card"><div className="label">Heute</div><div className="text-xl font-bold leading-tight">Ruhetag</div><div className="text-muted text-sm">Regeneration ist Teil des Plans. Spazieren, dehnen, schlafen.</div></div>}
+      {info.kind === 'ruhe' && <div className="card"><div className="label">Heute</div><div className="text-xl font-bold leading-tight">Ruhetag</div><div className="text-muted text-sm">Regeneration ist Teil des Plans. Spazieren, Mobility, schlafen.</div></div>}
+
+      {/* Mobility: Check, wenn fällig; Routine an freien Tagen als Karte, an Trainingstagen als Zeile */}
+      {dueCheck && (
+        <Link to={`/workout/${date}/${MOBILITY_CHECK_KEY}`} className="card block !border-accent/60 space-y-1">
+          <div className="label text-accent">Mobility-Check fällig · {dueCheck.label}</div>
+          <div className="font-semibold">Vier Messungen, ca. 10 min</div>
+          <div className="text-xs text-muted">Bis {fmtDate(dueCheck.to)} · Zollstock bereitlegen · Tippen zum Starten</div>
+        </Link>
+      )}
+      {(info.kind === 'puffer' || info.kind === 'ruhe') && (
+        <div className="card space-y-2">
+          <div className="flex items-baseline justify-between gap-2">
+            <div className="label">Mobility · {routine.minutes} min</div>
+            <div className="text-xs text-muted">{mob.thisWeek}/2 diese Woche</div>
+          </div>
+          <div className="font-semibold leading-tight">{routine.title.replace('Mobility: ', '')}</div>
+          <div className="text-xs text-muted">{routine.focus}</div>
+          {mob.doneToday.includes(routine.key)
+            ? <div className="rounded-xl bg-ok/10 border border-ok/40 p-2 text-ok text-sm">Heute erledigt ✓</div>
+            : (
+              <div className="flex gap-2">
+                <Link to={`/workout/${date}/${routine.key}`} className="btn-primary flex-1 text-center">Starten</Link>
+                <Link to="/mobility" className="btn-ghost text-center">Andere</Link>
+              </div>
+            )}
+        </div>
+      )}
       {info.kind === 'frei' && <div className="card"><div className="label">Heute</div><div className="text-xl font-bold leading-tight">Kein Training geplant</div><div className="text-muted text-sm">Die Einheiten dieses Blocks werden nach Block 1 ergänzt.</div></div>}
       {info.kind === 'nachher' && <div className="card"><div className="text-xl font-bold leading-tight">Plan abgeschlossen</div><div className="text-muted text-sm">16 Wochen geschafft. Zeit für den Retest und den nächsten Plan.</div></div>}
 
@@ -204,7 +236,10 @@ export default function Today() {
         </Link>
       )}
 
-      <Link to="/log" className="block text-center text-sm text-muted py-1">Vergangene Einheit nachtragen ›</Link>
+      <div className="flex justify-center gap-4 text-sm text-muted py-1">
+        <Link to="/log">Einheit nachtragen ›</Link>
+        {info.kind === 'training' && <Link to="/mobility">Mobility ›</Link>}
+      </div>
     </div>
   )
 }

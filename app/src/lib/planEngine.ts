@@ -1,5 +1,6 @@
+import { EXERCISE_MAP } from '../data/exercises'
 import { CHALLENGE_TARGETS, WEEKS, blockOfWeek, weekByNumber } from '../data/plan'
-import type { Prescription, Segment, Session, Week } from '../data/planTypes'
+import { timedMinutes, type Prescription, type Segment, type Session, type TimedItem, type Week } from '../data/planTypes'
 import type { Benchmark, SetLog } from '../db/types'
 import { planWeekOf, weekday } from './dates'
 import { BF_MAX_LB, BF_PROGRESS_LB, BF_STEP_LB, fmtLb, kgToLb, lbToKg, loadText } from './bioforce'
@@ -40,8 +41,18 @@ export function sessionExerciseIds(session: Session): string[] {
     if (s.type === 'amrap') s.exercises.forEach((e) => ids.add(e.exerciseId))
     if (s.type === 'interval' || s.type === 'cardio') ids.add(s.exerciseId)
     if (s.type === 'challenge') s.items.forEach((e) => ids.add(e.exerciseId))
+    if (s.type === 'measure') ids.add(s.exerciseId)
+    // Warm-up und Cool-down zählen nicht zu den Übungen der Einheit; die Posten einer Mobility-Routine schon
+    if (s.type === 'timed' && s.role === 'mobility') s.items.forEach((it) => { if (it.exerciseId) ids.add(it.exerciseId) })
   }
   return [...ids]
+}
+
+/** Text eines zeitgeführten Postens: Übungsname oder Titel, Vorgabe, Dauer. */
+export function timedItemText(it: TimedItem): string {
+  const name = it.exerciseId ? EXERCISE_MAP[it.exerciseId]?.name ?? it.exerciseId : it.title ?? ''
+  const dur = it.perSide ? `${it.seconds} s je Seite` : `${it.seconds} s`
+  return [name, it.reps, dur].filter(Boolean).join(' · ')
 }
 
 export function prescriptionText(p: Prescription): string {
@@ -58,8 +69,8 @@ export function prescriptionText(p: Prescription): string {
 
 export function segmentSummary(s: Segment): string {
   switch (s.type) {
-    case 'warmup': return `Warm-up ${s.minutes} min`
-    case 'cooldown': return `Cool-down ${s.minutes} min`
+    case 'timed': return `${s.title} ${timedMinutes(s.items)} min`
+    case 'measure': return `Messung ${s.label}`
     case 'block': return s.kind === 'superset' ? `Supersatz ${s.label}` : `Block ${s.label}`
     case 'test': return `Test ${s.label}`
     case 'amrap': return `AMRAP ${s.minutes} min`

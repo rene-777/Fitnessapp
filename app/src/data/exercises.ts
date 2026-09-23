@@ -1,6 +1,7 @@
 import type { MuscleKey } from './muscles'
+import { MOBILITY_EXERCISES } from './mobilityExercises'
 
-export type Category = 'push' | 'pull' | 'beine' | 'core' | 'cardio' | 'warmup'
+export type Category = 'push' | 'pull' | 'beine' | 'core' | 'cardio' | 'warmup' | 'mobility'
 export type LoadType = 'bioforce' | 'bodyweight' | 'extern' | 'none'
 export type Unit = 'reps' | 'seconds' | 'meters'
 
@@ -454,6 +455,9 @@ export const EXERCISES: Exercise[] = [
   },
 ]
 
+// Mobility-Übungen (Mobilisation, Dehnen, Mobility-Check) liegen in mobilityExercises.ts und werden hier angehängt
+EXERCISES.push(...MOBILITY_EXERCISES)
+
 export const EXERCISE_MAP: Record<string, Exercise> = Object.fromEntries(EXERCISES.map((e) => [e.id, e]))
 export const ex = (id: string): Exercise => {
   const e = EXERCISE_MAP[id]
@@ -479,4 +483,5 @@ export const CATEGORY_LABEL: Record<Category, string> = {
   core: 'Core und unterer Rücken',
   cardio: 'Cardio und Finisher',
   warmup: 'Warm-up',
+  mobility: 'Mobility (Mobilisation, Dehnen, Tests)',
 }

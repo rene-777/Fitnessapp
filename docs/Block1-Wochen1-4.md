@@ -69,7 +69,7 @@ Volumen bewusst reduziert. Die Einstufung ist eingebaut: bei Bio-Force-Übungen 
 
 | Teil | Übung | Sätze × Wdh. | Pause | Hinweis |
 |---|---|---|---|---|
-| Warm-up 8 min | Seil locker 2 min, Schulterkreisen, Katzenbuckel, 10 Scapula-Push-Ups, 2 leichte Sätze Kabel-Schrägdrücken × 10 | | | |
+| Warm-up 7 min (zeitgeführt) | Seil locker 2 min, Schulterkreisen, Cat-Cow, Open Book je Seite, Wall Slides, 10 Scapula-Push-Ups, 2 leichte Sätze Kabel-Schrägdrücken × 10 | | | Jeder Posten läuft mit Timer und geht von selbst weiter |
 | A | **Push-Ups Max-Test** (Goliaz-Standard) | 1 × max | 3 min | Benchmark. Zahl notieren. |
 | B | **Kabel-Schrägdrücken** Einstufung | 3 × 10 aufsteigend | 2–3 min | 10RM notieren. |
 | C | Incline Cable Fly | 3 × 12 | 75 s | 1–2 RIR, leicht starten |
@@ -80,13 +80,13 @@ Volumen bewusst reduziert. Die Einstufung ist eingebaut: bei Bio-Force-Übungen 
 | G | Seitheben am Kabel | 3 × 12 je Seite | 45 s | 1–2 RIR |
 | Core | **Elbow Plank Max-Test** | 1 × max | | Benchmark |
 | Core | Pallof Press | 2 × 10 je Seite | 45 s | |
-| Cool-down 3 min | Brust- und Schulterdehnung | | | |
+| Cool-down 5 min (zeitgeführt) | Brust im Türrahmen, Trizeps über Kopf, Dead Hang, Sleeper Stretch (sanft), Puppy Pose | | | keine Schulterdehnung über Kreuz (Schultereckgelenk rechts) |
 
 ### Dienstag – Beine + Hüfte (ca. 55 min)
 
 | Teil | Übung | Sätze × Wdh. | Pause | Hinweis |
 |---|---|---|---|---|
-| Warm-up 8 min | Marschieren oder Seil leicht 3 min, Hüftkreisen, Beinschwünge, 10 halbe Kniebeugen, Wall Sit 2 × 30 s | | | Wall Sit = Sehnenvorbereitung |
+| Warm-up 8 min (zeitgeführt) | Marschieren oder Seil leicht 2,5 min, Hüft-CARs, Knie-zur-Wand-Mobilisation, Beinschwünge, 90/90-Übergänge, 10 halbe Kniebeugen, Wall Sit 2 × 30 s | | | Wall Sit = Sehnenvorbereitung |
 | A | **Kabel-Kniebeuge** Einstufung | 3 × 10 aufsteigend | 2–3 min | Tempo 3-1-1, 10RM notieren |
 | B | **Romanian Deadlift** Einstufung | 3 × 10 aufsteigend | 2–3 min | 10RM notieren |
 | C1 | Split Squat | 3 × 8 je Seite | 30 s | leicht, notfalls ohne Last |
@@ -96,13 +96,13 @@ Volumen bewusst reduziert. Die Einstufung ist eingebaut: bei Bio-Force-Übungen 
 | E1 | Beinbeuger | 3 × 10 je Seite | 30 s | Tempo 3-1-3, Last so, dass 10 mit 2 RIR gehen |
 | E2 | Beinstrecker | 3 × 12 | 75 s | Tempo 3-1-3, leicht |
 | Core | Dead Bug | 2 × 10 je Seite | 45 s | |
-| Cool-down 3 min | Quadrizeps, hintere Oberschenkel, Hüftbeuger dehnen | | | |
+| Cool-down 5 min (zeitgeführt) | Couch Stretch, hintere Oberschenkel, Adduktoren-Rockback, Wade an der Wand (gestreckt und gebeugt), je Seite | | | |
 
 ### Mittwoch – Pull + hintere Schulter (ca. 60 min)
 
 | Teil | Übung | Sätze × Wdh. | Pause | Hinweis |
 |---|---|---|---|---|
-| Warm-up 8 min | Seil 2 min, Schulterblattkreisen, Scapula Pull-Ups 2 × 8, Latzug leicht 2 × 10 | | | |
+| Warm-up 7 min (zeitgeführt) | Seil 2 min, Schulterkreisen, Open Book, Thread the Needle, Scapula Pull-Ups 2 × 8, Dead Hang 20 s, Latzug leicht 2 × 10 | | | |
 | A | **Pull-Ups Max-Test**, danach | 1 × max, dann 2 × 60 % vom Max | 3 min | Benchmark. Beispiel: Max 12 → 2 × 7 |
 | B | **Rudern sitzend** Einstufung | 3 × 10 aufsteigend | 2–3 min | 10RM notieren |
 | C | Latzug | 3 × 10–12 | 75 s | 1–2 RIR, Last notieren |
@@ -112,24 +112,24 @@ Volumen bewusst reduziert. Die Einstufung ist eingebaut: bei Bio-Force-Übungen 
 | E | Reverse Flys | 3 × 15 | 45 s | 1–2 RIR |
 | F | Bizeps-Curls am Kabel + Hammer-Curls am Kabel | 2 × 12 / 2 × 12 | 45 s | |
 | Core | Hanging Knee Raises + Side Plank | 3 × 10 / 2 × 30 s je Seite | 45 s | |
-| Cool-down 3 min | Lat- und Bizepsdehnung | | | |
+| Cool-down 4 min (zeitgeführt) | Dead Hang 2 × 25 s, Puppy Pose, Bizeps an der Wand, Unterarme, Open Book | | | |
 
 ### Donnerstag – Cardio (ca. 45 min)
 
 | Teil | Inhalt | Dauer | Hinweis |
 |---|---|---|---|
-| Warm-up | Gehen/leichtes Laufen im Wechsel + Mobility | 8 min | |
+| Warm-up (zeitgeführt) | Gehen/leichtes Laufen im Wechsel 4 min, Fußgelenke kreisen, Beinschwünge, Waden-Pedal, Knie-zur-Wand-Mobilisation | 8 min | |
 | A | **5-min-Burpee-Test** (Goliaz-Standard, so viele wie möglich) | 5 min | Benchmark. Gleichmäßig anfangen, letzte Minute alles geben. |
 | Pause | Gehen | 4 min | |
 | B | Zone 2 als Walk-Run: 3 min laufen / 1 min gehen | 20 min (5 Runden) | Polar: 105–125. Wenn höher, langsamer laufen. |
-| Cool-down | Gehen, Waden-, Quadrizeps-, Hüftbeugerdehnung | 5 min | |
+| Cool-down (zeitgeführt) | Gehen bis Puls < 100, Wade an der Wand, Quadrizeps im Stand, Couch Stretch | 5 min | |
 | **Indoor-Alternative für B** | Seilspringen 40 s locker / 20 s gehen, 20 Runden; bei Knieschmerz: Marschieren auf der Stelle mit Armzug | 20 min | |
 
 ### Freitag – Ganzkörper Hypertrophie (ca. 60 min)
 
 | Teil | Übung | Sätze × Wdh. | Pause | Hinweis |
 |---|---|---|---|---|
-| Warm-up 8 min | Seil 2 min, Ganzkörper-Mobility, 10 Push-Ups leicht, 10 Kniebeugen | | | |
+| Warm-up 7 min (zeitgeführt) | Seil 2 min, Hüft-CARs, Schulter-CARs, Open Book, tiefe Kniebeuge halten, 10 Push-Ups leicht, 10 Kniebeugen | | | |
 | A1 | Defizit-Push-Ups | 3 × 10–15 | 30 s | 1–2 RIR |
 | A2 | Latzug enger Griff (Griffe) | 3 × 10–12 | 90 s | |
 | B1 | Kabel-Schrägdrücken | 3 × 10 | 30 s | Last = 10RM vom Montag minus 5 lb (zwei Rasten) |
@@ -140,7 +140,7 @@ Volumen bewusst reduziert. Die Einstufung ist eingebaut: bei Bio-Force-Übungen 
 | D1 | Cable Pull-Through | 3 × 12 | 30 s | 1–2 RIR |
 | D2 | Seitheben am Kabel | 2 × 15 je Seite | 60 s | gleicher Zugpunkt wie D1 (unterer Haken) |
 | Finisher | **AMRAP 6 min:** 5 Burpees, 10 Push-Ups, 15 Kniebeugen | 6 min | Runden notieren = Benchmark |
-| Cool-down 3 min | | | | |
+| Cool-down 4 min (zeitgeführt) | Couch Stretch, Brust im Türrahmen, Dead Hang, hintere Oberschenkel | | | |
 
 ### Samstag – Puffer
 Nachholen, falls eine Einheit ausgefallen ist. Sonst optional 30 min Walk-Run Zone 2 oder frei.

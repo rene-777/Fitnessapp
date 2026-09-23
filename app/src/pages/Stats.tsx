@@ -9,8 +9,8 @@ import { useProfile } from '../hooks/useProfile'
 import { fmtLb, kgToLb } from '../lib/bioforce'
 import { fmtDate, fmtSec, planWeekOf, today } from '../lib/dates'
 import { blockLabel } from '../lib/planEngine'
-import { GROUP_NAMES, REP_GROUPS, benchmarkSeries, cardioPoints, frequencyByWeek, loadRecords, readinessPoints, repsByWeek, volumeByGroup } from '../lib/stats'
-import { BENCHMARK_LABELS } from '../lib/workouts'
+import { GROUP_NAMES, REP_GROUPS, benchmarkSeries, cardioPoints, frequencyByWeek, loadRecords, mobilityByWeek, readinessPoints, repsByWeek, volumeByGroup, type BenchmarkSeries } from '../lib/stats'
+import { BENCHMARK_LABELS, LOWER_IS_BETTER, isMobilityBenchmark } from '../lib/workouts'
 
 const num = (n: number) => n.toLocaleString('de-DE', { maximumFractionDigits: 1 })
 const shortDate = (d: string) => fmtDate(d, { day: '2-digit', month: '2-digit' })
@@ -33,15 +33,38 @@ function TrendChart({ data, unit, height = 'h-36', whole }: { data: { date: stri
   )
 }
 
-function Delta({ from, to, unit }: { from: number; to: number; unit?: string }) {
+/** Differenz mit Farbe: grün, wenn es eine Verbesserung ist (bei Abstandsmaßen ist kleiner besser). */
+function Delta({ from, to, unit, lowerIsBetter }: { from: number; to: number; unit?: string; lowerIsBetter?: boolean }) {
   const d = Math.round((to - from) * 10) / 10
   if (d === 0) return <span className="text-muted">±0</span>
-  return <span><span className={d > 0 ? 'text-ok' : 'text-bad'}>{d > 0 ? '▲' : '▼'}</span> {d > 0 ? '+' : '−'}{num(Math.abs(d))}{unit ? ` ${unit}` : ''}</span>
+  const good = lowerIsBetter ? d < 0 : d > 0
+  return <span><span className={good ? 'text-ok' : 'text-bad'}>{d > 0 ? '▲' : '▼'}</span> {d > 0 ? '+' : '−'}{num(Math.abs(d))}{unit ? ` ${unit}` : ''}</span>
 }
 
 /** Testwert lesbar: Sekunden als m:ss, sonst Zahl. */
 function benchValue(v: number, unit: string) {
   return unit === 'seconds' ? fmtSec(v) : num(v)
+}
+
+/** Ein Benchmark: aktueller Wert, Differenz zum Start, Verlauf ab dem zweiten Wert. */
+function BenchmarkRow({ s }: { s: BenchmarkSeries }) {
+  const unit = s.unit === 'seconds' ? 'min' : s.unit === 'meters' ? 'm' : s.unit === 'cm' ? 'cm' : ''
+  const chartUnit = s.unit === 'seconds' ? 's' : unit
+  const lower = LOWER_IS_BETTER.has(s.key)
+  const bestDiffers = lower ? s.best < s.latest : s.best > s.latest
+  return (
+    <div className="border-t border-line first:border-t-0 pt-3 first:pt-0 space-y-2">
+      <div className="flex items-baseline justify-between gap-2">
+        <div className="text-sm text-muted">{BENCHMARK_LABELS[s.key] ?? s.key}</div>
+        <div className="text-sm">{s.points.length > 1 && <Delta from={s.first} to={s.latest} unit={chartUnit} lowerIsBetter={lower} />}</div>
+      </div>
+      <div className="flex items-baseline gap-3">
+        <div className="text-3xl font-bold tabular-nums">{benchValue(s.latest, s.unit)}{unit && <span className="text-base font-normal text-muted"> {unit}</span>}</div>
+        <div className="text-xs text-muted">{shortDate(s.points[s.points.length - 1].date)}{bestDiffers ? ` · Bestwert ${benchValue(s.best, s.unit)}` : ''}{s.points.length > 1 ? ` · Start ${benchValue(s.first, s.unit)}` : ''}</div>
+      </div>
+      {s.points.length > 1 && <TrendChart data={s.points} unit={chartUnit} height="h-28" whole={s.unit !== 'cm'} />}
+    </div>
+  )
 }
 
 export default function Stats() {
@@ -63,6 +86,7 @@ export default function Stats() {
   }, [benchmarks])
   const records = useMemo(() => (sets ? loadRecords(sets) : []), [sets])
   const freq = useMemo(() => (workouts ? frequencyByWeek(workouts, start, currentWeek) : []), [workouts, start, currentWeek])
+  const mobility = useMemo(() => (workouts ? mobilityByWeek(workouts, start, currentWeek) : []), [workouts, start, currentWeek])
   const cardio = useMemo(() => (sets ? cardioPoints(sets) : []), [sets])
   const readiness = useMemo(() => (workouts ? readinessPoints(workouts) : []), [workouts])
 
@@ -170,23 +194,32 @@ export default function Stats() {
       <section className="card space-y-3">
         <div className="h2">Benchmarks</div>
         {series.length === 0 && <div className="text-sm text-muted">Die Tests aus Woche 1 erscheinen hier, ab dem zweiten Test mit Verlauf.</div>}
-        {series.map((s) => {
-          const unit = s.unit === 'seconds' ? 'min' : s.unit === 'meters' ? 'm' : ''
-          const chartUnit = s.unit === 'seconds' ? 's' : unit
-          return (
-            <div key={s.key} className="border-t border-line first:border-t-0 pt-3 first:pt-0 space-y-2">
-              <div className="flex items-baseline justify-between gap-2">
-                <div className="text-sm text-muted">{BENCHMARK_LABELS[s.key] ?? s.key}</div>
-                <div className="text-sm">{s.points.length > 1 && <Delta from={s.first} to={s.latest} unit={chartUnit} />}</div>
-              </div>
-              <div className="flex items-baseline gap-3">
-                <div className="text-3xl font-bold tabular-nums">{benchValue(s.latest, s.unit)}{unit && <span className="text-base font-normal text-muted"> {unit}</span>}</div>
-                <div className="text-xs text-muted">{shortDate(s.points[s.points.length - 1].date)}{s.best > s.latest ? ` · Bestwert ${benchValue(s.best, s.unit)}` : ''}{s.points.length > 1 ? ` · Start ${benchValue(s.first, s.unit)}` : ''}</div>
-              </div>
-              {s.points.length > 1 && <TrendChart data={s.points} unit={chartUnit} height="h-28" whole />}
+        {series.filter((s) => !isMobilityBenchmark(s.key)).map((s) => <BenchmarkRow key={s.key} s={s} />)}
+      </section>
+
+      {/* Mobility */}
+      <section className="card space-y-3">
+        <div className="flex items-baseline justify-between">
+          <div className="h2">Mobility</div>
+          <div className="text-sm text-muted">{mobility.reduce((a, m) => a + m.sessions, 0)} Routinen</div>
+        </div>
+        <div className="flex items-end gap-1 h-16">
+          {mobility.map((m) => (
+            <div key={m.week} className="flex-1 min-w-0 flex flex-col items-center justify-end h-full" title={`Woche ${m.week}: ${m.sessions} Routinen, ${m.minutes} min`}>
+              <div className="text-[10px] text-muted mb-0.5">{m.sessions}</div>
+              <div className="w-full max-w-8 rounded-t bg-accent/50" style={{ height: `${Math.max(3, Math.min(1, m.sessions / 2) * 40)}px` }} />
+              <div className="text-[10px] mt-0.5 text-muted">W{m.week}</div>
             </div>
-          )
-        })}
+          ))}
+        </div>
+        <div className="text-xs text-muted">Mobility-Routinen je Woche (Ziel 2). Der Mobility-Check zählt nicht mit.</div>
+        {series.some((s) => isMobilityBenchmark(s.key)) && (
+          <>
+            <div className="label pt-1">Mobility-Check</div>
+            {series.filter((s) => isMobilityBenchmark(s.key)).map((s) => <BenchmarkRow key={s.key} s={s} />)}
+            <div className="text-xs text-muted">Änderungen unter 2 cm sind Messrauschen. Bei Überkopf-Reach und 90/90 ist kleiner besser.</div>
+          </>
+        )}
       </section>
 
       {/* Bio-Force-Bestwerte */}

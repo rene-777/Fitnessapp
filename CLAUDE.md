@@ -9,6 +9,7 @@ Persönliches Projekt von René: 16-Wochen-Trainingsplan (Bodyweight + Finnlo Bi
 3. `docs/Block1-Wochen1-4.md` – Woche 1–4 Tag für Tag (Start Mo 21.09.2026)
 4. `docs/Uebungsbibliothek.md` – alle Übungen mit Muskeln, Bio-Force-Einstellung, Ausführung
 5. `docs/App-Anleitung.md` – was die App kann, wie sie aufs Handy kommt
+6. `docs/Mobility.md` – Mobility-Konzept (Studienlage, Warm-up/Cool-down, Routinen, Mobility-Check)
 
 ## Wichtige Fakten zum Athleten
 
@@ -20,6 +21,7 @@ Vite + React 19 + TypeScript, Tailwind v4 (Theme-Tokens in `src/index.css`), Dex
 
 - `src/data/plan.ts` – der Plan als Daten (Woche 1–4 komplett, 5–16 Platzhalter). Planänderungen hier, nicht in Komponenten.
 - `src/data/exercises.ts` – Übungsbibliothek; `bioforceNo` verweist auf Fotos in `public/img/bioforce/bf{NNN}_{start|end|pulley}.webp` (aus der Extreme-Anleitung, 457 × 644 px; Nummerierung folgt weiter der alten Anleitung in `docs/`).
+- `src/data/mobilityExercises.ts` + `src/data/mobility.ts` – Mobility-Übungen (Kategorie `mobility`), Routinen `mob-hip`/`mob-shoulder` und Mobility-Check `mob-check` (Routinen außerhalb des Wochenplans, `ROUTINE_WEEK` in `plan.ts`). Konzept in `docs/Mobility.md`. Warm-ups und Cool-downs sind `timed`-Segmente (Posten mit Sekunden, `perSide`), geführt über `src/components/TimedFlow.tsx` (automatischer Übergang mit Signal); Messungen (`measure`) landen als Benchmarks in cm (`LOWER_IS_BETTER` in `workouts.ts`).
 - `src/lib/steps.ts` – Einheit → Schrittfolge für den geführten Modus.
 - `src/lib/planEngine.ts` – Tageslogik, Challenge-Ziele, Progressionsvorschlag.
 - `src/lib/dashboard.ts` – Kennzahlen für den Startbildschirm (`src/pages/Today.tsx`), ebenfalls reine Funktionen.

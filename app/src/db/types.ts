@@ -91,7 +91,7 @@ export interface Benchmark {
   deleted?: boolean
 }
 
-export type Pose = 'vorne' | 'links' | 'rechts' | 'hinten'
+export type Pose = 'vorne' | 'links' | 'rechts' | 'hinten' | 'kniebeuge' | 'ueberkopf'
 
 /** Fortschrittsfoto des Foto-Checks. Das Bild liegt als JPEG-Blob in IndexedDB (verkleinert, s. lib/photos.ts). */
 export interface ProgressPhoto {

@@ -3,7 +3,8 @@ import { MUSCLE_GROUPS, type MuscleKey } from '../data/muscles'
 import { weekByNumber } from '../data/plan'
 import type { Benchmark, SetLog, Workout } from '../db/types'
 import { planWeekOf } from './dates'
-import { isFreeWorkout } from './workouts'
+import { MOBILITY_CHECK_KEY } from '../data/mobility'
+import { LOWER_IS_BETTER, isExtraWorkout, isMobilityWorkout } from './workouts'
 
 // Auswertung: reine Funktionen über die gespeicherten Zeilen, damit die Seite nur noch darstellt.
 // Volumen zählt Sätze (primär 1, sekundär 0,5), nicht kg: an der Bio Force ist die Last pro Übung
@@ -16,7 +17,7 @@ export function isStrengthSet(s: SetLog): boolean {
   if (s.deleted) return false
   if (s.segmentLabel === 'challenge' || NON_STRENGTH_PREFIX.some((p) => s.segmentLabel.startsWith(p))) return false
   const e = EXERCISE_MAP[s.exerciseId]
-  return !!e && e.category !== 'cardio' && e.category !== 'warmup'
+  return !!e && e.category !== 'cardio' && e.category !== 'warmup' && e.category !== 'mobility'
 }
 
 const GROUP_OF = new Map<MuscleKey, string>()
@@ -76,8 +77,22 @@ export function benchmarkSeries(benchmarks: Benchmark[]): BenchmarkSeries[] {
   for (const b of benchmarks) if (!b.deleted) byKey.set(b.key, [...(byKey.get(b.key) ?? []), b])
   return [...byKey.entries()].map(([key, rows]) => {
     const points = rows.sort((a, b) => (a.date < b.date ? -1 : 1)).map((b) => ({ date: b.date, value: b.value }))
-    return { key, unit: rows[rows.length - 1].unit, points, first: points[0].value, latest: points[points.length - 1].value, best: Math.max(...points.map((p) => p.value)) }
+    const values = points.map((p) => p.value)
+    return { key, unit: rows[rows.length - 1].unit, points, first: points[0].value, latest: points[points.length - 1].value, best: LOWER_IS_BETTER.has(key) ? Math.min(...values) : Math.max(...values) }
   })
+}
+
+// ---------- Mobility ----------
+export interface MobilityWeek { week: number; sessions: number; minutes: number }
+
+/** Mobility-Routinen je Planwoche (fertige Trainings mit Mobility-Schlüssel, ohne den Check). */
+export function mobilityByWeek(workouts: Workout[], start: string, upToWeek: number): MobilityWeek[] {
+  const out: MobilityWeek[] = []
+  for (let week = 1; week <= upToWeek; week++) {
+    const rows = workouts.filter((w) => !w.deleted && isMobilityWorkout(w) && w.sessionKey !== MOBILITY_CHECK_KEY && w.status === 'fertig' && planWeekOf(w.date, start) === week)
+    out.push({ week, sessions: rows.length, minutes: rows.reduce((a, w) => a + (w.durationMin ?? 0), 0) })
+  }
+  return out
 }
 
 // ---------- Bestleistungen an der Bio Force ----------
@@ -113,7 +128,7 @@ export interface WeekFrequency {
 export function frequencyByWeek(workouts: Workout[], start: string, upToWeek: number): WeekFrequency[] {
   const out: WeekFrequency[] = []
   for (let week = 1; week <= upToWeek; week++) {
-    const rows = workouts.filter((w) => !w.deleted && !isFreeWorkout(w) && w.status === 'fertig' && planWeekOf(w.date, start) === week)
+    const rows = workouts.filter((w) => !w.deleted && !isExtraWorkout(w) && w.status === 'fertig' && planWeekOf(w.date, start) === week)
     out.push({ week, planned: weekByNumber(week)?.sessions.length || 5, done: new Set(rows.map((w) => w.sessionKey)).size, minutes: rows.reduce((a, w) => a + (w.durationMin ?? 0), 0) })
   }
   return out

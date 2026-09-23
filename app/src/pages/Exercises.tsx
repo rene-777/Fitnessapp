@@ -4,7 +4,7 @@ import { MuscleChips } from '../components/ExerciseCard'
 import { CATEGORY_LABEL, EXERCISES, exerciseImages, type Category } from '../data/exercises'
 import { MUSCLES } from '../data/muscles'
 
-const ORDER: Category[] = ['push', 'pull', 'beine', 'core', 'cardio', 'warmup']
+const ORDER: Category[] = ['push', 'pull', 'beine', 'core', 'cardio', 'warmup', 'mobility']
 
 export default function Exercises() {
   const [q, setQ] = useState('')

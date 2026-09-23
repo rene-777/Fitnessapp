@@ -5,7 +5,7 @@ import type { Benchmark, SetLog, Workout } from '../db/types'
 import { dateOf, mondayOfWeek, parseISO } from './dates'
 import { sessionExerciseIds } from './planEngine'
 import { isStrengthSet } from './stats'
-import { BENCHMARK_LABELS, isFreeWorkout } from './workouts'
+import { BENCHMARK_LABELS, isBetterBenchmark, isExtraWorkout } from './workouts'
 
 // Kennzahlen für den Startbildschirm, als reine Funktionen wie in stats.ts.
 
@@ -17,7 +17,7 @@ export const planProgress = (date: string, start: string) => Math.min(1, Math.ma
 
 export interface Totals { sessions: number; minutes: number }
 export function totals(workouts: Workout[]): Totals {
-  const done = workouts.filter((w) => !w.deleted && !isFreeWorkout(w) && w.status === 'fertig')
+  const done = workouts.filter((w) => !w.deleted && !isExtraWorkout(w) && w.status === 'fertig')
   return { sessions: done.length, minutes: done.reduce((a, w) => a + (w.durationMin ?? 0), 0) }
 }
 
@@ -96,8 +96,8 @@ export function latestRecord(sets: SetLog[], benchmarks: Benchmark[]): RecordNew
   for (const [key, rows] of byKey) {
     let best: number | undefined
     for (const b of rows.sort((a, c) => (a.date < c.date ? -1 : 1))) {
-      if (best !== undefined && b.value > best) consider({ date: b.date, title: BENCHMARK_LABELS[key] ?? key, kind: 'benchmark', value: b.value, previous: best, unit: b.unit })
-      best = best === undefined ? b.value : Math.max(best, b.value)
+      if (best !== undefined && isBetterBenchmark(key, b.value, best)) consider({ date: b.date, title: BENCHMARK_LABELS[key] ?? key, kind: 'benchmark', value: b.value, previous: best, unit: b.unit })
+      best = best === undefined || isBetterBenchmark(key, b.value, best) ? b.value : best
     }
   }
   return news

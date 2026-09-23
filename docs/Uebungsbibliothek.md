@@ -399,3 +399,19 @@ Für die Volumenauswertung zählt jede Übung 1 Satz für jede primäre und 0,5 
 | huefte | Hüfte seitlich (Abduktoren), Hüftbeuger, Adduktoren |
 | waden | Waden |
 | cardio | Herz-Kreislauf |
+
+---
+
+## G. Mobility (ergänzt 23.09.2026)
+
+Mobilisation für Warm-ups, statisches Dehnen für Cool-downs und die beiden 15-min-Routinen, dazu die vier Tests des Mobility-Checks. Konzept und Abläufe in `Mobility.md`; die vollständigen Ausführungen stehen in der App (`app/src/data/mobilityExercises.ts`). Alle ohne Gerät, außer Dead Hang (Klimmzuggestell) und tiefe Kniebeuge (Kettlebell als Gegengewicht). Rechte Schulter: nur schmerzfrei, keine Dehnung quer vor dem Körper.
+
+**Dynamisch (Warm-up, Routinen):** Schulterkreisen · Cat-Cow · Open Book (BWS-Rotation in Seitlage) · Thread the Needle · Wall Slides (Wand-Engel) · Schulter-CARs · Hüft-CARs · Beinschwünge · Fußgelenke kreisen · Knie-zur-Wand-Mobilisation (Sprunggelenk, Ferse unten) · 90/90-Übergänge · 90/90 halten · tiefe Kniebeuge halten (Fersen am Boden, Kettlebell vor der Brust, Zielbild für Wall Balls) · Waden-Pedal.
+
+**Statisch (Cool-down, Routinen), 30–60 s je Seite:** Couch Stretch (Hüftbeuger, Quadrizeps; Kissen unters Knie) · Hüftbeuger im Kniestand · Adduktoren-Rockback · Figure-4 in Rückenlage (kniefreundliche Taube) · hintere Oberschenkel in Rückenlage mit Handtuch · Quadrizeps im Stand · Wade an der Wand (gestreckt und gebeugt) · Brust im Türrahmen (ersetzt die Schulterdehnung über Kreuz) · Sleeper Stretch (hintere Kapsel, sanft) · Dead Hang (Zehen am Boden zum Dosieren) · Puppy Pose (Lat) · Trizeps über Kopf · Bizeps an der Wand · Unterarme (Gebetsdehnung) · Cobra.
+
+**Mobility-Check (cm, Zollstock, barfuß, immer dieselbe Stelle):**
+- **Knie-zur-Wand-Test** je Seite: Abstand große Zehe bis Wand, bei dem das Knie die Wand gerade noch berührt und die Ferse unten bleibt. Größer ist besser; unter 2 cm Änderung ist Messrauschen; Erwachsene etwa 9–12 cm. Fußleiste: Zehe an die Leiste, Versatz konstant.
+- **Sit-and-Reach:** Langsitz, Fußsohlen an der Wand, Fingerspitzen über die Zehen hinaus (+) oder davor (−). Bester von drei Versuchen.
+- **Überkopf-Reach in Rückenlage** je Seite: Arm gestreckt über den Kopf, unterer Rücken bleibt am Boden, Abstand Handgelenk bis Boden. Kleiner ist besser.
+- **90/90-Test** je Seite: 90/90-Sitz aufrecht ohne Abstützen, Abstand hinteres Knie bis Boden (Innenrotation). Kleiner ist besser.

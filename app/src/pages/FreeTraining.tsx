@@ -13,7 +13,7 @@ import { BF_MAX_LB, BF_MIN_LB, BF_STEP_LB, fmtKg, fmtLb, kgToLb, lbToKg } from '
 import { fmtSec, planWeekOf, today } from '../lib/dates'
 import { EXERCISE_BENCHMARK, FREE_SEGMENT_LABEL, deleteSet, getOrCreateFreeWorkout, saveBenchmark, saveSet } from '../lib/workouts'
 
-const ORDER: Category[] = ['push', 'pull', 'beine', 'core', 'cardio', 'warmup']
+const ORDER: Category[] = ['push', 'pull', 'beine', 'core', 'cardio', 'warmup', 'mobility']
 
 interface RowInput {
   reps: number | ''

@@ -2,6 +2,7 @@ import { v4 as uuid } from 'uuid'
 import { db, now } from '../db/db'
 import type { Benchmark, SetLog, Workout } from '../db/types'
 import type { Session } from '../data/planTypes'
+import { isMobilityKey } from '../data/mobility'
 
 export async function findWorkout(profileId: string, sessionKey: string, date?: string) {
   const list = await db.workouts.where('[profileId+sessionKey]').equals([profileId, sessionKey]).toArray()
@@ -14,7 +15,9 @@ export async function findWorkout(profileId: string, sessionKey: string, date?: 
 }
 
 export async function getOrCreateWorkout(profileId: string, date: string, week: number, session: Session): Promise<Workout> {
-  const existing = await findWorkout(profileId, session.key, date)
+  let existing: Workout | undefined = await findWorkout(profileId, session.key, date)
+  // Mobility-Routinen laufen jede Woche neu: ein fertiges Training eines anderen Tages wird nicht wieder geöffnet
+  if (existing && session.kind === 'mobility' && existing.date !== date && existing.status === 'fertig') existing = undefined
   if (existing && existing.status !== 'abgebrochen') return existing
   const w: Workout = {
     id: uuid(), profileId, date, week, sessionKey: session.key, title: session.title, status: 'laufend', stepIndex: 0, startedAt: now(), updatedAt: now(),
@@ -27,6 +30,10 @@ export async function getOrCreateWorkout(profileId: string, date: string, week: 
 export const FREE_SESSION_KEY = 'frei'
 export const FREE_SEGMENT_LABEL = 'frei'
 export const isFreeWorkout = (w: Workout) => w.sessionKey === FREE_SESSION_KEY
+/** Mobility-Routinen und Mobility-Check: freiwillig, zählen nicht als Plan-Einheit (Frequenz, Serie, Summen). */
+export const isMobilityWorkout = (w: Workout) => isMobilityKey(w.sessionKey)
+/** Alles, was keine Plan-Einheit ist. */
+export const isExtraWorkout = (w: Workout) => isFreeWorkout(w) || isMobilityWorkout(w)
 
 export async function getOrCreateFreeWorkout(profileId: string, date: string, week: number): Promise<Workout> {
   const existing = await findWorkout(profileId, FREE_SESSION_KEY, date)
@@ -124,4 +131,19 @@ export const BENCHMARK_LABELS: Record<string, string> = {
   amrap6: 'AMRAP 6 min (Runden)',
   amrap8: 'AMRAP 8 min (Runden)',
   amrap12: 'AMRAP 12 min (Runden)',
+  // Mobility-Check (cm), je Seite mit _L/_R
+  kneeWall_L: 'Knie zur Wand links (cm)',
+  kneeWall_R: 'Knie zur Wand rechts (cm)',
+  sitReach: 'Sit-and-Reach (cm)',
+  overheadReach_L: 'Überkopf-Reach links (cm)',
+  overheadReach_R: 'Überkopf-Reach rechts (cm)',
+  hip9090_L: '90/90 Hüfte links (cm)',
+  hip9090_R: '90/90 Hüfte rechts (cm)',
 }
+
+/** Benchmarks, bei denen ein kleinerer Wert besser ist (Abstand zum Boden). Alle anderen: größer ist besser. */
+export const LOWER_IS_BETTER = new Set(['overheadReach_L', 'overheadReach_R', 'hip9090_L', 'hip9090_R'])
+export const isBetterBenchmark = (key: string, value: number, than: number) => (LOWER_IS_BETTER.has(key) ? value < than : value > than)
+/** Mobility-Check-Schlüssel erkennen (für die Gruppierung in der Auswertung). */
+export const MOBILITY_BENCHMARK_PREFIXES = ['kneeWall', 'sitReach', 'overheadReach', 'hip9090']
+export const isMobilityBenchmark = (key: string) => MOBILITY_BENCHMARK_PREFIXES.some((p) => key.startsWith(p))

@@ -10,6 +10,9 @@ export const POSES: { key: Pose; label: string; hint: string }[] = [
   { key: 'links', label: 'Links', hint: 'Linke Körperseite zur Kamera' },
   { key: 'rechts', label: 'Rechts', hint: 'Rechte Körperseite zur Kamera' },
   { key: 'hinten', label: 'Hinten', hint: 'Rücken zur Kamera, Arme locker seitlich' },
+  // Mobility-Posen (23.09.2026): Beweglichkeit sichtbar machen, Winkel an Sprunggelenk, Knie und Hüfte
+  { key: 'kniebeuge', label: 'Tiefe Kniebeuge', hint: 'Von der Seite, so tief wie möglich, Fersen am Boden' },
+  { key: 'ueberkopf', label: 'Überkopf-Kniebeuge', hint: 'Von vorn, Arme gestreckt über Kopf, so tief wie möglich' },
 ]
 export const poseLabel = (p: Pose) => POSES.find((x) => x.key === p)?.label ?? p
 

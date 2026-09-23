@@ -6,7 +6,8 @@ import { findSession } from '../data/plan'
 import { db } from '../db/db'
 import { useProfile } from '../hooks/useProfile'
 import { fmtDateLong } from '../lib/dates'
-import { blockLabel, prescriptionText } from '../lib/planEngine'
+import { timedMinutes } from '../data/planTypes'
+import { blockLabel, prescriptionText, timedItemText } from '../lib/planEngine'
 import { deleteWorkout } from '../lib/workouts'
 
 export default function SessionPreview() {
@@ -47,12 +48,19 @@ export default function SessionPreview() {
 
       {session.segments.map((seg, i) => {
         switch (seg.type) {
-          case 'warmup':
-          case 'cooldown':
+          case 'timed':
             return (
               <section key={i} className="card">
-                <div className="h2">{seg.type === 'warmup' ? 'Warm-up' : 'Cool-down'} · {seg.minutes} min</div>
-                <ul className="list-disc pl-5 text-sm mt-1">{seg.items.map((it, j) => <li key={j}>{it}</li>)}</ul>
+                <div className="h2">{seg.title} · {timedMinutes(seg.items)} min</div>
+                <div className="text-xs text-muted">Zeitgeführt: jeder Posten läuft mit Timer und geht mit Signal von selbst weiter.</div>
+                <ul className="list-disc pl-5 text-sm mt-1">{seg.items.map((it, j) => <li key={j}>{it.exerciseId ? <Link to={`/exercises/${it.exerciseId}`}>{timedItemText(it)}</Link> : timedItemText(it)}</li>)}</ul>
+              </section>
+            )
+          case 'measure':
+            return (
+              <section key={i} className="space-y-2">
+                <div className="label px-1">Messung {seg.label}{seg.perSide ? ' · je Seite' : ''}</div>
+                <ExerciseCard e={ex(seg.exerciseId)} subtitle={seg.description} />
               </section>
             )
           case 'note':

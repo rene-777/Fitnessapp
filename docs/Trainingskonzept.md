@@ -80,6 +80,15 @@ Ich habe die Recherche auf Meta-Analysen und Positionspapiere der Jahre 2019–2
 
 **Ableitung:** 1,6–2,0 g Protein pro kg, also 120–145 g pro Tag. Kalorienbedarf berechnet die App nach Mifflin-St Jeor (Grundumsatz bei dir ca. 1 535 kcal, Gesamtbedarf an Trainingstagen ca. 2 400–2 600 kcal). Block 1–2 auf Erhaltungsniveau (Muskelaufbau zuerst), Block 3–4 mit leichtem Defizit von 300–400 kcal für den Fettabbau. Kreatin (3–5 g täglich) ist für Kraft und Muskelmasse ab 50 breit belegt, das habe ich hier nicht erneut recherchiert, würde es dir aber empfehlen.
 
+### 2.9 Mobility: Wochendosis statt täglicher Pflicht, dynamisch vorher, statisch nachher (ergänzt 23.09.2026)
+
+- Ingram et al. 2024 (189 Studien): Statisches Dehnen verbessert die Beweglichkeit dauerhaft; mehr als etwa 10 min pro Woche je Region bringt nichts zusätzlich, die Zahl der Tage ist egal. [M1](https://consensus.app/papers/details/774b5c3e90be5239aeef26ff9f7c0891/?utm_source=claude_code) Konrad et al. 2023: statisch und PNF wirken langfristig besser als dynamisch. [M2](https://consensus.app/papers/details/ac4d13ef555e54c9b184d5f6e777a69d/?utm_source=claude_code)
+- Alizadeh et al. 2023: Krafttraining mit Außenlast über die volle Amplitude verbessert die Beweglichkeit genauso wie Dehnen, reines Körpergewichtstraining nicht messbar. [M4](https://consensus.app/papers/details/3cdd7e337c8453b0b78fb9e41bf0091b/?utm_source=claude_code)
+- Statisches Dehnen unter 60 s je Muskel vor dem Training kostet keine Kraft, ab 60 s schon (Chaabène et al. 2019, Warneke et al. 2024). [M6](https://consensus.app/papers/details/41a1a068057155b39e5f994d5c40ec91/?utm_source=claude_code), [M7](https://consensus.app/papers/details/fd2964f7e04051eda174e4ddd748fc1c/?utm_source=claude_code)
+- Moreside & McGill 2012: sechswöchiges Heimprogramm verbessert die Hüftrotation um bis zu 56 %. [M9](https://consensus.app/papers/details/2875d3de922851929a289acd1d848540/?utm_source=claude_code) Knie-zur-Wand-Test ist zuverlässig, kleinste echte Änderung ca. 2 cm (Powden et al. 2015). [M11](https://consensus.app/papers/details/fdfbaad52e9a52af84d1408d2576c0dd/?utm_source=claude_code)
+
+**Ableitung:** Warm-ups tagesgenau dynamisch (CARs, Knie-zur-Wand, 90/90, Open Book), Cool-downs 4–5 min statisch mit 30–45 s je Seite, zwei Routinen à 15 min an Samstag und Sonntag (Hüfte + Sprunggelenk, Schulter + Brustwirbelsäule), Mobility-Check mit vier Abstandsmaßen in Woche 1 und in jeder Challenge-Woche. Warm-up, Cool-down und Routinen laufen in der App zeitgeführt (Timer je Posten, automatischer Übergang mit Signal). Rechte Schulter (alte Schultereckgelenksverletzung): keine Dehnung quer vor dem Körper, alles nur schmerzfrei. Details, alle Posten und die Testprotokolle in `Mobility.md`.
+
 ---
 
 ## 3. Planarchitektur: 16 Wochen, 4 Blöcke, 4 Challenge-Wochen
@@ -209,6 +218,7 @@ Phase 1 ist das Ziel, bevor du mit Woche 1 startest.
 4. **Start Montag, 21.09.2026,** unabhängig vom Stand der App. Die App erlaubt das Nachtragen von Einheiten mit Datum; bis dahin dient die Log-Tabelle im Block-1-Dokument als Notizvorlage.
 5. **Challenge-Zahlen Woche 4:** Wochenziele werden aus der Einstufung berechnet (Formeln in Block-1-Dokument, Abschnitt Woche 4).
 6. **Sprints ab Block 3** bleiben drin. Jede Laufeinheit hat eine Indoor-Alternative mit Seil oder Burpees.
+7. **Mobility (23.09.2026):** keine zusätzliche Zeit in den Einheiten (die dauern in Woche 1 schon 60–80 min). Warm-up und Cool-down werden zeitgeführt und konkret, Cool-down auf 4–5 min. Zwei freiwillige Routinen à 15 min an Samstag und Sonntag, Mobility-Check in Woche 1 (Basis am 26./27.09.) und in den Challenge-Wochen, zwei Mobility-Posen im Foto-Check. Siehe Abschnitt 2.9 und `Mobility.md`.
 
 ---
 
@@ -241,3 +251,17 @@ Consensus:
 - [N3] Liao CD et al. (2024). Protein supplements with resistance training in older adults: network meta-analysis. Nutrients.
 - [K2] Systematic review (2018). Isometric, eccentric, or heavy slow resistance exercises in patellar tendinopathy. Physiother Res Int.
 - [K3] Zhang Q et al. (2026). Meta-analysis of heavy slow resistance training in patellar tendinopathy. Int J Phys Act Health.
+- [M1] Ingram LA et al. (2024). Optimising the Dose of Static Stretching to Improve Flexibility: Systematic Review, Meta-analysis and Multivariate Meta-regression. Sports Med.
+- [M2] Konrad A et al. (2023). Chronic effects of stretching on range of motion with consideration of potential moderating variables. J Sport Health Sci.
+- [M3] Méndez-Rebolledo G et al. (2026). Optimal stretching dose for improving range of motion with hamstring shortening: dose-response meta-analysis. Ann Phys Rehabil Med.
+- [M4] Alizadeh S et al. (2023). Resistance Training Induces Improvements in Range of Motion: Systematic Review and Meta-Analysis. Sports Med.
+- [M5] Rosenfeldt M et al. (2024). Resistance training vs static stretching on flexibility and maximal strength. BMC Sports Sci Med Rehabil.
+- [M6] Chaabène H et al. (2019). Acute Effects of Static Stretching on Muscle Strength and Power. Front Physiol.
+- [M7] Warneke K et al. (2024). Revisiting the stretch-induced force deficit: multilevel meta-analysis. J Sport Health Sci.
+- [M8] Kay AD, Blazevich AJ (2011). Effect of acute static stretch on maximal muscle performance: systematic review. Med Sci Sports Exerc.
+- [M9] Moreside JM, McGill SM (2012). Hip Joint Range of Motion Improvements Using Three Different Interventions. J Strength Cond Res.
+- [M10] Head PL et al. (2026). Controlled Articular Rotations vs Static Stretching on Hip Internal Rotation. Int J Exerc Sci.
+- [M11] Powden CJ et al. (2015). Reliability and minimal detectable change of the weight-bearing lunge test: systematic review. Man Ther.
+- [M12] McBride S et al. (2026). International normative values for the weight-bearing lunge test across age and sex. Musculoskelet Sci Pract.
+- [M13] Krause DA et al. (2015). Reliability and accuracy of a goniometer mobile device application for video measurement of the FMS deep squat. Int J Sports Phys Ther.
+- [M14] Aleixo P et al. (2024). Deep squat test – Functional Movement Screen: convergent validity. J Bodyw Mov Ther.

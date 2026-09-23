@@ -1,7 +1,8 @@
 import type { Prescription, Segment, Session } from '../data/planTypes'
 
 export type Step =
-  | { kind: 'info'; title: string; items: string[]; minutes?: number }
+  | { kind: 'timed'; seg: Extract<Segment, { type: 'timed' }> }
+  | { kind: 'measure'; seg: Extract<Segment, { type: 'measure' }> }
   | { kind: 'note'; title: string; text: string }
   | {
       kind: 'set'
@@ -25,11 +26,11 @@ export function buildSteps(session: Session): Step[] {
   const steps: Step[] = []
   for (const seg of session.segments) {
     switch (seg.type) {
-      case 'warmup':
-        steps.push({ kind: 'info', title: `Warm-up · ${seg.minutes} min`, items: seg.items, minutes: seg.minutes })
+      case 'timed':
+        steps.push({ kind: 'timed', seg })
         break
-      case 'cooldown':
-        steps.push({ kind: 'info', title: `Cool-down · ${seg.minutes} min`, items: seg.items, minutes: seg.minutes })
+      case 'measure':
+        steps.push({ kind: 'measure', seg })
         break
       case 'note':
         steps.push({ kind: 'note', title: seg.title, text: seg.text })

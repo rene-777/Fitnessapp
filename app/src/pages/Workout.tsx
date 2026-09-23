@@ -11,7 +11,8 @@ import { db } from '../db/db'
 import type { Readiness, Workout as WorkoutRow } from '../db/types'
 import { useProfile } from '../hooks/useProfile'
 import { beepGo, speak, unlockAudio } from '../lib/audio'
-import { fmtSec, mondayOfWeek, addDays, today } from '../lib/dates'
+import { fmtSec, mondayOfWeek, addDays, planWeekOf, today } from '../lib/dates'
+import { MeasureStep, TimedStep } from '../components/TimedFlow'
 import { challengeStatus, prescriptionText, suggestLoad } from '../lib/planEngine'
 import { buildSteps, type Step } from '../lib/steps'
 import { keepAwake } from '../lib/wakeLock'
@@ -27,6 +28,10 @@ export default function Workout() {
   const found = useMemo(() => findSession(sessionKey), [sessionKey])
   const steps = useMemo(() => (found ? buildSteps(found.session) : []), [found])
   const profileId = profile?.id
+  const planStart = profile?.planStartDate
+  // Routinen (Mobility) hängen an keiner Planwoche: die Woche kommt aus dem Datum
+  const weekNo = found ? (found.week.number === 0 && planStart ? planWeekOf(date, planStart) : found.week.number) : 0
+  const isRoutine = found?.session.kind === 'mobility'
   const [workout, setWorkout] = useState<WorkoutRow | null>(null)
   const [idx, setIdx] = useState(0)
   const [phase, setPhase] = useState<'work' | 'rest' | 'done'>('work')
@@ -42,7 +47,7 @@ export default function Workout() {
     setLoadError(undefined)
     // Kommt die Datenbank nicht zurück, nach 8 s eine Meldung zeigen statt endlos „Lade …“
     const slow = setTimeout(() => { if (!cancelled) setLoadError('Zeitüberschreitung: Die Datenbank antwortet nicht (getOrCreateWorkout).') }, 8000)
-    getOrCreateWorkout(profileId, date, found.week.number, found.session).then((w) => {
+    getOrCreateWorkout(profileId, date, weekNo, found.session).then((w) => {
       clearTimeout(slow)
       if (cancelled) return
       setLoadError(undefined)
@@ -50,10 +55,11 @@ export default function Workout() {
       const start = w.stepIndex ?? 0
       if (w.status === 'fertig') { setIdx(0); setPhase('work') }
       else { setIdx(Math.min(start, steps.length - 1)); setPhase('work') }
-      setAskReadiness(w.status !== 'fertig' && !w.readiness)
+      // Mobility-Routinen ohne Kurz-Check: kurz, freiwillig, das Datum steht schon in der Route (heute)
+      setAskReadiness(w.status !== 'fertig' && !w.readiness && !isRoutine)
     }).catch((e) => { clearTimeout(slow); if (!cancelled) setLoadError(errorText(e)) })
     return () => { cancelled = true; clearTimeout(slow) }
-  }, [profileId, found, date, steps.length, attempt])
+  }, [profileId, found, date, weekNo, isRoutine, steps.length, attempt])
 
   useEffect(() => {
     keepAwake(true)
@@ -127,7 +133,7 @@ export default function Workout() {
           <div className="text-muted">{session.title} · {fmtSec(elapsed)}</div>
         </div>
         <Link to="/" className="btn-primary block text-center">Zur Startseite</Link>
-        <Link to={`/session/${date}/${sessionKey}`} className="btn-ghost block text-center">Einheit ansehen</Link>
+        {isRoutine ? <Link to="/mobility" className="btn-ghost block text-center">Zur Mobility-Seite</Link> : <Link to={`/session/${date}/${sessionKey}`} className="btn-ghost block text-center">Einheit ansehen</Link>}
       </div>
     )
   }
@@ -139,7 +145,8 @@ export default function Workout() {
       case 'interval': return 'Intervalle'
       case 'cardio': return s.seg.label
       case 'challenge': return 'Challenge'
-      case 'info': return s.title
+      case 'timed': return s.seg.title
+      case 'measure': return `Messung ${s.seg.label}`
       case 'note': return s.title
     }
   }
@@ -172,7 +179,8 @@ export default function Workout() {
       {phase === 'work' && step && (
         <>
           <div className="label px-1">{stepLabel(step)}</div>
-          {step.kind === 'info' && <InfoStep key={idx} step={step} onNext={next} />}
+          {step.kind === 'timed' && <TimedStep key={idx} seg={step.seg} onDone={next} />}
+          {step.kind === 'measure' && <MeasureStep key={idx} seg={step.seg} workout={workout} onNext={next} />}
           {step.kind === 'note' && <div className="card space-y-3"><div className="h2">{step.title}</div><div>{step.text}</div><button className="btn-primary w-full" onClick={next}>Weiter</button></div>}
           {step.kind === 'set' && <SetStepView key={idx} step={step} workout={workout} onSaved={afterSet} onSkip={next} />}
           {step.kind === 'amrap' && <AmrapStep key={idx} step={step} workout={workout} onNext={next} />}
@@ -198,7 +206,8 @@ function NextPreview({ step, label, currentExerciseId }: { step: Step; label: st
       case 'set': return [step.exerciseId]
       case 'amrap': return step.seg.exercises.map((x) => x.exerciseId)
       case 'challenge': return step.seg.items.map((x) => x.exerciseId)
-      case 'interval': case 'cardio': return [step.seg.exerciseId]
+      case 'interval': case 'cardio': case 'measure': return [step.seg.exerciseId]
+      case 'timed': return step.seg.items[0]?.exerciseId ? [step.seg.items[0].exerciseId] : []
       default: return []
     }
   })()
@@ -249,22 +258,6 @@ function ReadinessForm({ onDone }: { onDone: (r: Readiness) => void }) {
       </div>
       <button className="btn-primary w-full" onClick={() => onDone(r)}>Los geht's</button>
       <button className="btn-ghost w-full" onClick={() => onDone({})}>Überspringen</button>
-    </div>
-  )
-}
-
-// ---------- Info (Warm-up / Cool-down) ----------
-function InfoStep({ step, onNext }: { step: Extract<Step, { kind: 'info' }>; onNext: () => void }) {
-  const [timer, setTimer] = useState(false)
-  return (
-    <div className="space-y-3">
-      <div className="card">
-        <div className="h2 mb-2">{step.title}</div>
-        <ul className="list-disc pl-5 space-y-1">{step.items.map((it, i) => <li key={i}>{it}</li>)}</ul>
-      </div>
-      {step.minutes && !timer && <button className="btn-ghost w-full" onClick={() => { unlockAudio(); setTimer(true) }}>Timer {step.minutes} min starten</button>}
-      {timer && step.minutes && <Timer seconds={step.minutes * 60} onDone={onNext} label={step.title} />}
-      <button className="btn-primary w-full" onClick={onNext}>Fertig, weiter</button>
     </div>
   )
 }

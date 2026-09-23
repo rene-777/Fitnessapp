@@ -1,4 +1,5 @@
-import type { Block, ChallengeTarget, Prescription, Segment, Session, Week } from './planTypes'
+import type { Block, ChallengeTarget, Prescription, Segment, Session, TimedItem, TimedRole, Week } from './planTypes'
+import { MOBILITY_SESSIONS } from './mobility'
 
 export const PLAN_NAME = 'Transformation 16'
 export const DEFAULT_START = '2026-09-21'
@@ -23,8 +24,11 @@ const p = (exerciseId: string, sets: number, o: Partial<Prescription> = {}): Pre
 const reps = (exerciseId: string, sets: number, repsMin: number, repsMax: number, o: Partial<Prescription> = {}): Prescription =>
   ({ exerciseId, sets, repsMin, repsMax, ...o })
 
-const warm = (minutes: number, items: string[]): Segment => ({ type: 'warmup', minutes, items })
-const cool = (items: string[]): Segment => ({ type: 'cooldown', minutes: 3, items })
+// Zeitgeführte Abläufe: jeder Posten läuft mit Timer, danach geht es mit Signal von selbst weiter (Wunsch des Users, 23.09.2026).
+// Warm-up etwa 8 min, Cool-down etwa 5 min: statisches Dehnen 30–45 s je Seite, nur nach dem Training (vorher kostet es Kraft).
+const timed = (role: TimedRole, title: string, items: TimedItem[]): Segment => ({ type: 'timed', role, title, items })
+const t = (exerciseId: string, seconds: number, o: Partial<TimedItem> = {}): TimedItem => ({ exerciseId, seconds, ...o })
+const txt = (title: string, seconds: number, note?: string): TimedItem => ({ title, seconds, note })
 const straight = (label: string, exercises: Prescription[], restSec: number, note?: string): Segment =>
   ({ type: 'block', label, kind: 'straight', exercises, restSec, note })
 const superset = (label: string, exercises: Prescription[], restBetweenSec = 30, restSec = 90, note?: string): Segment =>
@@ -35,15 +39,86 @@ const superset = (label: string, exercises: Prescription[], restBetweenSec = 30,
 const SEAT_OFF: Segment = { type: 'note', title: 'Umbau: Sitz abbauen', text: 'Alle folgenden Bio-Force-Übungen dieser Einheit laufen ohne Sitz.' }
 const SEAT_ON: Segment = { type: 'note', title: 'Umbau: Sitz anbringen', text: 'Sitz und Beinmodul anbringen. Alle folgenden Bio-Force-Übungen dieser Einheit laufen mit Sitz.' }
 
-const WARM_PUSH = warm(8, ['2 min Seil locker', 'Schulterkreisen vor und zurück', 'Katzenbuckel / Pferderücken 10×', '10 Scapula-Push-Ups', '2 leichte Sätze Kabel-Schrägdrücken × 10'])
-const WARM_LEGS = warm(8, ['3 min Marschieren oder Seil leicht', 'Hüftkreisen, Beinschwünge vor/zurück und seitlich', '10 halbe Kniebeugen', 'Wall Sit 2 × 30 s (Sehnenvorbereitung)'])
-const WARM_PULL = warm(8, ['2 min Seil', 'Schulterblattkreisen', 'Scapula Pull-Ups 2 × 8', 'Latzug leicht 2 × 10'])
-const WARM_FULL = warm(8, ['2 min Seil', 'Ganzkörper-Mobility: Hüfte, Schulter, Brustwirbelsäule', '10 Push-Ups leicht', '10 Kniebeugen'])
-const WARM_CARDIO = warm(8, ['Gehen und leichtes Laufen im Wechsel', 'Beinschwünge, Fußgelenke kreisen, Wadendehnung dynamisch'])
-const COOL_PUSH = cool(['Brustdehnung im Türrahmen 2 × 30 s', 'Schulterdehnung über Kreuz', 'Trizepsdehnung über Kopf'])
-const COOL_LEGS = cool(['Quadrizeps im Stand 2 × 30 s je Seite', 'Hintere Oberschenkel sitzend', 'Hüftbeuger im Kniestand'])
-const COOL_PULL = cool(['Latdehnung an der Stange hängend 2 × 20 s', 'Bizepsdehnung an der Wand', 'Unterarme'])
-const COOL_CARDIO = cool(['Gehen bis der Puls unter 100 ist', 'Waden, Quadrizeps, Hüftbeuger je 30 s'])
+const WARM_PUSH = timed('warmup', 'Warm-up', [
+  t('seil', 120, { reps: 'locker' }),
+  t('shoulder-circles', 30),
+  t('cat-cow', 40, { reps: '10×' }),
+  t('open-book', 30, { perSide: true, reps: '6× je Seite' }),
+  t('wall-slides', 40, { reps: '10×' }),
+  t('scapula-pushup', 30, { reps: '10×' }),
+  t('schraegdruecken', 120, { reps: '2 × 10 leicht', note: 'Aufwärmsätze, etwa halbe Arbeitslast' }),
+])
+const WARM_LEGS = timed('warmup', 'Warm-up', [
+  txt('Marschieren oder Seil leicht', 150),
+  t('hip-cars', 30, { perSide: true, reps: '3 Kreise je Richtung' }),
+  t('knee-wall-mob', 30, { perSide: true, reps: '10×' }),
+  t('leg-swings', 30, { perSide: true, reps: '10× vor/zurück, 10× seitlich' }),
+  t('ninety-ninety-switch', 45, { reps: '8 Wechsel' }),
+  t('kniebeuge-bw', 30, { reps: '10 halbe Kniebeugen' }),
+  t('wall-sit', 30, { note: 'Sehnenvorbereitung' }),
+  txt('Pause', 20),
+  t('wall-sit', 30, { note: 'Sehnenvorbereitung' }),
+])
+const WARM_PULL = timed('warmup', 'Warm-up', [
+  t('seil', 120, { reps: 'locker' }),
+  t('shoulder-circles', 30),
+  t('open-book', 30, { perSide: true, reps: '6× je Seite' }),
+  t('thread-needle', 30, { perSide: true, reps: '6× je Seite' }),
+  t('scapula-pullup', 60, { reps: '2 × 8' }),
+  t('dead-hang', 20),
+  t('latzug', 90, { reps: '2 × 10 leicht', note: 'Aufwärmsätze, etwa halbe Arbeitslast' }),
+])
+const WARM_FULL = timed('warmup', 'Warm-up', [
+  t('seil', 120, { reps: 'locker' }),
+  t('hip-cars', 30, { perSide: true, reps: '3 Kreise je Richtung' }),
+  t('shoulder-cars', 30, { perSide: true, reps: '3 Kreise' }),
+  t('open-book', 30, { perSide: true, reps: '6× je Seite' }),
+  t('deep-squat-hold', 30, { note: 'ohne Gewicht, leicht wiegen' }),
+  t('pushup', 30, { reps: '10× leicht' }),
+  t('kniebeuge-bw', 30, { reps: '10×' }),
+])
+const WARM_CARDIO = timed('warmup', 'Warm-up', [
+  txt('Gehen und leichtes Laufen im Wechsel', 240),
+  t('ankle-circles', 20, { perSide: true }),
+  t('leg-swings', 30, { perSide: true, reps: '10× vor/zurück, 10× seitlich' }),
+  t('calf-dyn', 60),
+  t('knee-wall-mob', 30, { perSide: true, reps: '10×' }),
+])
+// Cool-downs: keine Schulterdehnung über Kreuz mehr (belastet das Schultereckgelenk, rechte Schulter des Users)
+const COOL_PUSH = timed('cooldown', 'Cool-down', [
+  t('chest-doorway', 40, { perSide: true }),
+  t('triceps-stretch', 30, { perSide: true }),
+  t('dead-hang', 30, { note: 'Zehen am Boden zum Dosieren' }),
+  t('sleeper-stretch', 30, { perSide: true, note: 'sanft' }),
+  t('puppy-pose', 40),
+])
+const COOL_LEGS = timed('cooldown', 'Cool-down', [
+  t('couch-stretch', 45, { perSide: true }),
+  t('hamstring-stretch', 40, { perSide: true }),
+  t('adductor-rock', 30, { perSide: true }),
+  t('calf-wall', 40, { perSide: true, note: 'je 20 s gestreckt und gebeugt' }),
+])
+const COOL_PULL = timed('cooldown', 'Cool-down', [
+  t('dead-hang', 25),
+  txt('Pause', 15),
+  t('dead-hang', 25),
+  t('puppy-pose', 40),
+  t('biceps-wall', 30, { perSide: true }),
+  t('forearm-stretch', 30),
+  t('open-book', 30, { perSide: true, reps: '5× je Seite, langsam' }),
+])
+const COOL_FULL = timed('cooldown', 'Cool-down', [
+  t('couch-stretch', 40, { perSide: true }),
+  t('chest-doorway', 40, { perSide: true }),
+  t('dead-hang', 30, { note: 'Zehen am Boden zum Dosieren' }),
+  t('hamstring-stretch', 30, { perSide: true }),
+])
+const COOL_CARDIO = timed('cooldown', 'Cool-down', [
+  txt('Gehen, bis der Puls unter 100 ist', 90),
+  t('calf-wall', 30, { perSide: true, note: 'je 15 s gestreckt und gebeugt' }),
+  t('quad-stretch', 30, { perSide: true }),
+  t('couch-stretch', 40, { perSide: true }),
+])
 
 // ---------- Woche 1: Einstufung ----------
 const w1: Week = {
@@ -117,7 +192,7 @@ const w1: Week = {
         SEAT_OFF,
         superset('D', [reps('pull-through', 3, 12, 12, { rir: '1–2' }), reps('seitheben', 2, 15, 15, { perSide: true })], 30, 60),
         { type: 'amrap', label: 'Finisher', minutes: 6, exercises: [{ exerciseId: 'burpee', reps: 5 }, { exerciseId: 'pushup', reps: 10 }, { exerciseId: 'kniebeuge-bw', reps: 15 }], countLabel: 'Runden', benchmarkKey: 'amrap6', description: 'So viele Runden wie möglich in 6 Minuten.' },
-        COOL_PUSH,
+        COOL_FULL,
       ],
     },
   ],
@@ -211,7 +286,7 @@ function buildWeek(n: 2 | 3): Week {
           SEAT_OFF,
           superset('D', [reps('pull-through', 3, 12, 12, { rir: '1–2' }), reps('seitheben', 3, 15, 15, { perSide: true })], 30, 60),
           { type: 'amrap', label: 'Finisher', minutes: 8, exercises: [{ exerciseId: 'burpee', reps: 5 }, { exerciseId: 'pushup', reps: 10 }, { exerciseId: 'kniebeuge-bw', reps: 15 }], countLabel: 'Runden', benchmarkKey: n === 3 ? 'amrap8' : undefined, description: 'So viele Runden wie möglich in 8 Minuten.' },
-          COOL_PUSH,
+          COOL_FULL,
         ],
       },
     ],
@@ -275,7 +350,7 @@ const w4: Week = {
         WARM_FULL,
         { type: 'challenge', label: 'Finale', description: 'Alles, was vom Wochenziel noch offen ist, auf Zeit.', items: CHALLENGE_TARGETS.map((t) => ({ exerciseId: t.exerciseId, share: -1 })) },
         { type: 'amrap', label: 'AMRAP', minutes: 12, exercises: [{ exerciseId: 'pullup', reps: 5 }, { exerciseId: 'pushup', reps: 10 }, { exerciseId: 'kniebeuge-bw', reps: 15 }, { exerciseId: 'burpee', reps: 5 }], countLabel: 'Runden', benchmarkKey: 'amrap12', description: 'Abschluss: 12 Minuten, so viele Runden wie möglich.' },
-        COOL_PUSH,
+        COOL_FULL,
       ],
     },
   ],
@@ -298,8 +373,11 @@ export const WEEKS: Week[] = [
 
 export const weekByNumber = (n: number) => WEEKS.find((w) => w.number === n)
 export const blockOfWeek = (n: number) => BLOCKS.find((b) => b.weeks.includes(n))
+/** Routinen außerhalb des Wochenplans (Mobility-Einheiten, Mobility-Check): Woche 0, die Planwoche kommt beim Start aus dem Datum. */
+export const ROUTINE_WEEK: Week = { number: 0, title: 'Mobility', sessions: MOBILITY_SESSIONS }
+
 export function findSession(key: string): { week: Week; session: Session } | undefined {
-  for (const week of WEEKS) {
+  for (const week of [...WEEKS, ROUTINE_WEEK]) {
     const session = week.sessions.find((s) => s.key === key)
     if (session) return { week, session }
   }

@@ -15,6 +15,7 @@ import Exercises from './pages/Exercises'
 import ExerciseDetail from './pages/ExerciseDetail'
 import Body from './pages/Body'
 import Photos from './pages/Photos'
+import Mobility from './pages/Mobility'
 import SettingsPage from './pages/SettingsPage'
 import More from './pages/More'
 import Stats from './pages/Stats'
@@ -41,6 +42,7 @@ function Shell() {
           <Route path="/stats" element={<Stats />} />
           <Route path="/body" element={<Body />} />
           <Route path="/photos" element={<Photos />} />
+          <Route path="/mobility" element={<Mobility />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/more" element={<More />} />
         </Routes>
