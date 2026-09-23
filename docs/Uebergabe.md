@@ -126,7 +126,7 @@ Umgesetzt, `tsc -b` und `check-plan.mjs` sauber, im Dev-Browser geprüft (Mobili
 ## Nächste Schritte
 
 - **Mobility am Handy prüfen** (Rückmeldung steht aus): zeitgeführtes Warm-up in der nächsten Einheit (Signal hörbar? Übergang flüssig? Posten-Dauern passend?), Cool-down 4–5 min, Basis-Mobility-Check am 26./27.09., dann eine Routine. Dauern anpassen in `plan.ts`/`mobility.ts`.
-- **KI-Bilder für die 33 Mobility-Übungen** (Kie.ai, GPT Image 2, Pipeline wie bei den 19 Übungen: `spec.mjs` ergänzen, `make.mjs`, `kie-gen.mjs`; bei Halteübungen `noEndPhoto`, Feld `genImage` in `mobilityExercises.ts`). Etwa 40–50 Bilder, ca. 18 Credits je Bild. Bis dahin zeigen die Posten nur Text.
+- **KI-Bilder für die 33 Mobility-Übungen** (nächste Session, geplant für den 24.09.2026; Kie.ai, GPT Image 2, Pipeline wie bei den 19 Übungen: `spec.mjs` ergänzen, `make.mjs`, `kie-gen.mjs`; bei Halteübungen `noEndPhoto`, Feld `genImage` in `mobilityExercises.ts`). Etwa 40–50 Bilder, ca. 18 Credits je Bild. Bis dahin zeigen die Posten nur Text.
 - **Fußleisten-Dicke** einmal messen, falls ein Vergleich mit Normwerten gewünscht ist (bisher nur Verlauf).
 
 - **KI-Bilder sind abgeschlossen.** Bei Bedarf einzelne Bilder nachbessern: Prompt in `spec.mjs` anpassen, Job-Datei neu erzeugen, einzeln mit `--job` generieren; bei Endbildern das Startbild vorher mit `kie-upload.mjs` hochladen. **Video-Pilot gestrichen** (Beschluss des Users am 18.09.: Aufwand und Trefferquote bei Posen rechtfertigen keine Clips).
