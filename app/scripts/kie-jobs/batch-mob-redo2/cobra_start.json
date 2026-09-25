@@ -1,0 +1,14 @@
+{
+  "model": "gpt-image-2-image-to-image",
+  "out": "public/img/gen/cobra_start",
+  "input": {
+    "prompt": "The reference images define the person and the photo style. Black-and-white studio instruction photo for a home-gym exercise manual, in exactly the style of the reference photos: the same man (short dark hair, clean-shaven, black sleeveless shirt, grey athletic shorts, white running shoes), plain light-grey seamless backdrop and light-grey floor, soft even studio lighting, slightly grainy monochrome print look, full body visible, nothing cropped, portrait format. No text, no watermark, no border, no logos, no mat. POSE: Yoga cobra pose (bhujangasana): lying on the belly, the pelvis, hips, thighs, knees and the tops of the feet all pressed flat on the floor, only the chest and head are lifted by pushing with the hands placed on the floor under the shoulders, elbows slightly bent, a gentle back bend, shoulders down, looking straight ahead. The hips must stay on the floor (not an upward dog, not a plank). Camera at floor level from the side, athlete facing to the right of the frame.",
+    "input_urls": [
+      "https://rene-777.github.io/Fitnessapp/img/gen/pushup_start.webp",
+      "https://rene-777.github.io/Fitnessapp/img/gen/pushup_end.webp",
+      "https://rene-777.github.io/Fitnessapp/img/bioforce/bf002_start.webp"
+    ],
+    "aspect_ratio": "3:4",
+    "resolution": "1K"
+  }
+}

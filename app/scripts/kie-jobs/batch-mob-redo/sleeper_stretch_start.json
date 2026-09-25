@@ -1,0 +1,15 @@
+{
+  "model": "nano-banana-2",
+  "out": "public/img/gen/sleeper_stretch_start",
+  "input": {
+    "prompt": "The reference images define the person and the photo style. Black-and-white studio instruction photo for a home-gym exercise manual, in exactly the style of the reference photos: the same man (short dark hair, clean-shaven, black sleeveless shirt, grey athletic shorts, white running shoes), plain light-grey seamless backdrop and light-grey floor, soft even studio lighting, slightly grainy monochrome print look, full body visible, nothing cropped, portrait format. No text, no watermark, no border, no logos, no mat. POSE: Sleeper stretch for the shoulder: lying on the right side on the floor with the head resting on the floor, the right upper arm on the floor pointing straight forward at shoulder height, the right elbow bent to 90 degrees so the right forearm points straight up toward the ceiling, the left hand grasping the right wrist and pressing the forearm down toward the floor. Camera at hip height from the front of the body, slightly above.",
+    "image_input": [
+      "https://rene-777.github.io/Fitnessapp/img/gen/pushup_start.webp",
+      "https://rene-777.github.io/Fitnessapp/img/gen/pushup_end.webp",
+      "https://rene-777.github.io/Fitnessapp/img/bioforce/bf002_start.webp"
+    ],
+    "aspect_ratio": "3:4",
+    "resolution": "1K",
+    "output_format": "png"
+  }
+}

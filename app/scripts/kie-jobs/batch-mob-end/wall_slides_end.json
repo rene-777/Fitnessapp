@@ -1,0 +1,13 @@
+{
+  "model": "nano-banana-2",
+  "out": "public/img/gen/wall_slides_end",
+  "input": {
+    "prompt": "The FIRST image is the start position of this exercise: keep the same man, clothing, equipment, background, lighting, camera position and framing exactly, and change only the body position. Black-and-white studio instruction photo for a home-gym exercise manual, in exactly the style of the reference photos: the same man (short dark hair, clean-shaven, black sleeveless shirt, grey athletic shorts, white running shoes), plain light-grey seamless backdrop and light-grey floor, soft even studio lighting, slightly grainy monochrome print look, full body visible, nothing cropped, portrait format. No text, no watermark, no border, no logos, no mat. POSE: Wall slides, end: same position against the wall, both arms slid straight up overhead in a V, forearms and backs of the hands still touching the wall, ribs down, lower back close to the wall. Camera at chest height from a front three-quarter angle.",
+    "image_input": [
+      "https://tempfile.redpandaai.co/kieai/11764900/fitnessapp/wall_slides_start.webp",
+      "https://rene-777.github.io/Fitnessapp/img/gen/pushup_start.webp"
+    ],
+    "aspect_ratio": "3:4",
+    "resolution": "1K"
+  }
+}

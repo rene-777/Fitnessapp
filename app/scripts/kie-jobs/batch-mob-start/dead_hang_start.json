@@ -1,0 +1,14 @@
+{
+  "model": "nano-banana-2",
+  "out": "public/img/gen/dead_hang_start",
+  "input": {
+    "prompt": "The reference images define the person and the photo style. Black-and-white studio instruction photo for a home-gym exercise manual, in exactly the style of the reference photos: the same man (short dark hair, clean-shaven, black sleeveless shirt, grey athletic shorts, white running shoes), plain light-grey seamless backdrop and light-grey floor, soft even studio lighting, slightly grainy monochrome print look, full body visible, nothing cropped, portrait format. No text, no watermark, no border, no logos, no mat. POSE: Dead hang: hanging from the bar of a free-standing black steel pull-up rack (two vertical uprights on an H-shaped floor base, horizontal bar on top at about 190 cm) with a shoulder-width overhand grip, arms fully straight, shoulders relaxed up toward the ears, body long and still, feet off the floor with the toes pointing down. Camera at chest height from a front three-quarter angle.",
+    "image_input": [
+      "https://rene-777.github.io/Fitnessapp/img/gen/pushup_start.webp",
+      "https://rene-777.github.io/Fitnessapp/img/gen/pushup_end.webp",
+      "https://rene-777.github.io/Fitnessapp/img/bioforce/bf002_start.webp"
+    ],
+    "aspect_ratio": "3:4",
+    "resolution": "1K"
+  }
+}

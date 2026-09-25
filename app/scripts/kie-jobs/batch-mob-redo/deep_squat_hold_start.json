@@ -1,0 +1,15 @@
+{
+  "model": "nano-banana-2",
+  "out": "public/img/gen/deep_squat_hold_start",
+  "input": {
+    "prompt": "The reference images define the person and the photo style. Black-and-white studio instruction photo for a home-gym exercise manual, in exactly the style of the reference photos: the same man (short dark hair, clean-shaven, black sleeveless shirt, grey athletic shorts, white running shoes), plain light-grey seamless backdrop and light-grey floor, soft even studio lighting, slightly grainy monochrome print look, full body visible, nothing cropped, portrait format. No text, no watermark, no border, no logos, no mat. POSE: Deep squat hold, as low as a human can squat: sitting all the way down so the hips are far below the knees and the hamstrings rest on the calves, feet slightly wider than hip-width with the toes turned slightly out, heels flat on the floor, chest upright, holding an 8 kg cast-iron kettlebell with both hands in front of the chest, elbows inside the knees pressing them outward. Camera at chest height from a front three-quarter angle.",
+    "image_input": [
+      "https://rene-777.github.io/Fitnessapp/img/gen/pushup_start.webp",
+      "https://rene-777.github.io/Fitnessapp/img/gen/pushup_end.webp",
+      "https://rene-777.github.io/Fitnessapp/img/bioforce/bf002_start.webp"
+    ],
+    "aspect_ratio": "3:4",
+    "resolution": "1K",
+    "output_format": "png"
+  }
+}

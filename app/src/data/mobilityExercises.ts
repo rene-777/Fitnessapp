@@ -9,20 +9,20 @@ export const MOBILITY_EXERCISES: Exercise[] = [
   // ---------- Dynamisch (Warm-up und Routinen) ----------
   {
     id: 'shoulder-circles', name: 'Schulterkreisen', category: 'mobility',
-    primary: ['schulter_hinten', 'ruecken_oben'], secondary: [], loadType: 'none', unit: 'seconds',
+    primary: ['schulter_hinten', 'ruecken_oben'], secondary: [], loadType: 'none', unit: 'seconds', genImage: 'shoulder_circles', noEndPhoto: true,
     equipment: 'Ohne Gerät',
     steps: ['Arme locker hängen lassen, Schultern groß nach hinten kreisen.', 'Dann die gestreckten Arme in großen Kreisen vor und zurück, langsam und weit.'],
   },
   {
     id: 'cat-cow', name: 'Cat-Cow (Katzenbuckel / Pferderücken)', category: 'mobility',
-    primary: ['ruecken_unten', 'ruecken_oben'], secondary: ['bauch'], loadType: 'none', unit: 'seconds',
+    primary: ['ruecken_unten', 'ruecken_oben'], secondary: ['bauch'], loadType: 'none', unit: 'seconds', genImage: 'cat_cow',
     equipment: 'Boden, Matte',
     setup: 'Vierfüßlerstand, Hände unter den Schultern, Knie unter der Hüfte.',
     steps: ['Ausatmen, Rücken rund nach oben schieben, Kinn zur Brust (Katze).', 'Einatmen, Bauch sinken lassen, Brustbein nach vorn, Blick leicht nach oben (Kuh).', 'Langsam wechseln, jede Position 2 s halten.'],
   },
   {
     id: 'open-book', name: 'Open Book (BWS-Rotation)', category: 'mobility',
-    primary: ['ruecken_oben'], secondary: ['brust', 'bauch_schraeg'], loadType: 'none', unit: 'seconds',
+    primary: ['ruecken_oben'], secondary: ['brust', 'bauch_schraeg'], loadType: 'none', unit: 'seconds', genImage: 'open_book',
     equipment: 'Boden, Matte',
     setup: 'Seitlage, Knie 90° angewinkelt übereinander, beide Arme gestreckt nach vorn, Handflächen aufeinander.',
     steps: ['Den oberen Arm wie ein Buch öffnen: in einem großen Bogen über den Körper zur anderen Seite führen, der Blick folgt der Hand.', 'Die Knie bleiben aufeinander am Boden, die Drehung kommt aus der Brustwirbelsäule.', 'Am Ende 2 s halten, langsam zurück. Beide Seiten.'],
@@ -30,14 +30,14 @@ export const MOBILITY_EXERCISES: Exercise[] = [
   },
   {
     id: 'thread-needle', name: 'Thread the Needle', category: 'mobility',
-    primary: ['ruecken_oben'], secondary: ['schulter_hinten'], loadType: 'none', unit: 'seconds',
+    primary: ['ruecken_oben'], secondary: ['schulter_hinten'], loadType: 'none', unit: 'seconds', genImage: 'thread_needle',
     equipment: 'Boden, Matte',
     setup: 'Vierfüßlerstand.',
     steps: ['Einen Arm unter dem Körper hindurch „fädeln“, Schulter und Kopf sinken zum Boden, Rücken dreht sich ein.', 'Zurück und denselben Arm zur Decke öffnen, Blick folgt der Hand.', 'Fließend wechseln, jede Endposition 2 s halten. Beide Seiten.'],
   },
   {
     id: 'wall-slides', name: 'Wall Slides (Wand-Engel)', category: 'mobility',
-    primary: ['schulter_hinten', 'ruecken_oben'], secondary: ['schulter_seit'], loadType: 'none', unit: 'seconds',
+    primary: ['schulter_hinten', 'ruecken_oben'], secondary: ['schulter_seit'], loadType: 'none', unit: 'seconds', genImage: 'wall_slides',
     equipment: 'Wand',
     setup: 'Rücken, Hinterkopf und Gesäß an der Wand, Füße eine Fußlänge davor. Unterarme an die Wand, Ellbogen 90°.',
     steps: ['Arme an der Wand nach oben schieben, Unterarme und Handrücken bleiben so gut es geht an der Wand.', 'So hoch, wie es ohne Hohlkreuz geht, kurz halten, langsam zurück.'],
@@ -45,7 +45,7 @@ export const MOBILITY_EXERCISES: Exercise[] = [
   },
   {
     id: 'shoulder-cars', name: 'Schulter-CARs', category: 'mobility',
-    primary: ['schulter_vorn', 'schulter_seit', 'schulter_hinten'], secondary: [], loadType: 'none', unit: 'seconds',
+    primary: ['schulter_vorn', 'schulter_seit', 'schulter_hinten'], secondary: [], loadType: 'none', unit: 'seconds', genImage: 'shoulder_cars', noEndPhoto: true,
     equipment: 'Ohne Gerät',
     setup: 'Aufrecht stehen, ein Arm gestreckt, Faust locker geschlossen, Rumpf angespannt.',
     steps: ['Den gestreckten Arm langsam vor dem Körper nach oben führen, oben die Handfläche nach außen drehen.', 'Hinter dem Körper wieder nach unten, so weit hinten wie möglich, ohne den Rumpf zu drehen.', 'Ein Kreis dauert etwa 10 s. Beide Seiten.'],
@@ -53,7 +53,7 @@ export const MOBILITY_EXERCISES: Exercise[] = [
   },
   {
     id: 'hip-cars', name: 'Hüft-CARs', category: 'mobility',
-    primary: ['huefte', 'gesaess'], secondary: ['bauch'], loadType: 'none', unit: 'seconds',
+    primary: ['huefte', 'gesaess'], secondary: ['bauch'], loadType: 'none', unit: 'seconds', genImage: 'hip_cars', noEndPhoto: true,
     equipment: 'Wand oder Gestell zum Abstützen',
     setup: 'Im Stand, eine Hand am Gestell, Standbein leicht gebeugt, Rumpf fest.',
     steps: ['Das Knie langsam nach vorn oben heben (Hüftbeugung), dann seitlich nach außen öffnen.', 'Aus der Öffnung das Bein nach hinten führen, Knie zeigt nach unten, und wieder nach vorn.', 'Ein Kreis dauert etwa 10 s, der Rumpf bleibt ruhig. Danach die Richtung wechseln. Beide Seiten.'],
@@ -61,19 +61,19 @@ export const MOBILITY_EXERCISES: Exercise[] = [
   },
   {
     id: 'leg-swings', name: 'Beinschwünge', category: 'mobility',
-    primary: ['huefte', 'hamstrings'], secondary: ['gesaess'], loadType: 'none', unit: 'seconds',
+    primary: ['huefte', 'hamstrings'], secondary: ['gesaess'], loadType: 'none', unit: 'seconds', genImage: 'leg_swings', noEndPhoto: true,
     equipment: 'Wand oder Gestell zum Abstützen',
     steps: ['Vor und zurück: Bein locker schwingen, mit jedem Schwung etwas weiter, Oberkörper aufrecht.', 'Seitlich: vor dem Standbein hin und her schwingen.', 'Beide Beine.'],
   },
   {
     id: 'ankle-circles', name: 'Fußgelenke kreisen', category: 'mobility',
-    primary: ['waden'], secondary: [], loadType: 'none', unit: 'seconds',
+    primary: ['waden'], secondary: [], loadType: 'none', unit: 'seconds', genImage: 'ankle_circles', noEndPhoto: true,
     equipment: 'Ohne Gerät',
     steps: ['Fuß anheben, Fußgelenk langsam in großen Kreisen drehen, beide Richtungen.', 'Dann Fußspitze anziehen und strecken.'],
   },
   {
     id: 'knee-wall-mob', name: 'Knie-zur-Wand-Mobilisation', category: 'mobility',
-    primary: ['waden'], secondary: ['huefte'], loadType: 'none', unit: 'seconds',
+    primary: ['waden'], secondary: ['huefte'], loadType: 'none', unit: 'seconds', genImage: 'knee_wall_mob', noEndPhoto: true,
     equipment: 'Wand',
     setup: 'Schrittstellung zur Wand, vorderer Fuß eine Handbreit vor der Wand, Ferse fest am Boden.',
     steps: ['Das vordere Knie langsam zur Wand schieben, über die Fußmitte hinaus, Ferse bleibt unten.', 'Kurz an der Wand halten, zurück. Beim nächsten Mal den Fuß einen Zentimeter weiter weg stellen, wenn das Knie die Wand noch erreicht.', 'Auch leicht nach innen und außen zielen, um das Gelenk in alle Richtungen zu bewegen. Beide Seiten.'],
@@ -81,7 +81,7 @@ export const MOBILITY_EXERCISES: Exercise[] = [
   },
   {
     id: 'ninety-ninety-switch', name: '90/90-Übergänge', category: 'mobility',
-    primary: ['huefte', 'gesaess'], secondary: [], loadType: 'none', unit: 'seconds',
+    primary: ['huefte', 'gesaess'], secondary: [], loadType: 'none', unit: 'seconds', genImage: 'ninety_ninety_switch',
     equipment: 'Boden, Matte',
     setup: 'Sitz, beide Knie 90° gebeugt: vorderes Bein quer vor dem Körper, hinteres Bein seitlich nach hinten. Hände hinter dem Körper abstützen.',
     steps: ['Beide Knie langsam zur anderen Seite kippen, bis die Beine spiegelverkehrt liegen.', 'Oberkörper aufrecht, mit den Händen abstützen, so wenig wie nötig.', 'Fließend hin und her, jede Seite kurz halten.'],
@@ -89,7 +89,7 @@ export const MOBILITY_EXERCISES: Exercise[] = [
   },
   {
     id: 'ninety-ninety-hold', name: '90/90 halten', category: 'mobility',
-    primary: ['huefte', 'gesaess'], secondary: [], loadType: 'none', unit: 'seconds',
+    primary: ['huefte', 'gesaess'], secondary: [], loadType: 'none', unit: 'seconds', genImage: 'ninety_ninety_hold', noEndPhoto: true,
     equipment: 'Boden, Matte',
     setup: 'Sitz in der 90/90-Position (siehe 90/90-Übergänge).',
     steps: ['Oberkörper aufrecht, beide Sitzknochen zum Boden drücken.', 'Mit geradem Rücken über das vordere Schienbein nach vorn beugen, bis es außen in der Hüfte zieht. Halten und ruhig atmen.', 'Dann beide Seiten wechseln.'],
@@ -97,7 +97,7 @@ export const MOBILITY_EXERCISES: Exercise[] = [
   },
   {
     id: 'deep-squat-hold', name: 'Tiefe Kniebeuge halten', category: 'mobility',
-    primary: ['huefte', 'waden'], secondary: ['quadrizeps', 'gesaess'], loadType: 'none', unit: 'seconds',
+    primary: ['huefte', 'waden'], secondary: ['quadrizeps', 'gesaess'], loadType: 'none', unit: 'seconds', genImage: 'deep_squat_hold', noEndPhoto: true,
     equipment: 'Kettlebell 6–8 kg als Gegengewicht (optional), Türrahmen oder Gestell zum Festhalten',
     setup: 'Füße etwas breiter als hüftbreit, Zehen leicht nach außen. Kettlebell mit beiden Händen vor der Brust halten.',
     steps: ['So tief wie möglich in die Kniebeuge, Fersen bleiben am Boden, Brust aufrecht.', 'Ellbogen drücken die Knie leicht nach außen, ruhig atmen, in der Position leicht hin und her wiegen.', 'Wer die Fersen nicht unten hält: Fersen auf eine Kante stellen oder am Türrahmen festhalten.'],
@@ -106,7 +106,7 @@ export const MOBILITY_EXERCISES: Exercise[] = [
   },
   {
     id: 'calf-dyn', name: 'Waden-Pedal (dynamische Wadendehnung)', category: 'mobility',
-    primary: ['waden'], secondary: ['hamstrings'], loadType: 'none', unit: 'seconds',
+    primary: ['waden'], secondary: ['hamstrings'], loadType: 'none', unit: 'seconds', genImage: 'calf_dyn', noEndPhoto: true,
     equipment: 'Boden oder Wand',
     setup: 'Hände an der Wand oder in der Liegestützposition mit hohem Gesäß (herabschauender Hund).',
     steps: ['Abwechselnd eine Ferse zum Boden drücken, das andere Knie beugen, wie Fahrradfahren auf der Stelle.', 'Jede Ferse 2 s unten halten, gleichmäßig wechseln.'],
@@ -115,7 +115,7 @@ export const MOBILITY_EXERCISES: Exercise[] = [
   // ---------- Statisch (Cool-down und Routinen) ----------
   {
     id: 'couch-stretch', name: 'Couch Stretch', category: 'mobility',
-    primary: ['huefte', 'quadrizeps'], secondary: ['gesaess'], loadType: 'none', unit: 'seconds',
+    primary: ['huefte', 'quadrizeps'], secondary: ['gesaess'], loadType: 'none', unit: 'seconds', genImage: 'couch_stretch', noEndPhoto: true,
     equipment: 'Wand oder Couch, Matte oder Kissen unter dem Knie',
     setup: 'Kniestand mit dem Rücken zur Wand. Ein Knie in die Ecke zwischen Boden und Wand, Schienbein an der Wand nach oben, anderer Fuß vorn aufgestellt.',
     steps: ['Gesäß anspannen, Becken nach hinten kippen (kein Hohlkreuz), Oberkörper langsam aufrichten.', 'Es zieht vorn in der Hüfte und im Oberschenkel. Halten und ruhig atmen.', 'Stufen: Hände am Boden, dann Hände auf dem vorderen Knie, dann aufrecht. Beide Seiten.'],
@@ -123,14 +123,14 @@ export const MOBILITY_EXERCISES: Exercise[] = [
   },
   {
     id: 'hip-flexor-kneel', name: 'Hüftbeuger im Kniestand', category: 'mobility',
-    primary: ['huefte'], secondary: ['quadrizeps'], loadType: 'none', unit: 'seconds',
+    primary: ['huefte'], secondary: ['quadrizeps'], loadType: 'none', unit: 'seconds', genImage: 'hip_flexor_kneel', noEndPhoto: true,
     equipment: 'Matte oder Kissen unter dem Knie',
     setup: 'Ausfallschritt-Kniestand, vorderes Knie über dem Fuß, hinteres Knie am Boden.',
     steps: ['Gesäß anspannen, Becken nach hinten kippen, dann die Hüfte sanft nach vorn schieben.', 'Oberkörper aufrecht, der Arm der hinteren Seite nach oben, leicht zur Gegenseite neigen. Beide Seiten.'],
   },
   {
     id: 'adductor-rock', name: 'Adduktoren-Rockback', category: 'mobility',
-    primary: ['huefte'], secondary: ['hamstrings'], loadType: 'none', unit: 'seconds',
+    primary: ['huefte'], secondary: ['hamstrings'], loadType: 'none', unit: 'seconds', genImage: 'adductor_rock', noEndPhoto: true,
     equipment: 'Boden, Matte',
     setup: 'Vierfüßlerstand, ein Bein seitlich ausgestreckt, Fuß flach, Zehen nach vorn.',
     steps: ['Das Gesäß langsam nach hinten Richtung Fersen schieben, bis es innen am gestreckten Oberschenkel zieht.', '2 s halten, wieder nach vorn. Langsam wiederholen, am Ende 20 s halten. Beide Seiten.'],
@@ -138,7 +138,7 @@ export const MOBILITY_EXERCISES: Exercise[] = [
   },
   {
     id: 'figure-four', name: 'Figure-4 Stretch (Rückenlage)', category: 'mobility',
-    primary: ['gesaess', 'huefte'], secondary: [], loadType: 'none', unit: 'seconds',
+    primary: ['gesaess', 'huefte'], secondary: [], loadType: 'none', unit: 'seconds', genImage: 'figure_four', noEndPhoto: true,
     equipment: 'Boden, Matte',
     setup: 'Rückenlage, Knie angewinkelt. Einen Knöchel auf das andere Knie legen (Vierer-Form).',
     steps: ['Das untere Bein mit beiden Händen hinter dem Oberschenkel greifen und zum Körper ziehen.', 'Das obere Knie mit dem Ellbogen leicht nach außen drücken. Es zieht im Gesäß und außen in der Hüfte. Halten. Beide Seiten.'],
@@ -146,28 +146,28 @@ export const MOBILITY_EXERCISES: Exercise[] = [
   },
   {
     id: 'hamstring-stretch', name: 'Hintere Oberschenkel (Rückenlage)', category: 'mobility',
-    primary: ['hamstrings'], secondary: ['waden'], loadType: 'none', unit: 'seconds',
+    primary: ['hamstrings'], secondary: ['waden'], loadType: 'none', unit: 'seconds', genImage: 'hamstring_stretch', noEndPhoto: true,
     equipment: 'Handtuch oder Band, Matte',
     setup: 'Rückenlage, ein Bein gestreckt am Boden, Handtuch um den Fuß des anderen Beins.',
     steps: ['Das Bein gestreckt nach oben ziehen, bis es hinten im Oberschenkel zieht, Fußspitze angezogen.', 'Becken bleibt am Boden, Kopf entspannt. Halten. Beide Seiten.'],
   },
   {
     id: 'quad-stretch', name: 'Quadrizeps im Stand', category: 'mobility',
-    primary: ['quadrizeps'], secondary: ['huefte'], loadType: 'none', unit: 'seconds',
+    primary: ['quadrizeps'], secondary: ['huefte'], loadType: 'none', unit: 'seconds', genImage: 'quad_stretch', noEndPhoto: true,
     equipment: 'Wand oder Gestell zum Abstützen',
     steps: ['Einen Fuß hinten mit der Hand greifen, Ferse zum Gesäß, Knie zeigen nebeneinander nach unten.', 'Gesäß anspannen, Becken leicht nach hinten kippen: das verstärkt die Dehnung vorn. Halten. Beide Seiten.'],
     knee: 'Nicht am Fuß reißen. Bei Druck im Knie stattdessen den Couch Stretch flach ausführen.',
   },
   {
     id: 'calf-wall', name: 'Wadendehnung an der Wand', category: 'mobility',
-    primary: ['waden'], secondary: [], loadType: 'none', unit: 'seconds',
+    primary: ['waden'], secondary: [], loadType: 'none', unit: 'seconds', genImage: 'calf_wall', noEndPhoto: true,
     equipment: 'Wand',
     setup: 'Hände an der Wand, ein Bein weit nach hinten, Ferse am Boden, Fuß gerade nach vorn.',
     steps: ['Erste Hälfte: hinteres Knie gestreckt, Hüfte zur Wand schieben (obere Wade).', 'Zweite Hälfte: hinteres Knie leicht beugen, Ferse bleibt unten (tiefe Wade, Soleus). Das ist die Dehnung fürs Sprunggelenk.', 'Beide Seiten.'],
   },
   {
     id: 'chest-doorway', name: 'Brustdehnung im Türrahmen', category: 'mobility',
-    primary: ['brust', 'schulter_vorn'], secondary: [], loadType: 'none', unit: 'seconds',
+    primary: ['brust', 'schulter_vorn'], secondary: [], loadType: 'none', unit: 'seconds', genImage: 'chest_doorway', noEndPhoto: true,
     equipment: 'Türrahmen',
     setup: 'Unterarm am Türrahmen, Ellbogen etwas unter Schulterhöhe (zielt auf die obere Brust: Ellbogen tiefer; untere Brust: Ellbogen höher).',
     steps: ['Mit einem kleinen Schritt nach vorn durch den Rahmen lehnen, bis es in der Brust zieht.', 'Schulter bleibt unten und hinten, kein Hohlkreuz. Halten. Beide Seiten.'],
@@ -175,7 +175,7 @@ export const MOBILITY_EXERCISES: Exercise[] = [
   },
   {
     id: 'sleeper-stretch', name: 'Sleeper Stretch', category: 'mobility',
-    primary: ['schulter_hinten'], secondary: [], loadType: 'none', unit: 'seconds',
+    primary: ['schulter_hinten'], secondary: [], loadType: 'none', unit: 'seconds', genImage: 'sleeper_stretch', noEndPhoto: true,
     equipment: 'Boden, Matte',
     setup: 'Seitlage auf der zu dehnenden Schulter, Oberarm vor dem Körper auf Schulterhöhe, Ellbogen 90°, Unterarm zeigt zur Decke.',
     steps: ['Mit der freien Hand den Unterarm sanft Richtung Boden drücken (Innenrotation).', 'Nur bis zum ersten Ziehen hinten in der Schulter, dort halten. Kein Druck ins Gelenk. Beide Seiten.'],
@@ -183,7 +183,7 @@ export const MOBILITY_EXERCISES: Exercise[] = [
   },
   {
     id: 'dead-hang', name: 'Dead Hang (Hängen an der Stange)', category: 'mobility',
-    primary: ['lat', 'schulter_vorn'], secondary: ['unterarme'], loadType: 'bodyweight', unit: 'seconds',
+    primary: ['lat', 'schulter_vorn'], secondary: ['unterarme'], loadType: 'bodyweight', unit: 'seconds', genImage: 'dead_hang', noEndPhoto: true,
     equipment: 'Klimmzuggestell (freistehend)',
     setup: 'Schulterbreiter Griff, Füße frei oder Zehen leicht am Boden zur Entlastung.',
     steps: ['Ganz aushängen lassen, Schultern dürfen zu den Ohren kommen, ruhig atmen.', 'Für die Schulter: langsam die Schulterblätter nach unten ziehen und wieder loslassen.'],
@@ -191,33 +191,33 @@ export const MOBILITY_EXERCISES: Exercise[] = [
   },
   {
     id: 'puppy-pose', name: 'Puppy Pose (Lat-Dehnung)', category: 'mobility',
-    primary: ['lat'], secondary: ['ruecken_oben', 'schulter_vorn'], loadType: 'none', unit: 'seconds',
+    primary: ['lat'], secondary: ['ruecken_oben', 'schulter_vorn'], loadType: 'none', unit: 'seconds', genImage: 'puppy_pose', noEndPhoto: true,
     equipment: 'Boden, Matte',
     setup: 'Vierfüßlerstand, Hüfte bleibt über den Knien, Hände weit nach vorn wandern lassen.',
     steps: ['Brust Richtung Boden sinken lassen, Arme lang, Stirn oder Kinn am Boden.', 'Es zieht seitlich im Rücken und in den Achseln. Ruhig atmen und halten.'],
   },
   {
     id: 'triceps-stretch', name: 'Trizepsdehnung über Kopf', category: 'mobility',
-    primary: ['trizeps'], secondary: ['lat'], loadType: 'none', unit: 'seconds',
+    primary: ['trizeps'], secondary: ['lat'], loadType: 'none', unit: 'seconds', genImage: 'triceps_stretch', noEndPhoto: true,
     equipment: 'Ohne Gerät',
     steps: ['Einen Arm über den Kopf, Ellbogen beugen, Hand zwischen die Schulterblätter.', 'Mit der anderen Hand den Ellbogen sanft nach hinten drücken. Halten. Beide Seiten.'],
     tips: [RIGHT_SHOULDER],
   },
   {
     id: 'biceps-wall', name: 'Bizepsdehnung an der Wand', category: 'mobility',
-    primary: ['bizeps'], secondary: ['brust', 'unterarme'], loadType: 'none', unit: 'seconds',
+    primary: ['bizeps'], secondary: ['brust', 'unterarme'], loadType: 'none', unit: 'seconds', genImage: 'biceps_wall', noEndPhoto: true,
     equipment: 'Wand',
     steps: ['Handfläche auf Schulterhöhe an die Wand, Finger zeigen nach hinten, Arm gestreckt.', 'Den Körper langsam von der Wand wegdrehen, bis es im Bizeps zieht. Halten. Beide Seiten.'],
   },
   {
     id: 'forearm-stretch', name: 'Unterarme (Gebetsdehnung)', category: 'mobility',
-    primary: ['unterarme'], secondary: [], loadType: 'none', unit: 'seconds',
+    primary: ['unterarme'], secondary: [], loadType: 'none', unit: 'seconds', genImage: 'forearm_stretch', noEndPhoto: true,
     equipment: 'Ohne Gerät',
     steps: ['Handflächen vor der Brust aneinander, Ellbogen nach außen, Hände langsam nach unten schieben, bis es in den Unterarmen zieht.', 'Dann Handrücken aneinander und die Hände nach oben ziehen (Gegenseite).'],
   },
   {
     id: 'cobra', name: 'Cobra Stretch', category: 'mobility',
-    primary: ['bauch', 'huefte'], secondary: ['ruecken_unten'], loadType: 'none', unit: 'seconds',
+    primary: ['bauch', 'huefte'], secondary: ['ruecken_unten'], loadType: 'none', unit: 'seconds', genImage: 'cobra', noEndPhoto: true,
     equipment: 'Boden, Matte',
     setup: 'Bauchlage, Hände unter den Schultern.',
     steps: ['Oberkörper mit den Armen langsam hochdrücken, Becken bleibt am Boden, Gesäß locker.', 'Schultern weg von den Ohren, Blick geradeaus. Halten und atmen. Bei Druck im unteren Rücken auf die Unterarme gehen.'],
@@ -226,7 +226,7 @@ export const MOBILITY_EXERCISES: Exercise[] = [
   // ---------- Mobility-Check ----------
   {
     id: 'test-knee-wall', name: 'Knie-zur-Wand-Test (Sprunggelenk)', category: 'mobility',
-    primary: ['waden'], secondary: [], loadType: 'none', unit: 'seconds',
+    primary: ['waden'], secondary: [], loadType: 'none', unit: 'seconds', genImage: 'test_knee_wall', noEndPhoto: true,
     equipment: 'Wand, Maßband oder Zollstock',
     setup: 'Barfuß, Schrittstellung zur Wand, vorderer Fuß gerade zur Wand. Immer dieselbe Stelle (Wand oder Türzarge).',
     steps: ['Das vordere Knie zur Wand schieben, bis es die Wand berührt. Die Ferse muss am Boden bleiben, das Knie zielt auf den zweiten Zeh.', 'Den Fuß schrittweise weiter von der Wand wegstellen, bis das Knie die Wand gerade noch erreicht, ohne dass die Ferse abhebt.', 'Abstand große Zehe bis Wand (bzw. Fußleiste) in cm messen. Beide Seiten.'],
@@ -234,7 +234,7 @@ export const MOBILITY_EXERCISES: Exercise[] = [
   },
   {
     id: 'test-sit-reach', name: 'Sit-and-Reach (hintere Kette)', category: 'mobility',
-    primary: ['hamstrings', 'ruecken_unten'], secondary: ['waden'], loadType: 'none', unit: 'seconds',
+    primary: ['hamstrings', 'ruecken_unten'], secondary: ['waden'], loadType: 'none', unit: 'seconds', genImage: 'test_sit_reach', noEndPhoto: true,
     equipment: 'Boden, Zollstock, Wand oder Kiste als Anschlag für die Füße',
     setup: 'Langsitz, Beine gestreckt und geschlossen, Fußsohlen an der Wand oder einer Kiste. Barfuß.',
     steps: ['Hände übereinander, langsam mit geradem Rücken nach vorn über die Zehen reichen, Knie bleiben gestreckt.', 'Die Endposition 2 s halten, nicht wippen.', 'Abstand Fingerspitzen zu den Zehen messen: über die Zehen hinaus = plus, davor = minus (z. B. −3 cm).'],
@@ -242,7 +242,7 @@ export const MOBILITY_EXERCISES: Exercise[] = [
   },
   {
     id: 'test-overhead-reach', name: 'Überkopf-Reach in Rückenlage (Schulter)', category: 'mobility',
-    primary: ['schulter_vorn', 'lat'], secondary: ['ruecken_oben'], loadType: 'none', unit: 'seconds',
+    primary: ['schulter_vorn', 'lat'], secondary: ['ruecken_oben'], loadType: 'none', unit: 'seconds', genImage: 'test_overhead_reach', noEndPhoto: true,
     equipment: 'Boden, Zollstock',
     setup: 'Rückenlage, Knie angewinkelt, Füße aufgestellt, unterer Rücken flach am Boden (Rippen unten).',
     steps: ['Einen Arm gestreckt über den Kopf Richtung Boden führen, Daumen zeigt nach oben, Ellbogen bleibt gestreckt.', 'Der untere Rücken darf nicht vom Boden abheben, das ist die Regel.', 'Abstand Handgelenk zum Boden in cm messen (0 = liegt auf). Beide Seiten.'],
@@ -250,7 +250,7 @@ export const MOBILITY_EXERCISES: Exercise[] = [
   },
   {
     id: 'test-9090', name: '90/90-Test (Hüftrotation)', category: 'mobility',
-    primary: ['huefte'], secondary: ['gesaess'], loadType: 'none', unit: 'seconds',
+    primary: ['huefte'], secondary: ['gesaess'], loadType: 'none', unit: 'seconds', genImage: 'test_9090', noEndPhoto: true,
     equipment: 'Boden, Zollstock',
     setup: 'Sitz in der 90/90-Position: vorderes Bein quer vor dem Körper, hinteres Bein seitlich nach hinten, beide Knie 90°.',
     steps: ['Oberkörper aufrecht, beide Sitzknochen so gut es geht am Boden, Hände nicht abstützen.', 'Abstand vom hinteren Knie zum Boden in cm messen (0 = liegt auf).', 'Seite wechseln: die Seite, deren Bein hinten liegt, ist die gemessene Seite (Innenrotation).'],

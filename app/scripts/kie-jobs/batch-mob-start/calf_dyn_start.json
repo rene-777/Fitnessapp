@@ -1,0 +1,14 @@
+{
+  "model": "nano-banana-2",
+  "out": "public/img/gen/calf_dyn_start",
+  "input": {
+    "prompt": "The reference images define the person and the photo style. Black-and-white studio instruction photo for a home-gym exercise manual, in exactly the style of the reference photos: the same man (short dark hair, clean-shaven, black sleeveless shirt, grey athletic shorts, white running shoes), plain light-grey seamless backdrop and light-grey floor, soft even studio lighting, slightly grainy monochrome print look, full body visible, nothing cropped, portrait format. No text, no watermark, no border, no logos, no mat. POSE: Downward-dog calf pedal: in an inverted V with the hands and feet on the floor and the hips high, the right heel pressed down to the floor with the right leg straight while the left knee is bent and the left heel lifted. Camera at floor level from the side, athlete facing to the right of the frame.",
+    "image_input": [
+      "https://rene-777.github.io/Fitnessapp/img/gen/pushup_start.webp",
+      "https://rene-777.github.io/Fitnessapp/img/gen/pushup_end.webp",
+      "https://rene-777.github.io/Fitnessapp/img/bioforce/bf002_start.webp"
+    ],
+    "aspect_ratio": "3:4",
+    "resolution": "1K"
+  }
+}

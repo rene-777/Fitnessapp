@@ -1,0 +1,13 @@
+{
+  "model": "nano-banana-2",
+  "out": "public/img/gen/open_book_end",
+  "input": {
+    "prompt": "The FIRST image is the start position of this exercise: keep the same man, clothing, equipment, background, lighting, camera position and framing exactly, and change only the body position. Black-and-white studio instruction photo for a home-gym exercise manual, in exactly the style of the reference photos: the same man (short dark hair, clean-shaven, black sleeveless shirt, grey athletic shorts, white running shoes), plain light-grey seamless backdrop and light-grey floor, soft even studio lighting, slightly grainy monochrome print look, full body visible, nothing cropped, portrait format. No text, no watermark, no border, no logos, no mat. POSE: Open book thoracic rotation, end: still lying with the knees stacked on the floor, the top (right) arm has swept in an arc over the body and now rests on the floor on the other side, the chest and head rotated to follow the hand, the lower arm stays on the floor in front. Camera at floor level from the front of the body.",
+    "image_input": [
+      "https://tempfile.redpandaai.co/kieai/11764900/fitnessapp/open_book_start.webp",
+      "https://rene-777.github.io/Fitnessapp/img/gen/pushup_start.webp"
+    ],
+    "aspect_ratio": "3:4",
+    "resolution": "1K"
+  }
+}
