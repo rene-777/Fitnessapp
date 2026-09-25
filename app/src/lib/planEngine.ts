@@ -3,7 +3,7 @@ import { CHALLENGE_TARGETS, WEEKS, blockOfWeek, weekByNumber } from '../data/pla
 import { timedMinutes, type Prescription, type Segment, type Session, type TimedItem, type Week } from '../data/planTypes'
 import type { Benchmark, SetLog } from '../db/types'
 import { planWeekOf, weekday } from './dates'
-import { BF_MAX_LB, BF_PROGRESS_LB, BF_STEP_LB, fmtLb, kgToLb, lbToKg, loadText } from './bioforce'
+import { BF_MAX_LB, BF_MIN_LB, BF_PROGRESS_LB, BF_STEP_LB, fmtLb, kgToLb, lbToKg, loadText } from './bioforce'
 
 export interface DayInfo {
   date: string
@@ -125,10 +125,18 @@ export function suggestLoad(p: Prescription, history: SetLog[], loadType: string
   }
   const lastWorkoutId = real.sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : b.setIndex - a.setIndex))[0].workoutId
   const last = real.filter((s) => s.workoutId === lastWorkoutId).sort((a, b) => a.setIndex - b.setIndex)
-  const w = last.find((s) => s.weightKg !== undefined)?.weightKg
+  const weights = last.map((s) => s.weightKg).filter((x): x is number => x !== undefined)
+  const w = weights[0]
   const repsStr = last.map((s) => s.reps ?? (s.seconds ? `${s.seconds}s` : '–')).join('/')
   const base = `Letztes Mal: ${repsStr}${w !== undefined ? ` @ ${loadText(w, loadType)}` : ''}`
   if (p.ramp) return { weightKg: w, text: base }
+  // Letztes Mal war eine Einstufung (aufsteigende Sätze, Woche 1): der schwerste Satz ist das 10RM,
+  // die Arbeitslast für die Aufbauwochen liegt zwei Rasten darunter (Plan-Hinweis Woche 2)
+  if (loadType === 'bioforce' && new Set(weights).size > 1) {
+    const topLb = kgToLb(Math.max(...weights))
+    const startLb = Math.max(BF_MIN_LB, topLb - BF_PROGRESS_LB)
+    return { weightKg: lbToKg(startLb), text: `Einstufung: 10RM ${fmtLb(topLb)} lb (${repsStr}) → Start mit ${fmtLb(startLb)} lb (zwei Rasten weniger), Ziel ${p.repsMax ?? ''} Wiederholungen mit ${p.rir ?? '1–2'} RIR` }
+  }
   if (loadType === 'bioforce' && w !== undefined && p.repsMax && smallStep) {
     // Schon eine Raste (2,5 lb) ist hier ein großer Sprung: erst über Wiederholungen steigern, dann über die Last
     const goal = p.repsMax + SMALL_STEP_EXTRA_REPS
