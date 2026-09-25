@@ -1,0 +1,13 @@
+{
+  "model": "nano-banana-pro",
+  "out": "public/img/gen/_versuche/knee_wall_edit2_nbp",
+  "input": {
+    "prompt": "Edit the first image and keep everything else exactly the same (same man, clothing, wall, floor, lighting, camera, black-and-white style): the athlete is still too far from the wall. Move him another 25 cm toward the wall: his front foot now stands directly at the base of the wall with the toes almost touching it, the front knee is bent so far forward that the kneecap is pressed flat against the wall surface, the front heel stays flat on the floor. Hands flat on the wall. There must be no gap between the front knee and the wall.",
+    "image_input": [
+      "https://tempfile.redpandaai.co/kieai/11764900/fitnessapp/knee_wall_edit_nbp.webp"
+    ],
+    "aspect_ratio": "3:4",
+    "resolution": "1K",
+    "output_format": "png"
+  }
+}

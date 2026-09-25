@@ -45,7 +45,7 @@ export const MOBILITY_EXERCISES: Exercise[] = [
   },
   {
     id: 'shoulder-cars', name: 'Schulter-CARs', category: 'mobility',
-    primary: ['schulter_vorn', 'schulter_seit', 'schulter_hinten'], secondary: [], loadType: 'none', unit: 'seconds', genImage: 'shoulder_cars', noEndPhoto: true,
+    primary: ['schulter_vorn', 'schulter_seit', 'schulter_hinten'], secondary: [], loadType: 'none', unit: 'seconds', genImage: 'shoulder_cars',
     equipment: 'Ohne Gerät',
     setup: 'Aufrecht stehen, ein Arm gestreckt, Faust locker geschlossen, Rumpf angespannt.',
     steps: ['Den gestreckten Arm langsam vor dem Körper nach oben führen, oben die Handfläche nach außen drehen.', 'Hinter dem Körper wieder nach unten, so weit hinten wie möglich, ohne den Rumpf zu drehen.', 'Ein Kreis dauert etwa 10 s. Beide Seiten.'],
@@ -53,7 +53,7 @@ export const MOBILITY_EXERCISES: Exercise[] = [
   },
   {
     id: 'hip-cars', name: 'Hüft-CARs', category: 'mobility',
-    primary: ['huefte', 'gesaess'], secondary: ['bauch'], loadType: 'none', unit: 'seconds', genImage: 'hip_cars', noEndPhoto: true,
+    primary: ['huefte', 'gesaess'], secondary: ['bauch'], loadType: 'none', unit: 'seconds', genImage: 'hip_cars',
     equipment: 'Wand oder Gestell zum Abstützen',
     setup: 'Im Stand, eine Hand am Gestell, Standbein leicht gebeugt, Rumpf fest.',
     steps: ['Das Knie langsam nach vorn oben heben (Hüftbeugung), dann seitlich nach außen öffnen.', 'Aus der Öffnung das Bein nach hinten führen, Knie zeigt nach unten, und wieder nach vorn.', 'Ein Kreis dauert etwa 10 s, der Rumpf bleibt ruhig. Danach die Richtung wechseln. Beide Seiten.'],

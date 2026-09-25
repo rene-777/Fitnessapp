@@ -1,0 +1,12 @@
+{
+  "model": "gpt-image-2-image-to-image",
+  "out": "public/img/gen/_versuche/knee_wall_edit_gpt",
+  "input": {
+    "prompt": "Edit the first image and keep everything else exactly the same (same man, clothing, wall, floor, lighting, camera, black-and-white style): move the athlete about 30 cm closer to the wall so that his front knee is bent further forward and the kneecap is pressed firmly against the wall, with his front toes only about 5 cm from the wall and the front heel still flat on the floor. Hands stay on the wall. The knee must visibly touch the wall.",
+    "input_urls": [
+      "https://tempfile.redpandaai.co/kieai/11764900/fitnessapp/knee_wall_nbp.webp"
+    ],
+    "aspect_ratio": "3:4",
+    "resolution": "1K"
+  }
+}
