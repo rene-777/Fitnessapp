@@ -143,6 +143,8 @@ Umgesetzt, `tsc -b` und `check-plan.mjs` sauber, im Dev-Browser geprüft (Mobili
 
 ## Nächste Schritte
 
+- **Woche 2 (ab Mo 28.09.) am Handy beobachten:** Startvorschläge nach der Einstufung (10RM mit RIR hochgerechnet, minus 5 lb), Regel „zu leicht“, RIR-Hinweis im Satz, Varianten-Chips bei Push-Ups/Dips/Pull-Ups, Core-Block am Freitag, zeitgeführte Warm-ups/Cool-downs mit Bildern. Der User testet nächste Woche und meldet sich.
+
 - **Bilder am Handy prüfen** (Anatomie, Ausführung), einzelne Ausreißer mit angepasstem Prompt neu erzeugen: Job-Datei aus `batch-mob-start` anpassen und einzeln mit `--job` laufen lassen, bei Endbildern das Startbild zuerst mit `kie-upload.mjs` hochladen (Uploads verfallen nach 1–3 Tagen).
 - **Mobility am Handy prüfen** (Rückmeldung steht aus): zeitgeführtes Warm-up in der nächsten Einheit (Signal hörbar? Übergang flüssig? Posten-Dauern passend?), Cool-down 4–5 min, Basis-Mobility-Check am 26./27.09., dann eine Routine. Dauern anpassen in `plan.ts`/`mobility.ts`.
 - **Fußleisten-Dicke** einmal messen, falls ein Vergleich mit Normwerten gewünscht ist (bisher nur Verlauf).
