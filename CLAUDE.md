@@ -23,7 +23,7 @@ Vite + React 19 + TypeScript, Tailwind v4 (Theme-Tokens in `src/index.css`), Dex
 - `src/data/exercises.ts` – Übungsbibliothek; `bioforceNo` verweist auf Fotos in `public/img/bioforce/bf{NNN}_{start|end|pulley}.webp` (aus der Extreme-Anleitung, 457 × 644 px; Nummerierung folgt weiter der alten Anleitung in `docs/`).
 - `src/data/mobilityExercises.ts` + `src/data/mobility.ts` – Mobility-Übungen (Kategorie `mobility`), Routinen `mob-hip`/`mob-shoulder` und Mobility-Check `mob-check` (Routinen außerhalb des Wochenplans, `ROUTINE_WEEK` in `plan.ts`). Konzept in `docs/Mobility.md`. Warm-ups und Cool-downs sind `timed`-Segmente (Posten mit Sekunden, `perSide`), geführt über `src/components/TimedFlow.tsx` (automatischer Übergang mit Signal); Messungen (`measure`) landen als Benchmarks in cm (`LOWER_IS_BETTER` in `workouts.ts`).
 - `src/lib/steps.ts` – Einheit → Schrittfolge für den geführten Modus.
-- `src/lib/planEngine.ts` – Tageslogik, Challenge-Ziele, Progressionsvorschlag.
+- `src/lib/planEngine.ts` – Tageslogik, Challenge-Ziele, Progressionsvorschlag (`suggestLoad`: nach Einstufung 10RM über Epley mit RIR, doppelte Progression, Regel „zu leicht“ bei RIR ≥ 3, Varianten bei Körpergewicht über `Exercise.variants` → `SetLog.variant`).
 - `src/lib/dashboard.ts` – Kennzahlen für den Startbildschirm (`src/pages/Today.tsx`), ebenfalls reine Funktionen.
 - `src/lib/stats.ts` – Auswertung als reine Funktionen (Sätze je Muskelgruppe, Wiederholungen, Benchmarks, Frequenz, Cardio); `src/pages/Stats.tsx` stellt nur dar. Diagramme: eine Achse pro Diagramm, eine Farbe (Akzent), keine zweite y-Achse.
 - `src/pages/Workout.tsx` – geführter Modus (größte Datei). Trainingsdatum = Tag des Kurz-Checks, nicht das Plan-Datum aus der Route.

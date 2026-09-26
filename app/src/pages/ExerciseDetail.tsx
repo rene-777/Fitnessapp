@@ -65,6 +65,7 @@ export default function ExerciseDetail() {
                   if (s.distanceM !== undefined) parts.push(`${s.distanceM} m`)
                   if (s.weightKg !== undefined) parts.push(`@ ${e.loadType === 'bioforce' ? `${fmtLb(kgToLb(s.weightKg))} lb` : loadText(s.weightKg, e.loadType)}`)
                   if (s.rir !== undefined) parts.push(`RIR ${s.rir}`)
+                  if (s.variant) parts.push(`· ${s.variant}`)
                   const free = s.segmentLabel === FREE_SEGMENT_LABEL
                   return (
                     <span key={s.id} className="inline-block ml-2">

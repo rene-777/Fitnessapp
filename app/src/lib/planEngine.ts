@@ -109,6 +109,8 @@ export function challengeStatus(benchmarks: Benchmark[], weekSets: SetLog[], sha
 export interface Suggestion {
   weightKg?: number
   text: string
+  variant?: string // zuletzt verwendete Variante (vorbelegen)
+  nextVariant?: string // nächste Stufe, wenn die letzte zu leicht war
 }
 
 /** Kleine Übungen (smallStep): so viele Wiederholungen über dem Ziel, bevor eine Raste (2,5 lb) dazukommt. */
@@ -122,7 +124,7 @@ const tooLight = (sets: SetLog[], repsMax?: number) =>
   !!repsMax && sets.length > 0 && sets.every((s) => (s.reps ?? 0) >= repsMax && s.rir !== undefined && s.rir >= 3)
 
 /** Vorschlag aus der letzten Ausführung derselben Übung (letzte Einheit, keine Tests). */
-export function suggestLoad(p: Prescription, history: SetLog[], loadType: string, smallStep = false): Suggestion {
+export function suggestLoad(p: Prescription, history: SetLog[], loadType: string, smallStep = false, variants?: string[]): Suggestion {
   const real = history.filter((s) => !s.isTest && !s.deleted && s.segmentLabel !== 'challenge')
   if (real.length === 0) {
     const first = loadType === 'bioforce'
@@ -135,7 +137,9 @@ export function suggestLoad(p: Prescription, history: SetLog[], loadType: string
   const weights = last.map((s) => s.weightKg).filter((x): x is number => x !== undefined)
   const w = weights[0]
   const repsStr = last.map((s) => s.reps ?? (s.seconds ? `${s.seconds}s` : '–')).join('/')
-  const base = `Letztes Mal: ${repsStr}${w !== undefined ? ` @ ${loadText(w, loadType)}` : ''}`
+  // Variante der letzten Ausführung (die des letzten Satzes, falls innerhalb der Einheit gewechselt wurde)
+  const variant = variants ? (last[last.length - 1]?.variant ?? variants[0]) : undefined
+  const base = `Letztes Mal: ${repsStr}${w !== undefined ? ` @ ${loadText(w, loadType)}` : ''}${variant && variant !== variants?.[0] ? ` (${variant})` : ''}`
   if (p.ramp) return { weightKg: w, text: base }
   // Letztes Mal war eine Einstufung (aufsteigende Sätze, Woche 1): der schwerste Satz ist das 10RM,
   // die Arbeitslast für die Aufbauwochen liegt zwei Rasten darunter (Plan-Hinweis Woche 2)
@@ -170,9 +174,17 @@ export function suggestLoad(p: Prescription, history: SetLog[], loadType: string
   }
   if (loadType === 'bodyweight' && p.repsMax) {
     const allTop = last.every((s) => (s.reps ?? 0) >= (p.repsMax ?? 0))
+    const easy = allTop && (tooLight(last, p.repsMax) || last.every((s) => s.rir === undefined))
+    if (variants && variant !== undefined) {
+      const idx = variants.indexOf(variant)
+      const next = idx >= 0 && idx + 1 < variants.length ? variants[idx + 1] : undefined
+      if (easy && next) return { text: `${base} → Ziel erreicht${tooLight(last, p.repsMax) ? ' mit 3+ RIR' : ''}, nächste Stufe: ${next}`, variant, nextVariant: next }
+      if (allTop) return { text: `${base} → Ziel erreicht, ${next ? `bei ≤ 1 RIR noch einmal so, sonst nächste Stufe: ${next}` : 'schwerste Stufe, +2 Wiederholungen'}`, variant }
+      return { text: base, variant }
+    }
     return { text: allTop ? `${base} → schwerere Variante oder +2 Wiederholungen` : base }
   }
-  return { weightKg: w, text: base }
+  return { weightKg: w, text: base, variant }
 }
 
 export function epley1RM(weightKg: number, reps: number) {

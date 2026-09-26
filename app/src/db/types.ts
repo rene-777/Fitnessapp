@@ -63,6 +63,7 @@ export interface SetLog {
   avgHr?: number
   side?: 'L' | 'R'
   isTest?: boolean
+  variant?: string // Ausführungsvariante bei Körpergewichtsübungen (Exercise.variants); fehlt = Standard
   note?: string
   updatedAt: string
   deleted?: boolean

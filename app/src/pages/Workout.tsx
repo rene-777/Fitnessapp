@@ -270,7 +270,12 @@ function SetStepView({ step, workout, onSaved, onSkip }: { step: SetStep; workou
     () => db.sets.where('workoutId').equals(workout.id).toArray().then((rows) => rows.filter((r) => r.exerciseId === step.exerciseId && r.segmentLabel === step.label && r.setIndex === step.setIndex && !r.deleted)),
     [workout.id, step.exerciseId, step.label, step.setIndex],
   )
-  const suggestion = useMemo(() => (history ? suggestLoad(step.p, history.filter((h) => h.workoutId !== workout.id), e.loadType, e.smallStep) : undefined), [history, step.p, e.loadType, e.smallStep, workout.id])
+  const suggestion = useMemo(() => (history ? suggestLoad(step.p, history.filter((h) => h.workoutId !== workout.id), e.loadType, e.smallStep, e.variants) : undefined), [history, step.p, e.loadType, e.smallStep, e.variants, workout.id])
+  // Variante innerhalb der Einheit: der vorige Satz derselben Übung gibt die Vorbelegung vor
+  const prevInWorkout = useLiveQuery(
+    () => db.sets.where('workoutId').equals(workout.id).toArray().then((rows) => rows.filter((r) => r.exerciseId === step.exerciseId && !r.deleted && (r.segmentLabel !== step.label || r.setIndex < step.setIndex)).sort((a, b) => (a.updatedAt < b.updatedAt ? 1 : -1))[0] ?? null), // null = keiner (undefined hieße: lädt noch)
+    [workout.id, step.exerciseId, step.label, step.setIndex],
+  )
   const timed = step.p.seconds !== undefined || step.testUnit === 'seconds'
   // Bio Force: das Eingabefeld zeigt den Skalenwert in lb, gespeichert wird kg pro Seite
   const isBf = e.loadType === 'bioforce'
@@ -283,19 +288,23 @@ function SetStepView({ step, workout, onSaved, onSkip }: { step: SetStep; workou
   const [holdTimer, setHoldTimer] = useState<'off' | 'ready' | 'on'>('off')
   const [missing, setMissing] = useState(false)
   const [noLoad, setNoLoad] = useState(false) // Bio Force ohne Skalenwert: erst Hinweis, zweiter Tipp speichert
+  const [variant, setVariant] = useState<string>('')
 
   useEffect(() => {
-    if (init || existing === undefined || suggestion === undefined) return
+    if (init || existing === undefined || suggestion === undefined || prevInWorkout === undefined) return
     const ex0 = existing[0]
     if (ex0) {
       setReps(ex0.reps ?? ''); setWeight(ex0.weightKg === undefined ? '' : toInput(ex0.weightKg)); setRir(ex0.rir ?? ''); setSeconds(ex0.seconds ?? '')
+      if (e.variants) setVariant(ex0.variant ?? e.variants[0])
     } else {
       setReps(step.p.repsMax ?? step.p.repsMin ?? '')
       setSeconds(step.p.seconds ?? '')
       if (suggestion.weightKg !== undefined) setWeight(toInput(suggestion.weightKg))
+      // Variante: erst der vorige Satz dieser Einheit, dann die letzte Ausführung, sonst Standard
+      if (e.variants) setVariant(prevInWorkout ? (prevInWorkout.variant ?? e.variants[0]) : (suggestion.variant ?? e.variants[0]))
     }
     setInit(true)
-  }, [existing, suggestion, init, step.p])
+  }, [existing, suggestion, prevInWorkout, init, step.p, e.variants])
 
   const showWeight = e.loadType === 'bioforce' || e.loadType === 'extern'
   const showRir = !step.isTest && e.loadType !== 'none'
@@ -311,6 +320,7 @@ function SetStepView({ step, workout, onSaved, onSkip }: { step: SetStep; workou
       weightKg: showWeight && weight !== '' ? (isBf ? lbToKg(Number(weight)) : Number(weight)) : undefined,
       rir: showRir && rir !== '' ? Number(rir) : undefined,
       isTest: step.isTest,
+      variant: e.variants && variant && variant !== e.variants[0] ? variant : undefined,
     })
     if (step.isTest && step.benchmarkKey) await saveBenchmark(workout, step.benchmarkKey, Number(value), step.testUnit ?? 'reps')
     onSaved(step.restSec)
@@ -332,6 +342,16 @@ function SetStepView({ step, workout, onSaved, onSkip }: { step: SetStep; workou
             {step.isTest && <Stopwatch leadIn onChange={(s) => setSeconds(Math.round(s))} />}
             <NumberInput label="Sekunden" value={seconds} onChange={(v) => { setSeconds(v); setMissing(false) }} step={5} error={missing ? 'Bitte die Sekunden eintragen.' : undefined} />
           </>
+        )}
+        {e.variants && !step.isTest && (
+          <div>
+            <div className="label mb-1">Variante{suggestion?.nextVariant && variant !== suggestion.nextVariant ? <span className="text-accent normal-case tracking-normal"> · nächste Stufe: {suggestion.nextVariant}</span> : ''}</div>
+            <div className="flex flex-wrap gap-1">
+              {e.variants.map((v) => (
+                <button key={v} type="button" className={`rounded-full px-3 py-1.5 text-sm border ${variant === v ? 'bg-accent text-black border-accent' : 'bg-card2 border-line'}`} onClick={() => setVariant(v)}>{v}</button>
+              ))}
+            </div>
+          </div>
         )}
         {!timed && <NumberInput label={step.p.perSide ? 'Wiederholungen je Seite' : 'Wiederholungen'} value={reps} onChange={(v) => { setReps(v); setMissing(false) }} error={missing ? 'Bitte die Wiederholungen eintragen.' : undefined} />}
         <div className="space-y-3">
