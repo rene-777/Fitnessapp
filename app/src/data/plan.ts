@@ -214,9 +214,9 @@ function buildWeek(n: 2 | 3): Week {
         segments: [
           WARM_PUSH,
           straight('A', [reps('schraegdruecken', 4 + extra, 8, 10, { rir: '1–2' })], 120),
-          straight('B', [reps('pushup', 3 + extra, 12, 15, { rir: '1–2' })], 90),
+          straight('B', [reps('pushup', 3 + extra, 12, 15, { rir: '1–2', loadHint: 'Gehen 15 mit 3+ RIR: schwerere Variante statt mehr Wiederholungen. Stufen: Defizit auf Parallettes mit 1 s Pause unten → Füße auf der Box → beides oder Tempo 3-1-1' })], 90),
           straight('C', [reps('fliegende-oben', 3, 12, 12, { rir: '1–2' })], 75),
-          straight('D', [reps('dips', 3, 8, 10, { rir: '1–2' })], 90),
+          straight('D', [reps('dips', 3, 8, 10, { rir: '1–2', loadHint: 'Gehen 10 mit 3+ RIR: langsame Negative (3 s) oder Tempo 3-1-1, nicht mehr Wiederholungen' })], 90),
           straight('E', [reps('trizeps-ueberkopf', 2, 12, 12, { rir: '1–2' })], 60),
           SEAT_OFF,
           straight('F', [reps('face-pull', 3, 15, 15, { rir: '1–2' })], 45),
