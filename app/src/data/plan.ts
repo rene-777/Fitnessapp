@@ -285,6 +285,8 @@ function buildWeek(n: 2 | 3): Week {
           superset('C', [reps('schulterdruecken', 3, 10, 10, { rir: '1–2' }), reps('step-up', 3, 10, 10, { perSide: true, loadHint: 'Kettlebell 8 kg' })]),
           SEAT_OFF,
           superset('D', [reps('pull-through', 3, 12, 12, { rir: '1–2' }), reps('seitheben', 3, 15, 15, { perSide: true })], 30, 60),
+          // Core-Block am Freitag (Wunsch des Users nach Woche 1: Bauch kam zu kurz), ca. 4 min
+          superset('Core', [reps('hanging-knee-raise', 2, 10, 12), p('plank', 2, { seconds: 45 })], 20, 45),
           { type: 'amrap', label: 'Finisher', minutes: 8, exercises: [{ exerciseId: 'burpee', reps: 5 }, { exerciseId: 'pushup', reps: 10 }, { exerciseId: 'kniebeuge-bw', reps: 15 }], countLabel: 'Runden', benchmarkKey: n === 3 ? 'amrap8' : undefined, description: 'So viele Runden wie möglich in 8 Minuten.' },
           COOL_FULL,
         ],

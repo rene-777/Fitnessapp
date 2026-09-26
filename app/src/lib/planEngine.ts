@@ -114,6 +114,13 @@ export interface Suggestion {
 /** Kleine Übungen (smallStep): so viele Wiederholungen über dem Ziel, bevor eine Raste (2,5 lb) dazukommt. */
 const SMALL_STEP_EXTRA_REPS = 2
 
+/** Auf die 2,5-lb-Raste runden. */
+const roundLb = (lb: number) => Math.round(lb / BF_STEP_LB) * BF_STEP_LB
+
+/** Alle Sätze haben das Ziel erreicht und überall waren 3 oder mehr Wiederholungen übrig: Last zu leicht. */
+const tooLight = (sets: SetLog[], repsMax?: number) =>
+  !!repsMax && sets.length > 0 && sets.every((s) => (s.reps ?? 0) >= repsMax && s.rir !== undefined && s.rir >= 3)
+
 /** Vorschlag aus der letzten Ausführung derselben Übung (letzte Einheit, keine Tests). */
 export function suggestLoad(p: Prescription, history: SetLog[], loadType: string, smallStep = false): Suggestion {
   const real = history.filter((s) => !s.isTest && !s.deleted && s.segmentLabel !== 'challenge')
@@ -133,22 +140,32 @@ export function suggestLoad(p: Prescription, history: SetLog[], loadType: string
   // Letztes Mal war eine Einstufung (aufsteigende Sätze, Woche 1): der schwerste Satz ist das 10RM,
   // die Arbeitslast für die Aufbauwochen liegt zwei Rasten darunter (Plan-Hinweis Woche 2)
   if (loadType === 'bioforce' && new Set(weights).size > 1) {
-    const topLb = kgToLb(Math.max(...weights))
-    const startLb = Math.max(BF_MIN_LB, topLb - BF_PROGRESS_LB)
-    return { weightKg: lbToKg(startLb), text: `Einstufung: 10RM ${fmtLb(topLb)} lb (${repsStr}) → Start mit ${fmtLb(startLb)} lb (zwei Rasten weniger), Ziel ${p.repsMax ?? ''} Wiederholungen mit ${p.rir ?? '1–2'} RIR` }
+    // War der schwerste Satz noch leicht (RIR eingetragen), wird das 10RM über Epley aus Wiederholungen + RIR geschätzt,
+    // sonst hätte ein vorsichtig gewählter Einstufungssatz eine zu leichte Woche 2 zur Folge
+    const top = last.filter((s) => s.weightKg !== undefined).sort((a, b) => b.weightKg! - a.weightKg!)[0]
+    const topLb = kgToLb(top.weightKg!)
+    const oneRM = epley1RM(top.weightKg!, (top.reps ?? 10) + (top.rir ?? 1))
+    const tenRmLb = roundLb(kgToLb(oneRM / (1 + 10 / 30)))
+    const startLb = Math.max(BF_MIN_LB, Math.min(BF_MAX_LB, tenRmLb - BF_PROGRESS_LB))
+    const est = tenRmLb > topLb ? `, geschätztes 10RM ${fmtLb(tenRmLb)} lb (RIR ${top.rir ?? 1} eingerechnet)` : ''
+    return { weightKg: lbToKg(startLb), text: `Einstufung: schwerster Satz ${fmtLb(topLb)} lb × ${top.reps ?? '–'}${est} → Start mit ${fmtLb(startLb)} lb, Ziel ${p.repsMax ?? ''} Wiederholungen mit ${p.rir ?? '1–2'} RIR. Fühlt sich der erste Satz nach 3+ RIR an: nächster Satz 5 lb mehr.` }
   }
   if (loadType === 'bioforce' && w !== undefined && p.repsMax && smallStep) {
     // Schon eine Raste (2,5 lb) ist hier ein großer Sprung: erst über Wiederholungen steigern, dann über die Last
     const goal = p.repsMax + SMALL_STEP_EXTRA_REPS
     const allOver = last.every((s) => (s.reps ?? 0) >= goal)
     const nextLb = Math.min(BF_MAX_LB, kgToLb(w) + BF_STEP_LB)
-    if (allOver) return { weightKg: lbToKg(nextLb), text: `${base} → alle Sätze mit ${goal}+ Wiederholungen, Vorschlag ${fmtLb(nextLb)} lb (eine Raste mehr), wieder bei ${p.repsMax} beginnen` }
+    if (allOver || tooLight(last, p.repsMax)) return { weightKg: lbToKg(nextLb), text: `${base} → ${allOver ? `alle Sätze mit ${goal}+ Wiederholungen` : 'Ziel erreicht mit 3+ RIR, also zu leicht'}, Vorschlag ${fmtLb(nextLb)} lb (eine Raste mehr), wieder bei ${p.repsMax} beginnen` }
     return { weightKg: w, text: `${base} → gleiche Last, Wiederholungen steigern. Erst bei ${goal} in allen Sätzen eine Raste (2,5 lb) mehr` }
   }
   if (loadType === 'bioforce' && w !== undefined && p.repsMax) {
     const allTop = last.every((s) => (s.reps ?? 0) >= (p.repsMax ?? 0) && (s.rir ?? 9) <= 1)
     const nextLb = Math.min(BF_MAX_LB, kgToLb(w) + BF_PROGRESS_LB)
     if (allTop) return { weightKg: lbToKg(nextLb), text: `${base} → alle Sätze am oberen Ende, Vorschlag ${fmtLb(nextLb)} lb (+${BF_PROGRESS_LB} lb; wenn das zu viel ist, nur eine Raste = +${fmtLb(BF_STEP_LB)} lb)` }
+    if (tooLight(last, p.repsMax)) {
+      // Ziel erreicht, aber überall 3+ RIR: die Last war zu leicht, gleich zwei Rasten mehr (bei 4+ auch mehr, siehe Hinweis am RIR-Feld)
+      return { weightKg: lbToKg(nextLb), text: `${base} → Ziel erreicht mit 3+ RIR, also zu leicht. Vorschlag ${fmtLb(nextLb)} lb (+${BF_PROGRESS_LB} lb); bei 4+ RIR ruhig ${fmtLb(Math.min(BF_MAX_LB, nextLb + BF_PROGRESS_LB))} lb` }
+    }
     return { weightKg: w, text: `${base} → gleiche Last, mehr Wiederholungen` }
   }
   if (loadType === 'bodyweight' && p.repsMax) {

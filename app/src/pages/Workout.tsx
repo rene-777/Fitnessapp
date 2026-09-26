@@ -346,6 +346,9 @@ function SetStepView({ step, workout, onSaved, onSkip }: { step: SetStep; workou
                   <button key={v} type="button" className={`flex-1 rounded-lg py-3 border ${rir === v ? 'bg-accent text-black border-accent' : 'bg-card2 border-line'}`} onClick={() => setRir(v)}>{v === 4 ? '4+' : v}</button>
                 ))}
               </div>
+              {isBf && rir !== '' && rir >= 3 && step.setIndex < step.totalSets && (
+                <div className="text-xs text-accent2 mt-1">Zu leicht: nächsten Satz {rir >= 4 ? '10 lb (vier Rasten)' : '5 lb (zwei Rasten)'} mehr, die Wiederholungszahl bleibt das Ziel.</div>
+              )}
             </div>
           )}
         </div>

@@ -157,7 +157,7 @@ Gleiche Übungen wie Woche 1, aber ohne Tests. Startlasten an der Bio Force = 10
 | Di Beine | A: Kabel-Kniebeuge 4 × 8–10. B: RDL 4 × 8–10. Split Squats 3 × 10 je Seite. Rest gleich. |
 | Mi Pull | A: Pull-Ups 4 × 60–70 % vom Max (z. B. 4 × 8), 2 min Pause. B: Rudern 4 × 8–10. Rest gleich. **Finisher 6 min AMRAP:** 5 Pull-Ups (oder Australian), 10 Push-Ups, 15 Squats. |
 | Do Cardio | Warm-up 8 min. **12-min-Cooper-Test:** so weit wie möglich in 12 min laufen (Distanz und Durchschnittsherzfrequenz notieren). Danach 8 min gehen. Dann 12 min Walk-Run Zone 2. Indoor-Alternative für den Test: 12 min Burpees + Seil im Wechsel (1 min/1 min), Gesamtzahl Burpees notieren. |
-| Fr Ganzkörper | Alle Übungen 3 Sätze, Lasten nach Doppelter Progression. Finisher AMRAP 8 min (gleiche Übungen wie Woche 1). |
+| Fr Ganzkörper | Alle Übungen 3 Sätze, Lasten nach Doppelter Progression. **Neu (26.09.): Core-Block vor dem Finisher:** Hanging Knee Raises 2 × 10–12 + Elbow Plank 2 × 45 s im Supersatz (ca. 4 min; Wunsch des Users, Bauch kam in Woche 1 zu kurz). Finisher AMRAP 8 min (gleiche Übungen wie Woche 1). |
 
 Wochenvolumen (Arbeitssätze): Brust 13, Rücken 14, Schultern 11, Quadrizeps 10, Hintere Kette 9, Trizeps 8 (inkl. Drückübungen), Bizeps 8 (inkl. Zugübungen).
 
