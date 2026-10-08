@@ -146,7 +146,9 @@ Umgesetzt, `tsc -b` und `check-plan.mjs` sauber, im Dev-Browser geprüft (Mobili
 - **Gewicht in der Pause:** `NextPreview` (`Workout.tsx`) zeigt für den nächsten Satz jetzt „Gewicht einstellen“ (lb pro Seite bzw. kg) aus `suggestLoad()`, dazu den Vorschlagstext. Dieselbe Quelle wie die Vorbelegung im Satz-Schritt.
 - **Cable Pull-Through ersetzt** (Kabel schrammte an den Waden): Woche 2 und 3, Supersatz D am Freitag, jetzt `hueftstrecken` (Kickback mit Fußschlaufe, 3 × 12 je Seite, Sitz entfernt, Gesicht zum Gerät). Woche 1 bleibt unverändert (Verlauf). Pull-Through bleibt in der Bibliothek. Offen: Block 2–4 und Woche 4 prüfen.
 - **Uhr stoppt** nach Abschluss (Cool-down fertig oder „Beenden“): Intervall läuft nur, solange `phase !== 'done'`.
-- Cooper-Test nach Möglichkeit draußen; Rückmeldung des Users steht aus.
+- **Cardio-Stand:** Der Cooper-Test (Woche 2, Do) wurde auf dem Walkingpad absolviert und wird **vorerst nicht wiederholt** (keine Zeit, Entscheidung des Users 08.10.). Am Do 09.10. läuft der User draußen die Einheit aus Woche 3 (`w3-cardio`, Burpee-Intervalle + erstmals durchgehend 20 min Zone 2). Rückmeldung dazu steht aus. HF-Zonen ggf. nachjustieren, da der Cooper-Wert vom Walkingpad stammt.
+- Stand am Handy: Update-Knopf nach dem Deploy von `9a7e1a6`; zu prüfen: Gewichtsanzeige in der Pause, Kickback am Freitag Woche 3 (Seil läuft nicht an den Waden), Uhr stoppt nach dem Cool-down.
+- Rückmeldung des Users: Knie und rechte Schulter ohne Probleme, kein Muskelkater (Supplementierung), nur normale Ermüdung.
 
 ## Nächste Schritte
 
