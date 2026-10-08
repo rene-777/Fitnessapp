@@ -137,7 +137,7 @@ Volumen bewusst reduziert. Die Einstufung ist eingebaut: bei Bio-Force-Übungen 
 | C1 | Schulterdrücken am Kabel | 3 × 10 | 30 s | 1–2 RIR |
 | C2 | Step-Ups mit Kettlebell 8 kg | 3 × 10 je Seite | 90 s | Kniehohe oder niedrigere Stufe |
 | Umbau | **Sitz abbauen** | | | |
-| D1 | Cable Pull-Through | 3 × 12 | 30 s | 1–2 RIR |
+| D1 | Cable Pull-Through (ab Woche 2: Hüftstrecken / Kickback, 3 × 12 je Seite) | 3 × 12 | 30 s | 1–2 RIR |
 | D2 | Seitheben am Kabel | 2 × 15 je Seite | 60 s | gleicher Zugpunkt wie D1 (unterer Haken) |
 | Finisher | **AMRAP 6 min:** 5 Burpees, 10 Push-Ups, 15 Kniebeugen | 6 min | Runden notieren = Benchmark |
 | Cool-down 4 min (zeitgeführt) | Couch Stretch, Brust im Türrahmen, Dead Hang, hintere Oberschenkel | | | |

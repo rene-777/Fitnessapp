@@ -17,7 +17,7 @@ import { challengeStatus, prescriptionText, suggestLoad } from '../lib/planEngin
 import { buildSteps, type Step } from '../lib/steps'
 import { keepAwake } from '../lib/wakeLock'
 import { finishWorkout, getOrCreateWorkout, patchWorkout, saveBenchmark, saveSet } from '../lib/workouts'
-import { BF_MAX_LB, BF_MIN_LB, BF_STEP_LB, fmtKg, kgToLb, lbToKg } from '../lib/bioforce'
+import { BF_MAX_LB, BF_MIN_LB, BF_STEP_LB, fmtKg, fmtLb, kgToLb, lbToKg } from '../lib/bioforce'
 
 type SetStep = Extract<Step, { kind: 'set' }>
 
@@ -67,11 +67,14 @@ export default function Workout() {
   }, [])
 
   useEffect(() => {
-    if (!workout?.startedAt) return
+    // Nach dem Abschluss (Cool-down fertig, „Beenden“) steht die Uhr still
+    if (!workout?.startedAt || phase === 'done') return
     const t0 = new Date(workout.startedAt).getTime()
-    const id = setInterval(() => setElapsed((Date.now() - t0) / 1000), 1000)
+    const tick = () => setElapsed((Date.now() - t0) / 1000)
+    tick()
+    const id = setInterval(tick, 1000)
     return () => clearInterval(id)
-  }, [workout?.startedAt])
+  }, [workout?.startedAt, phase])
 
   const goTo = useCallback(async (i: number) => {
     if (!workout) return
@@ -172,7 +175,7 @@ export default function Workout() {
               <div>{n.text}</div>
             </div>
           ))}
-          {upcoming.step && <NextPreview step={upcoming.step} label={stepLabel(upcoming.step)} currentExerciseId={step?.kind === 'set' ? step.exerciseId : undefined} />}
+          {upcoming.step && <NextPreview step={upcoming.step} label={stepLabel(upcoming.step)} workoutId={workout.id} profileId={workout.profileId} currentExerciseId={step?.kind === 'set' ? step.exerciseId : undefined} />}
         </div>
       )}
 
@@ -200,7 +203,19 @@ export default function Workout() {
 
 // ---------- Vorschau in der Pause ----------
 /** Zeigt den nächsten Schritt so, dass man während der Pause schon umbauen kann: Gerät, Aufstellung, Fotos. */
-function NextPreview({ step, label, currentExerciseId }: { step: Step; label: string; currentExerciseId?: string }) {
+function NextPreview({ step, label, workoutId, profileId, currentExerciseId }: { step: Step; label: string; workoutId: string; profileId: string; currentExerciseId?: string }) {
+  // Vorgeschlagene Last schon in der Pause zeigen, damit man das Gerät gleich einstellen kann
+  const setExId = step.kind === 'set' ? step.exerciseId : undefined
+  const history = useLiveQuery(() => (setExId ? db.sets.where('[profileId+exerciseId]').equals([profileId, setExId]).toArray() : Promise.resolve([] as import('../db/types').SetLog[])), [profileId, setExId])
+  const nextEx = step.kind === 'set' ? ex(step.exerciseId) : undefined
+  const suggestion = useMemo(
+    () => (step.kind === 'set' && !step.isTest && nextEx && history ? suggestLoad(step.p, history.filter((h) => h.workoutId !== workoutId), nextEx.loadType, nextEx.smallStep, nextEx.variants) : undefined),
+    [step, nextEx, history, workoutId],
+  )
+  const loadKg = suggestion?.weightKg
+  const loadText = nextEx && nextEx.loadType === 'bioforce' && loadKg !== undefined
+    ? `${fmtLb(kgToLb(loadKg))} pro Seite`
+    : nextEx && nextEx.loadType === 'extern' && loadKg !== undefined ? `${fmtKg(loadKg)} kg` : undefined
   const ids = (() => {
     switch (step.kind) {
       case 'set': return [step.exerciseId]
@@ -219,6 +234,8 @@ function NextPreview({ step, label, currentExerciseId }: { step: Step; label: st
         <span className="label">Als Nächstes · {label}</span>
         {ids.length > 0 && <div className="h2 leading-tight">{ids.map((id) => ex(id).name).join(' · ')}</div>}
         {sub && <div className="text-accent2 text-sm mt-0.5">{sub}</div>}
+        {loadText && <div className="mt-2 rounded-lg bg-accent/10 border border-accent/50 px-3 py-2"><span className="label text-accent">Gewicht einstellen</span><div className="text-2xl font-bold">{loadText}</div></div>}
+        {suggestion?.text && <div className="text-xs text-muted mt-1">{suggestion.text}</div>}
       </div>
       {changed.length === 0 && ids.length > 0 && <div className="text-sm text-muted">Gleiche Übung, kein Umbau.</div>}
       {changed.map((id) => {

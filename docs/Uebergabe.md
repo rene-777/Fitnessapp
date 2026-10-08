@@ -141,6 +141,13 @@ Umgesetzt, `tsc -b` und `check-plan.mjs` sauber, im Dev-Browser geprüft (Mobili
 - **Varianten bei Körpergewichtsübungen** (Wunsch des Users: Variante sauber in den Daten): `Exercise.variants` (Liste von leicht nach schwer, erste = Standard) bei Push-Ups (Standard, Defizit, Füße auf der Box, Defizit + Füße erhöht, Tempo 3-1-1), Defizit-Push-Ups, Dips (Negative 3 s, Tempo, Pause unten), Pull-Ups (Negative, enger/breiter Griff, L-Sit, Archer, Zusatzlast), Australian Pull-Ups. Im Satz-Schritt eine Chip-Zeile „Variante“, gespeichert als `SetLog.variant` (Standard = leer). Vorbelegung: voriger Satz derselben Übung in dieser Einheit, sonst letzte Ausführung, sonst Standard. `suggestLoad()` bekommt `variants` als fünften Parameter: nennt die letzte Variante im Text, bei Ziel erreicht mit 3+ RIR (oder ohne RIR-Angabe) „nächste Stufe: …`nextVariant`“ (orange am Chip-Label), auf der schwersten Stufe „+2 Wiederholungen“. Verlauf auf der Übungsseite zeigt die Variante. Stolperstein beim Bau: eine `useLiveQuery`, die bei „kein Treffer“ `undefined` liefert, blockierte die Vorbelegung; sie liefert jetzt `null`. Im Dev-Browser geprüft (Satz 1 Defizit gespeichert, Satz 2 vorbelegt, Verlauf „15 · Defizit (Parallettes)“, Testdaten gelöscht). Freies Training und Nachtragen haben die Chips noch nicht.
 - **Frage des Users, wie Woche 2 entsteht:** beantwortet (Woche 2–4 sind fertig als Daten, Lasten kommen automatisch aus den gespeicherten Sätzen, Blöcke 2–4 entwerfe ich nach Woche 4 aus den Benchmarks und dem Export).
 
+## Was am 08.10.2026 passiert ist (Rückmeldungen aus dem Training)
+
+- **Gewicht in der Pause:** `NextPreview` (`Workout.tsx`) zeigt für den nächsten Satz jetzt „Gewicht einstellen“ (lb pro Seite bzw. kg) aus `suggestLoad()`, dazu den Vorschlagstext. Dieselbe Quelle wie die Vorbelegung im Satz-Schritt.
+- **Cable Pull-Through ersetzt** (Kabel schrammte an den Waden): Woche 2 und 3, Supersatz D am Freitag, jetzt `hueftstrecken` (Kickback mit Fußschlaufe, 3 × 12 je Seite, Sitz entfernt, Gesicht zum Gerät). Woche 1 bleibt unverändert (Verlauf). Pull-Through bleibt in der Bibliothek. Offen: Block 2–4 und Woche 4 prüfen.
+- **Uhr stoppt** nach Abschluss (Cool-down fertig oder „Beenden“): Intervall läuft nur, solange `phase !== 'done'`.
+- Cooper-Test nach Möglichkeit draußen; Rückmeldung des Users steht aus.
+
 ## Nächste Schritte
 
 - **Woche 2 (ab Mo 28.09.) am Handy beobachten:** Startvorschläge nach der Einstufung (10RM mit RIR hochgerechnet, minus 5 lb), Regel „zu leicht“, RIR-Hinweis im Satz, Varianten-Chips bei Push-Ups/Dips/Pull-Ups, Core-Block am Freitag, zeitgeführte Warm-ups/Cool-downs mit Bildern. Der User testet nächste Woche und meldet sich.

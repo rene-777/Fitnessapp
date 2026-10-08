@@ -299,7 +299,9 @@ export const EXERCISES: Exercise[] = [
     id: 'hueftstrecken', name: 'Hüftstrecken / Kickback', category: 'beine',
     primary: ['gesaess'], secondary: ['hamstrings'], loadType: 'bioforce', seat: 'off', unit: 'reps', bioforceNo: bf(12),
     equipment: 'Bio Force, Sitz entfernt, Fußschlaufe am unteren Haken, Gesicht zum Gerät, am Haltegriff abstützen',
+    setup: 'Schlaufe um den Knöchel, Gesicht zum Gerät, mit beiden Händen abstützen. Das Seil läuft vorn am Standbein vorbei, nicht an den Waden entlang.',
     steps: ['Bein gestreckt nach hinten drücken, Gesäß anspannen, 1 s halten.', 'Zurück. Rücken gerade, kein Hohlkreuz.'],
+    tips: ['Ersetzt seit Woche 2 den Cable Pull-Through (Kabel schrammte an den Waden). Je Seite eine Runde, dann Seite wechseln.'],
   },
   {
     id: 'wadenheben', name: 'Wadenheben', category: 'beine',
