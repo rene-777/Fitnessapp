@@ -14,7 +14,7 @@ export async function ensureDefaults() {
   const profileCount = await db.profiles.count()
   let profileId: string
   if (profileCount === 0) {
-    const p: Profile = { id: uuid(), name: 'René', birthYear: 1970, heightCm: 172, sex: 'm', planStartDate: DEFAULT_START, hrMax: 169, createdAt: now(), updatedAt: now() }
+    const p: Profile = { id: uuid(), name: 'René', birthYear: 1970, heightCm: 172, sex: 'm', planStartDate: DEFAULT_START, hrMax: 165, createdAt: now(), updatedAt: now() }
     await db.profiles.put(p)
     profileId = p.id
   } else {

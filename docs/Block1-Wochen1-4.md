@@ -20,7 +20,7 @@ Ziel des Blocks: Technik und Lasten an der Bio Force festlegen, Muskelaufbau-Bas
 
 **Walk-Run:** Wechsel aus Laufen und Gehen in festen Intervallen. Einstieg für Sehnen und Gelenke, obwohl das Herz-Kreislauf-System mehr könnte. Woche 1–2: 3 min laufen, 1 min gehen. Ab Woche 3 durchgehend laufen.
 
-**Herzfrequenz:** Ruhepuls 43 (Ø 4 Wochen bis 09.10.2026), geschätzte maximale Herzfrequenz 169 (Tanaka). Zonen nach Karvonen (Herzfrequenzreserve 126): Zone 2 = 120–130 (60–70 %, Sprechen in ganzen Sätzen möglich), Intervalle = 145–160. Bis 09.10. galt Zone 2 = 105–125 (% vom Maximum); nach dem Seilspringen am 09.10. (Ø 125, max. 135, sprechen möglich) angehoben.
+**Herzfrequenz:** Ruhepuls 43 (Ø 4 Wochen bis 09.10.2026). Maximale Herzfrequenz **165** als Arbeitswert: gemessen 162 am Ende des Goliaz-Stufentests „Bleep Revisited“ (20-m-Pendellauf bis zum Abbruch, 11.08.2026, 8:41 min, Ø 142, VO2max-Stufe 44), Altersformel (Tanaka) 169. Zonen nach Karvonen (Herzfrequenzreserve 122): Zone 2 = **116–128** (60–70 %, Sprechen in ganzen Sätzen möglich), Intervalle = **141–153** (80–90 %). Historie: bis 09.10. Zone 2 = 105–125 (% vom Maximum), am 09.10. kurz 120–130 (HFmax 169).
 
 ---
 
@@ -121,7 +121,7 @@ Volumen bewusst reduziert. Die Einstufung ist eingebaut: bei Bio-Force-Übungen 
 | Warm-up (zeitgeführt) | Gehen/leichtes Laufen im Wechsel 4 min, Fußgelenke kreisen, Beinschwünge, Waden-Pedal, Knie-zur-Wand-Mobilisation | 8 min | |
 | A | **5-min-Burpee-Test** (Goliaz-Standard, so viele wie möglich) | 5 min | Benchmark. Gleichmäßig anfangen, letzte Minute alles geben. |
 | Pause | Gehen | 4 min | |
-| B | Zone 2 als Walk-Run: 3 min laufen / 1 min gehen | 20 min (5 Runden) | Puls: 120–130. Wenn höher, langsamer laufen. |
+| B | Zone 2 als Walk-Run: 3 min laufen / 1 min gehen | 20 min (5 Runden) | Puls: 116–128. Wenn höher, langsamer laufen. |
 | Cool-down (zeitgeführt) | Gehen bis Puls < 100, Wade an der Wand, Quadrizeps im Stand, Couch Stretch | 5 min | |
 | **Indoor-Alternative für B** | Seilspringen 40 s locker / 20 s gehen, 20 Runden; bei Knieschmerz: Marschieren auf der Stelle mit Armzug | 20 min | |
 
