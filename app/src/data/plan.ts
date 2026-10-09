@@ -272,7 +272,7 @@ function buildWeek(n: 2 | 3): Week {
             segments: [
               WARM_CARDIO,
               { type: 'interval', label: 'A', rounds: 8, workSec: 30, restSec: 60, exerciseId: 'burpee', description: '8 × 30 s Burpees zügig / 60 s gehen.', alternative: 'Bei Knieschmerz: Seil oder Mountain Climbers.' },
-              { type: 'cardio', label: 'B', minutes: 20, exerciseId: 'laufen-z2', description: 'Zone 2, durchgehend laufen. Wenn die Knie unruhig sind: Walk-Run beibehalten.', hrZone: '105–125', alternative: 'Indoor: 20 min Seil 45 s / 15 s.' },
+              { type: 'cardio', label: 'B', minutes: 20, exerciseId: 'laufen-z2', description: 'Zone 2, durchgehend laufen. Wenn die Knie unruhig sind: Walk-Run beibehalten.', hrZone: '105–125', alternative: 'Indoor: 20 min Seil 45 s / 15 s.', altWorkSec: 45, altRestSec: 15 },
               COOL_CARDIO,
             ],
           },

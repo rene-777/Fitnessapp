@@ -488,6 +488,22 @@ function IntervalStep({ step, workout, onNext }: { step: Extract<Step, { kind: '
 }
 
 // ---------- Cardio ----------
+/** Alternative zum Laufen (z. B. Seilspringen 45 s / Gehen 15 s) als Wechsel-Timer über die ganze Dauer. */
+function AltIntervals({ minutes, workSec, restSec }: { minutes: number; workSec: number; restSec: number }) {
+  const rounds = Math.ceil((minutes * 60) / (workSec + restSec))
+  const [state, setState] = useState<{ round: number; mode: 'work' | 'rest' | 'done' } | 'off' | 'ready'>('off')
+  if (state === 'off') return <button className="btn-primary w-full text-xl py-4" onClick={() => { unlockAudio(); setState('ready') }}>Start · {rounds} × {workSec} s Seil / {restSec} s Gehen</button>
+  if (state === 'ready') return <GetReady onGo={() => { speak('Los'); setState({ round: 1, mode: 'work' }) }} />
+  if (state.mode === 'done') return <div className="card text-center h2">Fertig ✓ {rounds} Runden</div>
+  const { round, mode } = state
+  if (mode === 'work') {
+    return <Timer key={`w${round}`} seconds={workSec} allowExtend={false} label={`Runde ${round}/${rounds} · SEIL`}
+      onDone={() => { if (round >= rounds) { speak('Fertig'); setState({ round, mode: 'done' }) } else { speak('Gehen'); setState({ round, mode: 'rest' }) } }} />
+  }
+  return <Timer key={`r${round}`} seconds={restSec} allowExtend={false} label={`Gehen · danach Runde ${round + 1}`}
+    onDone={() => { beepGo(); speak('Los'); setState({ round: round + 1, mode: 'work' }) }} />
+}
+
 function CardioStep({ step, workout, onNext }: { step: Extract<Step, { kind: 'cardio' }>; workout: WorkoutRow; onNext: () => void }) {
   const seg = step.seg
   const e = ex(seg.exerciseId)
@@ -517,9 +533,13 @@ function CardioStep({ step, workout, onNext }: { step: Extract<Step, { kind: 'ca
           <label className="flex items-center gap-2 text-muted"><input type="checkbox" checked={alt} onChange={(ev) => setAlt(ev.target.checked)} className="accent-[#ff7a1a]" /> Alternative: {seg.alternative}</label>
         )}
       </div>
-      {timer === 'off' && <button className="btn-ghost w-full" onClick={() => { unlockAudio(); setTimer('ready') }}>Countdown {seg.minutes} min starten</button>}
-      {timer === 'ready' && <GetReady onGo={() => setTimer('on')} />}
-      {timer === 'on' && <Timer seconds={seg.minutes * 60} onDone={() => setTimer('off')} label={e.name} />}
+      {alt && seg.altWorkSec && seg.altRestSec
+        ? <AltIntervals key="alt" minutes={seg.minutes} workSec={seg.altWorkSec} restSec={seg.altRestSec} />
+        : <>
+          {timer === 'off' && <button className="btn-ghost w-full" onClick={() => { unlockAudio(); setTimer('ready') }}>Countdown {seg.minutes} min starten</button>}
+          {timer === 'ready' && <GetReady onGo={() => setTimer('on')} />}
+          {timer === 'on' && <Timer seconds={seg.minutes * 60} onDone={() => setTimer('off')} label={e.name} />}
+        </>}
       <div className="card space-y-3">
         <div className="flex gap-3">
           <NumberInput label="Dauer" suffix="min" value={minutes} onChange={setMinutes} compact />

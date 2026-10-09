@@ -83,6 +83,8 @@ export type Segment =
       description: string
       hrZone?: string
       alternative?: string
+      altWorkSec?: number // Alternative als Intervall-Timer: Arbeit/Pause in Sekunden
+      altRestSec?: number
       benchmarkKey?: string
     }
   | {
