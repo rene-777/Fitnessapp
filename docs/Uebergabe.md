@@ -150,6 +150,15 @@ Umgesetzt, `tsc -b` und `check-plan.mjs` sauber, im Dev-Browser geprüft (Mobili
 - Stand am Handy: Update-Knopf nach dem Deploy von `9a7e1a6`; zu prüfen: Gewichtsanzeige in der Pause, Kickback am Freitag Woche 3 (Seil läuft nicht an den Waden), Uhr stoppt nach dem Cool-down.
 - Rückmeldung des Users: Knie und rechte Schulter ohne Probleme, kein Muskelkater (Supplementierung), nur normale Ermüdung.
 
+
+## Was am 09.10.2026 passiert ist
+
+- Der User hat Mo 05.10. ausgesetzt und die Woche verschoben (Mi-Einheit am Do 08.10., Cardio am Fr 09.10.). Gewichtsanzeige in der Pause vom User bestätigt: „man kann wesentlich besser umbauen“.
+- **Cardio-Alternative als Wechsel-Timer:** `CardioSegment.altWorkSec`/`altRestSec` (`planTypes.ts`), gesetzt bei `w3-cardio` B (Seil 45 s / Gehen 15 s). Häkchen „Alternative“ ersetzt den 20-min-Countdown durch `AltIntervals` (`Workout.tsx`, 20 Runden, Ansagen „Gehen“/„Los“). Vom User getestet, funktioniert.
+- **Großanzeige für Intervalle** (Wunsch: Handy liegt am Boden): `Timer` hat die Option `big` (`phase`, `title`, `round`) und wird dann zum Vollbild (`fixed inset-0`): Arbeit orange mit schwarzer Schrift, Pause schwarz, Sekunden in ca. 11rem, Runde groß, Knöpfe Pause/Überspringen unten. Genutzt in `IntervalStep` (Titel = Übungsname, „PAUSE“) und `AltIntervals` („SEIL“/„GEHEN“). Im Dev-Browser bei 375 × 812 geprüft (Arbeit und Pause). Rückmeldung vom Handy steht aus. Im Dev-Browser liegt dadurch ein Test-Training `w3-cardio` vom 09.10.
+- **Pulsdaten ausgewertet** (Screenshots aus Garmin Connect in der Dropbox des Users; Begriffe „Training Effect“/„Belastungswert“ sprechen für eine Garmin-Uhr, in der Doku stand bisher Polar, beim User nachfragen): Burpee-Intervalle 11:11 min, Ø 129, max. 155, Spitzen je Runde 114 → 155, Erholung in 60 s Gehen 15–20 Schläge. Seil 45/15 20:33 min, Ø 125, max. 135, nach 4 min stabil 125–135 ohne Drift, Sprechen wäre möglich gewesen. Ruhepuls Ø 4 Wochen **43** (stabil 42–45, kein Überlastungszeichen).
+- **Pulszonen neu nach Karvonen** (HFmax 169 geschätzt, Reserve 126): Zone 2 **120–130** (60–70 %), statt bisher 105–125 (% vom Maximum, zu niedrig für den niedrigen Ruhepuls). Intervalle bleiben 145–160 (≈ 80–93 %). Geändert in `plan.ts` (alle `hrZone`), `exercises.ts` (Laufen Zone 2, Walk-Run), `Block1-Wochen1-4.md`, `Uebungsbibliothek.md`. HFmax ist weiter nur geschätzt (Cooper-Test nur auf dem Walkingpad, wird vorerst nicht wiederholt); eine VO2max-Schätzung der Uhr nach einem Lauf draußen wäre ein brauchbarer Ersatz.
+
 ## Nächste Schritte
 
 - **Woche 2 (ab Mo 28.09.) am Handy beobachten:** Startvorschläge nach der Einstufung (10RM mit RIR hochgerechnet, minus 5 lb), Regel „zu leicht“, RIR-Hinweis im Satz, Varianten-Chips bei Push-Ups/Dips/Pull-Ups, Core-Block am Freitag, zeitgeführte Warm-ups/Cool-downs mit Bildern. Der User testet nächste Woche und meldet sich.

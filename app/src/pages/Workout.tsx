@@ -474,8 +474,8 @@ function IntervalStep({ step, workout, onNext }: { step: Extract<Step, { kind: '
       </div>
       {round === 0 && !ready && <button className="btn-primary w-full text-xl py-4" onClick={() => { unlockAudio(); setReady(true) }}>Start</button>}
       {ready && <GetReady onGo={start} />}
-      {round > 0 && mode === 'work' && <Timer key={`w${round}`} seconds={seg.workSec} onDone={onWorkDone} label={`Runde ${round}/${seg.rounds} · ARBEIT`} allowExtend={false} />}
-      {round > 0 && mode === 'rest' && <Timer key={`r${round}`} seconds={seg.restSec} onDone={onRestDone} label={`Pause · danach Runde ${round + 1}`} allowExtend={false} />}
+      {round > 0 && mode === 'work' && <Timer key={`w${round}`} seconds={seg.workSec} onDone={onWorkDone} label={`Runde ${round}/${seg.rounds} · ARBEIT`} allowExtend={false} big={{ phase: 'work', title: e.name.split(' (')[0].toUpperCase(), round: `Runde ${round}/${seg.rounds}` }} />}
+      {round > 0 && mode === 'rest' && <Timer key={`r${round}`} seconds={seg.restSec} onDone={onRestDone} label={`Pause · danach Runde ${round + 1}`} allowExtend={false} big={{ phase: 'rest', title: 'PAUSE', round: `nächste: ${round + 1}/${seg.rounds}` }} />}
       {mode === 'done' && (
         <div className="card space-y-3">
           <div className="h2">Intervalle fertig</div>
@@ -497,10 +497,10 @@ function AltIntervals({ minutes, workSec, restSec }: { minutes: number; workSec:
   if (state.mode === 'done') return <div className="card text-center h2">Fertig ✓ {rounds} Runden</div>
   const { round, mode } = state
   if (mode === 'work') {
-    return <Timer key={`w${round}`} seconds={workSec} allowExtend={false} label={`Runde ${round}/${rounds} · SEIL`}
+    return <Timer key={`w${round}`} seconds={workSec} allowExtend={false} label={`Runde ${round}/${rounds} · SEIL`} big={{ phase: 'work', title: 'SEIL', round: `Runde ${round}/${rounds}` }}
       onDone={() => { if (round >= rounds) { speak('Fertig'); setState({ round, mode: 'done' }) } else { speak('Gehen'); setState({ round, mode: 'rest' }) } }} />
   }
-  return <Timer key={`r${round}`} seconds={restSec} allowExtend={false} label={`Gehen · danach Runde ${round + 1}`}
+  return <Timer key={`r${round}`} seconds={restSec} allowExtend={false} label={`Gehen · danach Runde ${round + 1}`} big={{ phase: 'rest', title: 'GEHEN', round: `nächste: ${round + 1}/${rounds}` }}
     onDone={() => { beepGo(); speak('Los'); setState({ round: round + 1, mode: 'work' }) }} />
 }
 

@@ -348,7 +348,7 @@ Die Skala an den Schwingarmen zeigt amerikanische Pfund (lb) pro Seite: 5 bis 12
 - **Knie:** Bei Schmerz auf Marschieren mit Armzug wechseln.
 
 ### Laufen Zone 2
-- **Herzfrequenz:** 105–125 (Polar). Test: Du kannst in ganzen Sätzen sprechen.
+- **Herzfrequenz:** 120–130 (Polar). Test: Du kannst in ganzen Sätzen sprechen.
 - **Walk-Run (Woche 1–2):** 3 min laufen, 1 min gehen. Ab Woche 3 durchgehend.
 - **Technik:** Kurze Schritte, hohe Frequenz (ca. 170–180 Schritte pro Minute), Fuß unter dem Körper aufsetzen, nicht weit vorn. Das schont die Knie.
 

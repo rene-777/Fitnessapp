@@ -419,13 +419,13 @@ export const EXERCISES: Exercise[] = [
     id: 'laufen-z2', name: 'Laufen Zone 2', category: 'cardio',
     primary: ['cardio'], secondary: ['waden', 'quadrizeps'], loadType: 'none', unit: 'meters',
     equipment: 'Draußen, Polar-Armgurt',
-    steps: ['Herzfrequenz 105–125. Test: Du kannst in ganzen Sätzen sprechen.', 'Kurze Schritte, hohe Frequenz (170–180 pro Minute), Fuß unter dem Körper aufsetzen.'],
+    steps: ['Herzfrequenz 120–130. Test: Du kannst in ganzen Sätzen sprechen.', 'Kurze Schritte, hohe Frequenz (170–180 pro Minute), Fuß unter dem Körper aufsetzen.'],
   },
   {
     id: 'walk-run', name: 'Walk-Run', category: 'cardio',
     primary: ['cardio'], secondary: ['waden', 'quadrizeps'], loadType: 'none', unit: 'meters',
     equipment: 'Draußen, Polar-Armgurt',
-    steps: ['3 min locker laufen, 1 min gehen, im Wechsel.', 'Herzfrequenz beim Laufen 105–125.'],
+    steps: ['3 min locker laufen, 1 min gehen, im Wechsel.', 'Herzfrequenz beim Laufen 120–130.'],
     tips: ['Einstieg für Sehnen und Gelenke. Ab Woche 3 durchgehend laufen.'],
   },
   {
