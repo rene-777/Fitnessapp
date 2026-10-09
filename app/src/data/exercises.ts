@@ -13,6 +13,7 @@ export interface Exercise {
   secondary: MuscleKey[]
   loadType: LoadType
   unit: Unit
+  repsLabel?: string // Beschriftung des Zahlenfelds statt „Wiederholungen“ (z. B. Bleep-Test: VO2max-Stufe)
   bioforceNo?: number // Nummer in der Finnlo-Anleitung, liefert die Fotos
   noEndPhoto?: boolean // Foto einer verwandten Herstellerübung: nur Start und Rollen zeigen, das Endfoto wäre irreführend; bei genImage: nur ein Bild (Halteübung)
   genImage?: string // KI-generiertes Bild (GPT Image 2 über Kie.ai, Stil der Bio-Force-Fotos): public/img/gen/{genImage}_{start|end}.webp, erzeugt mit scripts/kie-gen.mjs
@@ -446,6 +447,19 @@ export const EXERCISES: Exercise[] = [
     primary: ['cardio'], secondary: [], loadType: 'none', unit: 'meters',
     equipment: 'Draußen, Polar-Armgurt, Distanzmessung',
     steps: ['In 12 Minuten so weit wie möglich laufen.', 'Gleichmäßig starten, die letzten 3 Minuten steigern.', 'Distanz und Durchschnittsherzfrequenz notieren.'],
+  },
+  {
+    id: 'bleep', name: 'Bleep-Test (Goliaz, VO2max)', category: 'cardio',
+    primary: ['cardio'], secondary: [], loadType: 'none', unit: 'reps', repsLabel: 'VO2max-Stufe (letzte Zahl)',
+    equipment: 'Goliaz-App (Audio „Bleep“), zwei Marker im Abstand von genau 20 m (mit Maßband messen), Pulsgurt',
+    setup: 'Gut aufwärmen (mindestens 8 min, Warm-up Cardio). Start an Marker A.',
+    steps: [
+      'Auf „GO“ zum anderen Marker laufen und dort bis zum nächsten „GO“ warten. Die Zeitfenster werden immer kürzer.',
+      'Broken: Marker vor dem „GO“ nicht erreicht. Den nächsten noch rechtzeitig erreichen rettet dich, sonst sofort stoppen.',
+      'Die letzte Zahl, die du vor dem Verpassen gehört hast, ist der VO2max-Wert. Hier eintragen, dazu Max-Puls.',
+    ],
+    tips: ['Vergleichswert: 44 am 11.08.2026 (8:41 min, max. Puls 162).', 'Ersetzt den Cooper-Test als Ausdauer-Benchmark. Eintragen über „Freies Training“ mit „Als Max-Test speichern“.'],
+    knee: 'Viele Wenden: nur an Tagen mit ruhigen Knien (Kurz-Check Knie ≤ 2). Wenden mit kurzen Schritten abbremsen, nicht aus dem Knie drehen.',
   },
 
   // ---------- WARM-UP ----------

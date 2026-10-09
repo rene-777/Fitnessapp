@@ -61,6 +61,7 @@ export const EXERCISE_BENCHMARK: Record<string, { key: string; unit: 'reps' | 's
   pullup: { key: 'pullupsMax', unit: 'reps' },
   dips: { key: 'dipsMax', unit: 'reps' },
   plank: { key: 'plankMax', unit: 'seconds' },
+  bleep: { key: 'bleepVo2', unit: 'reps' },
 }
 
 export async function patchWorkout(id: string, patch: Partial<Workout>) {
@@ -128,6 +129,7 @@ export const BENCHMARK_LABELS: Record<string, string> = {
   pushups5min: 'Push-Ups in 5 min',
   squats1min: 'Kniebeugen in 1 min',
   cooper12: 'Cooper-Test (m)',
+  bleepVo2: 'Bleep-Test (VO2max)',
   amrap6: 'AMRAP 6 min (Runden)',
   amrap8: 'AMRAP 8 min (Runden)',
   amrap12: 'AMRAP 12 min (Runden)',

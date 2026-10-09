@@ -224,4 +224,4 @@ Benchmarks Woche 1 (bitte eintragen): Push-Ups max ___ · Pull-Ups max ___ · Di
 
 ## 7. Ausblick Block 2 (Wochen 5–8)
 
-Wiederholungsbereich fällt auf 6–10 bei 0–2 RIR, Volumen steigt bei Brust und Schultern nochmals, Power-Sätze kommen dazu (explosives Kabeldrücken, Kettlebell-Swings), Zusatzübungen für die obere Brust wechseln (Kabel-Schrägdrücken einarmig, Fliegende auf der Bank-Position mit Sitz). Woche 8 ist die Kraft-Challenge mit Maxtests. Details folgen nach Auswertung von Block 1.
+Wiederholungsbereich fällt auf 6–10 bei 0–2 RIR, Volumen steigt bei Brust und Schultern nochmals, Power-Sätze kommen dazu (explosives Kabeldrücken, Kettlebell-Swings), Zusatzübungen für die obere Brust wechseln (Kabel-Schrägdrücken einarmig, Fliegende auf der Bank-Position mit Sitz). Woche 8 ist die Kraft-Challenge mit Maxtests. **Ausdauer-Benchmark: Bleep-Test (Goliaz) statt Cooper-Test** in Woche 8 und Woche 16, jeweils am Cardio-Tag, nur bei ruhigen Knien (Entscheidung am Tag selbst; Vergleichswert 44 vom 11.08.2026). Details folgen nach Auswertung von Block 1.

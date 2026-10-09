@@ -165,7 +165,7 @@ Die Einstufung ist in die ersten drei Krafteinheiten integriert, keine extra Tes
 
 - Bio Force: Für jede Hauptübung ein 10-Wiederholungs-Maximum (10RM) ermitteln. Daraus leitet die App die Startlasten und das geschätzte 1RM ab.
 - Bodyweight: Max Pull-Ups, Max Push-Ups (Goliaz-Standard), Max Dips, Elbow Plank, 5-min-Burpees.
-- Ausdauer: 5-min-Burpee-Test am Donnerstag der Woche 1, 12-min-Cooper-Test am Donnerstag der Woche 2 (Herzfrequenz aufzeichnen). Maximale Herzfrequenz schätze ich nach Tanaka mit 169, die App korrigiert das mit deinen Polar-Werten.
+- Ausdauer: 5-min-Burpee-Test am Donnerstag der Woche 1, 12-min-Cooper-Test am Donnerstag der Woche 2 (Herzfrequenz aufzeichnen). Maximale Herzfrequenz schätze ich nach Tanaka mit 169, die App korrigiert das mit deinen Polar-Werten. **Stand 09.10.2026:** Der Cooper-Test lief nur auf dem Walkingpad und wird nicht wiederholt; Ausdauer-Benchmark ist ab Block 2 der Goliaz-Bleep-Test (20-m-Pendellauf, VO2max-Stufe) in Woche 8 und 16, Vergleichswert 44 (11.08.2026). HFmax 165 als Arbeitswert (Bleep-Test max. 162).
 - Körper: Gewicht, Taillenumfang, optional Fotos (nur lokal).
 
 ---

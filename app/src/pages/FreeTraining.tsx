@@ -161,7 +161,7 @@ export default function FreeTraining() {
                 <div className="label">Satz {savedForExercise.length + i + 1}</div>
                 {rows.length > 1 && <button type="button" className="btn-ghost px-3 py-1 text-sm" onClick={() => removeRow(i)}>Entfernen</button>}
               </div>
-              {e.unit === 'reps' && <NumberInput label="Wiederholungen" value={r.reps} onChange={(v) => setRow(i, { reps: v })} />}
+              {e.unit === 'reps' && <NumberInput label={e.repsLabel ?? 'Wiederholungen'} value={r.reps} onChange={(v) => setRow(i, { reps: v })} />}
               {e.unit === 'seconds' && (
                 <>
                   {watch === i

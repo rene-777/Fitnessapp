@@ -360,6 +360,14 @@ Die Skala an den Schwingarmen zeigt amerikanische Pfund (lb) pro Seite: 5 bis 12
 - **Ausführung:** Flache, ebene Strecke, 10–20 s bei 85–95 % der Höchstgeschwindigkeit, 2–3 min Gehpause. Erst nach gründlichem Aufwärmen mit Steigerungsläufen.
 - **Knie:** Nie kalt, nie bergab, nicht auf hartem Beton wenn vermeidbar.
 
+### Bleep-Test (Goliaz, VO2max) – Ausdauer-Benchmark statt Cooper-Test
+- **Muskeln:** Herz-Kreislauf
+- **Aufbau:** Goliaz-App, Audio „Bleep“. Zwei Marker im Abstand von genau 20 m (Maßband, nicht GPS), Pulsgurt.
+- **Ausführung:** Nach gründlichem Warm-up an Marker A starten. Auf „GO“ zum anderen Marker laufen, dort bis zum nächsten „GO“ warten; die Zeitfenster werden immer kürzer. Wer einen Marker vor dem „GO“ nicht erreicht, ist „broken“; den nächsten rechtzeitig erreichen rettet, sonst sofort stoppen. Die letzte gehörte Zahl ist der VO2max-Wert.
+- **In der App:** Freies Training → „Bleep-Test (Goliaz, VO2max)“ → „Als Max-Test speichern“, Feld „VO2max-Stufe“. Benchmark `bleepVo2`, erscheint in der Analyse.
+- **Vergleichswert:** 44 am 11.08.2026 (8:41 min, Ø 142, max. 162).
+- **Knie:** Viele Wenden. Nur an Tagen mit ruhigen Knien (Kurz-Check Knie ≤ 2), Wenden mit kurzen Schritten abbremsen.
+
 ### Kettlebell-Swing (ab Block 2)
 - **Muskeln:** primär Gesäß, hintere Oberschenkel · sekundär unterer Rücken, Schultern, Herz-Kreislauf
 - **Ausführung:** Hüftbeuge wie beim Pull-Through, Kettlebell zwischen den Beinen zurückschwingen, Hüfte explosiv nach vorn, Arme schwingen bis Brusthöhe. Der Schwung kommt aus der Hüfte, nicht aus den Armen. Knie nur leicht gebeugt.
