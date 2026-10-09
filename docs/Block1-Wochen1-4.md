@@ -121,7 +121,7 @@ Volumen bewusst reduziert. Die Einstufung ist eingebaut: bei Bio-Force-Übungen 
 | Warm-up (zeitgeführt) | Gehen/leichtes Laufen im Wechsel 4 min, Fußgelenke kreisen, Beinschwünge, Waden-Pedal, Knie-zur-Wand-Mobilisation | 8 min | |
 | A | **5-min-Burpee-Test** (Goliaz-Standard, so viele wie möglich) | 5 min | Benchmark. Gleichmäßig anfangen, letzte Minute alles geben. |
 | Pause | Gehen | 4 min | |
-| B | Zone 2 als Walk-Run: 3 min laufen / 1 min gehen | 20 min (5 Runden) | Polar: 120–130. Wenn höher, langsamer laufen. |
+| B | Zone 2 als Walk-Run: 3 min laufen / 1 min gehen | 20 min (5 Runden) | Puls: 120–130. Wenn höher, langsamer laufen. |
 | Cool-down (zeitgeführt) | Gehen bis Puls < 100, Wade an der Wand, Quadrizeps im Stand, Couch Stretch | 5 min | |
 | **Indoor-Alternative für B** | Seilspringen 40 s locker / 20 s gehen, 20 Runden; bei Knieschmerz: Marschieren auf der Stelle mit Armzug | 20 min | |
 
@@ -216,7 +216,7 @@ Für jede Einheit reicht eine Zeile pro Übung. Die App übernimmt die Werte sp�
 | 21.09. | Kabel-Schrägdrücken 10RM | | | | | | | | |
 | … | | | | | | | | | |
 
-Zusätzlich pro Einheit: Datum, Dauer, Schlaf letzte Nacht (h), Gefühl 1–5. Cardio: Distanz, Dauer, Durchschnitts- und Maximalherzfrequenz von Polar.
+Zusätzlich pro Einheit: Datum, Dauer, Schlaf letzte Nacht (h), Gefühl 1–5. Cardio: Distanz, Dauer, Durchschnitts- und Maximalherzfrequenz aus Garmin Connect (Instinct 2X Solar mit Polar-Armgurt).
 
 Benchmarks Woche 1 (bitte eintragen): Push-Ups max ___ · Pull-Ups max ___ · Dips max ___ · Plank ___ min · Burpees 5 min ___ · AMRAP 6 min Runden ___ · Cooper (Woche 2) ___ m, HF ___ · Körpergewicht ___ kg · Taille ___ cm
 
