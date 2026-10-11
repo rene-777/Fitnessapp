@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { ErrorCard, errorText } from '../components/ErrorBoundary'
@@ -16,7 +16,7 @@ import { MeasureStep, TimedStep } from '../components/TimedFlow'
 import { challengeStatus, prescriptionText, suggestLoad } from '../lib/planEngine'
 import { buildSteps, type Step } from '../lib/steps'
 import { keepAwake } from '../lib/wakeLock'
-import { finishWorkout, getOrCreateWorkout, patchWorkout, saveBenchmark, saveSet } from '../lib/workouts'
+import { FREE_SEGMENT_LABEL, finishWorkout, getOrCreateWorkout, patchWorkout, saveBenchmark, saveSet } from '../lib/workouts'
 import { BF_MAX_LB, BF_MIN_LB, BF_STEP_LB, fmtKg, fmtLb, kgToLb, lbToKg } from '../lib/bioforce'
 
 type SetStep = Extract<Step, { kind: 'set' }>
@@ -559,16 +559,23 @@ function ChallengeStep({ step, workout, profileStart, onNext }: { step: Extract<
   const sunday = addDays(monday, 6)
   const benchmarks = useLiveQuery(() => db.benchmarks.where('profileId').equals(workout.profileId).toArray(), [workout.profileId])
   const weekSets = useLiveQuery(
-    () => db.sets.where('profileId').equals(workout.profileId).toArray().then((rows) => rows.filter((s) => s.date >= monday && s.date <= sunday && s.workoutId !== workout.id && (s.segmentLabel === 'challenge' || s.segmentLabel.endsWith('-sum') || s.isTest))),
+    () => db.sets.where('profileId').equals(workout.profileId).toArray().then((rows) => rows.filter((s) => s.date >= monday && s.date <= sunday && s.workoutId !== workout.id && (s.segmentLabel === 'challenge' || s.segmentLabel === FREE_SEGMENT_LABEL || s.segmentLabel.endsWith('-sum') || s.isTest))), // freies Training zählt mit (Training gesplittet, Wunsch 11.10.2026)
     [workout.profileId, monday, sunday, workout.id],
   )
   const status = useMemo(() => (benchmarks && weekSets ? challengeStatus(benchmarks, weekSets, seg.items[0]?.share ?? 0.2) : []), [benchmarks, weekSets, seg.items])
   const [counts, setCounts] = useState<Record<string, number>>({})
   const [started, setStarted] = useState<'no' | 'ready' | 'yes'>('no')
+  const elapsed = useRef(0)
+  // Zeiten der bisherigen Challenge-Blöcke dieser Woche (nur zur Info, keine Wertung)
+  const earlier = useMemo(() => {
+    const byDay = new Map<string, number>()
+    for (const s of weekSets ?? []) if (s.segmentLabel === 'challenge' && s.seconds) byDay.set(s.date, Math.max(byDay.get(s.date) ?? 0, s.seconds))
+    return [...byDay.entries()].sort(([a], [b]) => (a < b ? -1 : 1))
+  }, [weekSets])
   const save = async () => {
     for (const st of status) {
       const c = counts[st.exerciseId] ?? 0
-      if (c > 0) await saveSet(workout, { exerciseId: st.exerciseId, segmentLabel: 'challenge', setIndex: 1, reps: c })
+      if (c > 0) await saveSet(workout, { exerciseId: st.exerciseId, segmentLabel: 'challenge', setIndex: 1, reps: c, seconds: elapsed.current > 0 ? Math.round(elapsed.current) : undefined })
     }
     onNext()
   }
@@ -577,7 +584,8 @@ function ChallengeStep({ step, workout, profileStart, onNext }: { step: Extract<
       <div className="card text-sm"><div className="h2">{seg.label}</div><div className="text-muted">{seg.description}</div></div>
       {started === 'no' && <button className="btn-primary w-full text-xl py-4" onClick={() => { unlockAudio(); setStarted('ready') }}>Start (Zeit läuft nach 3-2-1)</button>}
       {started === 'ready' && <GetReady onGo={() => setStarted('yes')} />}
-      {started === 'yes' && <Stopwatch autoStart />}
+      {started === 'yes' && <Stopwatch autoStart onChange={(t) => { elapsed.current = t }} />}
+      {earlier.length > 0 && <div className="text-xs text-muted px-1">Bisher diese Woche: {earlier.map(([d, sec]) => `${new Date(d + 'T12:00').toLocaleDateString('de-DE', { weekday: 'short' })} ${fmtSec(sec)}`).join(' · ')}</div>}
       {status.map((st) => {
         const c = counts[st.exerciseId] ?? 0
         const pct = st.todayTarget > 0 ? Math.min(100, (c / st.todayTarget) * 100) : 0
