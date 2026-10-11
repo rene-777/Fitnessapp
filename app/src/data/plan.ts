@@ -358,6 +358,153 @@ const w4: Week = {
   ],
 }
 
+// ---------- Block 2: Hypertrophie (Wochen 5–8) ----------
+// Beschluss 11.10.2026 nach Auswertung der Wochen 1–3: Kraft-Einheiten dauerten 82–86 min, Ziel jetzt ca. 70 min
+// inkl. Warm-up und Cool-down. Hauptübungen 6–8 Wdh., Nebenübungen 8–10, Isolation 10–15. Woche 5 mit einem Satz
+// weniger bei den Hauptübungen (Deload zum Blockstart). Mittwoch ohne einarmiges Rudern und Australian Pull-Ups
+// (Beschluss 18.09.), Freitag Kickback und Seitheben als getrennte Blöcke (kein Umbau im Supersatz).
+const B2_HINT = 'Neuer Bereich 6–8: Die App rechnet die Last aus deinen 10er-Sätzen um (meist 2,5–5 lb mehr).'
+function buildBlock2Week(n: 5 | 6 | 7): Week {
+  const main = n === 5 ? 3 : 4 // Sätze der Hauptübungen
+  const hint = n === 5 ? B2_HINT : undefined
+  const intervals = n === 5 ? 8 : n === 6 ? 9 : 10
+  const z2 = n === 5 ? 20 : 25
+  return {
+    number: n,
+    title: n === 5 ? 'Block 2 Start (leichter)' : n === 6 ? 'Volles Volumen' : 'Höchstes Volumen im Block',
+    note: n === 5
+      ? 'Hauptübungen 6–8 Wdh. mit 3 Sätzen (Deload zum Blockstart). Progression: obere Wiederholungszahl in allen Sätzen bei RIR 2 → +2,5 lb, bei RIR ≤ 1 → +5 lb. Einheiten ca. 70 min.'
+      : n === 6
+        ? 'Hauptübungen mit 4 Sätzen. Isolationsübungen bis 0–1 RIR.'
+        : 'Wie Woche 6, Intervalle 10 Runden. Nächste Woche Kraft-Challenge mit Max-Tests und Bleep-Test.',
+    sessions: [
+      {
+        key: `w${n}-push`, weekday: 1, title: 'Push + Core', kind: 'kraft', minutes: 70, focus: 'Obere Brust, Schultern, Trizeps',
+        segments: [
+          WARM_PUSH,
+          straight('A', [reps('schraegdruecken', main, 6, 8, { rir: '1–2', loadHint: hint })], 150),
+          superset('B', [reps('dips', 3, 6, 10, { rir: '1–2', loadHint: 'Gehen 10 mit 3+ RIR: schwerere Variante (Negative 3 s, Tempo, Pause unten)' }), reps('fliegende-oben', 3, 10, 12, { rir: '1' })], 30, 90),
+          superset('C', [reps('trizeps-ueberkopf', 2, 10, 12, { rir: '1' }), p('plank', 2, { seconds: 45 })], 20, 45),
+          SEAT_OFF,
+          straight('D', [reps('seitheben', 3, 12, 15, { perSide: true, rir: '0–1' })], 45),
+          { type: 'amrap', label: 'Finisher', minutes: 6, exercises: [{ exerciseId: 'burpee', reps: 6 }, { exerciseId: 'pushup', reps: 10 }, { exerciseId: 'mountain-climber', reps: 20 }], countLabel: 'Runden', description: 'So viele Runden wie möglich in 6 Minuten.' },
+          COOL_PUSH,
+        ],
+      },
+      {
+        key: `w${n}-beine`, weekday: 2, title: 'Beine + Hüfte', kind: 'kraft', minutes: 70, focus: 'Kniefreundlich, schwerer',
+        segments: [
+          WARM_LEGS,
+          straight('A', [reps('kabel-kniebeuge', main, 6, 8, { rir: '1–2', tempo: '3-1-1', loadHint: hint })], 120),
+          straight('B', [reps('rdl', main, 6, 8, { rir: '1–2', loadHint: hint })], 120),
+          superset('C', [reps('split-squat', 3, 8, 10, { perSide: true, rir: '1–2' }), reps('hueftabduktion', 2, 15, 15, { perSide: true })], 30, 75),
+          superset('D', [reps('wadenheben', 3, 10, 12, { rir: '1' }), reps('dead-bug', 3, 10, 10, { perSide: true })], 20, 45),
+          SEAT_ON,
+          superset('E', [reps('beinbeuger', 2, 8, 10, { perSide: true, tempo: '3-1-3', rir: '1–2' }), reps('beinstrecker', 2, 10, 12, { tempo: '3-1-3', rir: '2', loadHint: 'Nicht bis zum Versagen: Tempo 3-1-3, RIR 2 (Knieschonung)' })], 30, 75),
+          COOL_LEGS,
+        ],
+      },
+      {
+        key: `w${n}-pull`, weekday: 3, title: 'Pull + hintere Schulter', kind: 'kraft', minutes: 65, focus: 'Rücken, hintere Schulter, Bizeps',
+        segments: [
+          WARM_PULL,
+          straight('A', [reps('pullup', 4, 5, 7, { rir: '1–2', loadHint: 'Gehen 4 × 7 mit 2+ RIR: Variante (Negative, Pause oben) oder 8' })], 120),
+          straight('B', [reps('rudern-stehend', main, 6, 8, { rir: '1–2', loadHint: hint })], 120),
+          superset('C', [reps('latzug', 3, 8, 10, { rir: '1–2' }), reps('hanging-knee-raise', 3, 10, 12)], 30, 75),
+          SEAT_OFF,
+          superset('D', [reps('reverse-fly', 3, 12, 15, { rir: '0–1' }), reps('face-pull', 3, 12, 15, { rir: '1' })], 20, 60, 'Beide am Karabiner auf Schulterhöhe, nur die Seile wechseln'),
+          superset('E', [reps('bizeps-curl', 2, 10, 12, { rir: '1' }), reps('hammer-curl', 2, 10, 12, { rir: '1' })], 20, 45),
+          COOL_PULL,
+        ],
+      },
+      {
+        key: `w${n}-cardio`, weekday: 4, title: 'Cardio: Intervalle + Zone 2', kind: 'cardio', minutes: 50, focus: `Burpee-Intervalle ${intervals} Runden, Zone 2 ${z2} min`,
+        segments: [
+          WARM_CARDIO,
+          { type: 'interval', label: 'A', rounds: intervals, workSec: 30, restSec: 60, exerciseId: 'burpee', description: `${intervals} × 30 s Burpees zügig / 60 s gehen. Puls am Ende der Runden 141–153.`, alternative: 'Bei Knieschmerz: Seil oder Mountain Climbers.' },
+          { type: 'cardio', label: 'B', minutes: z2, exerciseId: 'laufen-z2', description: 'Zone 2, durchgehend laufen.', hrZone: '116–128', alternative: `Indoor: ${z2} min Seil 45 s / 15 s.`, altWorkSec: 45, altRestSec: 15 },
+          COOL_CARDIO,
+        ],
+      },
+      {
+        key: `w${n}-full`, weekday: 5, title: 'Ganzkörper Hypertrophie', kind: 'kraft', minutes: 70, focus: 'Obere Brust, Schultern, Rücken, Finisher',
+        segments: [
+          WARM_FULL,
+          superset('A', [reps('pushup-defizit', 3, 8, 12, { rir: '1–2' }), reps('latzug-eng', 3, 8, 10, { rir: '1–2' })], 30, 75),
+          superset('B', [reps('schraegdruecken', 3, 8, 10, { rir: '1–2' }), reps('rudern-einarmig', 3, 8, 10, { perSide: true, rir: '1–2' })], 30, 75),
+          superset('C', [reps('schulterdruecken', 3, 8, 10, { rir: '1–2' }), reps('hanging-knee-raise', 3, 10, 12)], 30, 75),
+          SEAT_OFF,
+          straight('D', [reps('hueftstrecken', 2, 12, 12, { perSide: true, rir: '1–2' })], 45),
+          straight('E', [reps('seitheben', 2, 12, 15, { perSide: true, rir: '0–1' })], 45),
+          { type: 'amrap', label: 'Finisher', minutes: 6, exercises: [{ exerciseId: 'burpee', reps: 5 }, { exerciseId: 'pushup', reps: 10 }, { exerciseId: 'kniebeuge-bw', reps: 15 }], countLabel: 'Runden', benchmarkKey: n === 7 ? 'amrap6' : undefined, description: n === 7 ? 'Wie in Woche 1 (5 Runden): Vergleichstest.' : 'So viele Runden wie möglich in 6 Minuten.' },
+          COOL_FULL,
+        ],
+      },
+    ],
+  }
+}
+
+// ---------- Woche 8: Kraft-Challenge ----------
+const w8: Week = {
+  number: 8,
+  title: 'Kraft-Challenge',
+  note: 'Max-Tests und Wiederholungsmaxima (5RM/8RM) als Grundlage für Block 3. Wenig Volumen, volle Pausen. Do Bleep-Test nur bei ruhigen Knien (Kurz-Check Knie ≤ 2), sonst 5-min-Burpees. Mobility-Check diese Woche.',
+  sessions: [
+    {
+      key: 'w8-mo', weekday: 1, title: 'Test: Schrägdrücken 5RM + Dips', kind: 'challenge', minutes: 50, focus: 'Oberkörper drücken',
+      segments: [
+        WARM_PUSH,
+        straight('A', [p('schraegdruecken', 4, { repsMin: 5, repsMax: 5, ramp: true, loadHint: '5RM finden: Satz 1 mit der 8er-Last, dann je 5 lb mehr, bis 5 gerade noch sauber gehen' })], 180),
+        { type: 'test', label: 'B', exerciseId: 'dips', benchmarkKey: 'dipsMax', unit: 'reps', description: 'Max-Test Dips, strikt. Vergleich Woche 1: 18.', restSec: 120 },
+        { type: 'test', label: 'Core', exerciseId: 'plank', benchmarkKey: 'plankMax', unit: 'seconds', description: 'Elbow Plank so lange wie möglich. Vergleich Woche 1: 2:31.', restSec: 60 },
+        SEAT_OFF,
+        straight('C', [reps('seitheben', 2, 12, 15, { perSide: true })], 45),
+        COOL_PUSH,
+      ],
+    },
+    {
+      key: 'w8-di', weekday: 2, title: 'Test: RDL und Kniebeuge 8RM', kind: 'challenge', minutes: 50, focus: 'Beine',
+      segments: [
+        WARM_LEGS,
+        straight('A', [p('kabel-kniebeuge', 4, { repsMin: 8, repsMax: 8, ramp: true, tempo: '3-1-1', loadHint: '8RM finden: Satz 1 mit der Arbeitslast, dann steigern. Knie ruhig halten, kein Versagen erzwingen.' })], 150),
+        straight('B', [p('rdl', 4, { repsMin: 8, repsMax: 8, ramp: true, loadHint: '8RM finden: Satz 1 mit der Arbeitslast, dann je 5–10 lb mehr' })], 150),
+        superset('C', [reps('wadenheben', 2, 10, 12), reps('dead-bug', 2, 10, 10, { perSide: true })], 20, 45),
+        COOL_LEGS,
+      ],
+    },
+    {
+      key: 'w8-mi', weekday: 3, title: 'Test: Pull-Ups + Rudern 5RM', kind: 'challenge', minutes: 55, focus: 'Ziehen, Pull-Up-Leiter',
+      segments: [
+        WARM_PULL,
+        { type: 'test', label: 'A', exerciseId: 'pullup', benchmarkKey: 'pullupsMax', unit: 'reps', description: 'Max-Test: strikte Pull-Ups am Stück. Vergleich Woche 1: 11.', restSec: 240 },
+        straight('B', [p('rudern-stehend', 4, { repsMin: 5, repsMax: 5, ramp: true, loadHint: '5RM finden: Satz 1 mit der 8er-Last, dann je 5 lb mehr' })], 180),
+        { type: 'test', label: 'Leiter', exerciseId: 'pullup', benchmarkKey: 'pullupLadder', unit: 'reps', description: 'Die Leiter: 1 Pull-Up, kurz absetzen, 2, 3, 4 … bis eine Stufe nicht mehr sauber geht. Pause zwischen den Stufen so lang wie die Stufe gedauert hat. Eintragen: Summe aller sauberen Wiederholungen (z. B. bis Stufe 6 = 21).', restSec: 120 },
+        SEAT_OFF,
+        superset('C', [reps('reverse-fly', 2, 12, 15), reps('face-pull', 2, 12, 15)], 20, 60),
+        COOL_PULL,
+      ],
+    },
+    {
+      key: 'w8-do', weekday: 4, title: 'Test: Bleep (VO2max)', kind: 'challenge', minutes: 45, focus: 'Ausdauer-Benchmark',
+      segments: [
+        WARM_CARDIO,
+        { type: 'test', label: 'A', exerciseId: 'bleep', benchmarkKey: 'bleepVo2', unit: 'reps', description: 'Bleep-Test in der Goliaz-App starten (2 Marker, genau 20 m). Eintragen: die letzte Zahl vor dem Verpassen. Vergleich 11.08.2026: 44. Nur bei ruhigen Knien; sonst überspringen und stattdessen 5-min-Burpees als Freies Training (Max-Test).', restSec: 0 },
+        { type: 'cardio', label: 'B', minutes: 15, exerciseId: 'laufen-z2', description: 'Locker auslaufen oder gehen.', hrZone: '116–128', alternative: 'Indoor: 15 min Seil locker 45 s / 15 s.', altWorkSec: 45, altRestSec: 15 },
+        COOL_CARDIO,
+      ],
+    },
+    {
+      key: 'w8-fr', weekday: 5, title: 'Test: Push-Ups + AMRAP 12', kind: 'challenge', minutes: 50, focus: 'Vergleich mit Woche 1 und 4',
+      segments: [
+        WARM_FULL,
+        { type: 'test', label: 'A', exerciseId: 'pushup', benchmarkKey: 'pushupsMax', unit: 'reps', description: 'Max-Test Push-Ups (Goliaz-Standard). Vergleich Woche 1: 63.', restSec: 300 },
+        { type: 'amrap', label: 'AMRAP', minutes: 12, exercises: [{ exerciseId: 'pullup', reps: 5 }, { exerciseId: 'pushup', reps: 10 }, { exerciseId: 'kniebeuge-bw', reps: 15 }, { exerciseId: 'burpee', reps: 5 }], countLabel: 'Runden', benchmarkKey: 'amrap12', description: 'Wie am Freitag der Woche 4: 12 Minuten, so viele Runden wie möglich. Vergleich.' },
+        COOL_FULL,
+      ],
+    },
+  ],
+}
+
 const placeholder = (n: number, block: Block): Week => ({
   number: n,
   title: `Block ${block.number} „${block.name}“`,
@@ -370,7 +517,11 @@ export const WEEKS: Week[] = [
   buildWeek(2),
   buildWeek(3),
   w4,
-  ...[5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16].map((n) => placeholder(n, BLOCKS.find((b) => b.weeks.includes(n))!)),
+  buildBlock2Week(5),
+  buildBlock2Week(6),
+  buildBlock2Week(7),
+  w8,
+  ...[9, 10, 11, 12, 13, 14, 15, 16].map((n) => placeholder(n, BLOCKS.find((b) => b.weeks.includes(n))!)),
 ]
 
 export const weekByNumber = (n: number) => WEEKS.find((w) => w.number === n)

@@ -348,7 +348,7 @@ function SetStepView({ step, workout, onSaved, onSkip }: { step: SetStep; workou
   return (
     <div className="space-y-3">
       <ExerciseCard e={e} subtitle={sub} />
-      {step.p.ramp && <div className="card text-sm"><span className="label">Einstufung</span><div>Satz 1 leicht, Satz 2 deutlich schwerer, Satz 3 die vermutete 10RM-Last. Die Last aus Satz 3 ist dein 10RM.</div></div>}
+      {step.p.ramp && <div className="card text-sm"><span className="label">Einstufung</span><div>Aufsteigende Sätze: Satz 1 leicht, dann schwerer, im letzten Satz die vermutete {step.p.repsMax ?? 10}RM-Last. Die schwerste saubere Last ist dein {step.p.repsMax ?? 10}RM.</div></div>}
       {suggestion?.text && <div className="card text-sm"><span className="label">Vorschlag</span><div>{suggestion.text}</div></div>}
       <div className="card space-y-3">
         {timed && (
@@ -370,7 +370,7 @@ function SetStepView({ step, workout, onSaved, onSkip }: { step: SetStep; workou
             </div>
           </div>
         )}
-        {!timed && <NumberInput label={step.p.perSide ? 'Wiederholungen je Seite' : 'Wiederholungen'} value={reps} onChange={(v) => { setReps(v); setMissing(false) }} error={missing ? 'Bitte die Wiederholungen eintragen.' : undefined} />}
+        {!timed && <NumberInput label={e.repsLabel ?? (step.p.perSide ? 'Wiederholungen je Seite' : 'Wiederholungen')} value={reps} onChange={(v) => { setReps(v); setMissing(false) }} error={missing ? 'Bitte die Wiederholungen eintragen.' : undefined} />}
         <div className="space-y-3">
           {showWeight && (isBf
             ? <NumberInput label="Skala (lb) pro Seite" value={weight} onChange={(v) => { setWeight(v); setNoLoad(false) }} step={BF_STEP_LB} min={BF_MIN_LB} max={BF_MAX_LB} hint={weight === '' ? 'Wert am Schwingarm, 5–125 in 2,5er-Rasten' : `≈ ${fmtKg(lbToKg(Number(weight)))} kg pro Seite`} error={noLoad ? 'Kein Skalenwert eingetragen. Nochmal tippen, um ohne Last zu speichern.' : undefined} />

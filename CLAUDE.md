@@ -6,7 +6,7 @@ Persönliches Projekt von René: 16-Wochen-Trainingsplan (Bodyweight + Finnlo Bi
 
 1. `docs/Uebergabe.md` – aktueller Stand, offene Punkte, nächste Schritte
 2. `docs/Trainingskonzept.md` – Studienlage, Planarchitektur, getroffene Entscheidungen
-3. `docs/Block1-Wochen1-4.md` – Woche 1–4 Tag für Tag (Start Mo 21.09.2026)
+3. `docs/Block1-Wochen1-4.md` – Woche 1–4 Tag für Tag (Start Mo 21.09.2026); `docs/Block2-Wochen5-8.md` – Block 2 mit Auswertung der Wochen 1–3
 4. `docs/Uebungsbibliothek.md` – alle Übungen mit Muskeln, Bio-Force-Einstellung, Ausführung
 5. `docs/App-Anleitung.md` – was die App kann, wie sie aufs Handy kommt
 6. `docs/Mobility.md` – Mobility-Konzept (Studienlage, Warm-up/Cool-down, Routinen, Mobility-Check)
@@ -19,7 +19,7 @@ Persönliches Projekt von René: 16-Wochen-Trainingsplan (Bodyweight + Finnlo Bi
 
 Vite + React 19 + TypeScript, Tailwind v4 (Theme-Tokens in `src/index.css`), Dexie (IndexedDB), vite-plugin-pwa, Recharts, react-router. Farben schwarz/orange. Alle Daten lokal, Export/Import als JSON, Datenmodell mit Profilen und `updatedAt` für späteren Sync.
 
-- `src/data/plan.ts` – der Plan als Daten (Woche 1–4 komplett, 5–16 Platzhalter). Planänderungen hier, nicht in Komponenten.
+- `src/data/plan.ts` – der Plan als Daten (Woche 1–8 komplett, 9–16 Platzhalter; Block 2 in `docs/Block2-Wochen5-8.md`). Planänderungen hier, nicht in Komponenten.
 - `src/data/exercises.ts` – Übungsbibliothek; `bioforceNo` verweist auf Fotos in `public/img/bioforce/bf{NNN}_{start|end|pulley}.webp` (aus der Extreme-Anleitung, 457 × 644 px; Nummerierung folgt weiter der alten Anleitung in `docs/`).
 - `src/data/mobilityExercises.ts` + `src/data/mobility.ts` – Mobility-Übungen (Kategorie `mobility`), Routinen `mob-hip`/`mob-shoulder` und Mobility-Check `mob-check` (Routinen außerhalb des Wochenplans, `ROUTINE_WEEK` in `plan.ts`). Konzept in `docs/Mobility.md`. Warm-ups und Cool-downs sind `timed`-Segmente (Posten mit Sekunden, `perSide`), geführt über `src/components/TimedFlow.tsx` (automatischer Übergang mit Signal); Messungen (`measure`) landen als Benchmarks in cm (`LOWER_IS_BETTER` in `workouts.ts`).
 - `src/lib/steps.ts` – Einheit → Schrittfolge für den geführten Modus.

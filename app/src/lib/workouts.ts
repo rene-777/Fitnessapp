@@ -130,6 +130,7 @@ export const BENCHMARK_LABELS: Record<string, string> = {
   squats1min: 'Kniebeugen in 1 min',
   cooper12: 'Cooper-Test (m)',
   bleepVo2: 'Bleep-Test (VO2max)',
+  pullupLadder: 'Pull-Up-Leiter (gesamt)',
   amrap6: 'AMRAP 6 min (Runden)',
   amrap8: 'AMRAP 8 min (Runden)',
   amrap12: 'AMRAP 12 min (Runden)',
