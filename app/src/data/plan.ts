@@ -13,8 +13,9 @@ export const BLOCKS: Block[] = [
 
 // Wochenziele der Kraftausdauer-Challenge (Woche 4): Faktor × Benchmark
 export const CHALLENGE_TARGETS: ChallengeTarget[] = [
-  { exerciseId: 'pushup', label: 'Push-Ups', benchmarkKey: 'pushupsMax', factor: 8, fallback: 520 },
+  // Reihenfolge = Reihenfolge im Zirkel des Users (Pull-Ups zuerst, Wunsch 12.10.2026)
   { exerciseId: 'pullup', label: 'Pull-Ups', benchmarkKey: 'pullupsMax', factor: 12, fallback: 144 },
+  { exerciseId: 'pushup', label: 'Push-Ups', benchmarkKey: 'pushupsMax', factor: 8, fallback: 520 },
   { exerciseId: 'kniebeuge-bw', label: 'Kniebeugen', benchmarkKey: 'squats1min', factor: 10, fallback: 500 },
   { exerciseId: 'burpee', label: 'Burpees', benchmarkKey: 'burpees5min', factor: 4, fallback: 272 },
 ]
