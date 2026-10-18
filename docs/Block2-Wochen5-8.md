@@ -27,6 +27,25 @@ Start Mo 19.10.2026, Woche 8 (Kraft-Challenge) ab Mo 09.11.2026. Die Daten stehe
 - **Körper:** 75,0 kg / 88 cm am 18.10. (Start 74,7 / 88); laut User schwankt das Gewicht verdauungsbedingt, realistisch ca. 74,5 kg. Subjektiv mehr Volumen an Brust, Schultern, Armen, Oberschenkeln. Alle Kniebeugen bewusst langsam und so tief wie möglich, Hüftmobilität spürbar besser.
 - **Einschätzung des Users:** größter Engpass ist die Kondition, danach die Kraft.
 
+## 1c. Trainer-Einschätzung Block 1 (18.10.2026, auf Wunsch des Users ungeschönt)
+
+**Umsetzung:** alle 17 Einheiten plus Challenge-Woche, keine ausgelassen; Knie durchgehend 0, Muskelkater ≤ 3, Schlaf bis auf zwei Nächte 7–8,5 h; RIR und Varianten konsequent eingetragen. Benchmarks für 56 Jahre weit oben (Push-Ups 63 / 98 in 5 min, Dips 18, Plank 2:31, Burpees 66), Pull-Ups 11 relativ am schwächsten.
+
+**Gut:** RDL 70 → 95 lb (+36 %), Wadenheben 60 → 72,5, Pallof 10 → 20, Incline Fly 20 → 30, Latzug eng 50 → 52,5. RIR-Kalibrierung ab Woche 2 (Woche 1: 44 von 71 Sätzen bei RIR 3–4, danach mehrheitlich 1–2).
+
+**Nicht gut:**
+1. **Drücken und Ziehen am Kabel drei Wochen stagniert:** Schrägdrücken 30 (Tag 1) → 25 → 22,5 → 27,5 → 30; Schulterdrücken 25 → 22,5; Trizeps 20 → 17,5; Rudern stehend 27,5 → 25 → 22,5 (abwärts); Latzug 40 → 37,5; einarmiges Rudern 30 → 27,5. Wochen 2–3 liefen unter dem Einstufungswert bei RIR 2. Ursachen: Startvorschlag Woche 2 bewusst 5 lb unter 10RM und Steigerungsregel nur bei RIR ≤ 1 (beides Planungsfehler, seit 11.10. korrigiert); dazu Lastkorrekturen des Users eher nach unten.
+2. **Push-Up-Volumen zu leicht:** Defizit-Push-Ups 3 × 15 bei RIR 3–4 bis Woche 3, Tempo-Variante erst in Woche 3 und auch bei RIR 3. Rund 270 Push-Ups je Woche ohne Reiz.
+3. **Core zu leicht:** Plank 45 s @ RIR 4 (Max 2:31), Side Plank 30 s @ RIR 4, Dead Bug @ RIR 4. Nur Pallof und Hanging Knee Raises mit Zug. „Bauch kam zu kurz“ liegt an der Intensität, nicht an der Satzzahl.
+4. **Beinstrecker zu hart:** Woche 3 52,5 lb mit 12/11/9 @ RIR 0 im Tempo 3-1-3, Versagen an der kniesensibelsten Übung. RIR 2 bleibt Pflicht.
+5. **Zone 2 kaum vorhanden:** Walk-Run Ø 153 und 142, Cooper auf dem Walkingpad; echte Zone 2 erst 09.10. und 15.10. (zusammen 35 min bei Ø 125). Burpees 64 → 66, AMRAP 12 mit 2,4 min/Runde: Kondition ist der Engpass, wie der User selbst sagt.
+6. **Mobility-Check nie gemessen** (Woche 1 und 4), Routinen einmal in vier Wochen. Berichtete Hüftmobilität nicht prüfbar.
+7. **Gerätegrenzen:** Step-Ups 17,5 lb (8-kg-Kettlebell) und Split Squat 25 lb drei Wochen gleich, Kabel-Kniebeuge 47,5 lb wegen der Seillänge (seit Woche 4 gelöst).
+
+**Sonstiges:** Gewicht und Taille nach vier Wochen unverändert (normal, noch kein Urteil; Fotos Woche 5 sind der Maßstab). Drücken deutlich stärker als Ziehen, der Mittwoch ist in Block 2 der wichtigste Tag.
+
+**Ableitungen für Block 2:** (1) nicht leicht starten: Rudern und Latzug eine Raste über dem Vorschlag (25 bzw. 42,5 lb), innerhalb der Einheit nach oben korrigieren, wenn Satz 1 RIR 3 zeigt; Ziel Woche 7 Schrägdrücken 35–40 × 8, RDL 110–120, Kniebeuge 60 mit Verlängerung. (2) Push-Ups mit Füßen erhöht + Defizit, so dass 8–12 Wdh. bei RIR 1–2 liegen. (3) Core progressiv: Plank 60 s oder mit Scheibe, Side Plank 45 s, Hanging Knee Raises Richtung gestreckte Beine, Pallof 25 lb. (4) Beinstrecker bei RIR 2 deckeln. (5) Mobility-Check in Woche 5 nachholen. (6) zweite oder schwerere Kettlebell (12–16 kg). Entscheidung des Users zu (2) und (3) in den Plandaten: siehe `Uebergabe.md`.
+
 ## 2. Prinzipien
 
 - **Wiederholungen:** Hauptübungen 6–8 (RIR 1–2), Nebenübungen 8–10, Isolation 10–15 (RIR 0–1).
