@@ -368,6 +368,7 @@ const B2_HINT = 'Neuer Bereich 6–8: Die App rechnet die Last aus deinen 10er-S
 function buildBlock2Week(n: 5 | 6 | 7): Week {
   const main = n === 5 ? 3 : 4 // Sätze der Hauptübungen
   const hint = n === 5 ? B2_HINT : undefined
+  const squatHint = n === 5 ? `${B2_HINT} Griffe über je zwei Karabiner (Seilverlängerung) einhängen.` : undefined
   const intervals = n === 5 ? 8 : n === 6 ? 9 : 10
   const z2 = n === 5 ? 20 : 25
   return {
@@ -396,7 +397,7 @@ function buildBlock2Week(n: 5 | 6 | 7): Week {
         key: `w${n}-beine`, weekday: 2, title: 'Beine + Hüfte', kind: 'kraft', minutes: 70, focus: 'Kniefreundlich, schwerer',
         segments: [
           WARM_LEGS,
-          straight('A', [reps('kabel-kniebeuge', main, 6, 8, { rir: '1–2', tempo: '3-1-1', loadHint: hint })], 120),
+          straight('A', [reps('kabel-kniebeuge', main, 6, 8, { rir: '1–2', tempo: '3-1-1', loadHint: squatHint })], 120),
           straight('B', [reps('rdl', main, 6, 8, { rir: '1–2', loadHint: hint })], 120),
           superset('C', [reps('split-squat', 3, 8, 10, { perSide: true, rir: '1–2' }), reps('hueftabduktion', 2, 15, 15, { perSide: true })], 30, 75),
           superset('D', [reps('wadenheben', 3, 10, 12, { rir: '1' }), reps('dead-bug', 3, 10, 10, { perSide: true })], 20, 45),

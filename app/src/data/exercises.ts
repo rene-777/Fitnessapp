@@ -233,9 +233,10 @@ export const EXERCISES: Exercise[] = [
   {
     id: 'kabel-kniebeuge', name: 'Kabel-Kniebeuge', category: 'beine',
     primary: ['quadrizeps', 'gesaess'], secondary: ['hamstrings', 'waden', 'ruecken_unten'], loadType: 'bioforce', seat: 'off', unit: 'reps', bioforceNo: bf(1),
-    equipment: 'Bio Force, Sitz entfernt, Handgriffe an den unteren Haken, stehend mit Gesicht zum Gerät',
-    setup: 'Füße schulterbreit, Griffe auf Schulterhöhe halten.',
+    equipment: 'Bio Force, Sitz entfernt, Handgriffe über je zwei Karabiner (Seilverlängerung) an den unteren Haken, stehend mit Gesicht zum Gerät',
+    setup: 'Je Seite zwei Karabiner zwischen Haken und Griff einhängen. Füße schulterbreit, Griffe aus der tiefen Hocke aufnehmen und auf Schulterhöhe halten.',
     steps: ['Langsam (3 s) in die Knie bis die Oberschenkel etwa parallel zum Boden sind, oder so tief wie knieschmerzfrei.', '1 s halten.', 'Kontrolliert hochdrücken, Oberkörper aufrecht.'],
+    tips: ['Ohne Verlängerung reicht das Seil in der Hocke nicht bis Schulterhöhe, die Griffe müssten mit Last aus den Armen hochgezogen werden (Ellbogen). Zwei Karabiner je Seite reichen (Test 13.10.2026), ein dritter macht das Aufnehmen bequemer.', 'Ausweichvariante: Griffe seitlich neben dem Körper mit langen Armen. Die Schulterhaltung ist die bevorzugte Form.'],
     knee: 'Knie über den Zehen, nicht nach innen. Gewicht auf dem ganzen Fuß. Tiefe nur so weit, wie der Schmerz unter 3/10 bleibt.',
   },
   {

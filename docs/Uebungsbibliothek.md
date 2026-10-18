@@ -194,12 +194,13 @@ Die Skala an den Schwingarmen zeigt amerikanische Pfund (lb) pro Seite: 5 bis 12
 
 ### Kabel-Kniebeuge (Bio Force Nr. 1)
 - **Muskeln:** primär Quadrizeps, Gesäß · sekundär hintere Oberschenkel, Waden, unterer Rücken
-- **Einstellung:** Sitz entfernt, Handgriffe an den unteren Haken, stehend mit Gesicht zum Gerät
+- **Einstellung:** Sitz entfernt, Handgriffe über je zwei Karabiner (Seilverlängerung) an den unteren Haken, stehend mit Gesicht zum Gerät
 - **Ausführung:**
-  1. Füße schulterbreit, Griffe auf Schulterhöhe halten (wie ein Rucksack vorn).
+  1. Je Seite zwei Karabiner zwischen Haken und Griff einhängen. Füße schulterbreit, Griffe aus der tiefen Hocke aufnehmen und auf Schulterhöhe halten (wie ein Rucksack vorn).
   2. Langsam (3 s) in die Knie bis die Oberschenkel etwa parallel zum Boden sind, oder so tief, wie es knieschmerzfrei geht.
   3. 1 s halten, kontrolliert hochdrücken. Oberkörper aufrecht.
 - **Knie:** Knie über den Zehen, nicht nach innen fallen lassen. Gewicht auf dem ganzen Fuß. Tiefe nur so weit, wie der Schmerz unter 3/10 bleibt.
+- **Seilverlängerung:** Ohne Verlängerung reicht das Seil in der Hocke nicht bis Schulterhöhe, die Griffe müssten mit Last aus den Armen hochgezogen werden (Ellbogenrisiko, deshalb blieb die Last in Block 1 bei 47,5–50 lb stehen). Zwei Karabiner je Seite zwischen Haken und Griff reichen (Test 13.10.2026), ein dritter macht das Aufnehmen bequemer. Ausweichvariante: Griffe seitlich neben dem Körper mit langen Armen; die Schulterhaltung ist die bevorzugte Form.
 
 ### Kreuzheben mit Latstange, Variante Romanian Deadlift (nach Bio Force Nr. 7)
 - **Muskeln:** primär hintere Oberschenkel, Gesäß · sekundär unterer Rücken, oberer Rücken, Unterarme

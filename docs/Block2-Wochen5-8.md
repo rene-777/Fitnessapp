@@ -10,6 +10,23 @@ Start Mo 19.10.2026, Woche 8 (Kraft-Challenge) ab Mo 09.11.2026. Die Daten stehe
 - **Problem 1, Dauer:** Kraft-Einheiten in Woche 3 dauerten 82–86 min (geplant 55–60). **Beschluss 11.10.:** ca. 70 min inkl. Warm-up und Cool-down.
 - **Problem 2, Progression:** Steigerung nur bei RIR ≤ 1, der User trainiert sauber bei RIR 2 → Lasten blieben stehen (Kabel-Kniebeuge 5 × 10 @ 47,5 lb). **Beschluss 11.10.:** obere Wiederholungszahl bei RIR 2 → +2,5 lb (eine Raste).
 
+## 1b. Ergebnisse Woche 4 (Kraftausdauer-Challenge, Export vom 18.10.2026)
+
+| Ziel | Wochenziel | Geschafft | Anteil |
+|---|---|---|---|
+| Pull-Ups | 132 (12 × 11) | 155 | 117 % |
+| Push-Ups | 504 (8 × 63) | 658 | 131 % |
+| Kniebeugen | 500 (Standardwert, kein Minuten-Test) | 585 | 117 % |
+| Burpees | 256 (4 × 64) | 361 | 141 % |
+
+- **Mo–Mi:** Zirkel 5 Pull-Ups · 20 Push-Ups · 20 Kniebeugen · 10 Burpees, 7 Runden je Tag (gespeichert 35 / 150 / 150 / 80), Blockzeiten 34:52, 35:15, 33:48 min. Pull-Ups ab Dienstag in 6, ab Mittwoch in allen 7 Runden unbroken; der User spürt vor allem dort einen Kraftzuwachs.
+- **Do Test-Tag (15.10.):** 5-min-Push-Ups **98** (neuer Benchmark), 5-min-Burpees **66** (Woche 1: 64, trotz der Push-Ups direkt davor), 15 min Zone 2 mit Ø 125. Pulsdaten des Burpee-Tests unbrauchbar (Armgurt verrutscht, Ø unter 130 angezeigt, real geschätzt 150–160).
+- **Finale am So 18.10.** (Fr/Sa keine Zeit, wenig Schlaf, Motivation 3): Rest in 14:31 min (25 / 60 / 60 / 30), danach **AMRAP 12 = 5 Runden** (5 Pull-Ups, 10 Push-Ups, 15 Kniebeugen, 5 Burpees). Erste Runde leichtes Ziehen in rechter Schulter und Oberarm, ab Runde 2 weg.
+- **Krafterhalt:** Schrägdrücken 30 → 35 lb, Kabel-Kniebeuge 50 lb (mit Seilverlängerung), RDL 100 lb, Rudern stehend 25 → 27,5 lb, Latzug 40 lb, Beinstrecker 52,5 lb.
+- **Kurz-Check:** Knie 0, Muskelkater ≤ 2, Schlaf 6,5–8 h. Einheiten 64–75 min, Finale 43 min.
+- **Körper:** 75,0 kg / 88 cm am 18.10. (Start 74,7 / 88); laut User schwankt das Gewicht verdauungsbedingt, realistisch ca. 74,5 kg. Subjektiv mehr Volumen an Brust, Schultern, Armen, Oberschenkeln. Alle Kniebeugen bewusst langsam und so tief wie möglich, Hüftmobilität spürbar besser.
+- **Einschätzung des Users:** größter Engpass ist die Kondition, danach die Kraft.
+
 ## 2. Prinzipien
 
 - **Wiederholungen:** Hauptübungen 6–8 (RIR 1–2), Nebenübungen 8–10, Isolation 10–15 (RIR 0–1).
@@ -44,7 +61,7 @@ Start Mo 19.10.2026, Woche 8 (Kraft-Challenge) ab Mo 09.11.2026. Die Daten stehe
 
 | Block | Übung | Vorgabe | Pause |
 |---|---|---|---|
-| A | Kabel-Kniebeuge, Tempo 3-1-1 | 3/4 × 6–8 | 120 s |
+| A | Kabel-Kniebeuge, Tempo 3-1-1, Griffe über je zwei Karabiner (Seilverlängerung) | 3/4 × 6–8 | 120 s |
 | B | Romanian Deadlift | 3/4 × 6–8 | 120 s |
 | C | Split Squat + Hüftabduktion | 3 × 8–10 je Seite + 2 × 15 je Seite | 30/75 s |
 | D | Wadenheben + Dead Bug | 3 × 10–12 + 3 × 10 je Seite | 20/45 s |
