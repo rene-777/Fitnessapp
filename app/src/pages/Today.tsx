@@ -6,6 +6,7 @@ import { useProfile } from '../hooks/useProfile'
 import { EXERCISE_MAP } from '../data/exercises'
 import { WEEKS, weekByNumber } from '../data/plan'
 import { fmtLb, kgToLb } from '../lib/bioforce'
+import { fmtPerWeek, weightTrend } from '../lib/bodyTrend'
 import { fmtBody } from '../lib/decimal'
 import { latestKnee, latestRecord, lastPerformance, nextMilestone, planProgress, sessionStreak, totals } from '../lib/dashboard'
 import { WEEKDAY_SHORT, dateOf, fmtDate, fmtDateLong, fmtSec, parseISO, today } from '../lib/dates'
@@ -64,8 +65,11 @@ export default function Today() {
   const milestone = nextMilestone(date, start)
   const statusOf = (key: string) => workouts?.filter((w) => w.sessionKey === key && !w.deleted).sort((a, b) => (a.updatedAt < b.updatedAt ? 1 : -1))[0]
   const weights = (body ?? []).filter((r) => !r.deleted && r.weightKg)
-  const weight = weights[weights.length - 1]?.weightKg
-  const weightDelta = weights.length > 1 ? Math.round((weight! - weights[0].weightKg!) * 10) / 10 : undefined
+  // Kennzahl: 7-Tage-Mittel mit Trend (kg/Woche), solange die Wiegungen reichen; sonst letzter Wert mit Differenz zum ersten Eintrag.
+  const trend = profile ? weightTrend(weights, profile.goal ?? 'erhalt', today()) : undefined
+  const weight = trend?.mean7 ?? weights[weights.length - 1]?.weightKg
+  const weightDelta = weights.length > 1 ? Math.round((weights[weights.length - 1].weightKg! - weights[0].weightKg!) * 10) / 10 : undefined
+  const weightSub = trend?.perWeek !== undefined ? `Ø 7 Tage · ${fmtPerWeek(trend.perWeek).replace(' kg/Woche', '/Wo')}` : weightDelta !== undefined && weightDelta !== 0 ? `kg · ${weightDelta > 0 ? '+' : '−'}${fmtBody(Math.abs(weightDelta))}` : weight ? 'kg' : 'kg eintragen'
   const stripWeek = inPlan ? info.week : 1
   const stripSessions = weekByNumber(stripWeek)?.sessions ?? []
 
@@ -215,7 +219,7 @@ export default function Today() {
         </Link>
         <Link to="/body" className="card !p-3">
           <div className="text-2xl font-bold tabular-nums">{weight ? fmtBody(weight) : '–'}</div>
-          <div className="text-xs text-muted">kg{weightDelta !== undefined && weightDelta !== 0 ? ` · ${weightDelta > 0 ? '+' : '−'}${fmtBody(Math.abs(weightDelta))}` : weight ? '' : ' eintragen'}</div>
+          <div className="text-xs text-muted">{weightSub}</div>
         </Link>
         <Link to="/stats" className="card !p-3">
           <div className="text-2xl font-bold tabular-nums">{knee ?? '–'}{knee !== undefined && <span className="text-sm font-normal text-muted">/10</span>}</div>

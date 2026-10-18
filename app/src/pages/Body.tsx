@@ -4,8 +4,9 @@ import { useLiveQuery } from 'dexie-react-hooks'
 import { v4 as uuid } from 'uuid'
 import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import { db, now } from '../db/db'
-import { useProfile } from '../hooks/useProfile'
+import { saveProfile, useProfile } from '../hooks/useProfile'
 import { fmtDate, today } from '../lib/dates'
+import { CORRIDOR, fmtPerWeek, GOAL_LABEL, MIN_PER_WEEK, weightTrend, type Goal } from '../lib/bodyTrend'
 import { fmtBody, parseDecimal } from '../lib/decimal'
 import { photoCheckStatus, photoDates } from '../lib/photos'
 
@@ -23,9 +24,12 @@ export default function Body() {
   // Texteingabe statt type="number": die deutsche Android-Tastatur liefert ein Komma, das ein Zahlenfeld verwirft.
   const [weight, setWeight] = useState('')
   const [waist, setWaist] = useState('')
-  const [activity, setActivity] = useState(1.55)
-  const [goal, setGoal] = useState<'erhalt' | 'defizit' | 'aufbau'>('erhalt')
   if (!profile) return null
+  // Ziel und Aktivität liegen im Profil (vorher nur im Seitenzustand, ging beim Verlassen verloren).
+  const activity = profile.activity ?? 1.55
+  const goal: Goal = profile.goal ?? 'erhalt'
+  const setActivity = (a: number) => saveProfile({ ...profile, activity: a })
+  const setGoal = (g: Goal) => saveProfile({ ...profile, goal: g })
   const list = (rows ?? []).filter((r) => !r.deleted).sort((a, b) => (a.date < b.date ? -1 : 1))
   const last = list[list.length - 1]
   const w = last?.weightKg ?? 73.5
@@ -53,6 +57,9 @@ export default function Body() {
     ? `Jetzt dran: ${nextCheck.label} (${fmtDate(nextCheck.date)})`
     : `${lastCheck ? `Zuletzt ${fmtDate(lastCheck.doneDate!)}` : 'Noch keine Fotos'}${nextCheck ? ` · nächster: ${nextCheck.label}, ${fmtDate(nextCheck.date)}` : ''}`
   const chart = list.filter((r) => r.weightKg).map((r) => ({ d: fmtDate(r.date, { day: '2-digit', month: '2-digit' }), kg: r.weightKg }))
+  const trend = weightTrend(list, goal, today())
+  const [lo, hi] = CORRIDOR[goal]
+  const trendColor = trend.status === 'zu_wenig' ? 'text-muted' : trend.status === 'im_korridor' ? 'text-ok' : 'text-accent'
 
   return (
     <div className="space-y-4">
@@ -75,6 +82,19 @@ export default function Body() {
           <span className="text-muted text-xl">›</span>
         </div>
       </Link>
+
+      {list.some((r) => r.weightKg) && (
+        <div className="card space-y-2">
+          <div className="flex items-baseline justify-between"><div className="h2">Gewichtstrend</div><div className="text-xs text-muted">Ziel {GOAL_LABEL[goal]} · {fmtPerWeek(lo).replace(' kg/Woche', '')} bis {fmtPerWeek(hi)}</div></div>
+          <div className="grid grid-cols-3 gap-2 text-center">
+            <div className="rounded-xl bg-card2 p-2"><div className="text-xl font-bold tabular-nums">{trend.mean7 !== undefined ? fmtBody(trend.mean7) : '–'}</div><div className="label">Ø 7 Tage ({trend.n7}/{MIN_PER_WEEK})</div></div>
+            <div className="rounded-xl bg-card2 p-2"><div className="text-xl font-bold tabular-nums">{trend.meanPrev !== undefined ? fmtBody(trend.meanPrev) : '–'}</div><div className="label">Vorwoche ({trend.nPrev}/{MIN_PER_WEEK})</div></div>
+            <div className="rounded-xl bg-card2 p-2"><div className={`text-xl font-bold tabular-nums ${trendColor}`}>{trend.perWeek !== undefined ? fmtPerWeek(trend.perWeek).replace(' kg/Woche', '') : '–'}</div><div className="label">kg / Woche</div></div>
+          </div>
+          <div className={`text-sm ${trendColor}`}>{trend.text}</div>
+          <div className="text-xs text-muted">Morgens nach der Toilette, vor dem Frühstück wiegen. Tageswerte schwanken, es zählt nur das Wochenmittel. Trend = Gerade durch die letzten 14 Tage.</div>
+        </div>
+      )}
 
       {chart.length > 1 && (
         <div className="card">
@@ -109,7 +129,7 @@ export default function Body() {
           <div className="flex gap-1">
             {(['erhalt', 'defizit', 'aufbau'] as const).map((g) => (
               <button key={g} className={`flex-1 rounded-lg py-2 border text-sm ${goal === g ? 'bg-accent text-black border-accent' : 'bg-card2 border-line'}`} onClick={() => setGoal(g)}>
-                {g === 'erhalt' ? 'Erhalt (Block 1–2)' : g === 'defizit' ? 'Defizit −350 (Block 3–4)' : 'Aufbau +200'}
+                {g === 'erhalt' ? 'Erhalt (Block 1–2)' : g === 'defizit' ? 'Defizit −350 (ab Block 3)' : 'Aufbau +200'}
               </button>
             ))}
           </div>

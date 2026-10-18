@@ -6,6 +6,10 @@ export interface Profile {
   sex?: 'm' | 'w'
   planStartDate: string // YYYY-MM-DD, Montag
   hrMax?: number
+  /** Ernährungsziel für Kalorienbedarf und Gewichtstrend (Seite „Körper“); fehlt → Erhalt. */
+  goal?: 'erhalt' | 'defizit' | 'aufbau'
+  /** Aktivitätsfaktor für den Kalorienbedarf; fehlt → 1,55. */
+  activity?: number
   createdAt: string
   updatedAt: string
   deleted?: boolean
