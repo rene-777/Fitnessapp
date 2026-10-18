@@ -303,6 +303,10 @@ function SetStepView({ step, workout, onSaved, onSkip }: { step: SetStep; workou
   const [seconds, setSeconds] = useState<number | ''>('')
   const [init, setInit] = useState(false)
   const [holdTimer, setHoldTimer] = useState<'off' | 'ready' | 'on'>('off')
+  // Haltezeit vor dem Start wählbar: Planwert, 60/90/120 s oder offen bis Stopp (Wunsch 19.10.2026, damit Planks nicht am Countdown enden)
+  const [holdTarget, setHoldTarget] = useState<number | 'offen'>(step.p.seconds ?? 'offen')
+  const holdOptions = useMemo(() => [...new Set([step.p.seconds, 60, 90, 120].filter((n): n is number => !!n))].sort((a, b) => a - b), [step.p.seconds])
+  const onHoldTick = useCallback((s: number) => setSeconds(Math.round(s)), [])
   const [missing, setMissing] = useState(false)
   const [noLoad, setNoLoad] = useState(false) // Bio Force ohne Skalenwert: erst Hinweis, zweiter Tipp speichert
   const [variant, setVariant] = useState<string>('')
@@ -353,9 +357,21 @@ function SetStepView({ step, workout, onSaved, onSkip }: { step: SetStep; workou
       <div className="card space-y-3">
         {timed && (
           <>
-            {holdTimer === 'off' && step.p.seconds && <button className="btn-ghost w-full" onClick={() => { unlockAudio(); setHoldTimer('ready') }}>Halte-Timer {step.p.seconds} s</button>}
+            {holdTimer === 'off' && step.p.seconds && (
+              <div className="space-y-2">
+                <div className="label">Haltezeit</div>
+                <div className="flex flex-wrap gap-1">
+                  {holdOptions.map((n) => (
+                    <button key={n} type="button" className={`rounded-full px-3 py-1.5 text-sm border ${holdTarget === n ? 'bg-accent text-black border-accent' : 'bg-card2 border-line'}`} onClick={() => { setHoldTarget(n); setSeconds(n); setMissing(false) }}>{n} s{n === step.p.seconds ? ' · Plan' : ''}</button>
+                  ))}
+                  <button type="button" className={`rounded-full px-3 py-1.5 text-sm border ${holdTarget === 'offen' ? 'bg-accent text-black border-accent' : 'bg-card2 border-line'}`} onClick={() => setHoldTarget('offen')}>Offen bis Stopp</button>
+                </div>
+                <button className="btn-ghost w-full" onClick={() => { unlockAudio(); setHoldTimer('ready') }}>Halte-Timer starten · {holdTarget === 'offen' ? 'offen' : `${holdTarget} s`}</button>
+              </div>
+            )}
             {holdTimer === 'ready' && <GetReady onGo={() => setHoldTimer('on')} />}
-            {holdTimer === 'on' && step.p.seconds && <Timer seconds={step.p.seconds} onDone={() => setHoldTimer('off')} label="Halten" size="md" allowExtend={false} />}
+            {holdTimer === 'on' && holdTarget !== 'offen' && <Timer seconds={holdTarget} onDone={() => { setSeconds(holdTarget); setHoldTimer('off') }} label="Halten" size="md" allowExtend={false} />}
+            {holdTimer === 'on' && holdTarget === 'offen' && <Stopwatch autoStart onChange={onHoldTick} />}
             {step.isTest && <Stopwatch leadIn onChange={(s) => setSeconds(Math.round(s))} />}
             <NumberInput label="Sekunden" value={seconds} onChange={(v) => { setSeconds(v); setMissing(false) }} step={5} error={missing ? 'Bitte die Sekunden eintragen.' : undefined} />
           </>

@@ -159,7 +159,7 @@ export const EXERCISES: Exercise[] = [
     equipment: 'Bio Force, Sitz angebracht, Latstange am oberen Haken, Gesicht zum Gerät',
     setup: 'Stange weit greifen, leicht zurücklehnen, Brust raus.',
     steps: ['Ellbogen nach unten-hinten ziehen, Stange zur oberen Brust.', 'Kurz anspannen.', 'Langsam zurück, bis die Arme gestreckt sind und die Schultern nach oben gehen (Dehnung).'],
-    tips: ['Nicht in den Nacken ziehen.', 'Oberkörper nicht nach hinten werfen.'],
+    tips: ['Nicht in den Nacken ziehen.', 'Oberkörper nicht nach hinten werfen.', 'Grenze des Geräts: ohne Oberschenkelpolster hebt dich die Last ab etwa 45–50 lb je Seite vom Sitz. Dann nicht schwerer, sondern 3 s ablassen, Pause unten oder mehr Wiederholungen; der schwere vertikale Zug läuft über Pull-Ups mit Zusatzlast.'],
   },
   {
     id: 'latzug-eng', name: 'Latzug enger Griff', category: 'pull',
@@ -167,6 +167,7 @@ export const EXERCISES: Exercise[] = [
     equipment: 'Bio Force, Sitz angebracht, beide Handgriffe am Lat-Tower, Handflächen zueinander',
     setup: 'Griffe oben fassen, leicht zurücklehnen.',
     steps: ['Ellbogen nach unten ziehen, Hände zur Brust.', 'Langsam zurück in die volle Dehnung.'],
+    tips: ['Grenze des Geräts: ohne Oberschenkelpolster hebt dich die Last ab etwa 50 lb je Seite vom Sitz. Dann Tempo, Pause unten oder mehr Wiederholungen statt mehr Last.'],
   },
   {
     id: 'rudern-stehend', name: 'Rudern stehend', category: 'pull',
@@ -248,7 +249,7 @@ export const EXERCISES: Exercise[] = [
       'Hüfte nach hinten schieben, Oberkörper mit geradem Rücken nach vorn neigen. Stange dicht an den Beinen nach unten, bis die hinteren Oberschenkel deutlich ziehen.',
       'Hüfte nach vorn drücken und aufrichten, Gesäß anspannen. Oben nicht überstrecken.',
     ],
-    tips: ['Runder Rücken und Stange vom Körper weg sind die Hauptfehler.', 'Foto zeigt Nr. 7 (klassisches Kreuzheben mit Kniebeugung). Wir beugen die Knie kaum.'],
+    tips: ['Runder Rücken und Stange vom Körper weg sind die Hauptfehler.', 'Foto zeigt Nr. 7 (klassisches Kreuzheben mit Kniebeugung). Wir beugen die Knie kaum.', 'Grenze des Geräts: ab etwa 100 lb je Seite hebt dich die Last auf der Standplatte an. Dann nicht schwerer, sondern einbeinig (Single-Leg RDL), 3 s ablassen, Pause unten oder 10–12 Wiederholungen.'],
   },
   {
     id: 'pull-through', name: 'Cable Pull-Through', category: 'beine',
@@ -286,7 +287,7 @@ export const EXERCISES: Exercise[] = [
   {
     id: 'step-up', name: 'Step-Up', category: 'beine',
     primary: ['quadrizeps', 'gesaess'], secondary: ['waden'], loadType: 'extern', unit: 'reps', genImage: 'step_up',
-    equipment: 'Plyo-Box 20 in (51 cm), Kettlebell',
+    equipment: 'Plyo-Box 20 in (51 cm), Kettlebell 8 kg oder zwei Kurzhanteln (je 10 kg) seitlich',
     steps: ['Ganzer Fuß auf der Stufe, mit dem oberen Bein hochdrücken. Das untere Bein schiebt nicht mit.', 'Oben kurz stehen, langsam (3 s) absteigen.', 'Alle Wiederholungen einer Seite, dann wechseln.'],
   },
   {

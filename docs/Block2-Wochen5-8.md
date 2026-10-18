@@ -44,7 +44,9 @@ Start Mo 19.10.2026, Woche 8 (Kraft-Challenge) ab Mo 09.11.2026. Die Daten stehe
 
 **Sonstiges:** Gewicht und Taille nach vier Wochen unverändert (normal, noch kein Urteil; Fotos Woche 5 sind der Maßstab). Drücken deutlich stärker als Ziehen, der Mittwoch ist in Block 2 der wichtigste Tag.
 
-**Ableitungen für Block 2:** (1) nicht leicht starten: Rudern und Latzug eine Raste über dem Vorschlag (25 bzw. 42,5 lb), innerhalb der Einheit nach oben korrigieren, wenn Satz 1 RIR 3 zeigt; Ziel Woche 7 Schrägdrücken 35–40 × 8, RDL 110–120, Kniebeuge 60 mit Verlängerung. (2) Push-Ups mit Füßen erhöht + Defizit, so dass 8–12 Wdh. bei RIR 1–2 liegen. (3) Core progressiv: Plank 60 s oder mit Scheibe, Side Plank 45 s, Hanging Knee Raises Richtung gestreckte Beine, Pallof 25 lb. (4) Beinstrecker bei RIR 2 deckeln. (5) Mobility-Check in Woche 5 nachholen. (6) zweite oder schwerere Kettlebell (12–16 kg). Entscheidung des Users zu (2) und (3) in den Plandaten: siehe `Uebergabe.md`.
+**Ableitungen für Block 2:** (1) nicht leicht starten: Rudern und Latzug eine Raste über dem Vorschlag (25 bzw. 42,5 lb), innerhalb der Einheit nach oben korrigieren, wenn Satz 1 RIR 3 zeigt; Ziel Woche 7 Schrägdrücken 35–40 × 8, Kniebeuge 60 mit Verlängerung; RDL **nicht** über 100 lb (Gerätegrenze, siehe unten), Progression dort über Tempo, Pause unten, einbeinig. (2) Push-Ups mit Füßen erhöht + Defizit, so dass 8–12 Wdh. bei RIR 1–2 liegen. (3) Core progressiv: Plank 60 s oder mit Scheibe, Side Plank 45 s, Hanging Knee Raises Richtung gestreckte Beine, Pallof 25 lb. (4) Beinstrecker bei RIR 2 deckeln. (5) Mobility-Check in Woche 5 nachholen. (6) zweite oder schwerere Kettlebell (12–16 kg). Entscheidung des Users zu (2) und (3) in den Plandaten: siehe `Uebergabe.md`.
+
+**Antwort des Users (19.10.2026):** unterschreibt die Einschätzung. Er war bewusst vorsichtig, um Bänder und Gelenke an das unbekannte Gerät zu gewöhnen, und kennt Satz-Training mit Lasten nicht (bisher nur Körpergewicht im AMRAP-Stil), Lernkurve. **Gerätegrenzen der Bio Force:** Latzug ohne Oberschenkelpolster, ab etwa 45–50 lb je Seite zieht er sich an der Stange hoch statt die Last zu ziehen; RDL auf der Standplatte, bei 100 lb je Seite hebt es ihn an. Tiefe Kabel-Kniebeugen mit Last bleiben schwierig (Seilverlängerung hilft). Folge: Progression dort über Tempo, Pause, einbeinig und Wiederholungen, nicht über Last; der schwere vertikale Zug über Pull-Ups mit Zusatzlast. AMRAP 12 (5 Runden) war durch die Pull-Ups begrenzt, die anderen Übungen hätten deutlich mehr hergegeben. Step-Ups künftig mit zwei Kurzhanteln (je 10 kg) statt der 8-kg-Kettlebell, keine neue Kettlebell nötig. Mobility-Check: will er diese Woche versuchen, Priorität hinter dem Training. (2) und (3) sind in den Plandaten umgesetzt; dazu neu in der App: Haltezeit vor dem Start wählbar (Planwert, 60/90/120 s oder offen bis Stopp).
 
 ## 2. Prinzipien
 
@@ -71,7 +73,7 @@ Start Mo 19.10.2026, Woche 8 (Kraft-Challenge) ab Mo 09.11.2026. Die Daten stehe
 |---|---|---|---|
 | A | Kabel-Schrägdrücken | 3/4 × 6–8, RIR 1–2 | 150 s |
 | B | Dips + Incline Cable Fly | 3 × 6–10 + 3 × 10–12 | 30/90 s |
-| C | Trizeps über Kopf + Elbow Plank | 2 × 10–12 + 2 × 45 s | 20/45 s |
+| C | Trizeps über Kopf + Elbow Plank | 2 × 10–12 + 2 × 60 s (Haltezeit wählbar: 60/90/120 s oder offen bis Stopp) | 20/45 s |
 | Umbau | **Sitz abbauen** | | |
 | D | Seitheben am Kabel | 3 × 12–15 je Seite, RIR 0–1 | 45 s |
 | Finisher | AMRAP 6: 6 Burpees, 10 Push-Ups, 20 Mountain Climbers | | |
@@ -83,7 +85,7 @@ Start Mo 19.10.2026, Woche 8 (Kraft-Challenge) ab Mo 09.11.2026. Die Daten stehe
 | A | Kabel-Kniebeuge, Tempo 3-1-1, Griffe über je zwei Karabiner (Seilverlängerung) | 3/4 × 6–8 | 120 s |
 | B | Romanian Deadlift | 3/4 × 6–8 | 120 s |
 | C | Split Squat + Hüftabduktion | 3 × 8–10 je Seite + 2 × 15 je Seite | 30/75 s |
-| D | Wadenheben + Dead Bug | 3 × 10–12 + 3 × 10 je Seite | 20/45 s |
+| D | Wadenheben + Dead Bug | 3 × 10–12 + 3 × 10 je Seite, langsam, Arm und Bein ganz gestreckt | 20/45 s |
 | Umbau | **Sitz anbringen** | | |
 | E | Beinbeuger + Beinstrecker, Tempo 3-1-3 | 2 × 8–10 je Seite + 2 × 10–12 (RIR 2, nicht bis zum Versagen) | 30/75 s |
 
@@ -93,7 +95,7 @@ Start Mo 19.10.2026, Woche 8 (Kraft-Challenge) ab Mo 09.11.2026. Die Daten stehe
 |---|---|---|---|
 | A | Pull-Ups | 4 × 5–7, RIR 1–2 | 120 s |
 | B | Rudern stehend | 3/4 × 6–8 | 120 s |
-| C | Latzug + Hanging Knee Raises | 3 × 8–10 + 3 × 10–12 | 30/75 s |
+| C | Latzug + Hanging Knee Raises | 3 × 8–10 + 3 × 10–12 (bei 3+ RIR Beine gestreckter, 3 s ablassen) | 30/75 s |
 | Umbau | **Sitz abbauen** | | |
 | D | Reverse Flys + Face Pulls | 3 × 12–15 + 3 × 12–15 | 20/60 s |
 | E | Bizeps-Curls + Hammer-Curls | 2 × 10–12 + 2 × 10–12 | 20/45 s |
@@ -106,9 +108,9 @@ Warm-up, Burpee-Intervalle 30 s / 60 s (8/9/10 Runden, Puls am Rundenende 141–
 
 | Block | Übung | Vorgabe | Pause |
 |---|---|---|---|
-| A | Defizit-Push-Ups + Latzug eng | 3 × 8–12 + 3 × 8–10 | 30/75 s |
+| A | Defizit-Push-Ups (Füße auf der Box) + Latzug eng | 3 × 8–12 bei RIR 1–2 + 3 × 8–10 | 30/75 s |
 | B | Kabel-Schrägdrücken + einarmiges Rudern | 3 × 8–10 + 3 × 8–10 je Seite | 30/75 s |
-| C | Schulterdrücken + Hanging Knee Raises | 3 × 8–10 + 3 × 10–12 | 30/75 s |
+| C | Schulterdrücken + Hanging Knee Raises | 3 × 8–10 + 3 × 10–12 (bei 3+ RIR Beine gestreckter) | 30/75 s |
 | Umbau | **Sitz abbauen** | | |
 | D | Hüftstrecken / Kickback | 2 × 12 je Seite | 45 s |
 | E | Seitheben am Kabel | 2 × 12–15 je Seite | 45 s |

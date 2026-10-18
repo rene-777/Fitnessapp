@@ -127,6 +127,7 @@ Die Skala an den Schwingarmen zeigt amerikanische Pfund (lb) pro Seite: 5 bis 12
   2. Ellbogen nach unten-hinten ziehen, Stange zur oberen Brust.
   3. Kurz anspannen, langsam zurück bis die Arme gestreckt sind und die Schultern nach oben gehen (Dehnung).
 - **Fehler:** Stange in den Nacken ziehen, Oberkörper weit nach hinten werfen.
+- **Grenze des Geräts (Rückmeldung 19.10.2026):** Die Bio Force hat kein Oberschenkelpolster; ab etwa 45–50 lb je Seite hebt die Last den Sitzenden an. Darüber nicht schwerer, sondern 3 s ablassen, Pause unten oder mehr Wiederholungen. Der schwere vertikale Zug läuft über Pull-Ups mit Zusatzlast.
 - **Variante enger Griff:** Nr. 47 „Latzug mit neutralem Griff“: die beiden Handgriffe am Lat-Tower, Handflächen zueinander, Zug zur Brust.
 
 ### Rudern stehend (Bio Force Nr. 53 Griffe / Nr. 57 Untergriff)
@@ -211,6 +212,7 @@ Die Skala an den Schwingarmen zeigt amerikanische Pfund (lb) pro Seite: 5 bis 12
   3. Hüfte nach vorn drücken und aufrichten, Gesäß anspannen. Oben nicht überstrecken.
 - **Abweichung vom Hersteller:** Nr. 7 beschreibt das klassische Kreuzheben mit Kniebeugung. Wir nutzen die Romanian-Variante, weil sie die Knie weniger belastet und die hintere Kette dehnt.
 - **Fehler:** Runder Rücken, Stange vom Körper weg, Knie beugen statt Hüfte schieben.
+- **Grenze des Geräts (Rückmeldung 19.10.2026):** Ab etwa 100 lb je Seite hebt die Last den Stehenden auf der Standplatte an. Darüber nicht schwerer, sondern einbeinig (Single-Leg RDL), 3 s ablassen, Pause unten oder 10–12 Wiederholungen.
 
 ### Cable Pull-Through (Bio Force Nr. 6 „Kreuzheben mit gestreckten Beinen“)
 - **Muskeln:** primär Gesäß, hintere Oberschenkel · sekundär unterer Rücken
@@ -250,7 +252,7 @@ Die Skala an den Schwingarmen zeigt amerikanische Pfund (lb) pro Seite: 5 bis 12
 
 ### Step-Up
 - **Muskeln:** primär Quadrizeps, Gesäß · sekundär Waden
-- **Aufbau:** Plyo-Box auf 20 in (51 cm, etwa Kniehöhe; die Box hat auch 24 und 30 in, die sind für die Knie zu hoch). Kettlebell 8 kg vor der Brust oder in einer Hand.
+- **Aufbau:** Plyo-Box auf 20 in (51 cm, etwa Kniehöhe; die Box hat auch 24 und 30 in, die sind für die Knie zu hoch). Kettlebell 8 kg vor der Brust oder in einer Hand, alternativ zwei Kurzhanteln (je 10 kg) seitlich in den Händen (ab 19.10.2026 die schwerere Option, keine neue Kettlebell nötig).
 - **Ausführung:** Ganzer Fuß auf der Stufe, mit dem oberen Bein hochdrücken, das untere Bein schiebt nicht mit. Oben kurz stehen, langsam (3 s) absteigen. Alle Wiederholungen einer Seite, dann wechseln.
 
 ### Hüftabduktion mit Fußschlaufe (Bio Force Nr. 16)
