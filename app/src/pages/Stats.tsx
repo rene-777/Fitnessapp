@@ -10,7 +10,7 @@ import { fmtLb, kgToLb } from '../lib/bioforce'
 import { fmtDate, fmtSec, planWeekOf, today } from '../lib/dates'
 import { blockLabel } from '../lib/planEngine'
 import { GROUP_NAMES, REP_GROUPS, benchmarkSeries, cardioPoints, frequencyByWeek, loadRecords, mobilityByWeek, readinessPoints, repsByWeek, volumeByGroup, type BenchmarkSeries } from '../lib/stats'
-import { BENCHMARK_LABELS, LOWER_IS_BETTER, isMobilityBenchmark } from '../lib/workouts'
+import { BENCHMARK_LABELS, LOWER_IS_BETTER, isMobilityBenchmark, withoutEmpty } from '../lib/workouts'
 
 const num = (n: number) => n.toLocaleString('de-DE', { maximumFractionDigits: 1 })
 const shortDate = (d: string) => fmtDate(d, { day: '2-digit', month: '2-digit' })
@@ -85,7 +85,7 @@ export default function Stats() {
     return (benchmarks ? benchmarkSeries(benchmarks) : []).sort((a, b) => order.indexOf(a.key) - order.indexOf(b.key))
   }, [benchmarks])
   const records = useMemo(() => (sets ? loadRecords(sets) : []), [sets])
-  const freq = useMemo(() => (workouts ? frequencyByWeek(workouts, start, currentWeek) : []), [workouts, start, currentWeek])
+  const freq = useMemo(() => (workouts ? frequencyByWeek(withoutEmpty(workouts, sets ?? []), start, currentWeek) : []), [workouts, sets, start, currentWeek])
   const mobility = useMemo(() => (workouts ? mobilityByWeek(workouts, start, currentWeek) : []), [workouts, start, currentWeek])
   const cardio = useMemo(() => (sets ? cardioPoints(sets) : []), [sets])
   const readiness = useMemo(() => (workouts ? readinessPoints(workouts) : []), [workouts])

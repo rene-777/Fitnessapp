@@ -1,9 +1,11 @@
+import { useMemo } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useLiveQuery } from 'dexie-react-hooks'
 import ExerciseCard from '../components/ExerciseCard'
 import { ex } from '../data/exercises'
 import { findSession } from '../data/plan'
 import { db } from '../db/db'
+import type { Workout } from '../db/types'
 import { useProfile } from '../hooks/useProfile'
 import { fmtDateLong } from '../lib/dates'
 import { timedMinutes } from '../data/planTypes'
@@ -18,16 +20,27 @@ export default function SessionPreview() {
     () => (profile ? db.workouts.where('[profileId+sessionKey]').equals([profile.id, sessionKey]).toArray() : []),
     [profile?.id, sessionKey],
   )
+  // Alle gespeicherten Trainings dieser Einheit (jüngstes zuerst) mit Satzzahl; leere lassen sich erkennen und löschen
+  const alive = useMemo(() => (workout ?? []).filter((w) => !w.deleted).sort((a, b) => (a.date < b.date ? 1 : -1)), [workout])
+  const ids = alive.map((w) => w.id).join(',')
+  const setRows = useLiveQuery(() => (ids ? db.sets.where('workoutId').anyOf(ids.split(',')).toArray() : []), [ids])
   if (!found) return <div className="text-muted">Einheit nicht gefunden.</div>
   const { week, session } = found
-  const done = workout?.find((w) => w.status === 'fertig' && !w.deleted)
-  // Gespeichertes Training zu dieser Einheit (laufend oder fertig), das sich löschen lässt
-  const alive = workout?.filter((w) => !w.deleted) ?? []
-  const stored = alive.find((w) => w.date === date) ?? done ?? alive[0]
-  const remove = async () => {
-    if (!stored) return
-    if (!confirm(`Training vom ${fmtDateLong(stored.date)} mit allen eingetragenen Sätzen und Testwerten löschen?`)) return
-    await deleteWorkout(stored.id)
+  const count = (id: string) => (setRows ?? []).filter((s) => s.workoutId === id && !s.deleted).length
+  const isMobility = session.kind === 'mobility'
+  const isEmpty = (w: Workout) => !isMobility && count(w.id) === 0
+  const done = alive.find((w) => w.status === 'fertig' && !isEmpty(w))
+  const running = alive.find((w) => w.status === 'laufend' && !isEmpty(w))
+  const remove = async (w: Workout) => {
+    const what = isEmpty(w) ? 'Leeres Training' : 'Training'
+    if (!confirm(`${what} vom ${fmtDateLong(w.date)}${isEmpty(w) ? '' : ' mit allen eingetragenen Sätzen und Testwerten'} löschen?`)) return
+    await deleteWorkout(w.id)
+  }
+  const statusText = (w: Workout) => {
+    if (isEmpty(w)) return `leer · ${w.status === 'fertig' ? 'beendet ohne Sätze' : 'nur geöffnet'}`
+    const n = count(w.id)
+    const sets = isMobility ? '' : ` · ${n} ${n === 1 ? 'Satz' : 'Sätze'}`
+    return w.status === 'fertig' ? `fertig${sets}${w.durationMin ? ` · ${w.durationMin} min` : ''}` : `laufend${sets}`
   }
 
   return (
@@ -42,8 +55,21 @@ export default function SessionPreview() {
         <Link to={`/log/${date}/${sessionKey}`} className="btn-ghost text-center">Nachtragen</Link>
       </div>
       {done && <div className="rounded-xl bg-ok/10 border border-ok/40 p-3 text-ok text-sm">Erledigt am {fmtDateLong(done.date)}{done.durationMin ? ` · ${done.durationMin} min` : ''}</div>}
-      {stored && !done && <div className="rounded-xl bg-warn/10 border border-warn/40 p-3 text-sm">Begonnen am {fmtDateLong(stored.date)}, noch nicht beendet.</div>}
-      {stored && <button className="btn-ghost w-full text-sm text-bad" onClick={remove}>Dieses Training löschen</button>}
+      {running && !done && <div className="rounded-xl bg-warn/10 border border-warn/40 p-3 text-sm">Begonnen am {fmtDateLong(running.date)}, noch nicht beendet.</div>}
+      {alive.length > 0 && (
+        <div className="card space-y-1">
+          <div className="h2">Gespeicherte Trainings</div>
+          {alive.some(isEmpty) && <div className="text-xs text-muted">Leere Trainings entstehen durch bloßes Öffnen oder ein versehentliches „Beenden“. Sie zählen nicht und werden beim nächsten Start wiederverwendet.</div>}
+          <div className="divide-y divide-line text-sm">
+            {alive.map((w) => (
+              <div key={w.id} className="py-2 flex items-center justify-between gap-2">
+                <div><div>{fmtDateLong(w.date)}</div><div className={`text-xs ${isEmpty(w) ? 'text-muted' : w.status === 'fertig' ? 'text-ok' : 'text-warn'}`}>{statusText(w)}</div></div>
+                <button className="btn-ghost text-sm text-bad px-3 py-1.5" onClick={() => remove(w)}>Löschen</button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
       {week.note && <div className="card text-sm text-muted">{week.note}</div>}
 
       {session.segments.map((seg, i) => {

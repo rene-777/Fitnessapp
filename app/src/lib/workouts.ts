@@ -14,11 +14,43 @@ export async function findWorkout(profileId: string, sessionKey: string, date?: 
   return alive.sort((a, b) => (a.date < b.date ? 1 : -1))[0]
 }
 
+/** Hat das Training Inhalt? Sätze oder Testwerte; eine beendete Mobility-Routine zählt auch ohne Sätze (zeitgeführt). */
+export async function hasWorkoutData(w: Workout): Promise<boolean> {
+  if (isMobilityWorkout(w) && w.status === 'fertig') return true
+  const sets = await db.sets.where('workoutId').equals(w.id).toArray()
+  if (sets.some((s) => !s.deleted)) return true
+  const benchmarks = await db.benchmarks.where('profileId').equals(w.profileId).toArray()
+  return benchmarks.some((b) => b.workoutId === w.id && !b.deleted)
+}
+
+/**
+ * Training zu einer Einheit holen oder anlegen. Reihenfolge nach Zustand, nicht nach Datum (18.10.2026):
+ * 1. laufend mit Inhalt → fortsetzen (am Plan-Datum zuerst, sonst das jüngste);
+ * 2. leer (nur geöffnet oder versehentlich beendet) → zurücksetzen und wiederverwenden, weitere leere weich löschen;
+ * 3. fertig mit Inhalt → nur anschauen (Mobility-Routinen laufen jede Woche neu, außer am selben Tag);
+ * 4. sonst neu. Vorher blockierte das jüngste Training der Einheit jeden weiteren Versuch an einem anderen Tag.
+ */
 export async function getOrCreateWorkout(profileId: string, date: string, week: number, session: Session): Promise<Workout> {
-  let existing: Workout | undefined = await findWorkout(profileId, session.key, date)
-  // Mobility-Routinen laufen jede Woche neu: ein fertiges Training eines anderen Tages wird nicht wieder geöffnet
-  if (existing && session.kind === 'mobility' && existing.date !== date && existing.status === 'fertig') existing = undefined
-  if (existing && existing.status !== 'abgebrochen') return existing
+  const list = (await db.workouts.where('[profileId+sessionKey]').equals([profileId, session.key]).toArray())
+    .filter((w) => !w.deleted && w.status !== 'abgebrochen')
+    .sort((a, b) => (a.date < b.date ? 1 : -1))
+  const info = await Promise.all(list.map(async (w) => ({ w, data: await hasWorkoutData(w) })))
+  const running = info.filter((x) => x.w.status === 'laufend' && x.data).map((x) => x.w)
+  const r = running.find((w) => w.date === date) ?? running[0]
+  if (r) return r
+  const empties = info.filter((x) => !x.data).map((x) => x.w)
+  if (empties.length) {
+    const [keep, ...rest] = empties
+    const t = now()
+    // Bewusst neu aufgebaut: finishedAt, durationMin, readiness und notes des leeren Trainings verfallen
+    const reset: Workout = { id: keep.id, profileId: keep.profileId, date, week, sessionKey: keep.sessionKey, title: session.title, status: 'laufend', stepIndex: 0, startedAt: t, updatedAt: t }
+    await db.workouts.put(reset)
+    for (const w of rest) await db.workouts.put({ ...w, deleted: true, updatedAt: t })
+    return reset
+  }
+  const finished = info.filter((x) => x.w.status === 'fertig' && x.data).map((x) => x.w)
+  const f = finished.find((w) => w.date === date) ?? (session.kind === 'mobility' ? undefined : finished[0])
+  if (f) return f
   const w: Workout = {
     id: uuid(), profileId, date, week, sessionKey: session.key, title: session.title, status: 'laufend', stepIndex: 0, startedAt: now(), updatedAt: now(),
   }
@@ -26,7 +58,16 @@ export async function getOrCreateWorkout(profileId: string, date: string, week: 
   return w
 }
 
-/** Freie Einträge (einzelne Übungen ohne Plan-Einheit) hängen an einem Training je Tag mit diesem Schlüssel. Zählt nicht als Plan-Einheit. */
+/** Trainings mit mindestens einem Satz; Mobility-Routinen zählen immer. Für Einheiten-Zählung, Serie und Trainingszeit. */
+export function idsWithSets(sets: SetLog[]): Set<string> {
+  return new Set(sets.filter((s) => !s.deleted).map((s) => s.workoutId))
+}
+export const isEmptyPlanWorkout = (w: Workout, withSets: Set<string>) => !isMobilityWorkout(w) && !withSets.has(w.id)
+export function withoutEmpty(workouts: Workout[], sets: SetLog[]): Workout[] {
+  const ids = idsWithSets(sets)
+  return workouts.filter((w) => !isEmptyPlanWorkout(w, ids))
+}
+
 export const FREE_SESSION_KEY = 'frei'
 export const FREE_SEGMENT_LABEL = 'frei'
 export const isFreeWorkout = (w: Workout) => w.sessionKey === FREE_SESSION_KEY

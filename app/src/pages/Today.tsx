@@ -7,6 +7,7 @@ import { EXERCISE_MAP } from '../data/exercises'
 import { WEEKS, weekByNumber } from '../data/plan'
 import { fmtLb, kgToLb } from '../lib/bioforce'
 import { fmtPerWeek, weightTrend } from '../lib/bodyTrend'
+import { withoutEmpty } from '../lib/workouts'
 import { fmtBody } from '../lib/decimal'
 import { latestKnee, latestRecord, lastPerformance, nextMilestone, planProgress, sessionStreak, totals } from '../lib/dashboard'
 import { WEEKDAY_SHORT, dateOf, fmtDate, fmtDateLong, fmtSec, parseISO, today } from '../lib/dates'
@@ -50,8 +51,10 @@ export default function Today() {
   const body = useLiveQuery(() => (profile ? db.body.where('profileId').equals(profile.id).sortBy('date') : []), [profile?.id])
 
   const start = profile?.planStartDate ?? ''
-  const sum = useMemo(() => totals(workouts ?? []), [workouts])
-  const streak = useMemo(() => (start ? sessionStreak(workouts ?? [], start, date) : 0), [workouts, start, date])
+  // Leere Trainings (ohne Sätze, z. B. nur geöffnet oder versehentlich beendet) zählen nicht als Einheit
+  const counted = useMemo(() => withoutEmpty(workouts ?? [], sets ?? []), [workouts, sets])
+  const sum = useMemo(() => totals(counted), [counted])
+  const streak = useMemo(() => (start ? sessionStreak(counted, start, date) : 0), [counted, start, date])
   const record = useMemo(() => latestRecord(sets ?? [], benchmarks ?? []), [sets, benchmarks])
   const lastTime = useMemo(() => (info?.session && sets ? lastPerformance(info.session, sets) : undefined), [info?.session, sets])
   const knee = useMemo(() => latestKnee(workouts ?? []), [workouts])
