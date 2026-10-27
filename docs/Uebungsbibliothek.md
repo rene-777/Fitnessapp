@@ -63,6 +63,7 @@ Die Skala an den Schwingarmen zeigt amerikanische Pfund (lb) pro Seite: 5 bis 12
 - **Muskeln:** wie Push-Ups, stärkere Dehnung der Brust
 - **Aufbau:** Hände auf den Parallettes (Holzgriffe, neutraler Griff), sodass die Brust tiefer als die Hände kommt. Die Parallettes sind den drehbaren Push-Up-Griffen vorzuziehen: fester Stand, mehr Tiefe, keine Rotation, die die Ausführung verändert.
 - **Ausführung:** Wie Push-Ups, unten 1 s in der Dehnung halten, ohne die Schultern hochzuziehen. Kein Abheben der Hände.
+- **Stufen (App-Varianten, leicht → schwer):** Standard · Füße auf der Box · Tempo 3-1-1 · Füße auf der Box + Tempo 3-1-1 · Füße auf der Box + Zusatzlast (Rucksack oder Scheibe auf dem oberen Rücken, ca. 5 kg). Auf der jeweils schwersten Stufe zuerst die Wiederholungen von 12 auf 15 steigern, dann die nächste Stufe und zurück zu 8–12 (Block 2, Stand 28.10.2026: Box + Tempo, 3 × 12 bei RIR 2–3).
 
 ### Dips (Barren)
 - **Gerät:** zwei freistehende Dip-Bügel (DH FitLife), Höhe 80–100 cm, Abstand verstellbar

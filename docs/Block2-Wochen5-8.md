@@ -54,7 +54,7 @@ Start Mo 19.10.2026, Woche 8 (Kraft-Challenge) ab Mo 09.11.2026. Die Daten stehe
 
 **Lasten nach dem Wechsel auf 6–8 Wdh. (schwerster Satz, Woche 3 → Woche 5):** Schrägdrücken 30 × 10 → **40 × 8** (RIR 2), Kabel-Kniebeuge 47,5 → **55 × 8** (mit Seilverlängerung), RDL 95 → **110 × 8** (RIR 1), Rudern stehend 22,5 → **30 × 8**, Latzug 37,5 → 42,5 × 10–12, Wadenheben 72,5 → 80 × 12, Split Squat 25 → 27,5, Trizeps über Kopf 17,5 → 22,5, Hammer-Curls 10 → 12,5, Bizeps 15 → 17,5, Latzug eng 52,5 × 10 (RIR 1), Schulterdrücken 22,5 × 10 (RIR 1). Die Stagnation am Kabel aus Block 1 ist damit gebrochen; die Umrechnung über Epley und die Korrektur nach oben innerhalb der Einheit haben funktioniert. Pull-Ups 4 × 7 bei RIR 3/2/1/0 (oberes Ende des Bereichs 5–7), Dips 3 × 10 Tempo 3-1-1 bei RIR 2/1/0.
 
-**Zu leicht (RIR ≥ 3):** Elbow Plank 2 × 90 s bei RIR 4 → 120 s oder offen; Dead Bug RIR 4/3/2 → gestreckte Variante; Defizit-Push-Ups Fr 3 × 12 bei RIR 3/3/2 in der Variante Tempo 3-1-1 → nächste Stufe „Füße auf der Box“ (so war Block 2 geplant); Kickback 15 lb bei RIR 3 → 20 lb; Bizeps-Curls Satz 1 RIR 3.
+**Zu leicht (RIR ≥ 3):** Elbow Plank 2 × 90 s bei RIR 4 → 120 s oder offen; Dead Bug RIR 4/3/2 → gestreckte Variante; Defizit-Push-Ups Fr 3 × 12 bei RIR 3/3/2, laut Rückmeldung des Users (28.10.) bereits mit Füßen auf der Box **und** Tempo 3-1-1 (die App konnte nur eine der beiden Varianten speichern, jetzt gibt es die Kombination als Stufe) → nächstes Mal 15 Wiederholungen, danach Zusatzlast (Rucksack oder Scheibe, ca. 5 kg) und zurück zu 8–12; Kickback 15 lb bei RIR 3 → 20 lb; Bizeps-Curls Satz 1 RIR 3.
 
 **Zu hart:** Beinstrecker 52,5 lb bei RIR 0/0 trotz Vorgabe RIR 2 (zum dritten Mal) → 47,5–50 lb mit Tempo 3-1-3. Schrägdrücken am Freitag 40 × 10/8/8 bei RIR 0 (Vorgabe 8–10, RIR 1–2); da die App die letzte Ausführung nimmt, schlägt sie für Montag 45 lb vor; 42,5 lb ist die sichere Wahl.
 
@@ -124,7 +124,7 @@ Warm-up, Burpee-Intervalle 30 s / 60 s (8/9/10 Runden, Puls am Rundenende 141–
 
 | Block | Übung | Vorgabe | Pause |
 |---|---|---|---|
-| A | Defizit-Push-Ups (Füße auf der Box) + Latzug eng | 3 × 8–12 bei RIR 1–2 + 3 × 8–10 | 30/75 s |
+| A | Defizit-Push-Ups (Füße auf der Box + Tempo 3-1-1; gehen 12 mit 3+ RIR → 15, gehen 15 mit 2+ RIR → Zusatzlast) + Latzug eng | 3 × 8–12 bei RIR 1–2 + 3 × 8–10 | 30/75 s |
 | B | Kabel-Schrägdrücken + einarmiges Rudern | 3 × 8–10 + 3 × 8–10 je Seite | 30/75 s |
 | C | Schulterdrücken + Hanging Knee Raises | 3 × 8–10 + 3 × 10–12 (bei 3+ RIR Beine gestreckter) | 30/75 s |
 | Umbau | **Sitz abbauen** | | |

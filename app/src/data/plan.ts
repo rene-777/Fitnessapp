@@ -432,7 +432,7 @@ function buildBlock2Week(n: 5 | 6 | 7): Week {
         key: `w${n}-full`, weekday: 5, title: 'Ganzkörper Hypertrophie', kind: 'kraft', minutes: 70, focus: 'Obere Brust, Schultern, Rücken, Finisher',
         segments: [
           WARM_FULL,
-          superset('A', [reps('pushup-defizit', 3, 8, 12, { rir: '1–2', loadHint: 'Variante „Füße auf der Box“ (Defizit + erhöht), so dass 8–12 bei RIR 1–2 liegen. 15 bei RIR 3–4 ist zu leicht' }), reps('latzug-eng', 3, 8, 10, { rir: '1–2' })], 30, 75),
+          superset('A', [reps('pushup-defizit', 3, 8, 12, { rir: '1–2', loadHint: 'Variante „Füße auf der Box + Tempo 3-1-1“, so dass 8–12 bei RIR 1–2 liegen. Gehen 12 mit 3+ RIR: nächstes Mal 15; gehen 15 mit 2+ RIR: Zusatzlast (Rucksack oder Scheibe, ca. 5 kg) und zurück zu 8–12' }), reps('latzug-eng', 3, 8, 10, { rir: '1–2' })], 30, 75),
           superset('B', [reps('schraegdruecken', 3, 8, 10, { rir: '1–2' }), reps('rudern-einarmig', 3, 8, 10, { perSide: true, rir: '1–2' })], 30, 75),
           superset('C', [reps('schulterdruecken', 3, 8, 10, { rir: '1–2' }), reps('hanging-knee-raise', 3, 10, 12, { loadHint: 'Gehen 12 mit 3+ RIR: Beine gestreckter heben, 3 s ablassen' })], 30, 75),
           SEAT_OFF,

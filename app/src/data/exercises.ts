@@ -78,7 +78,9 @@ export const EXERCISES: Exercise[] = [
   {
     id: 'pushup-defizit', name: 'Defizit-Push-Ups', category: 'push',
     primary: ['brust', 'trizeps'], secondary: ['schulter_vorn', 'bauch'], loadType: 'bodyweight', unit: 'reps', genImage: 'pushup_defizit',
-    variants: ['Standard', 'Füße auf der Box', 'Tempo 3-1-1'],
+    // Stufen von leicht nach schwer; der User kombiniert seit Woche 5 Box und Tempo, deshalb gibt es die Kombination als eigene Stufe.
+    // Danach Zusatzlast (Rucksack oder Scheibe auf dem oberen Rücken) und zurück zu 8–12 Wiederholungen.
+    variants: ['Standard', 'Füße auf der Box', 'Tempo 3-1-1', 'Füße auf der Box + Tempo 3-1-1', 'Füße auf der Box + Zusatzlast'],
     equipment: 'Parallettes (Holzgriffe auf Stahlfüßen)',
     setup: 'Hände auf den Parallettes, neutraler Griff (Handflächen zueinander), sodass die Brust tiefer als die Hände kommt.',
     steps: ['Wie Push-Ups, unten 1 s in der Dehnung halten.', 'Hochdrücken bis zur vollen Streckung.'],
