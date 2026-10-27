@@ -5,7 +5,7 @@ interface Props {
   label: string
   value: number | ''
   onChange: (v: number | '') => void
-  step?: number
+  step?: number | ((value: number, dir: 1 | -1) => number) // Schrittweite der ±-Knöpfe, ggf. abhängig vom Wert (Bio-Force-Skala)
   min?: number
   max?: number
   hint?: string
@@ -49,7 +49,7 @@ export default function NumberInput({ label, value, onChange, step = 1, min = 0,
     <div className="flex-1 min-w-0">
       <div className="label mb-1">{label}{suffix ? ` (${suffix})` : ''}</div>
       <div className="flex items-stretch gap-1">
-        {!compact && <button type="button" className="btn-ghost px-3 py-2 text-xl" onClick={() => set(num - step)}>−</button>}
+        {!compact && <button type="button" className="btn-ghost px-3 py-2 text-xl" onClick={() => set(num - (typeof step === 'function' ? step(num, -1) : step))}>−</button>}
         <input
           type="text"
           inputMode="decimal"
@@ -58,7 +58,7 @@ export default function NumberInput({ label, value, onChange, step = 1, min = 0,
           onChange={(e) => type(e.target.value)}
           onBlur={() => setDraft(fmtDec(value))}
         />
-        {!compact && <button type="button" className="btn-ghost px-3 py-2 text-xl" onClick={() => set(num + step)}>+</button>}
+        {!compact && <button type="button" className="btn-ghost px-3 py-2 text-xl" onClick={() => set(num + (typeof step === 'function' ? step(num, 1) : step))}>+</button>}
       </div>
       {error && <div className="text-xs text-bad mt-1 text-center" role="alert">{error}</div>}
       {hint && !error && <div className="text-[11px] text-muted mt-1 text-center">{hint}</div>}

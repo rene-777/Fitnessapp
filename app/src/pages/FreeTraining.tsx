@@ -9,7 +9,7 @@ import { db } from '../db/db'
 import type { SetLog } from '../db/types'
 import { useProfile } from '../hooks/useProfile'
 import { unlockAudio } from '../lib/audio'
-import { BF_MAX_LB, BF_MIN_LB, BF_STEP_LB, fmtKg, fmtLb, kgToLb, lbToKg } from '../lib/bioforce'
+import { BF_MAX_LB, BF_MIN_LB, BF_SCALE_HINT, bfStepAt, fmtKg, fmtLb, kgToLb, lbToKg } from '../lib/bioforce'
 import { fmtSec, planWeekOf, today } from '../lib/dates'
 import { EXERCISE_BENCHMARK, FREE_SEGMENT_LABEL, deleteSet, getOrCreateFreeWorkout, saveBenchmark, saveSet } from '../lib/workouts'
 
@@ -177,7 +177,7 @@ export default function FreeTraining() {
                 </div>
               )}
               {showWeight && (isBf
-                ? <NumberInput label="Skala (lb) pro Seite" value={r.weight} onChange={(v) => setRow(i, { weight: v })} step={BF_STEP_LB} min={BF_MIN_LB} max={BF_MAX_LB} hint={r.weight === '' ? 'Wert am Schwingarm, 5–125 in 2,5er-Rasten' : `≈ ${fmtKg(lbToKg(Number(r.weight)))} kg pro Seite`} error={noLoad && r.weight === '' && isFilled(r) ? 'Kein Skalenwert eingetragen. Nochmal tippen, um ohne Last zu speichern.' : undefined} />
+                ? <NumberInput label="Skala (lb) pro Seite" value={r.weight} onChange={(v) => setRow(i, { weight: v })} step={bfStepAt} min={BF_MIN_LB} max={BF_MAX_LB} hint={r.weight === '' ? BF_SCALE_HINT : `≈ ${fmtKg(lbToKg(Number(r.weight)))} kg pro Seite`} error={noLoad && r.weight === '' && isFilled(r) ? 'Kein Skalenwert eingetragen. Nochmal tippen, um ohne Last zu speichern.' : undefined} />
                 : <NumberInput label="kg" value={r.weight} onChange={(v) => setRow(i, { weight: v })} step={1} />)}
               {showRir && (
                 <div>

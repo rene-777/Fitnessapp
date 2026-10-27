@@ -16,7 +16,7 @@ Ziel des Blocks: Technik und Lasten an der Bio Force festlegen, Muskelaufbau-Bas
 
 **Knie-Ampel:** Schmerz bis 3 von 10 während der Übung ist in Ordnung, wenn er am nächsten Morgen nicht schlechter ist. Bei 4 oder mehr: Beinvolumen halbieren (nur die A- und B-Übung), Split Squats durch Step-Ups auf niedrige Stufe ersetzen, kein Seilspringen.
 
-**Bio Force Angaben:** Die Skala an den Schwingarmen zeigt amerikanische Pfund (lb) pro Seite, von 5 bis 125, beschriftet in 5er-Schritten, einstellbar in 2,5-lb-Rasten (125 lb ≈ 56,7 kg, Umrechnungstabelle in der Finnlo-Anleitung S. 25). Notiert wird der Skalenwert in lb pro Seite, beide Kabel gleich eingestellt. Die App rechnet intern in kg um (1 lb = 0,4536 kg). „Unten“ = Zugpunkt an den unteren Streben neben dem Sitz, „Schulter“ = Zugpunkt auf Schulterhöhe, „Oben“ = Zug von oben (Latstange oder Griffe).
+**Bio Force Angaben:** Die Skala an den Schwingarmen zeigt amerikanische Pfund (lb) pro Seite, von 5 bis 125, beschriftet in 5er-Schritten, einstellbar in 2,5-lb-Rasten (ab 100 lb nur noch in 5-lb-Schritten; 125 lb ≈ 56,7 kg, Umrechnungstabelle in der Finnlo-Anleitung S. 25). Notiert wird der Skalenwert in lb pro Seite, beide Kabel gleich eingestellt. Die App rechnet intern in kg um (1 lb = 0,4536 kg). „Unten“ = Zugpunkt an den unteren Streben neben dem Sitz, „Schulter“ = Zugpunkt auf Schulterhöhe, „Oben“ = Zug von oben (Latstange oder Griffe).
 
 **Walk-Run:** Wechsel aus Laufen und Gehen in festen Intervallen. Einstieg für Sehnen und Gelenke, obwohl das Herz-Kreislauf-System mehr könnte. Woche 1–2: 3 min laufen, 1 min gehen. Ab Woche 3 durchgehend laufen.
 

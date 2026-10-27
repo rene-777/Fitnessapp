@@ -37,7 +37,7 @@ Befehle im Ordner `app`: `npm run dev`, `npm run build` (führt `tsc -b` aus), `
 
 - TypeScript strikt (`verbatimModuleSyntax`, `erasableSyntaxOnly`, keine unbenutzten Variablen). Vor Abschluss immer `npx tsc -b` im Ordner `app`.
 - `findSession()` und ähnliche Lookups in Komponenten mit `useMemo` kapseln (sonst Endlos-Rerender, siehe Workout.tsx).
-- Bio-Force-Lasten: Die Geräteskala zeigt lb pro Seite (5–125, einstellbar in 2,5-lb-Rasten; `BF_STEP_LB` = Raste, `BF_PROGRESS_LB` = üblicher Steigerungsschritt 5 lb). Eingabe und Anzeige in lb, gespeichert wird `weightKg` (kg pro Seite); Umrechnung nur über `src/lib/bioforce.ts`.
+- Bio-Force-Lasten: Die Geräteskala zeigt lb pro Seite (5–125; bis 100 lb in 2,5-lb-Rasten, darüber nur in 5-lb-Schritten; `BF_STEP_LB`/`BF_COARSE_STEP_LB` = Rasten, `BF_FINE_MAX_LB` = 100, `BF_PROGRESS_LB` = üblicher Steigerungsschritt 5 lb). Nie selbst runden oder addieren, sondern `snapLb`/`floorLb`/`stepLb`/`bfStepAt` aus `bioforce.ts` nutzen. Eingabe und Anzeige in lb, gespeichert wird `weightKg` (kg pro Seite); Umrechnung nur über `src/lib/bioforce.ts`.
 - Supersätze: nie Bio-Force-Übungen mit `seat: 'on'` und `seat: 'off'` mischen; pro Einheit höchstens ein Sitz-Umbau, davor `SEAT_ON`/`SEAT_OFF` in `plan.ts` einfügen. Prüfen mit `node scripts/check-plan.mjs` im Ordner `app`.
 - Dokumente in `docs/` sind die Quelle für Plan und Übungen; bei Änderungen Doku und `src/data` zusammen anpassen.
 - Git-Repository: Zweig `main`, Remote `origin` = `https://github.com/rene-777/Fitnessapp.git` (öffentlich). `gh` ist installiert und angemeldet. Commits mit `Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>`; Commit-Autor René <rene.sch@gmx.net>.

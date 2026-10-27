@@ -48,6 +48,22 @@ Start Mo 19.10.2026, Woche 8 (Kraft-Challenge) ab Mo 09.11.2026. Die Daten stehe
 
 **Antwort des Users (19.10.2026):** unterschreibt die Einschätzung. Er war bewusst vorsichtig, um Bänder und Gelenke an das unbekannte Gerät zu gewöhnen, und kennt Satz-Training mit Lasten nicht (bisher nur Körpergewicht im AMRAP-Stil), Lernkurve. **Gerätegrenzen der Bio Force:** Latzug ohne Oberschenkelpolster, ab etwa 45–50 lb je Seite zieht er sich an der Stange hoch statt die Last zu ziehen; RDL auf der Standplatte, bei 100 lb je Seite hebt es ihn an. Tiefe Kabel-Kniebeugen mit Last bleiben schwierig (Seilverlängerung hilft). Folge: Progression dort über Tempo, Pause, einbeinig und Wiederholungen, nicht über Last; der schwere vertikale Zug über Pull-Ups mit Zusatzlast. AMRAP 12 (5 Runden) war durch die Pull-Ups begrenzt, die anderen Übungen hätten deutlich mehr hergegeben. Step-Ups künftig mit zwei Kurzhanteln (je 10 kg) statt der 8-kg-Kettlebell, keine neue Kettlebell nötig. Mobility-Check: will er diese Woche versuchen, Priorität hinter dem Training. (2) und (3) sind in den Plandaten umgesetzt; dazu neu in der App: Haltezeit vor dem Start wählbar (Planwert, 60/90/120 s oder offen bis Stopp).
 
+## 1d. Woche 5 (Block-2-Start, Export vom 27.10.2026)
+
+**Ablauf:** alle fünf Einheiten, aber über neun Tage: Mo 19.10. Push (61 min), Mi 21.10. Beine (74), Do 22.10. Pull (61), Fr 23.10. Cardio (55), dann Sa–Mo ohne Training, Di 27.10. Ganzkörper (69). Dauer damit im Ziel (ca. 70 min). Kurz-Check: Knie überall 0, Muskelkater 1–2, Schlaf 7,5–8,5 h, Stimmung 3–4. Gewicht 74,4–75,0 kg (stabil, Ziel „Erhalt“), Taille 88 cm.
+
+**Lasten nach dem Wechsel auf 6–8 Wdh. (schwerster Satz, Woche 3 → Woche 5):** Schrägdrücken 30 × 10 → **40 × 8** (RIR 2), Kabel-Kniebeuge 47,5 → **55 × 8** (mit Seilverlängerung), RDL 95 → **110 × 8** (RIR 1), Rudern stehend 22,5 → **30 × 8**, Latzug 37,5 → 42,5 × 10–12, Wadenheben 72,5 → 80 × 12, Split Squat 25 → 27,5, Trizeps über Kopf 17,5 → 22,5, Hammer-Curls 10 → 12,5, Bizeps 15 → 17,5, Latzug eng 52,5 × 10 (RIR 1), Schulterdrücken 22,5 × 10 (RIR 1). Die Stagnation am Kabel aus Block 1 ist damit gebrochen; die Umrechnung über Epley und die Korrektur nach oben innerhalb der Einheit haben funktioniert. Pull-Ups 4 × 7 bei RIR 3/2/1/0 (oberes Ende des Bereichs 5–7), Dips 3 × 10 Tempo 3-1-1 bei RIR 2/1/0.
+
+**Zu leicht (RIR ≥ 3):** Elbow Plank 2 × 90 s bei RIR 4 → 120 s oder offen; Dead Bug RIR 4/3/2 → gestreckte Variante; Defizit-Push-Ups Fr 3 × 12 bei RIR 3/3/2 in der Variante Tempo 3-1-1 → nächste Stufe „Füße auf der Box“ (so war Block 2 geplant); Kickback 15 lb bei RIR 3 → 20 lb; Bizeps-Curls Satz 1 RIR 3.
+
+**Zu hart:** Beinstrecker 52,5 lb bei RIR 0/0 trotz Vorgabe RIR 2 (zum dritten Mal) → 47,5–50 lb mit Tempo 3-1-3. Schrägdrücken am Freitag 40 × 10/8/8 bei RIR 0 (Vorgabe 8–10, RIR 1–2); da die App die letzte Ausführung nimmt, schlägt sie für Montag 45 lb vor; 42,5 lb ist die sichere Wahl.
+
+**RDL und Gerätegrenze:** 105/105/110 lb je Seite, also über den am 19.10. genannten ~100 lb, an denen die Last den Stehenden anhebt. Ab 100 lb hat die Skala nur noch 5-lb-Schritte (Rückmeldung 27.10., App angepasst), der nächste Schritt wäre 115. Empfehlung: bei 110 bleiben und über Tempo (3 s ablassen), Pause unten oder einbeinig steigern, solange die Standplatte nicht abhebt.
+
+**Cardio:** 8 Intervalle, 96 Burpees (12 je Runde; Woche 3: 90), Zone 2 als Seil-Alternative 20 min bei Ø 125 (Zone 116–128 getroffen). Finisher AMRAP 6 Mo 4 Runden, Fr 4 Runden (Woche 1: 5 Runden, Vergleichstest in Woche 7).
+
+**Empfehlung für Woche 6 (ab Mi 28.10.):** Woche 6 beginnt am Mittwoch mit der vollen Vorgabe (4 Sätze bei den Hauptübungen), Reihenfolge angepasst, damit Push nicht 24 h nach dem drückerlastigen Ganzkörpertag kommt: **Mi Beine, Do Pull, Fr Push, Sa Cardio, So frei, Mo 02.11. Ganzkörper.** Woche 7 dann Di 03.11. Push, Mi Beine, Do Pull, Fr Cardio, Sa Ganzkörper; damit steht Woche 8 (Kraft-Challenge) ab Mo 09.11. wieder im Kalender. Die beiden Samstage (Puffertage) fangen die zwei Tage Verzug auf, keine Einheit fällt weg, Cardio bleibt. In der App über den Tab „Woche“ die gewünschte Einheit antippen (das Trainingsdatum wird der Tag des Kurz-Checks); die Karte „Heute“ zeigt weiter die Einheit des Wochentags.
+
 ## 2. Prinzipien
 
 - **Wiederholungen:** Hauptübungen 6–8 (RIR 1–2), Nebenübungen 8–10, Isolation 10–15 (RIR 0–1).
