@@ -118,6 +118,7 @@ export default function Today() {
               <div className="text-xl font-bold leading-tight">{s.title}</div>
               <div className="text-muted text-sm">{names.length > 0 ? names.join(' · ') : s.focus}</div>
             </div>
+            {s.note && <div className="rounded-lg bg-card2 px-3 py-2 text-sm text-accent2">{s.note}</div>}
             {lastTime && w?.status !== 'fertig' && (
               <div className="rounded-lg bg-card2 px-3 py-2 text-sm">
                 <span className="text-muted">Letztes Mal · </span>{EXERCISE_MAP[lastTime.exerciseId].name}: <span className="font-semibold">{fmtLb(kgToLb(lastTime.weightKg))} lb × {lastTime.reps.join('/')}</span>
@@ -184,7 +185,7 @@ export default function Today() {
             )}
         </div>
       )}
-      {info.kind === 'frei' && <div className="card"><div className="label">Heute</div><div className="text-xl font-bold leading-tight">Kein Training geplant</div><div className="text-muted text-sm">Die Einheiten dieses Blocks werden nach Block 1 ergänzt.</div></div>}
+      {info.kind === 'frei' && <div className="card"><div className="label">Heute</div><div className="text-xl font-bold leading-tight">Kein Training geplant</div><div className="text-muted text-sm">{info.weekData && info.weekData.sessions.length > 0 ? 'Diese Woche ist anders verteilt, siehe Wochenstreifen.' : 'Die Einheiten dieses Blocks werden nach Block 1 ergänzt.'}</div></div>}
       {info.kind === 'nachher' && <div className="card"><div className="text-xl font-bold leading-tight">Plan abgeschlossen</div><div className="text-muted text-sm">16 Wochen geschafft. Zeit für den Retest und den nächsten Plan.</div></div>}
 
       {/* Wochenstreifen */}

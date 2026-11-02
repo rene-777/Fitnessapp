@@ -371,34 +371,41 @@ function buildBlock2Week(n: 5 | 6 | 7): Week {
   const squatHint = n === 5 ? `${B2_HINT} Griffe über je zwei Karabiner (Seilverlängerung) einhängen.` : undefined
   const intervals = n === 5 ? 8 : n === 6 ? 9 : 10
   const z2 = n === 5 ? 20 : 25
+  // Woche 7 nach dem Infekt (Sa 31.10.–Mo 02.11.2026, Beschluss 02.11.): Einheiten Di–Sa statt Mo–Fr (Ganzkörper am Samstag),
+  // Dienstag als Wiedereinstieg (3 Sätze, Lasten der Vorwoche, 3 RIR, kein Finisher), ab Mittwoch nach HRV normal.
+  const reentry = n === 7
+  const wd = (d: number): Session['weekday'] => (n === 7 ? d + 1 : d) as Session['weekday']
+  const hold = reentry ? true : undefined
   return {
     number: n,
-    title: n === 5 ? 'Block 2 Start (leichter)' : n === 6 ? 'Volles Volumen' : 'Höchstes Volumen im Block',
+    title: n === 5 ? 'Block 2 Start (leichter)' : n === 6 ? 'Volles Volumen' : 'Wiedereinstieg, dann volles Volumen',
     note: n === 5
       ? 'Hauptübungen 6–8 Wdh. mit 3 Sätzen (Deload zum Blockstart). Progression: obere Wiederholungszahl in allen Sätzen bei RIR 2 → +2,5 lb, bei RIR ≤ 1 → +5 lb. Einheiten ca. 70 min.'
       : n === 6
         ? 'Hauptübungen mit 4 Sätzen. Isolationsübungen bis 0–1 RIR.'
-        : 'Wie Woche 6, Intervalle 10 Runden. Nächste Woche Kraft-Challenge mit Max-Tests und Bleep-Test.',
+        : 'Nach dem Infekt: Di Push reduziert (3 Sätze, Lasten der Vorwoche, 3 RIR, kein Finisher), ab Mi normal, wenn die Nacht-HRV wieder bei 45–50 liegt und nichts mehr zwickt. Einheiten Di–Sa, Ganzkörper am Samstag, Intervalle 10 Runden. Kraft-Challenge (Woche 8) nur, wenn ab Donnerstag alles normal ist; sonst wird diese Woche wiederholt.',
     sessions: [
       {
-        key: `w${n}-push`, weekday: 1, title: 'Push + Core', kind: 'kraft', minutes: 70, focus: 'Obere Brust, Schultern, Trizeps',
+        key: `w${n}-push`, weekday: wd(1), title: 'Push + Core', kind: 'kraft', minutes: reentry ? 55 : 70, focus: reentry ? 'Wiedereinstieg: leicht, 3 RIR' : 'Obere Brust, Schultern, Trizeps',
+        note: reentry ? 'Wiedereinstieg nach dem Infekt: 3 Sätze, Lasten der Vorwoche ohne Steigerung, überall 3 RIR, kein Finisher. Bei Schwäche oder Gliederschmerzen abbrechen.' : undefined,
         segments: [
           WARM_PUSH,
-          straight('A', [reps('schraegdruecken', main, 6, 8, { rir: '1–2', loadHint: hint })], 150),
-          superset('B', [reps('dips', 3, 6, 10, { rir: '1–2', loadHint: 'Gehen 10 mit 3+ RIR: schwerere Variante (Negative 3 s, Tempo, Pause unten)' }), reps('fliegende-oben', 3, 10, 12, { rir: '1' })], 30, 90),
-          superset('C', [reps('trizeps-ueberkopf', 2, 10, 12, { rir: '1' }), p('plank', 2, { seconds: 60, note: 'Haltezeit wählbar (60/90/120 s oder offen bis Stopp): länger als letztes Mal, Hüfte bleibt oben' })], 20, 45),
+          straight('A', [reps('schraegdruecken', reentry ? 3 : main, 6, 8, { rir: reentry ? '3' : '1–2', loadHint: hint, hold })], 150),
+          superset('B', [reps('dips', 3, 6, 10, { rir: reentry ? '3' : '1–2', hold, loadHint: reentry ? 'Wie letztes Mal (Tempo 3-1-1), aufhören bei 3 RIR' : 'Gehen 10 mit 3+ RIR: schwerere Variante (Negative 3 s, Tempo, Pause unten)' }), reps('fliegende-oben', 3, 10, 12, { rir: reentry ? '3' : '1', hold })], 30, 90),
+          superset('C', [reps('trizeps-ueberkopf', 2, 10, 12, { rir: reentry ? '3' : '1', hold, maxLb: n === 7 ? 22.5 : undefined, loadHint: n === 7 ? '22,5 lb (25 lb war RIR 0)' : undefined }), p('plank', 2, { seconds: 60, note: 'Haltezeit wählbar (60/90/120 s oder offen bis Stopp): länger als letztes Mal, Hüfte bleibt oben' })], 20, 45),
           SEAT_OFF,
-          straight('D', [reps('seitheben', 3, 12, 15, { perSide: true, rir: '0–1' })], 45),
-          { type: 'amrap', label: 'Finisher', minutes: 6, exercises: [{ exerciseId: 'burpee', reps: 6 }, { exerciseId: 'pushup', reps: 10 }, { exerciseId: 'mountain-climber', reps: 20 }], countLabel: 'Runden', description: 'So viele Runden wie möglich in 6 Minuten.' },
+          straight('D', [reps('seitheben', 3, 12, 15, { perSide: true, rir: reentry ? '2–3' : '0–1', hold })], 45),
+          ...(reentry ? [] : [{ type: 'amrap', label: 'Finisher', minutes: 6, exercises: [{ exerciseId: 'burpee', reps: 6 }, { exerciseId: 'pushup', reps: 10 }, { exerciseId: 'mountain-climber', reps: 20 }], countLabel: 'Runden', description: 'So viele Runden wie möglich in 6 Minuten.' } satisfies Segment]),
           COOL_PUSH,
         ],
       },
       {
-        key: `w${n}-beine`, weekday: 2, title: 'Beine + Hüfte', kind: 'kraft', minutes: 70, focus: 'Kniefreundlich, schwerer',
+        key: `w${n}-beine`, weekday: wd(2), title: 'Beine + Hüfte', kind: 'kraft', minutes: 70, focus: 'Kniefreundlich, schwerer',
+        note: reentry ? 'Normal (4 Sätze, RIR 1–2), wenn die Nacht-HRV wieder bei 45–50 liegt und keine Gliederschmerzen da sind. Sonst wie am Dienstag: 3 Sätze, Lasten halten, 3 RIR.' : undefined,
         segments: [
           WARM_LEGS,
           straight('A', [reps('kabel-kniebeuge', main, 6, 8, { rir: '1–2', tempo: '3-1-1', loadHint: squatHint })], 120),
-          straight('B', [reps('rdl', main, 6, 8, { rir: '1–2', loadHint: hint })], 120),
+          straight('B', [reps('rdl', main, 6, 8, { rir: '1–2', loadHint: n === 7 ? 'Bei 110–115 lb bleiben (Standplatte hebt leicht ab), nicht 120. Mehr Reiz über 3 s ablassen oder Pause unten' : hint, maxLb: n === 7 ? 115 : undefined })], 120),
           superset('C', [reps('split-squat', 3, 8, 10, { perSide: true, rir: '1–2' }), reps('hueftabduktion', 2, 15, 15, { perSide: true })], 30, 75),
           superset('D', [reps('wadenheben', 3, 10, 12, { rir: '1' }), reps('dead-bug', 3, 10, 10, { perSide: true, note: 'Langsam (3 s je Seite), unterer Rücken am Boden. Zu leicht (RIR 4): Arm und Bein ganz strecken, Ferse knapp über dem Boden' })], 20, 45),
           SEAT_ON,
@@ -407,7 +414,7 @@ function buildBlock2Week(n: 5 | 6 | 7): Week {
         ],
       },
       {
-        key: `w${n}-pull`, weekday: 3, title: 'Pull + hintere Schulter', kind: 'kraft', minutes: 65, focus: 'Rücken, hintere Schulter, Bizeps',
+        key: `w${n}-pull`, weekday: wd(3), title: 'Pull + hintere Schulter', kind: 'kraft', minutes: 65, focus: 'Rücken, hintere Schulter, Bizeps',
         segments: [
           WARM_PULL,
           straight('A', [reps('pullup', 4, 5, 7, { rir: '1–2', loadHint: 'Gehen 4 × 7 mit 2+ RIR: Variante (Negative, Pause oben) oder 8' })], 120),
@@ -420,16 +427,18 @@ function buildBlock2Week(n: 5 | 6 | 7): Week {
         ],
       },
       {
-        key: `w${n}-cardio`, weekday: 4, title: 'Cardio: Intervalle + Zone 2', kind: 'cardio', minutes: 50, focus: `Burpee-Intervalle ${intervals} Runden, Zone 2 ${z2} min`,
+        key: `w${n}-cardio`, weekday: wd(4), title: 'Cardio: Intervalle + Zone 2', kind: 'cardio', minutes: 50, focus: `Burpee-Intervalle ${intervals} Runden, Zone 2 ${z2} min`,
+        note: reentry ? 'Intervalle nur bei normaler HRV (45–50). Liegt sie noch darunter: Block A überspringen und nur 25–30 min Zone 2.' : undefined,
         segments: [
           WARM_CARDIO,
-          { type: 'interval', label: 'A', rounds: intervals, workSec: 30, restSec: 60, exerciseId: 'burpee', description: `${intervals} × 30 s Burpees zügig / 60 s gehen. Puls am Ende der Runden 141–153.`, alternative: 'Bei Knieschmerz: Seil oder Mountain Climbers.' },
+          { type: 'interval', label: 'A', rounds: intervals, workSec: 30, restSec: 60, exerciseId: 'burpee', description: `${intervals} × 30 s Burpees zügig / 60 s gehen. Puls am Ende der Runden 141–153.`, alternative: reentry ? 'Bei Knieschmerz: Seil oder Mountain Climbers. HRV noch unter 45: Block überspringen, nur Zone 2.' : 'Bei Knieschmerz: Seil oder Mountain Climbers.' },
           { type: 'cardio', label: 'B', minutes: z2, exerciseId: 'laufen-z2', description: 'Zone 2, durchgehend laufen.', hrZone: '116–128', alternative: `Indoor: ${z2} min Seil 45 s / 15 s.`, altWorkSec: 45, altRestSec: 15 },
           COOL_CARDIO,
         ],
       },
       {
-        key: `w${n}-full`, weekday: 5, title: 'Ganzkörper Hypertrophie', kind: 'kraft', minutes: 70, focus: 'Obere Brust, Schultern, Rücken, Finisher',
+        key: `w${n}-full`, weekday: wd(5), title: 'Ganzkörper Hypertrophie', kind: 'kraft', minutes: 70, focus: 'Obere Brust, Schultern, Rücken, Finisher',
+        note: reentry ? 'Diese Woche am Samstag. Der Finisher AMRAP 6 ist der Vergleichstest zu Woche 1 (5 Runden).' : undefined,
         segments: [
           WARM_FULL,
           superset('A', [reps('pushup-defizit', 3, 8, 12, { rir: '1–2', loadHint: 'Variante „Füße auf der Box + Tempo 3-1-1“, so dass 8–12 bei RIR 1–2 liegen. Gehen 12 mit 3+ RIR: nächstes Mal 15; gehen 15 mit 2+ RIR: Zusatzlast (Rucksack oder Scheibe, ca. 5 kg) und zurück zu 8–12' }), reps('latzug-eng', 3, 8, 10, { rir: '1–2' })], 30, 75),

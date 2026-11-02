@@ -70,6 +70,7 @@ export default function SessionPreview() {
           </div>
         </div>
       )}
+      {session.note && <div className="card text-sm border-accent/60">{session.note}</div>}
       {week.note && <div className="card text-sm text-muted">{week.note}</div>}
 
       {session.segments.map((seg, i) => {

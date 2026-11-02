@@ -122,6 +122,15 @@ const tooLight = (sets: SetLog[], repsMax?: number) =>
 
 /** Vorschlag aus der letzten Ausführung derselben Übung (letzte Einheit, keine Tests). */
 export function suggestLoad(p: Prescription, history: SetLog[], loadType: string, smallStep = false, variants?: string[]): Suggestion {
+  const s = suggestLoadRaw(p, history, loadType, smallStep, variants)
+  // Obergrenze aus dem Plan (Gerätegrenze oder Beschluss): nie darüber vorschlagen
+  if (p.maxLb !== undefined && loadType === 'bioforce' && s.weightKg !== undefined && kgToLb(s.weightKg) > p.maxLb) {
+    return { ...s, weightKg: lbToKg(p.maxLb), text: `${s.text} → Obergrenze laut Plan ${fmtLb(p.maxLb)} lb` }
+  }
+  return s
+}
+
+function suggestLoadRaw(p: Prescription, history: SetLog[], loadType: string, smallStep = false, variants?: string[]): Suggestion {
   const real = history.filter((s) => !s.isTest && !s.deleted && s.segmentLabel !== 'challenge')
   if (real.length === 0) {
     const first = loadType === 'bioforce'
@@ -140,6 +149,8 @@ export function suggestLoad(p: Prescription, history: SetLog[], loadType: string
   const variant = variants ? (last[last.length - 1]?.variant ?? variants[0]) : undefined
   const base = `Letztes Mal: ${repsStr}${w !== undefined ? ` @ ${loadText(w, loadType)}` : ''}${variant && variant !== variants?.[0] ? ` (${variant})` : ''}`
   if (p.ramp) return { weightKg: w, text: base }
+  // Wiedereinstieg (z. B. nach Krankheit): Last der letzten Ausführung halten, keine Steigerung
+  if (p.hold) return { weightKg: w, text: `${base} → Wiedereinstieg: gleiche Last, keine Steigerung`, variant }
   // Letztes Mal war eine Einstufung (aufsteigende Sätze, Woche 1): der schwerste Satz ist das 10RM,
   // die Arbeitslast für die Aufbauwochen liegt zwei Rasten darunter (Plan-Hinweis Woche 2)
   if (loadType === 'bioforce' && isRamp) {

@@ -9,6 +9,8 @@ export interface Prescription {
   perSide?: boolean
   loadHint?: string
   ramp?: boolean // Einstufung: aufsteigende Sätze, 10RM finden
+  hold?: boolean // Wiedereinstieg: Last der letzten Ausführung halten, kein Steigerungsvorschlag
+  maxLb?: number // Obergrenze in lb je Seite (Gerätegrenze oder Beschluss), der Vorschlag geht nie darüber
   note?: string
 }
 
@@ -104,6 +106,7 @@ export interface Session {
   kind: SessionKind
   minutes: number
   focus: string
+  note?: string // Hinweis zur Einheit (Vorschau und Heute-Karte), z. B. Wiedereinstieg nach Krankheit
   segments: Segment[]
 }
 
