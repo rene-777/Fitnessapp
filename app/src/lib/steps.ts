@@ -12,6 +12,7 @@ export type Step =
       totalSets: number
       p: Prescription
       restSec: number
+      partners?: { label: string; exerciseId: string; p: Prescription }[] // Supersatz: die anderen Übungen dieser Runde (zum Vorbereiten des Umbaus)
       isTest?: boolean
       benchmarkKey?: string
       testUnit?: 'reps' | 'seconds'
@@ -46,11 +47,13 @@ export function buildSteps(session: Session): Step[] {
           const max = Math.max(...seg.exercises.map((e) => e.sets))
           for (let i = 1; i <= max; i++) {
             const active = seg.exercises.filter((e) => e.sets >= i)
-            active.forEach((p, j) => {
-              const last = j === active.length - 1
+            const labeled = active.map((p, j) => ({ label: `${seg.label}${j + 1}`, exerciseId: p.exerciseId, p }))
+            labeled.forEach((cur, j) => {
+              const last = j === labeled.length - 1
               steps.push({
-                kind: 'set', label: `${seg.label}${j + 1}`, exerciseId: p.exerciseId, setIndex: i, totalSets: p.sets, p,
+                kind: 'set', label: cur.label, exerciseId: cur.exerciseId, setIndex: i, totalSets: cur.p.sets, p: cur.p,
                 restSec: last ? seg.restSec : (seg.restBetweenSec ?? 30),
+                partners: labeled.filter((_, k) => k !== j),
               })
             })
           }
