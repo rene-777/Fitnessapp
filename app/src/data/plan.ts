@@ -459,12 +459,35 @@ function buildBlock2Week(n: 5 | 6 | 7): Week {
 const w8: Week = {
   number: 8,
   title: 'Kraft-Challenge',
-  note: 'Max-Tests und Wiederholungsmaxima (5RM/8RM) als Grundlage für Block 3. Wenig Volumen, volle Pausen. Reihenfolge wegen des rechten Ellenbogens (Kabel-Kniebeuge, Ablassen der Last am 04.11.) umgestellt: Mo Bleep-Test, Di Beine, Mi Pull, Do Drücken, Fr Push-Ups + AMRAP. Zwickt der Ellenbogen in den Aufwärmsätzen: Test beim letzten schmerzfreien Satz beenden. Bleep-Test nur bei ruhigen Knien (Kurz-Check Knie ≤ 2), sonst 5-min-Burpees. Mobility-Check diese Woche.',
+  note: 'Max-Tests und Wiederholungsmaxima (5RM/8RM) als Grundlage für Block 3. Wenig Volumen, volle Pausen. Reihenfolge wegen des rechten Ellenbogens (Kabel-Kniebeuge, Ablassen der Last am 04.11.) umgestellt: Mo Beine, Di Pull, Mi Bleep-Test, Do Drücken, Fr Push-Ups + AMRAP. Zwickt der Ellenbogen in den Aufwärmsätzen: Test beim letzten schmerzfreien Satz beenden. Bleep-Test nur bei ruhigen Knien (Kurz-Check Knie ≤ 2), sonst 5-min-Burpees. Mobility-Check diese Woche.',
   sessions: [
     {
-      // 08.11.2026: Bleep-Test von Do auf Mo, Drücken von Mo auf Do (rechter Ellenbogen bekommt vier Tage ohne Drücken). Schlüssel bleiben.
-      key: 'w8-do', weekday: 1, title: 'Test: Bleep (VO2max)', kind: 'challenge', minutes: 45, focus: 'Ausdauer-Benchmark',
-      note: 'Diese Woche am Montag (Drücken erst am Donnerstag, Ellenbogen). Bleep-Test in der Goliaz-App, 20 m exakt abmessen. Knie im Kurz-Check über 2: stattdessen 5-min-Burpees als freies Training.',
+      // 08.11.2026: Drücken von Mo auf Do (rechter Ellenbogen bekommt vier Tage ohne Drücken), Beine Mo, Pull Di, Bleep Mi (Auto für die Sportanlage erst ab Mittwoch). Schlüssel bleiben.
+      key: 'w8-di', weekday: 1, title: 'Test: RDL und Kniebeuge 8RM', kind: 'challenge', minutes: 50, focus: 'Beine',
+      note: 'Ellenbogen schonen: Griffe nur mit gestreckten Armen aufnehmen und ablassen. Ablassen über die Beine (in die Hocke gehen, Arme bleiben lang), nie über das Beugen der Arme. Lieber drei als vier Aufnahmen: Satz 1 gleich mit 60 lb.',
+      segments: [
+        WARM_LEGS,
+        straight('A', [p('kabel-kniebeuge', 4, { repsMin: 8, repsMax: 8, ramp: true, tempo: '3-1-1', loadHint: '8RM finden: Satz 1 mit 60 lb (Arbeitslast), dann je 2,5–5 lb mehr; erwartet 65–67,5. Knie ruhig halten, kein Versagen erzwingen. Last mit gestreckten Armen ablassen.' })], 150),
+        straight('B', [p('rdl', 4, { repsMin: 8, repsMax: 8, ramp: true, maxLb: 125, loadHint: '8RM finden: Satz 1 mit 115, dann 120, 125. Bei 125 lb ist die Skala zu Ende; gehen 125 × 8 mit 1+ RIR, ist das Gerät für den RDL ausgereizt (Block 3: Tempo, Pause unten, einbeinig).' })], 150),
+        superset('C', [reps('wadenheben', 2, 10, 12), reps('dead-bug', 2, 10, 10, { perSide: true })], 20, 45),
+        COOL_LEGS,
+      ],
+    },
+    {
+      key: 'w8-mi', weekday: 2, title: 'Test: Pull-Ups + Rudern 5RM', kind: 'challenge', minutes: 55, focus: 'Ziehen, Pull-Up-Leiter',
+      segments: [
+        WARM_PULL,
+        { type: 'test', label: 'A', exerciseId: 'pullup', benchmarkKey: 'pullupsMax', unit: 'reps', description: 'Max-Test: strikte Pull-Ups am Stück. Vergleich Woche 1: 11.', restSec: 240 },
+        straight('B', [p('rudern-stehend', 4, { repsMin: 5, repsMax: 5, ramp: true, loadHint: '5RM finden: Satz 1 mit der 8er-Last, dann je 5 lb mehr' })], 180),
+        { type: 'test', label: 'Leiter', exerciseId: 'pullup', benchmarkKey: 'pullupLadder', unit: 'reps', description: 'Die Leiter: 1 Pull-Up, kurz absetzen, 2, 3, 4 … bis eine Stufe nicht mehr sauber geht. Pause zwischen den Stufen so lang wie die Stufe gedauert hat. Eintragen: Summe aller sauberen Wiederholungen (z. B. bis Stufe 6 = 21).', restSec: 120 },
+        SEAT_OFF,
+        superset('C', [reps('reverse-fly', 2, 12, 15), reps('face-pull', 2, 12, 15)], 20, 60),
+        COOL_PULL,
+      ],
+    },
+    {
+      key: 'w8-do', weekday: 3, title: 'Test: Bleep (VO2max)', kind: 'challenge', minutes: 45, focus: 'Ausdauer-Benchmark',
+      note: 'Diese Woche am Mittwoch (Sportanlage). Bleep-Test in der Goliaz-App, 20 m exakt abmessen. Knie im Kurz-Check über 2: stattdessen 5-min-Burpees als freies Training.',
       segments: [
         WARM_CARDIO,
         { type: 'test', label: 'A', exerciseId: 'bleep', benchmarkKey: 'bleepVo2', unit: 'reps', description: 'Bleep-Test in der Goliaz-App starten (2 Marker, genau 20 m). Eintragen: die letzte Zahl vor dem Verpassen. Vergleich 11.08.2026: 44. Nur bei ruhigen Knien; sonst überspringen und stattdessen 5-min-Burpees als Freies Training (Max-Test).', restSec: 0 },
@@ -483,29 +506,6 @@ const w8: Week = {
         SEAT_OFF,
         straight('C', [reps('seitheben', 2, 12, 15, { perSide: true })], 45),
         COOL_PUSH,
-      ],
-    },
-    {
-      key: 'w8-di', weekday: 2, title: 'Test: RDL und Kniebeuge 8RM', kind: 'challenge', minutes: 50, focus: 'Beine',
-      note: 'Ellenbogen schonen: Griffe nur mit gestreckten Armen aufnehmen und ablassen. Ablassen über die Beine (in die Hocke gehen, Arme bleiben lang), nie über das Beugen der Arme. Lieber drei als vier Aufnahmen: Satz 1 gleich mit 60 lb.',
-      segments: [
-        WARM_LEGS,
-        straight('A', [p('kabel-kniebeuge', 4, { repsMin: 8, repsMax: 8, ramp: true, tempo: '3-1-1', loadHint: '8RM finden: Satz 1 mit 60 lb (Arbeitslast), dann je 2,5–5 lb mehr; erwartet 65–67,5. Knie ruhig halten, kein Versagen erzwingen. Last mit gestreckten Armen ablassen.' })], 150),
-        straight('B', [p('rdl', 4, { repsMin: 8, repsMax: 8, ramp: true, maxLb: 125, loadHint: '8RM finden: Satz 1 mit 115, dann 120, 125. Bei 125 lb ist die Skala zu Ende; gehen 125 × 8 mit 1+ RIR, ist das Gerät für den RDL ausgereizt (Block 3: Tempo, Pause unten, einbeinig).' })], 150),
-        superset('C', [reps('wadenheben', 2, 10, 12), reps('dead-bug', 2, 10, 10, { perSide: true })], 20, 45),
-        COOL_LEGS,
-      ],
-    },
-    {
-      key: 'w8-mi', weekday: 3, title: 'Test: Pull-Ups + Rudern 5RM', kind: 'challenge', minutes: 55, focus: 'Ziehen, Pull-Up-Leiter',
-      segments: [
-        WARM_PULL,
-        { type: 'test', label: 'A', exerciseId: 'pullup', benchmarkKey: 'pullupsMax', unit: 'reps', description: 'Max-Test: strikte Pull-Ups am Stück. Vergleich Woche 1: 11.', restSec: 240 },
-        straight('B', [p('rudern-stehend', 4, { repsMin: 5, repsMax: 5, ramp: true, loadHint: '5RM finden: Satz 1 mit der 8er-Last, dann je 5 lb mehr' })], 180),
-        { type: 'test', label: 'Leiter', exerciseId: 'pullup', benchmarkKey: 'pullupLadder', unit: 'reps', description: 'Die Leiter: 1 Pull-Up, kurz absetzen, 2, 3, 4 … bis eine Stufe nicht mehr sauber geht. Pause zwischen den Stufen so lang wie die Stufe gedauert hat. Eintragen: Summe aller sauberen Wiederholungen (z. B. bis Stufe 6 = 21).', restSec: 120 },
-        SEAT_OFF,
-        superset('C', [reps('reverse-fly', 2, 12, 15), reps('face-pull', 2, 12, 15)], 20, 60),
-        COOL_PULL,
       ],
     },
     {
