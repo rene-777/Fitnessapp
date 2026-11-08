@@ -464,10 +464,10 @@ const w8: Week = {
     {
       // 08.11.2026: Drücken von Mo auf Do (rechter Ellenbogen bekommt vier Tage ohne Drücken), Beine Mo, Pull Di, Bleep Mi (Auto für die Sportanlage erst ab Mittwoch). Schlüssel bleiben.
       key: 'w8-di', weekday: 1, title: 'Test: RDL und Kniebeuge 8RM', kind: 'challenge', minutes: 50, focus: 'Beine',
-      note: 'Ellenbogen schonen: Griffe nur mit gestreckten Armen aufnehmen und ablassen. Ablassen über die Beine (in die Hocke gehen, Arme bleiben lang), nie über das Beugen der Arme. Lieber drei als vier Aufnahmen: Satz 1 gleich mit 60 lb.',
+      note: 'Ellenbogen schonen: Griffe bleiben während des ganzen Satzes an den Schultern. Aufnehmen und Ablassen nur in der tiefen Hocke, wenn der Gewichtsblock aufliegt und das Seil locker ist; nie im Stand mit den Armen hochziehen oder ablassen. Reicht das Seil in der Hocke nicht locker bis zur Schulter: einen Karabiner mehr. Lieber drei als vier Aufnahmen: Satz 1 gleich mit 60 lb.',
       segments: [
         WARM_LEGS,
-        straight('A', [p('kabel-kniebeuge', 4, { repsMin: 8, repsMax: 8, ramp: true, tempo: '3-1-1', loadHint: '8RM finden: Satz 1 mit 60 lb (Arbeitslast), dann je 2,5–5 lb mehr; erwartet 65–67,5. Knie ruhig halten, kein Versagen erzwingen. Last mit gestreckten Armen ablassen.' })], 150),
+        straight('A', [p('kabel-kniebeuge', 4, { repsMin: 8, repsMax: 8, ramp: true, tempo: '3-1-1', loadHint: '8RM finden: Satz 1 mit 60 lb (Arbeitslast), dann je 2,5–5 lb mehr; erwartet 65–67,5. Knie ruhig halten, kein Versagen erzwingen. Nach dem letzten Satz mit den Griffen an den Schultern in die Hocke, erst unten loslassen.' })], 150),
         straight('B', [p('rdl', 4, { repsMin: 8, repsMax: 8, ramp: true, maxLb: 125, loadHint: '8RM finden: Satz 1 mit 115, dann 120, 125. Bei 125 lb ist die Skala zu Ende; gehen 125 × 8 mit 1+ RIR, ist das Gerät für den RDL ausgereizt (Block 3: Tempo, Pause unten, einbeinig).' })], 150),
         superset('C', [reps('wadenheben', 2, 10, 12), reps('dead-bug', 2, 10, 10, { perSide: true })], 20, 45),
         COOL_LEGS,
