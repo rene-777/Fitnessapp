@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useLiveQuery } from 'dexie-react-hooks'
-import { BLOCKS, CHALLENGE_TARGETS, PLAN_NAME, weekByNumber } from '../data/plan'
+import { BLOCKS, CHALLENGE_TARGETS, PLAN_NAME, WEEKS, weekByNumber } from '../data/plan'
 import { useProfile } from '../hooks/useProfile'
 import { fmtDate, mondayOfWeek, planWeekOf, today } from '../lib/dates'
 import { db } from '../db/db'
@@ -15,7 +15,7 @@ export default function PlanPage() {
     <div className="space-y-4">
       <header>
         <h1 className="h1">{PLAN_NAME}</h1>
-        <div className="text-muted text-sm">16 Wochen ab {fmtDate(profile.planStartDate, { day: '2-digit', month: '2-digit', year: 'numeric' })} · 5 Tage pro Woche, Samstag Puffer</div>
+        <div className="text-muted text-sm">{WEEKS.length} Wochen ab {fmtDate(profile.planStartDate, { day: '2-digit', month: '2-digit', year: 'numeric' })} · 5 Tage pro Woche, Samstag Puffer</div>
       </header>
       {BLOCKS.map((b) => (
         <section key={b.number} className="card space-y-2">

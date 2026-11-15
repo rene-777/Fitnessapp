@@ -9,7 +9,7 @@ import { isMobilityWorkout } from './workouts'
 export type CheckState = 'fertig' | 'faellig' | 'offen'
 export interface MobilityCheck { week: number; label: string; from: string; to: string; status: CheckState; doneDate?: string }
 
-/** Mobility-Check je Termin: Woche 1 (Basis), dann die Challenge-Wochen 4, 8, 12, 16. Fenster = Montag bis Sonntag der Woche. */
+/** Mobility-Check je Termin: Woche 1 (Basis), dann die Challenge-Wochen 4, 8, 13, 17. Fenster = Montag bis Sonntag der Woche. */
 export function mobilityCheckStatus(start: string, workouts: Workout[], today: string): MobilityCheck[] {
   const done = workouts.filter((w) => !w.deleted && w.sessionKey === MOBILITY_CHECK_KEY && w.status === 'fertig').map((w) => w.date)
   return MOBILITY_CHECK_WEEKS.map((week) => {

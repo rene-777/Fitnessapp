@@ -364,7 +364,15 @@ Die Skala an den Schwingarmen zeigt amerikanische Pfund (lb) pro Seite: 5 bis 12
 - **Ausführung:** Flache, ebene Strecke, 10–20 s bei 85–95 % der Höchstgeschwindigkeit, 2–3 min Gehpause. Erst nach gründlichem Aufwärmen mit Steigerungsläufen.
 - **Knie:** Nie kalt, nie bergab, nicht auf hartem Beton wenn vermeidbar.
 
-### Bleep-Test (Goliaz, VO2max) – Ausdauer-Benchmark statt Cooper-Test
+### Accumulator (Goliaz, VO2max) – Ausdauer-Benchmark statt Bleep-Test (seit 15.11.2026)
+- **Muskeln:** Herz-Kreislauf
+- **Aufbau:** Goliaz-App, Audio „Accumulator“. Matte, Pulsgurt, Handy in Hörweite.
+- **Ausführung:** Ein „GO“, ein Burpee (Goliaz-Standard), dann bis zum nächsten „GO“ warten. Der Abstand sinkt von 10 s auf 2 s (rund 120 Burpees in 8:14 min). Broken, wenn die Brust vor dem nächsten „GO“ nicht am Boden ist. Die letzte gehörte Zahl (16–65) ist der geschätzte VO2max-Wert.
+- **In der App:** Test-Schritt im Plan oder Freies Training → „Als Max-Test speichern“, Feld „VO2max (letzte Zahl)“. Benchmarks `accumulatorVo2` und `accumulatorBurpees` (aus der Tabelle abgeleitet), dazu ein Burpee-Satz für „Wiederholungen gesamt“. Tabelle Zahl → Burpees in `Block3-Wochen9-13.md` Abschnitt 4.
+- **Vergleichswert:** Bleep 44 am 11.08.2026 entspricht 75 Burpees nach etwa 6:30 min.
+- **Knie:** Normale Goliaz-Burpees, weich landen; bei unruhigen Knien verschieben.
+
+### Bleep-Test (Goliaz, VO2max) – bis Woche 8 Ausdauer-Benchmark, seit 15.11.2026 durch den Accumulator ersetzt
 - **Muskeln:** Herz-Kreislauf
 - **Aufbau:** Goliaz-App, Audio „Bleep“. Zwei Marker im Abstand von genau 20 m (Maßband, nicht GPS), Pulsgurt.
 - **Ausführung:** Nach gründlichem Warm-up an Marker A starten. Auf „GO“ zum anderen Marker laufen, dort bis zum nächsten „GO“ warten; die Zeitfenster werden immer kürzer. Wer einen Marker vor dem „GO“ nicht erreicht, ist „broken“; den nächsten rechtzeitig erreichen rettet, sonst sofort stoppen. Die letzte gehörte Zahl ist der VO2max-Wert.

@@ -3,6 +3,7 @@ import { db, now } from '../db/db'
 import type { Benchmark, SetLog, Workout } from '../db/types'
 import type { Session } from '../data/planTypes'
 import { isMobilityKey } from '../data/mobility'
+import { ACCUMULATOR_BURPEES_KEY, ACCUMULATOR_EXERCISE_ID, ACCUMULATOR_KEY, ACCUMULATOR_SUM_LABEL, accumulatorBurpees } from '../data/accumulator'
 
 export async function findWorkout(profileId: string, sessionKey: string, date?: string) {
   const list = await db.workouts.where('[profileId+sessionKey]').equals([profileId, sessionKey]).toArray()
@@ -93,6 +94,11 @@ export async function deleteSet(id: string) {
   if (s.isTest) {
     const benchmarks = (await db.benchmarks.where('profileId').equals(s.profileId).toArray()).filter((b) => b.workoutId === s.workoutId && !b.deleted)
     await db.benchmarks.bulkPut(benchmarks.map((b) => ({ ...b, deleted: true, updatedAt: t })))
+    // Accumulator: der abgeleitete Burpee-Satz desselben Trainings geht mit
+    if (s.exerciseId === ACCUMULATOR_EXERCISE_ID) {
+      const derived = (await db.sets.where('workoutId').equals(s.workoutId).toArray()).filter((x) => x.segmentLabel === ACCUMULATOR_SUM_LABEL && !x.deleted)
+      await db.sets.bulkPut(derived.map((x) => ({ ...x, deleted: true, updatedAt: t })))
+    }
   }
 }
 
@@ -103,6 +109,7 @@ export const EXERCISE_BENCHMARK: Record<string, { key: string; unit: 'reps' | 's
   dips: { key: 'dipsMax', unit: 'reps' },
   plank: { key: 'plankMax', unit: 'seconds' },
   bleep: { key: 'bleepVo2', unit: 'reps' },
+  [ACCUMULATOR_EXERCISE_ID]: { key: ACCUMULATOR_KEY, unit: 'reps' },
 }
 
 export async function patchWorkout(id: string, patch: Partial<Workout>) {
@@ -158,6 +165,14 @@ export async function saveBenchmark(w: Workout, key: string, value: number, unit
   const existing = (await db.benchmarks.where('[profileId+key]').equals([w.profileId, key]).toArray()).find((b) => b.workoutId === w.id && !b.deleted)
   const row: Benchmark = { ...(existing ?? { id: uuid() }), profileId: w.profileId, date: w.date, key, value, unit, workoutId: w.id, updatedAt: now() }
   await db.benchmarks.put(row)
+  // Accumulator: aus der angesagten Zahl die Burpees ableiten, als zweiten Benchmark und als Burpee-Satz (Wiederholungen gesamt)
+  if (key === ACCUMULATOR_KEY) {
+    const burpees = accumulatorBurpees(value)
+    if (burpees !== undefined) {
+      await saveBenchmark(w, ACCUMULATOR_BURPEES_KEY, burpees, 'reps')
+      await saveSet(w, { exerciseId: 'burpee', segmentLabel: ACCUMULATOR_SUM_LABEL, setIndex: 1, reps: burpees })
+    }
+  }
   return row
 }
 
@@ -171,6 +186,8 @@ export const BENCHMARK_LABELS: Record<string, string> = {
   squats1min: 'Kniebeugen in 1 min',
   cooper12: 'Cooper-Test (m)',
   bleepVo2: 'Bleep-Test (VO2max)',
+  [ACCUMULATOR_KEY]: 'Accumulator (VO2max)',
+  [ACCUMULATOR_BURPEES_KEY]: 'Accumulator (Burpees)',
   pullupLadder: 'Pull-Up-Leiter (gesamt)',
   amrap6: 'AMRAP 6 min (Runden)',
   amrap8: 'AMRAP 8 min (Runden)',

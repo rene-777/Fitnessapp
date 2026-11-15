@@ -1,5 +1,6 @@
 import type { Block, ChallengeTarget, Prescription, Segment, Session, TimedItem, TimedRole, Week } from './planTypes'
 import { MOBILITY_SESSIONS } from './mobility'
+import { ACCUMULATOR_KEY } from './accumulator'
 
 export const PLAN_NAME = 'Transformation 16'
 export const DEFAULT_START = '2026-09-21'
@@ -7,8 +8,8 @@ export const DEFAULT_START = '2026-09-21'
 export const BLOCKS: Block[] = [
   { number: 1, name: 'Fundament', weeks: [1, 2, 3, 4], focus: 'Technik an der Bio Force, Einstufung, Hypertrophie-Basis, Knie-Aufbau', repRange: '8–12 Wdh., 1–2 RIR' },
   { number: 2, name: 'Hypertrophie', weeks: [5, 6, 7, 8], focus: 'Muskelaufbau mit Schwerpunkt obere Brust, Schultern, Beine', repRange: '6–10 Wdh., 0–2 RIR' },
-  { number: 3, name: 'Kraft & Power', weeks: [9, 10, 11, 12], focus: 'Maximalkraft, Explosivität, Ausdauer hochfahren', repRange: '4–6 Wdh., 2–3 RIR + Power' },
-  { number: 4, name: 'Transformation', weeks: [13, 14, 15, 16], focus: 'Kraft halten, Hypertrophie-Intensivierung, Fettabbau, HIIT ≥ 75 min/Woche', repRange: '6–10 Wdh., 0–1 RIR' },
+  { number: 3, name: 'Kraft & Power', weeks: [9, 10, 11, 12, 13], focus: 'Übergangswoche (Woche 9), dann Maximalkraft, Explosivität, Ausdauer hochfahren', repRange: '4–6 Wdh., 2–3 RIR + Power' },
+  { number: 4, name: 'Transformation', weeks: [14, 15, 16, 17], focus: 'Kraft halten, Hypertrophie-Intensivierung, Fettabbau, HIIT ≥ 75 min/Woche', repRange: '6–10 Wdh., 0–1 RIR' },
 ]
 
 // Wochenziele der Kraftausdauer-Challenge (Woche 4): Faktor × Benchmark
@@ -520,10 +521,85 @@ const w8: Week = {
   ],
 }
 
+// ---------- Woche 9: Übergangswoche (eingeschoben am 15.11.2026) ----------
+// Rechte Schulter nach dem Drück-Test vom 11.11. gereizt (Schrägdrücken 52,5 lb × 5 bis zum Versagen, Griffe zu weit außen).
+// Block 3 beginnt deshalb mit einer leichten Woche; der Plan hat damit 17 Wochen. Lasten über hold + maxLb auf dem Stand von Woche 7,
+// Schrägdrücken als Technik-Einheit, keine Dips, kein Drücken über Kopf. Ausdauer-Test ist ab jetzt der Accumulator (drinnen) statt Bleep.
+const SHOULDER_RULE = 'Schulter: Schmerz im Satz höchstens 2 von 10, und in der Nacht danach darf es nicht schlechter werden. Sonst Satz beenden und die Übung weglassen.'
+const w9: Week = {
+  number: 9,
+  title: 'Übergangswoche (Schulter)',
+  note: `Eingeschobene leichte Woche nach der Kraft-Challenge: rechte Schulter beruhigen, Technik beim Schrägdrücken, Ausdauer wieder aufnehmen. Lasten wie in Woche 7, 3 Sätze, RIR 3. Keine Dips, kein Schulterdrücken, keine Max-Tests außer dem Accumulator am Freitag. ${SHOULDER_RULE} Block 3 (4–6 Wdh.) startet in Woche 10, wenn die Nächte schmerzfrei sind und der Donnerstag ohne Nachwirkung bleibt. Fotos am Montag.`,
+  sessions: [
+    {
+      key: 'w9-beine', weekday: 1, title: 'Beine + Hüfte (leicht)', kind: 'kraft', minutes: 60, focus: 'Lasten aus Woche 7, 3 Sätze',
+      note: 'Kabel-Kniebeuge nur, wenn das Halten der Griffe an der rechten Schulter schmerzfrei ist; sonst Block A überspringen und beim Split Squat einen Satz mehr. Griffe weiter nur in der tiefen Hocke aufnehmen und ablassen.',
+      segments: [
+        WARM_LEGS,
+        straight('A', [reps('kabel-kniebeuge', 3, 6, 8, { rir: '3', tempo: '3-1-1', hold: true, maxLb: 60, loadHint: '60 lb wie in Woche 7, nicht die Testlast (70)' })], 120),
+        straight('B', [reps('rdl', 3, 6, 8, { rir: '3', hold: true, maxLb: 120, loadHint: '115–120 lb, 3 s ablassen' })], 120),
+        superset('C', [reps('split-squat', 3, 8, 10, { perSide: true, rir: '2–3', hold: true }), reps('hueftabduktion', 2, 15, 15, { perSide: true, hold: true })], 30, 75),
+        superset('D', [reps('wadenheben', 3, 10, 12, { rir: '2', hold: true }), reps('dead-bug', 3, 10, 10, { perSide: true, note: 'Langsam, Arm und Bein ganz strecken' })], 20, 45),
+        SEAT_ON,
+        superset('E', [reps('beinbeuger', 2, 8, 10, { perSide: true, tempo: '3-1-3', rir: '2', hold: true }), reps('beinstrecker', 2, 10, 12, { tempo: '3-1-3', rir: '2', hold: true, loadHint: 'RIR 2 einhalten, nicht bis zum Versagen' })], 30, 75),
+        COOL_LEGS,
+      ],
+    },
+    {
+      key: 'w9-cardio', weekday: 2, title: 'Cardio drinnen: Intervalle + Zone 2', kind: 'cardio', minutes: 45, focus: 'Seil-Intervalle 8 Runden, Zone 2 20 min',
+      note: 'Cardio läuft ab jetzt standardmäßig drinnen. Diese Woche Seil statt Burpees in den Intervallen (Schulter); draußen laufen bleibt möglich.',
+      segments: [
+        WARM_CARDIO,
+        { type: 'interval', label: 'A', rounds: 8, workSec: 30, restSec: 60, exerciseId: 'seil', description: '8 × 30 s Seil schnell / 60 s gehen. Puls am Ende der Runden 141–153.', alternative: 'Schulter schmerzfrei: Burpees wie gewohnt. Bei Knieschmerz: Mountain Climbers.' },
+        { type: 'cardio', label: 'B', minutes: 20, exerciseId: 'laufen-z2', description: 'Zone 2. Standard drinnen: Seil 45 s / 15 s. Draußen durchgehend laufen bleibt möglich.', hrZone: '116–128', alternative: 'Indoor: 20 min Seil 45 s / 15 s.', altWorkSec: 45, altRestSec: 15 },
+        COOL_CARDIO,
+      ],
+    },
+    {
+      key: 'w9-pull', weekday: 3, title: 'Pull (leicht)', kind: 'kraft', minutes: 55, focus: 'Rücken, hintere Schulter, RIR 3',
+      note: 'Pull-Ups nur, wenn das Hängen an der rechten Schulter nichts auslöst; sonst Block A überspringen und beim Latzug einen Satz mehr. Latzug nur im schmerzfreien Bereich.',
+      segments: [
+        WARM_PULL,
+        straight('A', [reps('pullup', 3, 5, 7, { rir: '3', hold: true, loadHint: 'Standard-Variante, 3 Wiederholungen in Reserve lassen' })], 120),
+        straight('B', [reps('rudern-stehend', 3, 6, 8, { rir: '3', hold: true, maxLb: 40, loadHint: '40 lb (5RM war 50)' })], 120),
+        superset('C', [reps('latzug', 3, 8, 10, { rir: '3', hold: true }), reps('dead-bug', 3, 10, 10, { perSide: true })], 30, 75),
+        SEAT_OFF,
+        superset('D', [reps('reverse-fly', 3, 12, 15, { rir: '1–2', hold: true }), reps('face-pull', 3, 12, 15, { rir: '1–2', hold: true })], 20, 60, 'Beide am Karabiner auf Schulterhöhe, nur die Seile wechseln'),
+        superset('E', [reps('bizeps-curl', 2, 10, 12, { rir: '2', hold: true }), reps('hammer-curl', 2, 10, 12, { rir: '2', hold: true })], 20, 45),
+        COOL_PULL,
+      ],
+    },
+    {
+      key: 'w9-schulter', weekday: 4, title: 'Drücken: Technik + Schulter-Test', kind: 'kraft', minutes: 45, focus: 'Schrägdrücken leicht, enge Ellenbogen',
+      note: `Technik-Einheit, kein Test. Schrägdrücken mit 25–30 lb: Ellenbogen etwa 45° am Körper (nicht abspreizen), Griffe eher auf Höhe der unteren Brust, nur so weit, wie es schmerzfrei bleibt. ${SHOULDER_RULE} Bleibt die Nacht ruhig, startet Block 3 mit 47,5–50 lb.`,
+      segments: [
+        WARM_PUSH,
+        straight('A', [reps('schraegdruecken', 3, 12, 12, { rir: '4+', tempo: '3-1-1', hold: true, maxLb: 30, loadHint: '25–30 lb, Ellenbogen 45° am Körper, 3 s ablassen' })], 90),
+        straight('B', [reps('pushup', 3, 12, 15, { rir: '4+', loadHint: 'Standard-Push-Ups, locker, Ellenbogen nah am Körper' })], 60),
+        SEAT_OFF,
+        straight('C', [reps('seitheben', 2, 12, 15, { perSide: true, rir: '3', hold: true, maxLb: 12.5, loadHint: '12,5 lb, nur bis Schulterhöhe und leicht nach vorn versetzt. Zieht es: weglassen' })], 45),
+        straight('D', [reps('face-pull', 2, 12, 15, { rir: '2', hold: true })], 45),
+        straight('E', [p('plank', 2, { seconds: 60, note: 'Haltezeit wählbar, nicht bis zum Maximum' })], 45),
+        COOL_PUSH,
+      ],
+    },
+    {
+      key: 'w9-acc', weekday: 5, title: 'Test: Accumulator (VO2max)', kind: 'challenge', minutes: 35, focus: 'Ausdauer-Benchmark drinnen',
+      note: 'Ersetzt den Bleep-Test. Nur, wenn der Donnerstag ohne Nachwirkung an der Schulter geblieben ist; sonst 30 min Zone 2 (Seil 45/15) als freies Training und den Test in Woche 10 nachholen.',
+      segments: [
+        WARM_CARDIO,
+        { type: 'test', label: 'A', exerciseId: 'accumulator', benchmarkKey: ACCUMULATOR_KEY, unit: 'reps', description: 'Accumulator in der Goliaz-App starten: ein GO, ein Burpee, der Takt wird schneller (10 s bis 2 s). Broken, wenn die Brust vor dem nächsten GO nicht am Boden ist. Eintragen: die letzte Zahl, die du davor gehört hast (16–65). Die App rechnet die Burpees dazu aus. Vergleich Bleep 11.08.2026: 44.', restSec: 0 },
+        { type: 'cardio', label: 'B', minutes: 10, exerciseId: 'laufen-z2', description: 'Locker ausgehen oder Seil ganz leicht.', hrZone: '116–128', alternative: 'Indoor: 10 min Seil locker 45 s / 15 s.', altWorkSec: 45, altRestSec: 15 },
+        COOL_CARDIO,
+      ],
+    },
+  ],
+}
+
 const placeholder = (n: number, block: Block): Week => ({
   number: n,
   title: `Block ${block.number} „${block.name}“`,
-  note: 'Die Einheiten dieses Blocks werden nach Auswertung von Block 1 festgelegt.',
+  note: 'Die Einheiten dieses Blocks werden noch ausgearbeitet.',
   sessions: [],
 })
 
@@ -536,7 +612,8 @@ export const WEEKS: Week[] = [
   buildBlock2Week(6),
   buildBlock2Week(7),
   w8,
-  ...[9, 10, 11, 12, 13, 14, 15, 16].map((n) => placeholder(n, BLOCKS.find((b) => b.weeks.includes(n))!)),
+  w9,
+  ...[10, 11, 12, 13, 14, 15, 16, 17].map((n) => placeholder(n, BLOCKS.find((b) => b.weeks.includes(n))!)),
 ]
 
 export const weekByNumber = (n: number) => WEEKS.find((w) => w.number === n)

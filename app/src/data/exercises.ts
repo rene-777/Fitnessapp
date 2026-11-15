@@ -465,6 +465,24 @@ export const EXERCISES: Exercise[] = [
     tips: ['Vergleichswert: 44 am 11.08.2026 (8:41 min, max. Puls 162).', 'Ersetzt den Cooper-Test als Ausdauer-Benchmark. Eintragen über „Freies Training“ mit „Als Max-Test speichern“.'],
     knee: 'Viele Wenden: nur an Tagen mit ruhigen Knien (Kurz-Check Knie ≤ 2). Wenden mit kurzen Schritten abbremsen, nicht aus dem Knie drehen.',
   },
+  {
+    id: 'accumulator', name: 'Accumulator (Goliaz, VO2max)', category: 'cardio',
+    primary: ['cardio'], secondary: [], loadType: 'none', unit: 'reps', repsLabel: 'VO2max (letzte Zahl, 16–65)',
+    equipment: 'Goliaz-App (Audio „Accumulator“), Matte, Pulsgurt',
+    setup: 'Gut aufwärmen (mindestens 8 min, Warm-up Cardio). Handy in Hörweite, Lautstärke hoch.',
+    steps: [
+      'Ein „GO“, ein Burpee (Goliaz-Standard: Brust am Boden, Strecksprung). Danach bis zum nächsten „GO“ warten.',
+      'Der Abstand der Kommandos sinkt von 10 s auf 2 s; der ganze Test dauert höchstens 8:14 min (rund 120 Burpees).',
+      'Broken: Die Brust ist vor dem nächsten „GO“ nicht am Boden. Dann sofort stoppen.',
+      'Die letzte Zahl, die du davor gehört hast, ist der geschätzte VO2max-Wert. Hier eintragen; die App rechnet die Burpees dazu aus.',
+    ],
+    tips: [
+      'Ersetzt den Bleep-Test als Ausdauer-Benchmark (drinnen, ohne Laufstrecke). Vergleichswert Bleep: 44 am 11.08.2026.',
+      'Orientierung: Zahl 30 = 40 Burpees (ca. 4:25 min), 40 = 65 (ca. 6:00), 44 = 75 (ca. 6:30), 50 = 88 (ca. 7:05), 60 = 109 (ca. 7:55).',
+      'Ruhig beginnen: Die ersten vier Minuten sind nur 35 Burpees, entschieden wird der Test danach.',
+    ],
+    knee: 'Normale Goliaz-Burpees mit Strecksprung, weich landen. Bei unruhigen Knien (Kurz-Check über 2) verschieben.',
+  },
 
   // ---------- WARM-UP ----------
   {

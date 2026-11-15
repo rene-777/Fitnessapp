@@ -93,6 +93,8 @@ Ich habe die Recherche auf Meta-Analysen und Positionspapiere der Jahre 2019–2
 
 ## 3. Planarchitektur: 16 Wochen, 4 Blöcke, 4 Challenge-Wochen
 
+> **Änderung 15.11.2026:** Nach der Kraft-Challenge ist eine Übergangswoche eingeschoben (Woche 9, rechte Schulter). Block 3 liegt damit auf den Wochen 9–13, Block 4 auf 14–17, der Plan hat 17 Wochen. Ausdauer-Benchmark ist der Accumulator (Burpee-Stufentest, drinnen) statt des Bleep-Tests, Cardio läuft standardmäßig drinnen. Details in `Block3-Wochen9-13.md`.
+
 Jeder Block hat 3 Aufbauwochen und endet mit einer Challenge-Woche. Die Challenge-Woche hat einen klaren Fokus, senkt das Kraftvolumen und liefert Messwerte für den nächsten Block. Die erste Woche jedes neuen Blocks startet mit 20 % weniger Volumen (eingebauter Deload).
 
 | Block | Wochen | Fokus | Kraft | Cardio | Challenge-Woche |

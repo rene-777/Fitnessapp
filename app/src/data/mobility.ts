@@ -2,14 +2,14 @@ import type { Segment, Session, TimedItem } from './planTypes'
 
 // Mobility außerhalb des Wochenplans (Beschluss 23.09.2026, siehe docs/Mobility.md):
 // zwei Routinen à 15 min für Samstag/Sonntag (oder nach Zone 2 am Donnerstag) und der Mobility-Check
-// in Woche 1, 4, 8, 12 und 16. Alles freiwillig, zählt nicht als Plan-Einheit.
+// in Woche 1, 4, 8, 13 und 17. Alles freiwillig, zählt nicht als Plan-Einheit.
 
 const t = (exerciseId: string, seconds: number, o: Partial<TimedItem> = {}): TimedItem => ({ exerciseId, seconds, ...o })
 const pause = (seconds: number): TimedItem => ({ title: 'Pause', seconds })
 
 export const MOBILITY_PREFIX = 'mob-'
 export const MOBILITY_CHECK_KEY = 'mob-check'
-export const MOBILITY_CHECK_WEEKS = [1, 4, 8, 12, 16]
+export const MOBILITY_CHECK_WEEKS = [1, 4, 8, 13, 17]
 export const isMobilityKey = (key: string) => key.startsWith(MOBILITY_PREFIX)
 
 /** Routine A: Hüfte und Sprunggelenk, etwa 15 min. Die Hauptbaustellen des Users, Zielbild tiefe Kniebeuge. */

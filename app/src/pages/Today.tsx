@@ -82,7 +82,7 @@ export default function Today() {
       <header className="flex items-center gap-4">
         {info.kind === 'vorher'
           ? <Ring progress={0} big={String(daysToStart)} small={daysToStart === 1 ? 'Tag' : 'Tage'} />
-          : <Ring progress={planProgress(date, start)} big={info.kind === 'nachher' ? '16' : `W${info.week}`} small="von 16" />}
+          : <Ring progress={planProgress(date, start)} big={info.kind === 'nachher' ? String(WEEKS.length) : `W${info.week}`} small={`von ${WEEKS.length}`} />}
         <div className="min-w-0">
           <div className="label">{fmtDateLong(date)}</div>
           <h1 className="h1 leading-tight">Hallo {profile.name}</h1>
@@ -186,7 +186,7 @@ export default function Today() {
         </div>
       )}
       {info.kind === 'frei' && <div className="card"><div className="label">Heute</div><div className="text-xl font-bold leading-tight">Kein Training geplant</div><div className="text-muted text-sm">{info.weekData && info.weekData.sessions.length > 0 ? 'Diese Woche ist anders verteilt, siehe Wochenstreifen.' : 'Die Einheiten dieses Blocks werden nach Block 1 ergänzt.'}</div></div>}
-      {info.kind === 'nachher' && <div className="card"><div className="text-xl font-bold leading-tight">Plan abgeschlossen</div><div className="text-muted text-sm">16 Wochen geschafft. Zeit für den Retest und den nächsten Plan.</div></div>}
+      {info.kind === 'nachher' && <div className="card"><div className="text-xl font-bold leading-tight">Plan abgeschlossen</div><div className="text-muted text-sm">{WEEKS.length} Wochen geschafft. Zeit für den Retest und den nächsten Plan.</div></div>}
 
       {/* Wochenstreifen */}
       <Link to={`/week/${stripWeek}`} className="card block space-y-2">

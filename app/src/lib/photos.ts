@@ -77,7 +77,7 @@ export async function photoDates(profileId: string): Promise<string[]> {
   return (keys as unknown as [string, string][]).map((k) => k[1]).sort()
 }
 
-// ---- Termine: Start und die Blockgrenzen (Montag der Wochen 1, 5, 9, 13 und 17 = nach Woche 16) ----
+// ---- Termine: Start und die Blockgrenzen (Montag der Wochen 1, 5, 9, 14 und 18 = nach Woche 17; Block 3 hat seit 15.11.2026 fünf Wochen) ----
 
 export interface PhotoCheck {
   label: string
@@ -95,7 +95,7 @@ export function photoSchedule(start: string): PhotoCheck[] {
     const date = mondayOfWeek(start, week)
     return { label, week, date, from: addDays(date, -3), to: addDays(date, 3) }
   }
-  return [mk('Start', 1), mk('Nach Block 1', 5), mk('Nach Block 2', 9), mk('Nach Block 3', 13), mk('Ende', 17)]
+  return [mk('Start', 1), mk('Nach Block 1', 5), mk('Nach Block 2', 9), mk('Nach Block 3', 14), mk('Ende', 18)]
 }
 
 /** Status je Termin: fertig (Fotos im Fenster), fällig (Fenster offen oder verstrichen, keine Fotos), offen (liegt in der Zukunft). */
