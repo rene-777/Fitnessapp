@@ -166,4 +166,6 @@ Wenig Volumen, volle Pausen; Ergebnisse sind die Grundlage für Block 3 (4–6 W
 
 Reihenfolge am 08.11.2026 wegen des rechten Ellenbogens und des Autos (Sportanlage erst ab Mittwoch) umgestellt; ursprünglich Mo Drücken, Di Beine, Mi Pull, Do Bleep (Abschnitt 1f).
 
+**Ergebnisse (Export vom 15.11.2026):** alle Tests außer dem Bleep-Test absolviert (Drücken am Mi 11.11. statt Do, Push-Ups + AMRAP am Sa 14.11.); danach rechte Schulter gereizt. Werte, Einordnung und die eingeschobene Übergangswoche 9 stehen in `Block3-Wochen9-13.md`. Der Bleep-Test ist seitdem durch den Accumulator ersetzt.
+
 Pull-Ups mit Zusatzlast (Konzept 3.5) entfallen: Zusatzlast erst ab 20 unbroken (Entscheidung 3).
