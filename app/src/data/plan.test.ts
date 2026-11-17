@@ -37,7 +37,7 @@ describe('Plan-Daten', () => {
   it('kein Satz teilt sich den Speicherplatz mit einem anderen (Übung + Abschnitt + Satznummer)', () => {
     // Fehler vom 17.09.2026: Max-Test und erster Folgesatz hatten denselben Schlüssel, der Folgesatz überschrieb den Test
     for (const s of SESSIONS) {
-      const keys = buildSteps(s).flatMap((st) => (st.kind === 'set' ? [`${st.exerciseId}|${st.label}|${st.setIndex}`] : []))
+      const keys = buildSteps(s).flatMap((st) => (st.kind === 'set' ? [`${st.exerciseId}|${st.segKey}|${st.setIndex}`] : []))
       expect(new Set(keys).size, s.key).toBe(keys.length)
     }
   })

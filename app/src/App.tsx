@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { Suspense, lazy, useEffect, useState } from 'react'
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom'
 import BottomNav from './components/BottomNav'
 import UpdateBanner from './components/UpdateBanner'
@@ -14,12 +14,15 @@ import LogPast from './pages/LogPast'
 import FreeTraining from './pages/FreeTraining'
 import Exercises from './pages/Exercises'
 import ExerciseDetail from './pages/ExerciseDetail'
-import Body from './pages/Body'
 import Photos from './pages/Photos'
 import Mobility from './pages/Mobility'
 import SettingsPage from './pages/SettingsPage'
 import More from './pages/More'
-import Stats from './pages/Stats'
+
+// Analyse und Körper bringen die Diagramm-Bibliothek (Recharts, gut die Hälfte des Codes) mit: erst beim Öffnen laden.
+// Offline bleibt das möglich, der Service Worker hält auch diese Teile vor.
+const Stats = lazy(() => import('./pages/Stats'))
+const Body = lazy(() => import('./pages/Body'))
 
 function Shell() {
   const loc = useLocation()
@@ -27,6 +30,7 @@ function Shell() {
   return (
     <div className="min-h-full">
       <main className={`max-w-xl mx-auto px-4 pt-4 ${fullscreen ? 'pb-6' : 'pb-24'}`}>
+        <Suspense fallback={<div className="text-muted">Lade …</div>}>
         <Routes>
           <Route path="/" element={<Today />} />
           <Route path="/week" element={<WeekPage />} />
@@ -47,6 +51,7 @@ function Shell() {
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/more" element={<More />} />
         </Routes>
+        </Suspense>
       </main>
       {!fullscreen && <BottomNav />}
       <UpdateBanner hidden={fullscreen} />

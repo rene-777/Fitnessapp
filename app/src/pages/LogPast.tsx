@@ -9,7 +9,7 @@ import type { Workout } from '../db/types'
 import { useProfile } from '../hooks/useProfile'
 import { planWeekOf, today } from '../lib/dates'
 import { prescriptionText } from '../lib/planEngine'
-import { buildSteps } from '../lib/steps'
+import { buildSteps, storeLabel } from '../lib/steps'
 import { saveBenchmark, saveSet } from '../lib/workouts'
 import NumberInput from '../components/NumberInput'
 import NoteField, { cleanNote } from '../components/NoteField'
@@ -53,14 +53,14 @@ export default function LogPast() {
         const fields: Row['fields'] = timed ? ['seconds'] : ['reps']
         if (e.loadType === 'bioforce' || e.loadType === 'extern') fields.push('weight')
         if (!s.isTest && e.loadType !== 'none') fields.push('rir')
-        out.push({ key: `${s.label}-${s.exerciseId}-${s.setIndex}`, exerciseId: s.exerciseId, label: s.label, setIndex: s.setIndex, title: `${s.label} ${e.name}`, sub: s.isTest ? 'Test' : `Satz ${s.setIndex}/${s.totalSets} · ${prescriptionText(s.p)}`, fields, isTest: s.isTest, benchmarkKey: s.benchmarkKey, benchmarkUnit: s.testUnit, segmentLabel: s.label, bioforce: e.loadType === 'bioforce' })
+        out.push({ key: `${s.label}-${s.exerciseId}-${s.setIndex}`, exerciseId: s.exerciseId, label: s.label, setIndex: s.setIndex, title: `${s.label} ${e.name}`, sub: s.isTest ? 'Test' : `Satz ${s.setIndex}/${s.totalSets} · ${prescriptionText(s.p)}`, fields, isTest: s.isTest, benchmarkKey: s.benchmarkKey, benchmarkUnit: s.testUnit, segmentLabel: s.segKey, bioforce: e.loadType === 'bioforce' })
       } else if (s.kind === 'amrap') {
         const single = s.seg.exercises.length === 1 && s.seg.exercises[0].reps === 1
-        out.push({ key: `amrap-${s.seg.label}`, exerciseId: s.seg.exercises[0].exerciseId, label: s.seg.label, setIndex: 1, title: `AMRAP ${s.seg.minutes} min`, sub: s.seg.exercises.map((x) => `${x.reps > 1 ? x.reps + ' ' : ''}${ex(x.exerciseId).name}`).join(', '), fields: [single ? 'reps' : 'rounds'], isTest: !!s.seg.benchmarkKey, benchmarkKey: s.seg.benchmarkKey, benchmarkUnit: single ? 'reps' : 'rounds', segmentLabel: `amrap-${s.seg.label}`, amrapExercises: single ? undefined : s.seg.exercises })
+        out.push({ key: `amrap-${s.seg.label}`, exerciseId: s.seg.exercises[0].exerciseId, label: s.seg.label, setIndex: 1, title: `AMRAP ${s.seg.minutes} min`, sub: s.seg.exercises.map((x) => `${x.reps > 1 ? x.reps + ' ' : ''}${ex(x.exerciseId).name}`).join(', '), fields: [single ? 'reps' : 'rounds'], isTest: !!s.seg.benchmarkKey, benchmarkKey: s.seg.benchmarkKey, benchmarkUnit: single ? 'reps' : 'rounds', segmentLabel: storeLabel(s.seg), amrapExercises: single ? undefined : s.seg.exercises })
       } else if (s.kind === 'interval') {
-        out.push({ key: `interval-${s.seg.label}`, exerciseId: s.seg.exerciseId, label: s.seg.label, setIndex: 1, title: `Intervalle ${ex(s.seg.exerciseId).name}`, sub: `${s.seg.rounds} × ${s.seg.workSec}/${s.seg.restSec} s`, fields: ['rounds', 'reps'], segmentLabel: `interval-${s.seg.label}` })
+        out.push({ key: `interval-${s.seg.label}`, exerciseId: s.seg.exerciseId, label: s.seg.label, setIndex: 1, title: `Intervalle ${ex(s.seg.exerciseId).name}`, sub: `${s.seg.rounds} × ${s.seg.workSec}/${s.seg.restSec} s`, fields: ['rounds', 'reps'], segmentLabel: storeLabel(s.seg) })
       } else if (s.kind === 'cardio') {
-        out.push({ key: `cardio-${s.seg.label}`, exerciseId: s.seg.exerciseId, label: s.seg.label, setIndex: 1, title: `${s.seg.label} ${ex(s.seg.exerciseId).name}`, sub: `${s.seg.minutes} min geplant`, fields: ['minutes', 'distance'], isTest: !!s.seg.benchmarkKey, benchmarkKey: s.seg.benchmarkKey, benchmarkUnit: 'm', segmentLabel: `cardio-${s.seg.label}` })
+        out.push({ key: `cardio-${s.seg.label}`, exerciseId: s.seg.exerciseId, label: s.seg.label, setIndex: 1, title: `${s.seg.label} ${ex(s.seg.exerciseId).name}`, sub: `${s.seg.minutes} min geplant`, fields: ['minutes', 'distance'], isTest: !!s.seg.benchmarkKey, benchmarkKey: s.seg.benchmarkKey, benchmarkUnit: 'm', segmentLabel: storeLabel(s.seg) })
       } else if (s.kind === 'challenge') {
         for (const it of s.seg.items) out.push({ key: `ch-${it.exerciseId}`, exerciseId: it.exerciseId, label: 'challenge', setIndex: 1, title: `Challenge ${ex(it.exerciseId).name}`, sub: 'Wiederholungen gesamt', fields: ['reps'], segmentLabel: 'challenge' })
       }

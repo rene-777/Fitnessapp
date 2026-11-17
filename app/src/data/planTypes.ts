@@ -42,6 +42,7 @@ export type Segment =
   | {
       type: 'block'
       label: string
+      id?: string // feste Kennung für den Speicherplatz der Sätze; fehlt sie, gilt label. Nur setzen, wenn ein label geändert wird, zu dem es schon Sätze gibt (dann id = altes label)
       kind: 'straight' | 'superset'
       exercises: Prescription[]
       restSec: number // Pause nach dem Satz (straight) bzw. nach dem Paar (superset)
@@ -51,6 +52,7 @@ export type Segment =
   | {
       type: 'test'
       label: string
+      id?: string // feste Kennung für den Speicherplatz der Sätze; fehlt sie, gilt label. Nur setzen, wenn ein label geändert wird, zu dem es schon Sätze gibt (dann id = altes label)
       exerciseId: string
       benchmarkKey: string
       unit: 'reps' | 'seconds'
@@ -61,6 +63,7 @@ export type Segment =
   | {
       type: 'amrap'
       label: string
+      id?: string // feste Kennung für den Speicherplatz der Sätze; fehlt sie, gilt label. Nur setzen, wenn ein label geändert wird, zu dem es schon Sätze gibt (dann id = altes label)
       minutes: number
       exercises: { exerciseId: string; reps: number }[]
       countLabel: 'Runden' | 'Wiederholungen'
@@ -70,6 +73,7 @@ export type Segment =
   | {
       type: 'interval'
       label: string
+      id?: string // feste Kennung für den Speicherplatz der Sätze; fehlt sie, gilt label. Nur setzen, wenn ein label geändert wird, zu dem es schon Sätze gibt (dann id = altes label)
       rounds: number
       workSec: number
       restSec: number
@@ -80,6 +84,7 @@ export type Segment =
   | {
       type: 'cardio'
       label: string
+      id?: string // feste Kennung für den Speicherplatz der Sätze; fehlt sie, gilt label. Nur setzen, wenn ein label geändert wird, zu dem es schon Sätze gibt (dann id = altes label)
       minutes: number
       exerciseId: string
       description: string
