@@ -4,6 +4,7 @@ import BottomNav from './components/BottomNav'
 import UpdateBanner from './components/UpdateBanner'
 import ErrorBoundary, { ErrorCard, errorText } from './components/ErrorBoundary'
 import { ensureDefaults } from './hooks/useProfile'
+import { ensurePersistentStorage } from './lib/backup'
 import Today from './pages/Today'
 import WeekPage from './pages/WeekPage'
 import PlanPage from './pages/PlanPage'
@@ -58,6 +59,8 @@ export default function App() {
   const [error, setError] = useState<string>()
   useEffect(() => {
     ensureDefaults().then(() => setReady(true)).catch((e) => setError(errorText(e)))
+    // Dauerhaften Speicher anfordern; läuft nebenher und darf den Start nie aufhalten
+    void ensurePersistentStorage().catch(() => undefined)
   }, [])
   if (error) return <ErrorCard title="Datenbank lässt sich nicht öffnen" error={error} />
   if (!ready) return <div className="p-6 text-muted">Lade …</div>

@@ -1,4 +1,5 @@
-import { db } from '../db/db'
+import { db, now } from '../db/db'
+import { today } from './dates'
 
 interface Dump {
   app: string
@@ -37,6 +38,12 @@ export function downloadText(filename: string, text: string) {
   a.click()
   a.remove()
   setTimeout(() => URL.revokeObjectURL(url), 2000)
+}
+
+/** Export als Datei herunterladen und den Zeitpunkt merken (für die Erinnerung an die Sicherung). */
+export async function exportToFile() {
+  downloadText(`transformation16-${today()}.json`, await exportAll())
+  await db.settings.update('app', { lastExportAt: now() })
 }
 
 /** Zusammenführen: neuere updatedAt gewinnt, unbekannte IDs werden ergänzt. */

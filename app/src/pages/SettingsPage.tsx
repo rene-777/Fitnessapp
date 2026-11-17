@@ -5,8 +5,9 @@ import { DEFAULT_START } from '../data/plan'
 import { db, now } from '../db/db'
 import type { Profile } from '../db/types'
 import { saveProfile, updateSettings, useProfile, useSettings } from '../hooks/useProfile'
-import { downloadText, exportAll, importDump } from '../lib/exportImport'
-import { today } from '../lib/dates'
+import { exportToFile, importDump } from '../lib/exportImport'
+import { ensurePersistentStorage, type StorageInfo } from '../lib/backup'
+import { fmtDateLong } from '../lib/dates'
 
 export default function SettingsPage() {
   const profile = useProfile()
@@ -16,15 +17,14 @@ export default function SettingsPage() {
   const [msg, setMsg] = useState('')
   const fileRef = useRef<HTMLInputElement>(null)
   useEffect(() => { if (profile) setForm(profile) }, [profile])
+  const [storage, setStorage] = useState<StorageInfo>()
+  useEffect(() => { void ensurePersistentStorage().then(setStorage).catch(() => setStorage({ supported: false, persisted: false })) }, [])
   if (!profile || !settings || !form) return null
 
   const set = (k: keyof Profile, v: unknown) => setForm({ ...form, [k]: v } as Profile)
   const save = async () => { await saveProfile(form); setMsg('Gespeichert.') }
 
-  const doExport = async () => {
-    const text = await exportAll()
-    downloadText(`transformation16-${today()}.json`, text)
-  }
+  const doExport = async () => { await exportToFile(); setMsg('Sicherung exportiert.') }
   const doImport = async (f: File) => {
     try {
       const res = await importDump(await f.text())
@@ -86,6 +86,16 @@ export default function SettingsPage() {
       <section className="card space-y-3">
         <div className="h2">Sicherung</div>
         <div className="text-sm text-muted">Alle Daten als JSON-Datei. Zum Übertragen aufs andere Gerät dort importieren, neuere Einträge gewinnen. Fotos vom Foto-Check haben eine eigene Sicherung auf ihrer Seite.</div>
+        <div className="text-sm">Letzter Export: <span className="font-semibold">{settings.lastExportAt ? `${fmtDateLong(settings.lastExportAt.slice(0, 10))}` : 'noch keiner vermerkt'}</span></div>
+        {storage && (
+          <div className={`text-sm ${storage.persisted ? 'text-ok' : 'text-warn'}`}>
+            {storage.persisted
+              ? `Dauerhafter Speicher zugesichert: der Browser löscht die Daten nicht von sich aus${storage.usedMb !== undefined ? ` (belegt ca. ${storage.usedMb} MB)` : ''}.`
+              : storage.supported
+                ? 'Dauerhafter Speicher nicht zugesichert: bei knappem Speicherplatz darf der Browser die Daten löschen. Als installierte App wird er in der Regel zugesichert; bis dahin regelmäßig exportieren.'
+                : 'Dieser Browser kann keinen dauerhaften Speicher zusichern. Regelmäßig exportieren.'}
+          </div>
+        )}
         <button className="btn-primary w-full" onClick={doExport}>Exportieren</button>
         <input ref={fileRef} type="file" accept="application/json" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) void doImport(f); e.target.value = '' }} />
         <button className="btn-ghost w-full" onClick={() => fileRef.current?.click()}>Importieren</button>

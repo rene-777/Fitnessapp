@@ -20,6 +20,7 @@ export interface Settings {
   activeProfileId: string
   audio: boolean
   voice: boolean
+  lastExportAt?: string // Zeitpunkt des letzten JSON-Exports auf diesem Gerät (Erinnerung an die Sicherung)
 }
 
 export type WorkoutStatus = 'laufend' | 'fertig' | 'abgebrochen'

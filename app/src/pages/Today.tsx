@@ -2,7 +2,9 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { db } from '../db/db'
-import { useProfile } from '../hooks/useProfile'
+import { useProfile, useSettings } from '../hooks/useProfile'
+import { backupStatus } from '../lib/backup'
+import { exportToFile } from '../lib/exportImport'
 import { EXERCISE_MAP } from '../data/exercises'
 import { WEEKS, weekByNumber } from '../data/plan'
 import { fmtLb, kgToLb } from '../lib/bioforce'
@@ -43,6 +45,7 @@ const fmtHours = (min: number) => (min < 60 ? `${min} min` : `${Math.floor(min /
 
 export default function Today() {
   const profile = useProfile()
+  const settings = useSettings()
   const date = today()
   const info = profile ? dayInfo(date, profile.planStartDate) : undefined
   const workouts = useLiveQuery(() => (profile ? db.workouts.where('profileId').equals(profile.id).toArray() : []), [profile?.id])
@@ -61,6 +64,11 @@ export default function Today() {
   const mob = useMemo(() => routineStatus(workouts ?? [], start, date), [workouts, start, date])
   const dueCheck = useMemo(() => (start ? dueMobilityCheck(start, workouts ?? [], date) : undefined), [start, workouts, date])
   const routine = todaysRoutine(date, mob.last)
+  // Erinnerung an die Sicherung: seit dem letzten Export ist Neues dazugekommen und er liegt eine Woche zurück (oder es gab noch keinen)
+  const backup = useMemo(
+    () => (settings && workouts && sets && body ? backupStatus(settings.lastExportAt, [...workouts, ...sets, ...body], new Date().toISOString()) : undefined),
+    [settings, workouts, sets, body],
+  )
 
   if (!profile || !info) return null
   const inPlan = info.week > 0 && info.week <= WEEKS.length
@@ -242,6 +250,18 @@ export default function Today() {
             </span>
           </div>
         </Link>
+      )}
+
+      {backup?.due && (
+        <div className="card !border-warn/50 space-y-2">
+          <div>
+            <div className="label text-warn">Sicherung</div>
+            <div className="text-sm">{backup.days === undefined
+              ? `Auf diesem Gerät ist noch kein Export vermerkt: ${backup.changed} Einträge liegen nur auf diesem Handy.`
+              : `Letzter Export vor ${backup.days} Tagen. Seitdem ${backup.changed} neue oder geänderte Einträge, die nur auf diesem Handy liegen.`}</div>
+          </div>
+          <button className="btn-ghost w-full" onClick={() => void exportToFile()}>Jetzt exportieren</button>
+        </div>
       )}
 
       <div className="flex justify-center gap-4 text-sm text-muted py-1">
