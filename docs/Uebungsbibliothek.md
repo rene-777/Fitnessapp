@@ -20,13 +20,26 @@ Die Anleitung benennt die Zugpunkte so:
 
 Die Skala an den Schwingarmen zeigt amerikanische Pfund (lb) pro Seite: 5 bis 125, beschriftet in 5er-Schritten, einstellbar bis 100 lb in 2,5-lb-Rasten, darüber nur noch in 5-lb-Schritten (Rückmeldung 27.10.2026; bislang nur beim RDL relevant) (5 lb ≈ 2,3 kg, 50 lb ≈ 22,7 kg, 100 lb ≈ 45,4 kg, 125 lb ≈ 56,7 kg). Widerstand immer als Skalenwert in lb pro Seite notieren. Beide Kabel zusammen ergibt das Doppelte. Die App zeigt den kg-Wert daneben an.
 
+### Zubehör (Yes4All-Set, ergänzt 17.11.2026)
+
+Der User hat von Anfang an ein Zubehör-Set mit einer Öse je Teil: **Doppel-D-Griff** (enger neutraler Griff), **Trizepsseil**, **drehbare gerade Stange** und **V-Stange**. Befestigung an der Bio Force: ein Karabiner in die Öse, beide Seile in diesen Karabiner. Beide Seile ziehen dann am selben Teil, **der Skalenwert bleibt pro Seite** wie bei zwei Handgriffen. In der App steht das Zubehör als Feld `attachment` an der Übung (Chip „Zubehör: …“).
+
+| Übung | Zubehör | Bemerkung |
+|---|---|---|
+| Latzug enger Griff | Doppel-D-Griff | vom User am Gerät bestätigt |
+| Face Pulls | Trizepsseil | im Supersatz mit Reverse Flys bei den Handgriffen bleiben (kein Umstecken) |
+| Trizepsdrücken | Trizepsseil, alternativ V-Stange | statt Latstange |
+| Cable Crunch | Trizepsseil | statt Handgriffen oder AB-Strap |
+| Cable Pull-Through | Trizepsseil | an einem unteren Haken |
+| Hammer-Curls, Bizeps-Curls, Rudern | optional Seil, gerade Stange, Doppel-D-Griff | nur als eigener Block, nicht im Supersatz mit Handgriff-Übungen |
+
 ---
 
 ## A. Brust und Drücken
 
 ### Kabel-Schrägdrücken (Bio Force Nr. 34 „Schrägbankdrücken“)
 - **Muskeln:** primär obere Brust, vordere Schulter · sekundär Trizeps
-- **Einstellung:** Sitz angebracht, Beinmodul angebracht, Handgriffe, Karabiner auf Schulterhöhe hinter dir, **Seile über den Armen** führen
+- **Einstellung:** Sitz auf der **höchsten Position**, Beinmodul angebracht, Handgriffe an der **zweiten Position von außen**, **Seile über den Armen** führen (am Gerät ermittelt, Technik-Einheit 17.11.2026). Ellbogen etwa 45° am Körper, nicht abspreizen (rechte Schulter, 11.11.2026)
 - **Ausführung:**
   1. Aufrecht sitzen, Rücken am Polster. Griffe auf Schulterhöhe, Ellbogen 90°, Handflächen nach unten-vorn.
   2. Arme nach vorne **und oben** strecken, bis die Griffe auf Kopfhöhe sind. Kurz anspannen.
@@ -103,8 +116,8 @@ Die Skala an den Schwingarmen zeigt amerikanische Pfund (lb) pro Seite: 5 bis 12
 
 ### Trizepsdrücken (Bio Force Nr. 94)
 - **Muskeln:** primär Trizeps
-- **Einstellung:** Sitz entfernt, Latstange am oberen Haken, stehend zum Gerät
-- **Ausführung:** Stange im Obergriff, Ellbogen 90° am Körper, Ellbogen strecken, kurz halten, zurück. Oberarme bleiben am Körper.
+- **Einstellung:** Sitz entfernt, **Trizepsseil** am Lat-Tower (ein Karabiner in der Öse, beide Seile darin eingehängt), stehend zum Gerät. Alternative: V-Stange. Die Anleitung zeigt die Latstange.
+- **Ausführung:** Seilenden im neutralen Griff, Ellbogen 90° am Körper, Ellbogen strecken und die Seilenden unten leicht auseinanderziehen, kurz halten, zurück. Oberarme bleiben am Körper.
 
 ---
 
@@ -129,7 +142,16 @@ Die Skala an den Schwingarmen zeigt amerikanische Pfund (lb) pro Seite: 5 bis 12
   3. Kurz anspannen, langsam zurück bis die Arme gestreckt sind und die Schultern nach oben gehen (Dehnung).
 - **Fehler:** Stange in den Nacken ziehen, Oberkörper weit nach hinten werfen.
 - **Grenze des Geräts (Rückmeldung 19.10.2026):** Die Bio Force hat kein Oberschenkelpolster; ab etwa 45–50 lb je Seite hebt die Last den Sitzenden an. Darüber nicht schwerer, sondern 3 s ablassen, Pause unten oder mehr Wiederholungen. Der schwere vertikale Zug läuft über Pull-Ups mit Zusatzlast.
-- **Variante enger Griff:** Nr. 47 „Latzug mit neutralem Griff“: die beiden Handgriffe am Lat-Tower, Handflächen zueinander, Zug zur Brust.
+- **Variante enger Griff:** Nr. 47 „Latzug mit neutralem Griff“, bei uns mit dem **Doppel-D-Griff** am Lat-Tower (ein Karabiner in der Öse, beide Seile darin eingehängt), Handflächen zueinander, Zug zur Brust. Liegt besser in der Hand als zwei einzelne Handgriffe (Rückmeldung 17.11.2026).
+
+### Latzug einarmig (Bio Force Nr. 46), ersetzt ab Woche 9 den Latzug zur Brust
+- **Muskeln:** primär Latissimus · sekundär Bizeps, oberer Rücken, schräge Bauchmuskeln (Stabilisierung)
+- **Einstellung:** Sitz auf der **untersten Stufe**, ein Handgriff am Lat-Tower, Gesicht zum Gerät. Die freie Hand hält sich an der Rückenlehne oder seitlich am Sitz fest.
+- **Ausführung:**
+  1. Schulterblatt nach unten ziehen, dann den Ellbogen eng am Körper nach unten-hinten, Hand bis neben die Brust.
+  2. Kurz anspannen, langsam (2–3 s) zurück bis zum gestreckten Arm und zur Dehnung. Erst eine Seite komplett, dann die andere.
+- **Warum (Test des Users am 17.11.2026):** Es zieht nur ein Seil, also halb so viel Zug nach oben. Damit bleibt man auch bei Lasten sitzen, bei denen der beidarmige Latzug (ab etwa 45–50 lb je Seite) vom Sitz hebt. Der Skalenwert ist die Last für den arbeitenden Arm; Start mit der letzten Latzug-Last.
+- **Fehler:** Oberkörper zur Seite kippen oder verdrehen.
 
 ### Rudern stehend (Bio Force Nr. 53 Griffe / Nr. 57 Untergriff)
 - **Muskeln:** primär oberer Rücken (Rhomboiden, mittlerer Trapez), Latissimus · sekundär hintere Schulter, Bizeps
@@ -158,7 +180,7 @@ Die Skala an den Schwingarmen zeigt amerikanische Pfund (lb) pro Seite: 5 bis 12
 
 ### Face Pulls am Kabel
 - **Muskeln:** primär hintere Schulter, mittlerer Trapez · sekundär Rotatorenmanschette
-- **Einstellung:** Sitz entfernt, Handgriffe an den Karabinern auf Schulterhöhe oder am oberen Haken, stehend mit Gesicht zum Gerät
+- **Einstellung:** Sitz entfernt, **Trizepsseil** an den Seilen von den Karabinern auf Schulterhöhe oder vom oberen Haken (ein Karabiner in der Öse, beide Seile darin eingehängt), stehend mit Gesicht zum Gerät. Im Supersatz mit Reverse Flys bei den zwei Handgriffen bleiben.
 - **Ausführung:**
   1. Griffe mit Daumen nach hinten fassen, Arme gestreckt, Schritt zurück bis Spannung da ist.
   2. Griffe zum Gesicht ziehen, Ellbogen hoch und weit nach außen, am Ende zeigen die Fäuste neben die Ohren.
@@ -217,7 +239,7 @@ Die Skala an den Schwingarmen zeigt amerikanische Pfund (lb) pro Seite: 5 bis 12
 
 ### Cable Pull-Through (Bio Force Nr. 6 „Kreuzheben mit gestreckten Beinen“)
 - **Muskeln:** primär Gesäß, hintere Oberschenkel · sekundär unterer Rücken
-- **Einstellung:** Sitz entfernt, ein Griff oder der AB-Strap an einem unteren Haken, Rücken zum Gerät, Seil zwischen den Beinen
+- **Einstellung:** Sitz entfernt, **Trizepsseil** (ersatzweise ein Griff oder der AB-Strap) an einem unteren Haken, Rücken zum Gerät, Seil zwischen den Beinen
 - **Ausführung:**
   1. Griff mit beiden Händen zwischen den Beinen halten, Schritt nach vorn bis Spannung da ist.
   2. Hüfte nach hinten schieben, Oberkörper neigt sich, Arme bleiben gestreckt und werden nach hinten zwischen die Beine gezogen.
@@ -286,8 +308,8 @@ Die Skala an den Schwingarmen zeigt amerikanische Pfund (lb) pro Seite: 5 bis 12
 
 ### Cable Crunch (Bio Force Nr. 106)
 - **Muskeln:** primär gerade Bauchmuskeln
-- **Einstellung:** Sitz angebracht, Handgriffe oder AB-Strap am oberen Haken, nach vorn sitzend
-- **Ausführung:** Griffe auf Schulterhöhe, Ellbogen nach vorn. Wirbelsäule einrollen, Brust Richtung Hüfte ziehen, 1 s halten, langsam aufrollen. Nicht mit den Armen ziehen, Hüfte bleibt ruhig.
+- **Einstellung:** Sitz angebracht, **Trizepsseil** am Lat-Tower (ein Karabiner in der Öse, beide Seile darin eingehängt), nach vorn sitzend
+- **Ausführung:** Seilenden neben dem Kopf, Ellbogen nach vorn. Wirbelsäule einrollen, Brust Richtung Hüfte ziehen, 1 s halten, langsam aufrollen. Nicht mit den Armen ziehen, Hüfte bleibt ruhig.
 
 ### Pallof Press
 - **Muskeln:** primär schräge Bauchmuskeln (Anti-Rotation) · sekundär gerade Bauchmuskeln, Schultern

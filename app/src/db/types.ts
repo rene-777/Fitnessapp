@@ -44,7 +44,7 @@ export interface Workout {
   finishedAt?: string
   durationMin?: number
   readiness?: Readiness
-  notes?: string
+  notes?: string // Bemerkung des Users zur ganzen Einheit
   backfilled?: boolean
   updatedAt: string
   deleted?: boolean
@@ -68,7 +68,8 @@ export interface SetLog {
   side?: 'L' | 'R'
   isTest?: boolean
   variant?: string // Ausführungsvariante bei Körpergewichtsübungen (Exercise.variants); fehlt = Standard
-  note?: string
+  note?: string // Bemerkung des Users zum Satz (bis 17.11.2026 schrieb die App hier bei AMRAPs die Übungsliste und bei Cardio „Alternative“ hinein)
+  roundReps?: number[] // Intervalle: Wiederholungen je Runde (reps = Summe)
   updatedAt: string
   deleted?: boolean
 }

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { beepCount, beepEnd, beepGo } from '../lib/audio'
 import { fmtSec } from '../lib/dates'
 
@@ -12,10 +12,12 @@ interface Props {
   onTick?: (remaining: number) => void
   /** Großanzeige für Intervalle (Handy liegt am Boden): Phase farbig, Sekunden und Runde riesig */
   big?: { phase: 'work' | 'rest'; title: string; round: string }
+  /** Zusatz in der Großanzeige über den Knöpfen, z. B. Eingabe der Wiederholungen in der Intervall-Pause */
+  extra?: ReactNode
 }
 
 /** Countdown, robust gegen Hintergrund-Drosselung (rechnet mit Zeitstempeln). */
-export default function Timer({ seconds, onDone, label, autoStart = true, size = 'lg', allowExtend = true, onTick, big }: Props) {
+export default function Timer({ seconds, onDone, label, autoStart = true, size = 'lg', allowExtend = true, onTick, big, extra }: Props) {
   const [endAt, setEndAt] = useState<number | null>(autoStart ? Date.now() + seconds * 1000 : null)
   const [remaining, setRemaining] = useState(seconds)
   const [pausedRemaining, setPausedRemaining] = useState<number | null>(null)
@@ -85,6 +87,7 @@ export default function Timer({ seconds, onDone, label, autoStart = true, size =
             <div className={`h-full transition-[width] duration-200 ${work ? 'bg-black' : 'bg-accent'}`} style={{ width: `${pct}%` }} />
           </div>
         </div>
+        {extra && <div className="rounded-xl bg-bg text-text p-3">{extra}</div>}
         <div className="rounded-xl bg-bg p-2">{buttons}</div>
       </div>
     )

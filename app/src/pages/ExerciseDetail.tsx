@@ -54,7 +54,8 @@ export default function ExerciseDetail() {
         {byDate.size === 0 && <div className="text-muted text-sm">Noch keine Einträge.</div>}
         <div className="divide-y divide-line">
           {[...byDate.entries()].slice(0, 20).map(([date, rows]) => (
-            <div key={date} className="py-2 flex justify-between gap-2 text-sm">
+            <div key={date} className="py-2 text-sm">
+             <div className="flex justify-between gap-2">
               <div className="text-muted w-20 shrink-0">{fmtDate(date)}</div>
               <div className="flex-1 text-right">
                 {rows.map((s) => {
@@ -62,6 +63,7 @@ export default function ExerciseDetail() {
                   if (s.reps !== undefined) parts.push(`${s.reps}`)
                   if (s.seconds !== undefined && s.reps === undefined) parts.push(`${s.seconds} s`)
                   if (s.rounds !== undefined) parts.push(`${s.rounds} Rd`)
+                  if (s.roundReps?.length) parts.push(`(${s.roundReps.join(' · ')})`)
                   if (s.distanceM !== undefined) parts.push(`${s.distanceM} m`)
                   if (s.weightKg !== undefined) parts.push(`@ ${e.loadType === 'bioforce' ? `${fmtLb(kgToLb(s.weightKg))} lb` : loadText(s.weightKg, e.loadType)}`)
                   if (s.rir !== undefined) parts.push(`RIR ${s.rir}`)
@@ -75,6 +77,10 @@ export default function ExerciseDetail() {
                   )
                 })}
               </div>
+             </div>
+             {rows.filter((s) => s.note).map((s) => (
+               <div key={s.id} className="text-xs text-accent2 mt-1">{rows.length > 1 ? `Satz ${s.setIndex}: ` : ''}{s.note}</div>
+             ))}
             </div>
           ))}
         </div>

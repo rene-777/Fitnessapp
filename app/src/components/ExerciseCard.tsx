@@ -9,6 +9,7 @@ export function MuscleChips({ e }: { e: Exercise }) {
       {e.primary.map((m) => <span key={m} className="chip-accent">{MUSCLES[m]}</span>)}
       {e.secondary.map((m) => <span key={m} className="chip">{MUSCLES[m]}</span>)}
       {e.seat && <span className="chip border-accent/40 text-text">{e.seat === 'on' ? 'Sitz angebracht' : 'Sitz entfernt'}</span>}
+      {e.attachment && <span className="chip border-accent/40 text-text">Zubehör: {e.attachment}</span>}
     </div>
   )
 }

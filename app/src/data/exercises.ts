@@ -19,6 +19,7 @@ export interface Exercise {
   genImage?: string // KI-generiertes Bild (GPT Image 2 über Kie.ai, Stil der Bio-Force-Fotos): public/img/gen/{genImage}_{start|end}.webp, erzeugt mit scripts/kie-gen.mjs
   smallStep?: boolean // kleine Übung: nur eine Raste (2,5 lb) steigern, und erst bei Wiederholungen über dem Ziel (siehe suggestLoad)
   seat?: 'on' | 'off' // Bio Force: Sitz angebracht oder entfernt; innerhalb eines Supersatzes nie mischen
+  attachment?: string // Zubehör statt der Standard-Handgriffe (Yes4All-Set: Doppel-D-Griff, Trizepsseil, V-Stange, gerade Stange); beide Seile hängen über einen Karabiner in der einen Öse, der Skalenwert bleibt pro Seite
   variants?: string[] // Körpergewicht: Ausführungsvarianten von leicht nach schwer, die erste ist der Standard; wird je Satz gespeichert (SetLog.variant)
   equipment: string
   setup?: string
@@ -34,14 +35,14 @@ export const EXERCISES: Exercise[] = [
   {
     id: 'schraegdruecken', name: 'Kabel-Schrägdrücken', category: 'push',
     primary: ['brust_oben', 'schulter_vorn'], secondary: ['trizeps'], loadType: 'bioforce', seat: 'on', unit: 'reps', bioforceNo: bf(34),
-    equipment: 'Bio Force, Sitz + Beinmodul angebracht, Handgriffe, Karabiner auf Schulterhöhe, Seile über den Armen',
-    setup: 'Aufrecht sitzen, Rücken am Polster. Griffe auf Schulterhöhe, Ellbogen 90°, Handflächen nach unten-vorn. Die Seile laufen über den Oberarmen.',
+    equipment: 'Bio Force, Sitz auf der höchsten Position, Beinmodul angebracht, Handgriffe an der zweiten Position von außen, Seile über den Armen',
+    setup: 'Sitz ganz nach oben stellen, Griffe an der zweiten Position von außen einhängen. Aufrecht sitzen, Rücken am Polster. Griffe auf Schulterhöhe, Ellbogen 90°, Handflächen nach unten-vorn. Die Seile laufen über den Oberarmen.',
     steps: [
       'Arme nach vorne und oben strecken, bis die Griffe auf Kopfhöhe sind.',
       'Oben 1 s anspannen.',
       'Langsam (2 s) zurück, bis die Ellbogen wieder auf Schulterhöhe und leicht hinter dem Körper sind (Dehnung der Brust).',
     ],
-    tips: ['Nicht waagerecht nach vorn drücken, sonst arbeitet die mittlere statt der oberen Brust.', 'Handgelenke gerade, kein Hohlkreuz.'],
+    tips: ['Nicht waagerecht nach vorn drücken, sonst arbeitet die mittlere statt der oberen Brust.', 'Handgelenke gerade, kein Hohlkreuz.', 'Ellbogen etwa 45° am Körper, nicht weit abspreizen (rechte Schulter, 11.11.2026).', 'Einstellung am Gerät ermittelt (Technik-Einheit 17.11.2026): Sitz höchste Position, Griffe zweite Position von außen.'],
   },
   {
     id: 'fliegende-oben', name: 'Incline Cable Fly', category: 'push',
@@ -124,10 +125,11 @@ export const EXERCISES: Exercise[] = [
   },
   {
     id: 'trizepsdruecken', name: 'Trizepsdrücken', category: 'push',
-    primary: ['trizeps'], secondary: [], loadType: 'bioforce', seat: 'off', unit: 'reps', bioforceNo: bf(94),
-    equipment: 'Bio Force, Sitz entfernt, Latstange am oberen Haken, stehend zum Gerät',
-    setup: 'Stange im Obergriff, Ellbogen 90° am Körper.',
-    steps: ['Ellbogen strecken, kurz halten.', 'Kontrolliert zurück, Oberarme bleiben am Körper.'],
+    primary: ['trizeps'], secondary: [], loadType: 'bioforce', seat: 'off', unit: 'reps', bioforceNo: bf(94), attachment: 'Trizepsseil',
+    equipment: 'Bio Force, Sitz entfernt, Trizepsseil am Lat-Tower (ein Karabiner in der Öse, beide Seile darin eingehängt), stehend zum Gerät',
+    setup: 'Seilenden im neutralen Griff fassen (Daumen oben), Ellbogen 90° am Körper.',
+    steps: ['Ellbogen strecken und die Seilenden unten leicht auseinanderziehen, kurz halten.', 'Kontrolliert zurück, Oberarme bleiben am Körper.'],
+    tips: ['Alternative: V-Stange (schont die Handgelenke, erlaubt etwas mehr Last).', 'Das Foto zeigt die Herstellervariante mit der Latstange (Nr. 94).', 'Skalenwert bleibt pro Seite: beide Seile ziehen am selben Zubehör.'],
   },
   {
     id: 'plyo-pushup', name: 'Plyo-Push-Ups', category: 'push',
@@ -165,11 +167,19 @@ export const EXERCISES: Exercise[] = [
   },
   {
     id: 'latzug-eng', name: 'Latzug enger Griff', category: 'pull',
-    primary: ['lat'], secondary: ['bizeps'], loadType: 'bioforce', seat: 'on', unit: 'reps', bioforceNo: bf(47),
-    equipment: 'Bio Force, Sitz angebracht, beide Handgriffe am Lat-Tower, Handflächen zueinander',
-    setup: 'Griffe oben fassen, leicht zurücklehnen.',
+    primary: ['lat'], secondary: ['bizeps'], loadType: 'bioforce', seat: 'on', unit: 'reps', bioforceNo: bf(47), attachment: 'Doppel-D-Griff',
+    equipment: 'Bio Force, Sitz angebracht, Doppel-D-Griff am Lat-Tower (ein Karabiner in der Öse, beide Seile darin eingehängt), Handflächen zueinander',
+    setup: 'Griff oben fassen, leicht zurücklehnen.',
     steps: ['Ellbogen nach unten ziehen, Hände zur Brust.', 'Langsam zurück in die volle Dehnung.'],
-    tips: ['Grenze des Geräts: ohne Oberschenkelpolster hebt dich die Last ab etwa 50 lb je Seite vom Sitz. Dann Tempo, Pause unten oder mehr Wiederholungen statt mehr Last.'],
+    tips: ['Mit dem Doppel-D-Griff liegt der enge Zug besser in der Hand als mit zwei einzelnen Handgriffen (Rückmeldung 17.11.2026). Das Foto zeigt die Herstellervariante mit zwei Handgriffen (Nr. 47).', 'Skalenwert bleibt pro Seite: beide Seile ziehen am selben Griff.', 'Grenze des Geräts: ohne Oberschenkelpolster hebt dich die Last ab etwa 50 lb je Seite vom Sitz. Dann Tempo, Pause unten oder mehr Wiederholungen statt mehr Last. Für schwere Sätze: Latzug einarmig.'],
+  },
+  {
+    id: 'latzug-einarmig', name: 'Latzug einarmig', category: 'pull',
+    primary: ['lat'], secondary: ['bizeps', 'ruecken_oben', 'bauch_schraeg'], loadType: 'bioforce', seat: 'on', unit: 'reps', bioforceNo: bf(46),
+    equipment: 'Bio Force, Sitz auf der untersten Stufe, ein Handgriff am Lat-Tower, Gesicht zum Gerät',
+    setup: 'Sitz ganz nach unten stellen. Einen Griff oben fassen, die freie Hand hält sich an der Rückenlehne oder seitlich am Sitz fest und stabilisiert.',
+    steps: ['Schulterblatt nach unten ziehen, dann den Ellbogen eng am Körper nach unten-hinten, Hand bis neben die Brust.', 'Kurz anspannen.', 'Langsam (2–3 s) zurück, bis der Arm gestreckt ist und die Schulter nach oben geht (Dehnung). Erst alle Wiederholungen einer Seite, dann die andere.'],
+    tips: ['Löst den Latzug zur Brust ab (17.11.2026): Es zieht nur ein Seil, also halb so viel Zug nach oben. Damit bleibst du auch bei Lasten sitzen, bei denen dich der beidarmige Latzug (ab etwa 45–50 lb je Seite) vom Sitz hebt.', 'Skalenwert = Last für den arbeitenden Arm, wie beim beidarmigen Latzug je Seite. Start also mit deiner letzten Latzug-Last, dann steigern.', 'Oberkörper nicht zur Seite kippen oder verdrehen; mit der schwächeren Seite beginnen und die stärkere nur gleich viele Wiederholungen machen lassen.'],
   },
   {
     id: 'rudern-stehend', name: 'Rudern stehend', category: 'pull',
@@ -177,7 +187,7 @@ export const EXERCISES: Exercise[] = [
     equipment: 'Bio Force, Sitz angebracht (als Anlehnpolster), Handgriffe an den unteren Haken, stehend vor dem Sitz',
     setup: 'Vor dem Gerät stehen, leicht in die Knie, Kniescheiben ans Sitzpolster lehnen. Griffe mit Daumen nach oben, Arme gestreckt.',
     steps: ['Ellbogen eng am Körper nach hinten ziehen, Hände zum Bauch, Schulterblätter zusammen.', 'Kurz halten.', 'Langsam nach vorn zurück, Schulterblätter am Ende auseinander lassen.'],
-    tips: ['Oberkörper nicht nach hinten werfen.', 'Alternative sitzend: auf dem Sitz mit dem Gesicht zum Gerät.'],
+    tips: ['Oberkörper nicht nach hinten werfen.', 'Alternative sitzend: auf dem Sitz mit dem Gesicht zum Gerät.', 'Variante für schwere Sätze: Doppel-D-Griff (beide Seile über einen Karabiner in die Öse), enger neutraler Griff zum Bauch.'],
   },
   {
     id: 'rudern-einarmig', name: 'Einarmiges Rudern', category: 'pull',
@@ -196,10 +206,10 @@ export const EXERCISES: Exercise[] = [
   },
   {
     id: 'face-pull', name: 'Face Pulls', category: 'pull',
-    primary: ['schulter_hinten', 'ruecken_oben'], secondary: [], loadType: 'bioforce', seat: 'off', unit: 'reps', bioforceNo: bf(68), smallStep: true,
-    equipment: 'Bio Force, Sitz entfernt, Handgriffe an den Karabinern auf Schulterhöhe oder oben, stehend zum Gerät',
-    setup: 'Griffe mit Daumen nach hinten fassen, Arme gestreckt, Schritt zurück bis Spannung da ist.',
-    steps: ['Griffe zum Gesicht ziehen, Ellbogen hoch und weit nach außen. Am Ende zeigen die Fäuste neben die Ohren.', 'Langsam zurück.'],
+    primary: ['schulter_hinten', 'ruecken_oben'], secondary: [], loadType: 'bioforce', seat: 'off', unit: 'reps', bioforceNo: bf(68), smallStep: true, attachment: 'Trizepsseil',
+    equipment: 'Bio Force, Sitz entfernt, Trizepsseil an den Seilen von den Karabinern auf Schulterhöhe oder oben (ein Karabiner in der Öse, beide Seile darin eingehängt), stehend zum Gerät. Im Supersatz mit Reverse Flys bei den zwei Handgriffen bleiben (kein Umstecken).',
+    setup: 'Seilenden mit den Daumen nach hinten fassen, Arme gestreckt, Schritt zurück bis Spannung da ist.',
+    steps: ['Seil zum Gesicht ziehen und dabei auseinanderziehen, Ellbogen hoch und weit nach außen. Am Ende zeigen die Fäuste neben die Ohren.', 'Langsam zurück.'],
     tips: ['Zu schwer wird es ein Rudern. 15 saubere Wiederholungen sind das Ziel.', 'Foto zeigt die Herstellervariante Nr. 68 „Delta-Rudern“ (Zug von unten): Ellbogen nach hinten-oben, nicht über Schulterhöhe.'],
   },
   {
@@ -216,13 +226,14 @@ export const EXERCISES: Exercise[] = [
     equipment: 'Bio Force, Sitz entfernt, Handgriffe, untere Haken, Rücken zum Gerät',
     setup: 'Untergriff, Ellbogen am Körper fixiert.',
     steps: ['Arme beugen, kurz anspannen.', 'Langsam strecken.'],
-    tips: ['Ellbogen nicht nach vorn schwingen.'],
+    tips: ['Ellbogen nicht nach vorn schwingen.', 'Variante: drehbare gerade Stange (beide Seile über einen Karabiner in die Öse, Gesicht zum Gerät).'],
   },
   {
     id: 'hammer-curl', name: 'Hammer-Curls', category: 'pull',
     primary: ['bizeps'], secondary: ['unterarme'], loadType: 'bioforce', seat: 'off', unit: 'reps', bioforceNo: bf(83),
     equipment: 'Bio Force, Sitz entfernt, Handgriffe an den unteren Haken, Rücken zum Gerät, neutraler Griff (Nr. 83)',
     steps: ['Daumen zeigen nach oben (neutraler Griff).', 'Arme beugen, kurz anspannen, langsam strecken.'],
+    tips: ['Als eigener Block auch mit dem Trizepsseil möglich (beide Seile über einen Karabiner in die Öse, Gesicht zum Gerät). Im Supersatz mit Bizeps-Curls bei den Handgriffen bleiben, sonst muss in jeder Runde umgesteckt werden.'],
   },
   {
     id: 'shrugs', name: 'Shrugs', category: 'pull',
@@ -255,9 +266,9 @@ export const EXERCISES: Exercise[] = [
   },
   {
     id: 'pull-through', name: 'Cable Pull-Through', category: 'beine',
-    primary: ['gesaess', 'hamstrings'], secondary: ['ruecken_unten'], loadType: 'bioforce', seat: 'off', unit: 'reps', bioforceNo: bf(6),
-    equipment: 'Bio Force, Sitz entfernt, ein Griff oder AB-Strap an einem unteren Haken, Rücken zum Gerät, Seil zwischen den Beinen',
-    setup: 'Griff mit beiden Händen zwischen den Beinen, Schritt nach vorn bis Spannung da ist.',
+    primary: ['gesaess', 'hamstrings'], secondary: ['ruecken_unten'], loadType: 'bioforce', seat: 'off', unit: 'reps', bioforceNo: bf(6), attachment: 'Trizepsseil',
+    equipment: 'Bio Force, Sitz entfernt, Trizepsseil an einem unteren Haken, Rücken zum Gerät, Seil zwischen den Beinen',
+    setup: 'Seilenden mit beiden Händen zwischen den Beinen, Schritt nach vorn bis Spannung da ist.',
     steps: ['Hüfte nach hinten schieben, Oberkörper neigt sich, Arme bleiben gestreckt und gehen nach hinten zwischen die Beine.', 'Hüfte nach vorn drücken, aufrichten, Gesäß fest anspannen.'],
     tips: ['Nicht mit den Armen ziehen. Die Arme sind nur Haken.'],
   },
@@ -338,9 +349,9 @@ export const EXERCISES: Exercise[] = [
   // ---------- CORE ----------
   {
     id: 'cable-crunch', name: 'Cable Crunch', category: 'core',
-    primary: ['bauch'], secondary: [], loadType: 'bioforce', seat: 'on', unit: 'reps', bioforceNo: bf(106),
-    equipment: 'Bio Force, Sitz angebracht, Handgriffe oder AB-Strap am oberen Haken, nach vorn sitzend',
-    setup: 'Griffe auf Schulterhöhe, Ellbogen nach vorn.',
+    primary: ['bauch'], secondary: [], loadType: 'bioforce', seat: 'on', unit: 'reps', bioforceNo: bf(106), attachment: 'Trizepsseil',
+    equipment: 'Bio Force, Sitz angebracht, Trizepsseil am Lat-Tower (ein Karabiner in der Öse, beide Seile darin eingehängt), nach vorn sitzend',
+    setup: 'Seilenden links und rechts neben dem Kopf halten, Ellbogen nach vorn.',
     steps: ['Wirbelsäule einrollen, Brust Richtung Hüfte ziehen, 1 s halten.', 'Langsam aufrollen.'],
     tips: ['Nicht mit den Armen ziehen, Hüfte bleibt ruhig.'],
   },

@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { MuscleChips } from '../components/ExerciseCard'
 import NumberInput from '../components/NumberInput'
+import NoteField, { cleanNote } from '../components/NoteField'
 import { Stopwatch } from '../components/Timer'
 import { CATEGORY_LABEL, EXERCISES, EXERCISE_MAP, type Category } from '../data/exercises'
 import { db } from '../db/db'
@@ -22,8 +23,9 @@ interface RowInput {
   distance: number | ''
   weight: number | '' // lb bei Bio Force, sonst kg
   rir: number | ''
+  note: string
 }
-const EMPTY: RowInput = { reps: '', seconds: '', minutes: '', distance: '', weight: '', rir: '' }
+const EMPTY: RowInput = { reps: '', seconds: '', minutes: '', distance: '', weight: '', rir: '', note: '' }
 
 /** Stoppuhr für Halteübungen: mit 3-2-1-Vorlauf, die gestoppte Zeit landet gerundet im Sekundenfeld. */
 function HoldStopwatch({ onSeconds }: { onSeconds: (s: number) => void }) {
@@ -81,7 +83,7 @@ export default function FreeTraining() {
   if (!profile) return null
 
   const setRow = (i: number, patch: Partial<RowInput>) => { setRows((old) => old.map((r, j) => (j === i ? { ...r, ...patch } : r))); setError(undefined); setNoLoad(false) }
-  const addRow = () => setRows((old) => [...old, { ...old[old.length - 1] }])
+  const addRow = () => setRows((old) => [...old, { ...old[old.length - 1], note: '' }])
   const removeRow = (i: number) => { setRows((old) => (old.length > 1 ? old.filter((_, j) => j !== i) : old)); setWatch(null) }
   const pick = (id: string) => { setExerciseId(id); setRows([{ ...EMPTY }]); setIsTest(false); setError(undefined); setNoLoad(false); setWatch(null); if (id) setDone(undefined) }
 
@@ -108,6 +110,7 @@ export default function FreeTraining() {
         weightKg: showWeight && r.weight !== '' ? (isBf ? lbToKg(Number(r.weight)) : Number(r.weight)) : undefined,
         rir: showRir && r.rir !== '' ? Number(r.rir) : undefined,
         isTest: isTest && !!bench,
+        note: cleanNote(r.note),
       })
       best = Math.max(best, (bench?.unit === 'seconds' ? seconds : reps) ?? 0)
     }
@@ -189,6 +192,7 @@ export default function FreeTraining() {
                   </div>
                 </div>
               )}
+              <NoteField value={r.note} onChange={(v) => setRow(i, { note: v })} />
             </div>
           ))}
           <button type="button" className="btn-ghost w-full" onClick={addRow}>+ Satz</button>
@@ -209,7 +213,7 @@ export default function FreeTraining() {
               </div>
               {sets.map((s) => (
                 <div key={s.id} className="flex items-center justify-between gap-2 text-sm">
-                  <div>Satz {s.setIndex}: {setText(s)}</div>
+                  <div>Satz {s.setIndex}: {setText(s)}{s.note && <div className="text-xs text-accent2">{s.note}</div>}</div>
                   <button type="button" className="btn-ghost px-3 py-1 text-xs text-bad" onClick={() => void deleteSet(s.id)}>Löschen</button>
                 </div>
               ))}

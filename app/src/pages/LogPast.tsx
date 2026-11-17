@@ -11,6 +11,7 @@ import { prescriptionText } from '../lib/planEngine'
 import { buildSteps } from '../lib/steps'
 import { saveBenchmark, saveSet } from '../lib/workouts'
 import NumberInput from '../components/NumberInput'
+import NoteField, { cleanNote } from '../components/NoteField'
 import { lbToKg } from '../lib/bioforce'
 
 interface Row {
@@ -38,6 +39,7 @@ export default function LogPast() {
   const [duration, setDuration] = useState<number | ''>(60)
   const [values, setValues] = useState<Record<string, Record<string, number | ''>>>({})
   const [saving, setSaving] = useState(false)
+  const [notes, setNotes] = useState('')
 
   const found = useMemo(() => (sessionKey ? findSession(sessionKey) : undefined), [sessionKey])
   const rows = useMemo<Row[]>(() => {
@@ -72,7 +74,7 @@ export default function LogPast() {
   const save = async () => {
     if (!found) return
     setSaving(true)
-    const w: Workout = { id: uuid(), profileId: profile.id, date, week: planWeekOf(date, profile.planStartDate) || found.week.number, sessionKey: found.session.key, title: found.session.title, status: 'fertig', backfilled: true, durationMin: duration === '' ? undefined : Number(duration), startedAt: now(), finishedAt: now(), updatedAt: now() }
+    const w: Workout = { id: uuid(), profileId: profile.id, date, week: planWeekOf(date, profile.planStartDate) || found.week.number, sessionKey: found.session.key, title: found.session.title, status: 'fertig', backfilled: true, durationMin: duration === '' ? undefined : Number(duration), notes: cleanNote(notes), startedAt: now(), finishedAt: now(), updatedAt: now() }
     await db.workouts.put(w)
     for (const r of rows) {
       const v = values[r.key]
@@ -134,6 +136,7 @@ export default function LogPast() {
               </div>
             </div>
           ))}
+          <div className="card"><NoteField open label="Bemerkung zur Einheit" placeholder="Wie lief es? Schmerzen, Tagesform, Abweichungen vom Plan …" value={notes} onChange={setNotes} /></div>
           <button className="btn-primary w-full" disabled={saving} onClick={save}>Einheit speichern</button>
         </>
       )}

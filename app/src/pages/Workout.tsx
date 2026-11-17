@@ -4,6 +4,7 @@ import { useLiveQuery } from 'dexie-react-hooks'
 import { ErrorCard, errorText } from '../components/ErrorBoundary'
 import ExerciseCard, { ExerciseImages, MuscleChips } from '../components/ExerciseCard'
 import NumberInput from '../components/NumberInput'
+import NoteField, { cleanNote } from '../components/NoteField'
 import Timer, { GetReady, Stopwatch } from '../components/Timer'
 import { ex } from '../data/exercises'
 import { findSession } from '../data/plan'
@@ -17,7 +18,7 @@ import { challengeStatus, prescriptionText, suggestLoad } from '../lib/planEngin
 import { buildSteps, type Step } from '../lib/steps'
 import { keepAwake } from '../lib/wakeLock'
 import { ACCUMULATOR_EXERCISE_ID, ACCUMULATOR_MAX, ACCUMULATOR_MIN, accumulatorBurpees } from '../data/accumulator'
-import { FREE_SEGMENT_LABEL, finishWorkout, getOrCreateWorkout, patchWorkout, saveBenchmark, saveSet } from '../lib/workouts'
+import { FREE_SEGMENT_LABEL, finishWorkout, getOrCreateWorkout, patchWorkout, saveBenchmark, saveSet, saveSetNote, saveWorkoutNote } from '../lib/workouts'
 import { BF_MAX_LB, BF_MIN_LB, BF_SCALE_HINT, bfStepAt, fmtKg, fmtLb, kgToLb, lbToKg } from '../lib/bioforce'
 
 type SetStep = Extract<Step, { kind: 'set' }>
@@ -37,6 +38,7 @@ export default function Workout() {
   const [idx, setIdx] = useState(0)
   const [phase, setPhase] = useState<'work' | 'rest' | 'done'>('work')
   const [restSec, setRestSec] = useState(0)
+  const [lastSetId, setLastSetId] = useState<string>() // der gerade gespeicherte Satz: Bemerkung in der Pause
   const [askReadiness, setAskReadiness] = useState(false)
   const [elapsed, setElapsed] = useState(0)
   const [loadError, setLoadError] = useState<string>()
@@ -101,7 +103,8 @@ export default function Workout() {
   }, [steps, idx])
   const afterRest = useCallback(() => { beepGo(); void goTo(upcoming.index) }, [goTo, upcoming.index])
 
-  const afterSet = (rest: number) => {
+  const afterSet = (rest: number, setId?: string) => {
+    setLastSetId(setId)
     const isLast = idx + 1 >= steps.length
     if (rest > 0 && !isLast) {
       setRestSec(rest)
@@ -136,6 +139,7 @@ export default function Workout() {
           <div className="h1">Einheit abgeschlossen</div>
           <div className="text-muted">{session.title} · {fmtSec(elapsed)}</div>
         </div>
+        <WorkoutNote workout={workout} />
         <Link to="/" className="btn-primary block text-center">Zur Startseite</Link>
         {isRoutine ? <Link to="/mobility" className="btn-ghost block text-center">Zur Mobility-Seite</Link> : <Link to={`/session/${date}/${sessionKey}`} className="btn-ghost block text-center">Einheit ansehen</Link>}
       </div>
@@ -170,6 +174,7 @@ export default function Workout() {
       {phase === 'rest' && (
         <div className="space-y-3">
           <Timer key={`rest-${idx}`} seconds={restSec} label="Pause" onDone={afterRest} />
+          {lastSetId && <SetNote key={lastSetId} setId={lastSetId} />}
           {upcoming.notes.map((n, i) => (
             <div key={i} className="rounded-xl bg-accent/10 border border-accent/50 p-3 text-sm">
               <span className="label text-accent">Jetzt in der Pause · {n.title}</span>
@@ -200,6 +205,25 @@ export default function Workout() {
       </div>
     </div>
   )
+}
+
+// ---------- Bemerkungen ----------
+/** Bemerkung zum gerade gespeicherten Satz, in der Pause: dort ist Zeit zum Tippen oder Diktieren. Jede Änderung wird sofort gespeichert. */
+function SetNote({ setId }: { setId: string }) {
+  const [text, setText] = useState<string>()
+  useEffect(() => {
+    let cancelled = false
+    void db.sets.get(setId).then((s) => { if (!cancelled) setText(s?.note ?? '') })
+    return () => { cancelled = true }
+  }, [setId])
+  if (text === undefined) return null
+  return <div className="card"><NoteField label="Bemerkung zum letzten Satz" value={text} onChange={(v) => { setText(v); void saveSetNote(setId, v) }} /></div>
+}
+
+/** Bemerkung zur ganzen Einheit, auf dem Abschluss-Bildschirm. */
+function WorkoutNote({ workout }: { workout: WorkoutRow }) {
+  const [text, setText] = useState(workout.notes ?? '')
+  return <div className="card"><NoteField open label="Bemerkung zur Einheit" placeholder="Wie lief es? Schmerzen, Tagesform, Abweichungen vom Plan …" value={text} onChange={(v) => { setText(v); void saveWorkoutNote(workout.id, v) }} /></div>
 }
 
 // ---------- Vorschau in der Pause ----------
@@ -323,7 +347,7 @@ function ReadinessForm({ onDone }: { onDone: (r: Readiness) => void }) {
 }
 
 // ---------- Satz ----------
-function SetStepView({ step, workout, onSaved, onSkip }: { step: SetStep; workout: WorkoutRow; onSaved: (restSec: number) => void; onSkip: () => void }) {
+function SetStepView({ step, workout, onSaved, onSkip }: { step: SetStep; workout: WorkoutRow; onSaved: (restSec: number, setId?: string) => void; onSkip: () => void }) {
   const e = ex(step.exerciseId)
   const history = useLiveQuery(() => db.sets.where('[profileId+exerciseId]').equals([workout.profileId, step.exerciseId]).toArray(), [workout.profileId, step.exerciseId])
   const existing = useLiveQuery(
@@ -353,6 +377,7 @@ function SetStepView({ step, workout, onSaved, onSkip }: { step: SetStep; workou
   const [missing, setMissing] = useState(false)
   const [noLoad, setNoLoad] = useState(false) // Bio Force ohne Skalenwert: erst Hinweis, zweiter Tipp speichert
   const [variant, setVariant] = useState<string>('')
+  const [note, setNote] = useState('')
 
   useEffect(() => {
     if (init || existing === undefined || suggestion === undefined || prevInWorkout === undefined) return
@@ -360,6 +385,7 @@ function SetStepView({ step, workout, onSaved, onSkip }: { step: SetStep; workou
     if (ex0) {
       setReps(ex0.reps ?? ''); setWeight(ex0.weightKg === undefined ? '' : toInput(ex0.weightKg)); setRir(ex0.rir ?? ''); setSeconds(ex0.seconds ?? '')
       if (e.variants) setVariant(ex0.variant ?? e.variants[0])
+      setNote(ex0.note ?? '')
     } else {
       setReps(step.p.repsMax ?? step.p.repsMin ?? '')
       setSeconds(step.p.seconds ?? '')
@@ -381,16 +407,17 @@ function SetStepView({ step, workout, onSaved, onSkip }: { step: SetStep; workou
     if (value === '' || value === 0 || (isAccumulator && accBurpees === undefined)) { setMissing(true); return }
     if (isBf && weight === '' && !noLoad) { setNoLoad(true); return }
     setMissing(false)
-    await saveSet(workout, {
+    const row = await saveSet(workout, {
       exerciseId: step.exerciseId, segmentLabel: step.label, setIndex: step.setIndex,
       reps: timed ? undefined : Number(reps), seconds: timed ? Number(seconds) : undefined,
       weightKg: showWeight && weight !== '' ? (isBf ? lbToKg(Number(weight)) : Number(weight)) : undefined,
       rir: showRir && rir !== '' ? Number(rir) : undefined,
       isTest: step.isTest,
       variant: e.variants && variant && variant !== e.variants[0] ? variant : undefined,
+      note: cleanNote(note),
     })
     if (step.isTest && step.benchmarkKey) await saveBenchmark(workout, step.benchmarkKey, Number(value), step.testUnit ?? 'reps')
-    onSaved(step.restSec)
+    onSaved(step.restSec, row.id)
   }
 
   const sub = step.isTest ? step.description : `${prescriptionText(step.p)}${step.p.loadHint ? ` · ${step.p.loadHint}` : ''}${step.p.note ? ` · ${step.p.note}` : ''}`
@@ -452,6 +479,7 @@ function SetStepView({ step, workout, onSaved, onSkip }: { step: SetStep; workou
             </div>
           )}
         </div>
+        <NoteField value={note} onChange={setNote} />
         <button className="btn-primary w-full" onClick={save}>{noLoad ? 'Ohne Last speichern' : 'Satz speichern'}{step.restSec > 0 ? ` · Pause ${step.restSec} s` : ''}</button>
         <button className="btn-ghost w-full text-sm" onClick={onSkip}>Satz auslassen</button>
       </div>
@@ -466,13 +494,14 @@ function AmrapStep({ step, workout, onNext }: { step: Extract<Step, { kind: 'amr
   const [running, setRunning] = useState(false)
   const [count, setCount] = useState(0)
   const [finished, setFinished] = useState(false)
+  const [note, setNote] = useState('')
   const single = seg.exercises.length === 1 && seg.exercises[0].reps === 1
   const save = async () => {
     const exId = single ? seg.exercises[0].exerciseId : seg.exercises[0].exerciseId
     await saveSet(workout, {
       exerciseId: exId, segmentLabel: `amrap-${seg.label}`, setIndex: 1,
       reps: single ? count : undefined, rounds: single ? undefined : count, seconds: seg.minutes * 60, isTest: !!seg.benchmarkKey,
-      note: single ? undefined : seg.exercises.map((x) => `${x.reps} ${ex(x.exerciseId).name}`).join(', '),
+      note: cleanNote(note),
     })
     if (!single) {
       // Wiederholungen der einzelnen Übungen mitzählen (für Wochen-Summen)
@@ -504,6 +533,7 @@ function AmrapStep({ step, workout, onNext }: { step: Extract<Step, { kind: 'amr
           </div>
         </div>
       )}
+      {finished && <div className="card"><NoteField value={note} onChange={setNote} /></div>}
       {finished && <button className="btn-primary w-full" onClick={save}>Ergebnis speichern</button>}
       {running && <button className="btn-ghost w-full text-sm" onClick={() => { setRunning(false); setFinished(true) }}>Vorzeitig beenden</button>}
     </div>
@@ -516,16 +546,28 @@ function IntervalStep({ step, workout, onNext }: { step: Extract<Step, { kind: '
   const [round, setRound] = useState(0) // 0 = nicht gestartet
   const [mode, setMode] = useState<'work' | 'rest' | 'done'>('work')
   const [reps, setReps] = useState<number | ''>('')
+  // Wiederholungen je Runde, eingetragen in der Pause nach der Runde (Wunsch 17.11.2026); die Summe wird zu reps
+  const [roundReps, setRoundReps] = useState<(number | '')[]>(() => Array<number | ''>(seg.rounds).fill(''))
+  const setRoundRep = (i: number, v: number | '') => setRoundReps((old) => old.map((x, j) => (j === i ? v : x)))
+  const [note, setNote] = useState('')
+  const anyRound = roundReps.some((v) => v !== '')
+  const roundSum = roundReps.reduce<number>((a, v) => a + (v === '' ? 0 : v), 0)
   const e = ex(seg.exerciseId)
   const [ready, setReady] = useState(false)
   const start = () => { setReady(false); speak('Los'); setRound(1); setMode('work') }
   const onWorkDone = () => {
     if (round >= seg.rounds) { setMode('done'); speak('Fertig') }
     else { setMode('rest'); speak('Pause') }
+    // Vorbelegung mit dem Wert der Vorrunde: meist stimmt er bis auf ±1, dann reichen die ±-Knöpfe
+    setRoundReps((old) => (round >= 2 && old[round - 1] === '' && old[round - 2] !== '' ? old.map((x, j) => (j === round - 1 ? old[round - 2] : x)) : old))
   }
   const onRestDone = () => { beepGo(); speak('Los'); setRound((r) => r + 1); setMode('work') }
   const save = async () => {
-    await saveSet(workout, { exerciseId: seg.exerciseId, segmentLabel: `interval-${seg.label}`, setIndex: 1, rounds: seg.rounds, seconds: seg.rounds * seg.workSec, reps: reps === '' ? undefined : Number(reps) })
+    await saveSet(workout, { exerciseId: seg.exerciseId, segmentLabel: `interval-${seg.label}`, setIndex: 1, rounds: seg.rounds, seconds: seg.rounds * seg.workSec,
+      reps: anyRound ? roundSum : reps === '' ? undefined : Number(reps),
+      roundReps: anyRound ? roundReps.map((v) => (v === '' ? 0 : v)) : undefined,
+      note: cleanNote(note),
+    })
     onNext()
   }
   return (
@@ -538,11 +580,22 @@ function IntervalStep({ step, workout, onNext }: { step: Extract<Step, { kind: '
       {round === 0 && !ready && <button className="btn-primary w-full text-xl py-4" onClick={() => { unlockAudio(); setReady(true) }}>Start</button>}
       {ready && <GetReady onGo={start} />}
       {round > 0 && mode === 'work' && <Timer key={`w${round}`} seconds={seg.workSec} onDone={onWorkDone} label={`Runde ${round}/${seg.rounds} · ARBEIT`} allowExtend={false} big={{ phase: 'work', title: e.name.split(' (')[0].toUpperCase(), round: `Runde ${round}/${seg.rounds}` }} />}
-      {round > 0 && mode === 'rest' && <Timer key={`r${round}`} seconds={seg.restSec} onDone={onRestDone} label={`Pause · danach Runde ${round + 1}`} allowExtend={false} big={{ phase: 'rest', title: 'PAUSE', round: `nächste: ${round + 1}/${seg.rounds}` }} />}
+      {round > 0 && mode === 'rest' && <Timer key={`r${round}`} seconds={seg.restSec} onDone={onRestDone} label={`Pause · danach Runde ${round + 1}`} allowExtend={false} big={{ phase: 'rest', title: 'PAUSE', round: `nächste: ${round + 1}/${seg.rounds}` }}
+        extra={<NumberInput label={`Runde ${round}: Wiederholungen (optional)`} value={roundReps[round - 1]} onChange={(v) => setRoundRep(round - 1, v)} />} />}
       {mode === 'done' && (
         <div className="card space-y-3">
           <div className="h2">Intervalle fertig</div>
-          <NumberInput label="Wiederholungen gesamt (optional)" value={reps} onChange={setReps} />
+          <div>
+            <div className="label mb-1">Wiederholungen je Runde (optional)</div>
+            {anyRound && <div className="text-xs text-accent2 mb-2">Die letzte Runde hat keine Pause: R{seg.rounds} ist mit dem Wert der Vorrunde vorbelegt, bitte prüfen.</div>}
+            <div className="grid grid-cols-4 gap-2">
+              {roundReps.map((v, i) => <NumberInput key={i} compact label={`R${i + 1}`} value={v} onChange={(x) => setRoundRep(i, x)} />)}
+            </div>
+          </div>
+          {anyRound
+            ? <div className="text-sm">Gesamt: <span className="font-bold">{roundSum}</span> Wiederholungen</div>
+            : <NumberInput label="Wiederholungen gesamt (optional)" value={reps} onChange={setReps} />}
+          <NoteField value={note} onChange={setNote} />
           <button className="btn-primary w-full" onClick={save}>Speichern</button>
         </div>
       )}
@@ -575,11 +628,12 @@ function CardioStep({ step, workout, onNext }: { step: Extract<Step, { kind: 'ca
   const [dist, setDist] = useState<number | ''>('')
   const [hr, setHr] = useState<number | ''>('')
   const [timer, setTimer] = useState<'off' | 'ready' | 'on'>('off')
+  const [note, setNote] = useState('')
   const save = async () => {
     await saveSet(workout, {
       exerciseId: seg.exerciseId, segmentLabel: `cardio-${seg.label}`, setIndex: 1,
       seconds: minutes === '' ? undefined : Number(minutes) * 60, distanceM: dist === '' ? undefined : Number(dist), avgHr: hr === '' ? undefined : Number(hr),
-      isTest: !!seg.benchmarkKey, note: alt ? 'Alternative' : undefined,
+      isTest: !!seg.benchmarkKey, variant: alt ? 'Alternative' : undefined, note: cleanNote(note),
     })
     if (seg.benchmarkKey) {
       const value = dist !== '' ? Number(dist) : 0
@@ -609,6 +663,7 @@ function CardioStep({ step, workout, onNext }: { step: Extract<Step, { kind: 'ca
           <NumberInput label="Distanz" suffix="m" value={dist} onChange={setDist} step={100} compact />
           <NumberInput label="Ø Puls" value={hr} onChange={setHr} compact />
         </div>
+        <NoteField value={note} onChange={setNote} />
         <button className="btn-primary w-full" onClick={save}>Speichern</button>
       </div>
     </div>
@@ -629,6 +684,7 @@ function ChallengeStep({ step, workout, profileStart, onNext }: { step: Extract<
   const [counts, setCounts] = useState<Record<string, number>>({})
   const [started, setStarted] = useState<'no' | 'ready' | 'yes'>('no')
   const elapsed = useRef(0)
+  const [note, setNote] = useState('')
   // Zeiten der bisherigen Challenge-Blöcke dieser Woche (nur zur Info, keine Wertung)
   const earlier = useMemo(() => {
     const byDay = new Map<string, number>()
@@ -636,9 +692,13 @@ function ChallengeStep({ step, workout, profileStart, onNext }: { step: Extract<
     return [...byDay.entries()].sort(([a], [b]) => (a < b ? -1 : 1))
   }, [weekSets])
   const save = async () => {
+    let pending = cleanNote(note) // die Bemerkung hängt am ersten gespeicherten Satz des Blocks
     for (const st of status) {
       const c = counts[st.exerciseId] ?? 0
-      if (c > 0) await saveSet(workout, { exerciseId: st.exerciseId, segmentLabel: 'challenge', setIndex: 1, reps: c, seconds: elapsed.current > 0 ? Math.round(elapsed.current) : undefined })
+      if (c > 0) {
+        await saveSet(workout, { exerciseId: st.exerciseId, segmentLabel: 'challenge', setIndex: 1, reps: c, seconds: elapsed.current > 0 ? Math.round(elapsed.current) : undefined, note: pending })
+        pending = undefined
+      }
     }
     onNext()
   }
@@ -667,6 +727,7 @@ function ChallengeStep({ step, workout, profileStart, onNext }: { step: Extract<
           </div>
         )
       })}
+      <div className="card"><NoteField value={note} onChange={setNote} /></div>
       <button className="btn-primary w-full" onClick={save}>Challenge-Block speichern</button>
     </div>
   )

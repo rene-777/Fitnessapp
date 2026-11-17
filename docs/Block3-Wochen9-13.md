@@ -41,7 +41,7 @@ Lasten auf dem Stand von Woche 7 (`hold` + `maxLb`), 3 Sätze, RIR 3. Keine Dips
 |---|---|---|
 | Mo | Beine + Hüfte (leicht) | Kabel-Kniebeuge 3 × 6–8 mit 60 lb (nur wenn das Halten der Griffe an der Schulter schmerzfrei ist, sonst ein Satz Split Squat mehr), RDL 3 × 6–8 mit 115–120 lb, Split Squat + Hüftabduktion, Wadenheben + Dead Bug, Sitz anbringen, Beinbeuger + Beinstrecker (RIR 2) |
 | Di | Cardio drinnen | 8 × 30 s Seil schnell / 60 s gehen (Burpees nur bei schmerzfreier Schulter), danach 20 min Zone 2 (Seil 45/15) |
-| Mi | Pull (leicht) | Pull-Ups 3 × 5–7 bei RIR 3 (nur wenn das Hängen nichts auslöst), Rudern stehend 3 × 6–8 mit 40 lb, Latzug + Dead Bug, Sitz abbauen, Reverse Flys + Face Pulls, Curls |
+| Mi | Pull (leicht) | Pull-Ups 3 × 5–7 bei RIR 3 (nur wenn das Hängen nichts auslöst), Rudern stehend 3 × 6–8 mit 40 lb, Latzug einarmig (neu ab 17.11., Sitz unterste Stufe, Start mit der letzten Latzug-Last) + Dead Bug, Sitz abbauen, Reverse Flys + Face Pulls, Curls |
 | Do | Drücken: Technik + Schulter-Test | Schrägdrücken 3 × 12 mit 25–30 lb (Tempo 3-1-1, Ellenbogen 45°), Push-Ups 3 × 12–15 locker, Sitz abbauen, Seitheben 2 × 12–15 mit 12,5 lb, Face Pulls 2 × 12–15, Plank 2 × 60 s |
 | Fr | Test: Accumulator | Nur wenn der Donnerstag ohne Nachwirkung blieb; sonst 30 min Zone 2 und Test in Woche 10 |
 

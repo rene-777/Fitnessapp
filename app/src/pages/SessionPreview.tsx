@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useLiveQuery } from 'dexie-react-hooks'
 import ExerciseCard from '../components/ExerciseCard'
-import { ex } from '../data/exercises'
+import { EXERCISE_MAP, ex } from '../data/exercises'
 import { findSession } from '../data/plan'
 import { db } from '../db/db'
 import type { Workout } from '../db/types'
@@ -27,6 +27,7 @@ export default function SessionPreview() {
   if (!found) return <div className="text-muted">Einheit nicht gefunden.</div>
   const { week, session } = found
   const count = (id: string) => (setRows ?? []).filter((s) => s.workoutId === id && !s.deleted).length
+  const notesOf = (id: string) => (setRows ?? []).filter((s) => s.workoutId === id && !s.deleted && s.note).sort((a, b) => (a.updatedAt < b.updatedAt ? -1 : 1))
   const isMobility = session.kind === 'mobility'
   const isEmpty = (w: Workout) => !isMobility && count(w.id) === 0
   const done = alive.find((w) => w.status === 'fertig' && !isEmpty(w))
@@ -62,9 +63,15 @@ export default function SessionPreview() {
           {alive.some(isEmpty) && <div className="text-xs text-muted">Leere Trainings entstehen durch bloßes Öffnen oder ein versehentliches „Beenden“. Sie zählen nicht und werden beim nächsten Start wiederverwendet.</div>}
           <div className="divide-y divide-line text-sm">
             {alive.map((w) => (
-              <div key={w.id} className="py-2 flex items-center justify-between gap-2">
-                <div><div>{fmtDateLong(w.date)}</div><div className={`text-xs ${isEmpty(w) ? 'text-muted' : w.status === 'fertig' ? 'text-ok' : 'text-warn'}`}>{statusText(w)}</div></div>
-                <button className="btn-ghost text-sm text-bad px-3 py-1.5" onClick={() => remove(w)}>Löschen</button>
+              <div key={w.id} className="py-2">
+                <div className="flex items-center justify-between gap-2">
+                  <div><div>{fmtDateLong(w.date)}</div><div className={`text-xs ${isEmpty(w) ? 'text-muted' : w.status === 'fertig' ? 'text-ok' : 'text-warn'}`}>{statusText(w)}</div></div>
+                  <button className="btn-ghost text-sm text-bad px-3 py-1.5" onClick={() => remove(w)}>Löschen</button>
+                </div>
+                {w.notes && <div className="text-xs text-accent2 mt-1">{w.notes}</div>}
+                {notesOf(w.id).map((s) => (
+                  <div key={s.id} className="text-xs text-muted mt-0.5"><span className="text-text">{EXERCISE_MAP[s.exerciseId]?.name ?? s.exerciseId}{s.segmentLabel.includes('-') || s.segmentLabel === 'challenge' ? '' : ` · Satz ${s.setIndex}`}:</span> {s.note}</div>
+                ))}
               </div>
             ))}
           </div>

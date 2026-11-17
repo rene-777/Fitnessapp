@@ -117,6 +117,16 @@ export async function patchWorkout(id: string, patch: Partial<Workout>) {
   if (w) await db.workouts.put({ ...w, ...patch, updatedAt: now() })
 }
 
+/** Bemerkung zu einem gespeicherten Satz ändern (Feld in der Pause). update() statt get+put, damit schnelles Tippen sich nicht überholt. */
+export async function saveSetNote(id: string, note: string) {
+  await db.sets.update(id, { note: note.trim() || undefined, updatedAt: now() })
+}
+
+/** Bemerkung zur ganzen Einheit. */
+export async function saveWorkoutNote(id: string, notes: string) {
+  await db.workouts.update(id, { notes: notes.trim() || undefined, updatedAt: now() })
+}
+
 /** Länger dauert keine Einheit: darüber wurde das Beenden vergessen oder die App lag stundenlang offen. */
 const MAX_DURATION_MIN = 180
 
