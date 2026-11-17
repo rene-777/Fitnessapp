@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { calOf } from '../lib/planShift'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { db } from '../db/db'
 import type { Pose, ProgressPhoto } from '../db/types'
@@ -53,7 +54,7 @@ export default function Photos() {
   }, [rows])
   const a = cmpA && byDate.has(cmpA) ? cmpA : dates[0] ?? ''
   const b = cmpB && byDate.has(cmpB) ? cmpB : dates[dates.length - 1] ?? ''
-  const schedule = useMemo(() => (profile ? photoCheckStatus(profile.planStartDate, dates, today()) : []), [profile, dates])
+  const schedule = useMemo(() => (profile ? photoCheckStatus(calOf(profile), dates, today()) : []), [profile, dates])
   if (!profile) return null
 
   const current = byDate.get(date) ?? []

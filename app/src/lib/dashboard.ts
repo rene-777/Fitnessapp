@@ -2,7 +2,7 @@ import { EXERCISE_MAP } from '../data/exercises'
 import { BLOCKS, WEEKS } from '../data/plan'
 import type { Session } from '../data/planTypes'
 import type { Benchmark, SetLog, Workout } from '../db/types'
-import { dateOf, mondayOfWeek, parseISO } from './dates'
+import { dateOf, isPausedDate, mondayOfWeek, parseISO, planWeekOf, weekday, weekdayOf, type Cal } from './dates'
 import { sessionExerciseIds } from './planEngine'
 import { isStrengthSet } from './stats'
 import { BENCHMARK_LABELS, isBetterBenchmark, isExtraWorkout } from './workouts'
@@ -12,8 +12,13 @@ import { BENCHMARK_LABELS, isBetterBenchmark, isExtraWorkout } from './workouts'
 const daysBetween = (from: string, to: string) => Math.round((parseISO(to).getTime() - parseISO(from).getTime()) / 86400000)
 const PLAN_DAYS = WEEKS.length * 7
 
-/** Anteil des Plans, der vergangen ist (0–1), nach Tagen. */
-export const planProgress = (date: string, start: string) => Math.min(1, Math.max(0, (daysBetween(start, date) + 1) / PLAN_DAYS))
+/** Anteil des Plans, der vergangen ist (0–1), nach Plantagen; eine Pausenwoche zählt nicht. */
+export function planProgress(date: string, start: Cal) {
+  const week = planWeekOf(date, start)
+  if (week === 0) return 0
+  const days = (week - 1) * 7 + (isPausedDate(date, start) ? 0 : weekday(date))
+  return Math.min(1, days / PLAN_DAYS)
+}
 
 export interface Totals { sessions: number; minutes: number }
 export function totals(workouts: Workout[]): Totals {
@@ -22,9 +27,9 @@ export function totals(workouts: Workout[]): Totals {
 }
 
 /** Geplante Einheiten in Folge ohne Ausfall, rückwärts ab heute. Eine am Samstag nachgeholte Einheit zählt. */
-export function sessionStreak(workouts: Workout[], start: string, date: string): number {
+export function sessionStreak(workouts: Workout[], start: Cal, date: string): number {
   const doneKeys = new Set(workouts.filter((w) => !w.deleted && w.status === 'fertig').map((w) => w.sessionKey))
-  const planned = WEEKS.flatMap((week) => week.sessions.map((s) => ({ key: s.key, date: dateOf(start, week.number, s.weekday), weekEnd: dateOf(start, week.number, 7) })))
+  const planned = WEEKS.flatMap((week) => week.sessions.map((s) => ({ key: s.key, date: dateOf(start, week.number, weekdayOf(s, start)), weekEnd: dateOf(start, week.number, 7) })))
     .filter((s) => s.date <= date)
     .sort((a, b) => (a.date < b.date ? 1 : -1))
   let streak = 0
@@ -37,7 +42,7 @@ export function sessionStreak(workouts: Workout[], start: string, date: string):
 }
 
 /** Nächste Challenge-Woche (letzte Woche jedes Blocks). days = 0: läuft gerade. */
-export function nextMilestone(date: string, start: string): { label: string; days: number; week: number } | undefined {
+export function nextMilestone(date: string, start: Cal): { label: string; days: number; week: number } | undefined {
   for (const b of BLOCKS) {
     const week = b.weeks[b.weeks.length - 1]
     const monday = mondayOfWeek(start, week)

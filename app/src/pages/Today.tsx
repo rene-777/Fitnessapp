@@ -2,7 +2,8 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { db } from '../db/db'
-import { useProfile, useSettings } from '../hooks/useProfile'
+import { saveProfile, useProfile, useSettings } from '../hooks/useProfile'
+import { calOf, withoutPause } from '../lib/planShift'
 import { backupStatus } from '../lib/backup'
 import { exportToFile } from '../lib/exportImport'
 import { EXERCISE_MAP } from '../data/exercises'
@@ -12,7 +13,7 @@ import { fmtPerWeek, weightTrend } from '../lib/bodyTrend'
 import { withoutEmpty } from '../lib/workouts'
 import { fmtBody } from '../lib/decimal'
 import { latestKnee, latestRecord, lastPerformance, nextMilestone, planProgress, sessionStreak, totals } from '../lib/dashboard'
-import { WEEKDAY_SHORT, dateOf, fmtDate, fmtDateLong, fmtSec, parseISO, today } from '../lib/dates'
+import { WEEKDAY_SHORT, dateOf, fmtDate, fmtDateLong, fmtSec, mondayOfWeek, parseISO, today, weekdayOf, type Cal } from '../lib/dates'
 import { blockLabel, dayInfo, sessionExerciseIds } from '../lib/planEngine'
 import { MOBILITY_CHECK_KEY } from '../data/mobility'
 import { dueMobilityCheck, routineStatus, todaysRoutine } from '../lib/mobility'
@@ -47,13 +48,14 @@ export default function Today() {
   const profile = useProfile()
   const settings = useSettings()
   const date = today()
-  const info = profile ? dayInfo(date, profile.planStartDate) : undefined
+  // Kalender des Profils (Startmontag, Pausenwochen, verschobene Einheiten); '' solange das Profil lädt
+  const start = useMemo<Cal>(() => (profile ? calOf(profile) : ''), [profile])
+  const info = useMemo(() => (start ? dayInfo(date, start) : undefined), [date, start])
   const workouts = useLiveQuery(() => (profile ? db.workouts.where('profileId').equals(profile.id).toArray() : []), [profile?.id])
   const sets = useLiveQuery(() => (profile ? db.sets.where('profileId').equals(profile.id).toArray() : []), [profile?.id])
   const benchmarks = useLiveQuery(() => (profile ? db.benchmarks.where('profileId').equals(profile.id).toArray() : []), [profile?.id])
   const body = useLiveQuery(() => (profile ? db.body.where('profileId').equals(profile.id).sortBy('date') : []), [profile?.id])
 
-  const start = profile?.planStartDate ?? ''
   // Leere Trainings (ohne Sätze, z. B. nur geöffnet oder versehentlich beendet) zählen nicht als Einheit
   const counted = useMemo(() => withoutEmpty(workouts ?? [], sets ?? []), [workouts, sets])
   const sum = useMemo(() => totals(counted), [counted])
@@ -72,7 +74,7 @@ export default function Today() {
 
   if (!profile || !info) return null
   const inPlan = info.week > 0 && info.week <= WEEKS.length
-  const daysToStart = Math.round((parseISO(start).getTime() - parseISO(date).getTime()) / 86400000)
+  const daysToStart = Math.round((parseISO(profile.planStartDate).getTime() - parseISO(date).getTime()) / 86400000)
   const milestone = nextMilestone(date, start)
   const statusOf = (key: string) => workouts?.filter((w) => w.sessionKey === key && !w.deleted).sort((a, b) => (a.updatedAt < b.updatedAt ? 1 : -1))[0]
   const weights = (body ?? []).filter((r) => !r.deleted && r.weightKg)
@@ -94,7 +96,7 @@ export default function Today() {
         <div className="min-w-0">
           <div className="label">{fmtDateLong(date)}</div>
           <h1 className="h1 leading-tight">Hallo {profile.name}</h1>
-          <div className="text-muted text-sm">{info.kind === 'vorher' ? `Start am ${fmtDate(start, { weekday: 'long', day: '2-digit', month: '2-digit' })}` : inPlan ? blockLabel(info.week) : 'Plan abgeschlossen'}</div>
+          <div className="text-muted text-sm">{info.kind === 'vorher' ? `Start am ${fmtDate(profile.planStartDate, { weekday: 'long', day: '2-digit', month: '2-digit' })}` : inPlan ? blockLabel(info.week) : 'Plan abgeschlossen'}</div>
           {sum.sessions > 0 && <div className="text-accent2 text-sm">{sum.sessions} {sum.sessions === 1 ? 'Einheit' : 'Einheiten'}{sum.minutes > 0 ? ` · ${fmtHours(sum.minutes)}` : ''}</div>}
         </div>
       </header>
@@ -165,6 +167,20 @@ export default function Today() {
         )
       })()}
 
+      {info.kind === 'pause' && (
+        <div className="card !border-accent/60 space-y-3">
+          <div>
+            <div className="label">Diese Woche</div>
+            <div className="text-xl font-bold leading-tight">Pause</div>
+            <div className="text-muted text-sm">{inPlan ? `Der Plan ruht. Weiter geht es am ${fmtDateLong(mondayOfWeek(start, info.week))} mit Woche ${info.week}${info.weekData ? `: ${info.weekData.title}` : ''}.` : 'Der Plan ruht.'} Wer trotzdem trainiert, trägt es als freies Training ein.</div>
+          </div>
+          <div className="flex gap-2">
+            <Link to="/free" className="btn-primary flex-1 text-center">Freies Training</Link>
+            <button className="btn-ghost" onClick={() => { if (confirm('Pause aufheben? Der Plan läuft dann schon diese Woche weiter.')) void saveProfile(withoutPause(profile, date)) }}>Pause aufheben</button>
+          </div>
+        </div>
+      )}
+
       {info.kind === 'ruhe' && <div className="card"><div className="label">Heute</div><div className="text-xl font-bold leading-tight">Ruhetag</div><div className="text-muted text-sm">Regeneration ist Teil des Plans. Spazieren, Mobility, schlafen.</div></div>}
 
       {/* Mobility: Check, wenn fällig; Routine an freien Tagen als Karte, an Trainingstagen als Zeile */}
@@ -175,7 +191,7 @@ export default function Today() {
           <div className="text-xs text-muted">Bis {fmtDate(dueCheck.to)} · Zollstock bereitlegen · Tippen zum Starten</div>
         </Link>
       )}
-      {(info.kind === 'puffer' || info.kind === 'ruhe') && (
+      {(info.kind === 'puffer' || info.kind === 'ruhe' || info.kind === 'pause') && (
         <div className="card space-y-2">
           <div className="flex items-baseline justify-between gap-2">
             <div className="label">Mobility · {routine.minutes} min</div>
@@ -199,12 +215,12 @@ export default function Today() {
       {/* Wochenstreifen */}
       <Link to={`/week/${stripWeek}`} className="card block space-y-2">
         <div className="flex items-baseline justify-between">
-          <div className="label">{inPlan ? 'Diese Woche' : 'Woche 1'} · {weekByNumber(stripWeek)?.title}</div>
+          <div className="label">{info.kind === 'pause' ? `Nach der Pause · Woche ${stripWeek}` : inPlan ? 'Diese Woche' : 'Woche 1'} · {weekByNumber(stripWeek)?.title}</div>
           <div className="text-xs text-muted">{stripSessions.filter((s) => statusOf(s.key)?.status === 'fertig').length}/{stripSessions.length}</div>
         </div>
         <div className="flex justify-between">
           {[1, 2, 3, 4, 5, 6, 7].map((wd) => {
-            const s = stripSessions.find((x) => x.weekday === wd)
+            const s = stripSessions.find((x) => weekdayOf(x, start) === wd)
             const d = dateOf(start, stripWeek, wd)
             const done = s && statusOf(s.key)?.status === 'fertig'
             const isToday = d === date

@@ -1,7 +1,7 @@
 import { MOBILITY_CHECK_KEY, MOBILITY_CHECK_WEEKS, MOBILITY_ROUTINES, suggestedRoutine } from '../data/mobility'
 import type { Session } from '../data/planTypes'
 import type { Workout } from '../db/types'
-import { addDays, mondayOfWeek, planWeekOf, weekday } from './dates'
+import { addDays, mondayOfWeek, planWeekOf, weekday, type Cal } from './dates'
 import { isMobilityWorkout } from './workouts'
 
 // Reine Funktionen rund um Mobility: Check-Termine, Routinen-Status, Vorschlag für heute.
@@ -10,7 +10,7 @@ export type CheckState = 'fertig' | 'faellig' | 'offen'
 export interface MobilityCheck { week: number; label: string; from: string; to: string; status: CheckState; doneDate?: string }
 
 /** Mobility-Check je Termin: Woche 1 (Basis), dann die Challenge-Wochen 4, 8, 13, 17. Fenster = Montag bis Sonntag der Woche. */
-export function mobilityCheckStatus(start: string, workouts: Workout[], today: string): MobilityCheck[] {
+export function mobilityCheckStatus(start: Cal, workouts: Workout[], today: string): MobilityCheck[] {
   const done = workouts.filter((w) => !w.deleted && w.sessionKey === MOBILITY_CHECK_KEY && w.status === 'fertig').map((w) => w.date)
   return MOBILITY_CHECK_WEEKS.map((week) => {
     const from = mondayOfWeek(start, week)
@@ -23,12 +23,12 @@ export function mobilityCheckStatus(start: string, workouts: Workout[], today: s
 }
 
 /** Der Check, der jetzt ansteht (fällig und noch nicht erledigt), sonst undefined. */
-export function dueMobilityCheck(start: string, workouts: Workout[], today: string): MobilityCheck | undefined {
+export function dueMobilityCheck(start: Cal, workouts: Workout[], today: string): MobilityCheck | undefined {
   return mobilityCheckStatus(start, workouts, today).find((c) => c.status === 'faellig' && today <= c.to)
 }
 
 /** Letztes Datum je Routine und Anzahl in der laufenden Planwoche. */
-export function routineStatus(workouts: Workout[], start: string, today: string) {
+export function routineStatus(workouts: Workout[], start: Cal, today: string) {
   const rows = workouts.filter((w) => !w.deleted && isMobilityWorkout(w) && w.sessionKey !== MOBILITY_CHECK_KEY && w.status === 'fertig')
   const last: Record<string, string | undefined> = {}
   for (const w of rows) if (!last[w.sessionKey] || w.date > last[w.sessionKey]!) last[w.sessionKey] = w.date

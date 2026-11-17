@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { calOf } from '../lib/planShift'
 import { Link } from 'react-router-dom'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { v4 as uuid } from 'uuid'
@@ -50,7 +51,7 @@ export default function Body() {
     await db.body.put({ id: existing?.id ?? uuid(), profileId: profile.id, date, weightKg: weightNum ?? existing?.weightKg, waistCm: waistNum ?? existing?.waistCm, updatedAt: now() })
     setWeight(''); setWaist('')
   }
-  const checks = photoCheckStatus(profile.planStartDate, dates ?? [], today())
+  const checks = photoCheckStatus(calOf(profile), dates ?? [], today())
   const nextCheck = checks.find((c) => c.status !== 'fertig')
   const lastCheck = [...checks].reverse().find((c) => c.status === 'fertig')
   const photoText = nextCheck?.status === 'faellig'

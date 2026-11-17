@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { calOf } from '../lib/planShift'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { v4 as uuid } from 'uuid'
 import { ex } from '../data/exercises'
@@ -74,7 +75,7 @@ export default function LogPast() {
   const save = async () => {
     if (!found) return
     setSaving(true)
-    const w: Workout = { id: uuid(), profileId: profile.id, date, week: planWeekOf(date, profile.planStartDate) || found.week.number, sessionKey: found.session.key, title: found.session.title, status: 'fertig', backfilled: true, durationMin: duration === '' ? undefined : Number(duration), notes: cleanNote(notes), startedAt: now(), finishedAt: now(), updatedAt: now() }
+    const w: Workout = { id: uuid(), profileId: profile.id, date, week: planWeekOf(date, calOf(profile)) || found.week.number, sessionKey: found.session.key, title: found.session.title, status: 'fertig', backfilled: true, durationMin: duration === '' ? undefined : Number(duration), notes: cleanNote(notes), startedAt: now(), finishedAt: now(), updatedAt: now() }
     await db.workouts.put(w)
     for (const r of rows) {
       const v = values[r.key]

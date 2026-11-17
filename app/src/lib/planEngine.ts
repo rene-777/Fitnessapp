@@ -2,25 +2,26 @@ import { EXERCISE_MAP } from '../data/exercises'
 import { CHALLENGE_TARGETS, WEEKS, blockOfWeek, weekByNumber } from '../data/plan'
 import { timedMinutes, type Prescription, type Segment, type Session, type TimedItem, type Week } from '../data/planTypes'
 import type { Benchmark, SetLog } from '../db/types'
-import { planWeekOf, weekday } from './dates'
+import { isPausedDate, planWeekOf, weekday, weekdayOf, type Cal } from './dates'
 import { BF_PROGRESS_LB, bfStepAt, floorLb, fmtLb, kgToLb, lbToKg, loadText, snapLb, stepLb } from './bioforce'
 
 export interface DayInfo {
   date: string
-  week: number // 0 = vor Planstart, >16 = nach Plan
+  week: number // 0 = vor Planstart, > WEEKS.length = nach Plan; in einer Pausenwoche die Planwoche, die danach beginnt
   weekday: number
   weekData?: Week
   session?: Session
-  kind: 'vorher' | 'training' | 'puffer' | 'ruhe' | 'frei' | 'nachher'
+  kind: 'vorher' | 'training' | 'puffer' | 'ruhe' | 'frei' | 'pause' | 'nachher'
 }
 
-export function dayInfo(date: string, start: string): DayInfo {
+export function dayInfo(date: string, start: Cal): DayInfo {
   const week = planWeekOf(date, start)
   const wd = weekday(date)
   if (week === 0) return { date, week, weekday: wd, kind: 'vorher' }
   if (week > WEEKS.length) return { date, week, weekday: wd, kind: 'nachher' }
   const weekData = weekByNumber(week)
-  const session = weekData?.sessions.find((s) => s.weekday === wd)
+  if (isPausedDate(date, start)) return { date, week, weekday: wd, weekData, kind: 'pause' }
+  const session = weekData?.sessions.find((s) => weekdayOf(s, start) === wd)
   if (session) return { date, week, weekday: wd, weekData, session, kind: 'training' }
   if (wd === 6) return { date, week, weekday: wd, weekData, kind: 'puffer' }
   if (wd === 7) return { date, week, weekday: wd, weekData, kind: 'ruhe' }

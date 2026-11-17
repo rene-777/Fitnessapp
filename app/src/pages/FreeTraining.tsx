@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useRef, useState } from 'react'
+import { calOf } from '../lib/planShift'
 import { Link, useParams } from 'react-router-dom'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { MuscleChips } from '../components/ExerciseCard'
@@ -96,7 +97,7 @@ export default function FreeTraining() {
     if (filled.length === 0) { setError(e.unit === 'reps' ? 'Bitte mindestens einen Satz mit Wiederholungen eintragen.' : e.unit === 'seconds' ? 'Bitte die Sekunden eintragen.' : 'Bitte Minuten oder Meter eintragen.'); return }
     if (isBf && filled.some((r) => r.weight === '') && !noLoad) { setNoLoad(true); return }
     setSaving(true)
-    const w = await getOrCreateFreeWorkout(profile.id, date, planWeekOf(date, profile.planStartDate) || 0)
+    const w = await getOrCreateFreeWorkout(profile.id, date, planWeekOf(date, calOf(profile)) || 0)
     let index = savedForExercise.length
     let best = 0
     for (const r of filled) {

@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import type { Cal } from '../lib/dates'
+import { calOf } from '../lib/planShift'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { ErrorCard, errorText } from '../components/ErrorBoundary'
@@ -30,7 +32,7 @@ export default function Workout() {
   const found = useMemo(() => findSession(sessionKey), [sessionKey])
   const steps = useMemo(() => (found ? buildSteps(found.session) : []), [found])
   const profileId = profile?.id
-  const planStart = profile?.planStartDate
+  const planStart = useMemo(() => (profile ? calOf(profile) : undefined), [profile])
   // Routinen (Mobility) hängen an keiner Planwoche: die Woche kommt aus dem Datum
   const weekNo = found ? (found.week.number === 0 && planStart ? planWeekOf(date, planStart) : found.week.number) : 0
   const isRoutine = found?.session.kind === 'mobility'
@@ -195,7 +197,7 @@ export default function Workout() {
           {step.kind === 'amrap' && <AmrapStep key={idx} step={step} workout={workout} onNext={next} />}
           {step.kind === 'interval' && <IntervalStep key={idx} step={step} workout={workout} onNext={next} />}
           {step.kind === 'cardio' && <CardioStep key={idx} step={step} workout={workout} onNext={next} />}
-          {step.kind === 'challenge' && <ChallengeStep key={idx} step={step} workout={workout} profileStart={profile.planStartDate} onNext={next} />}
+          {step.kind === 'challenge' && <ChallengeStep key={idx} step={step} workout={workout} profileStart={calOf(profile)} onNext={next} />}
         </>
       )}
 
@@ -671,7 +673,7 @@ function CardioStep({ step, workout, onNext }: { step: Extract<Step, { kind: 'ca
 }
 
 // ---------- Challenge ----------
-function ChallengeStep({ step, workout, profileStart, onNext }: { step: Extract<Step, { kind: 'challenge' }>; workout: WorkoutRow; profileStart: string; onNext: () => void }) {
+function ChallengeStep({ step, workout, profileStart, onNext }: { step: Extract<Step, { kind: 'challenge' }>; workout: WorkoutRow; profileStart: Cal; onNext: () => void }) {
   const seg = step.seg
   const monday = mondayOfWeek(profileStart, workout.week)
   const sunday = addDays(monday, 6)

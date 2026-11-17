@@ -1,4 +1,6 @@
 import { useMemo } from 'react'
+import type { Cal } from '../lib/dates'
+import { calOf } from '../lib/planShift'
 import { Link } from 'react-router-dom'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { MOBILITY_CHECK_KEY, MOBILITY_ROUTINES, MOBILITY_SESSIONS } from '../data/mobility'
@@ -17,7 +19,8 @@ export default function Mobility() {
   const date = today()
   const workouts = useLiveQuery(() => (profile ? db.workouts.where('profileId').equals(profile.id).toArray() : []), [profile?.id])
   const benchmarks = useLiveQuery(() => (profile ? db.benchmarks.where('profileId').equals(profile.id).toArray() : []), [profile?.id])
-  const start = profile?.planStartDate ?? ''
+  // Kalender des Profils (Startmontag, Pausenwochen, verschobene Einheiten); '' solange das Profil lädt
+  const start = useMemo<Cal>(() => (profile ? calOf(profile) : ''), [profile])
   const status = useMemo(() => routineStatus(workouts ?? [], start, date), [workouts, start, date])
   const checks = useMemo(() => (start ? mobilityCheckStatus(start, workouts ?? [], date) : []), [start, workouts, date])
   const suggested = todaysRoutine(date, status.last)

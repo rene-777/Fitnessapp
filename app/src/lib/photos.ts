@@ -3,7 +3,7 @@
 import { v4 as uuid } from 'uuid'
 import { db, now } from '../db/db'
 import type { Pose, ProgressPhoto } from '../db/types'
-import { addDays, mondayOfWeek } from './dates'
+import { addDays, mondayOfWeek, type Cal } from './dates'
 
 export const POSES: { key: Pose; label: string; hint: string }[] = [
   { key: 'vorne', label: 'Vorne', hint: 'Blick zur Kamera, Arme locker seitlich' },
@@ -90,7 +90,7 @@ export interface PhotoCheck {
 export type CheckStatus = 'fertig' | 'faellig' | 'offen'
 export interface PhotoCheckStatus extends PhotoCheck { status: CheckStatus; doneDate?: string }
 
-export function photoSchedule(start: string): PhotoCheck[] {
+export function photoSchedule(start: Cal): PhotoCheck[] {
   const mk = (label: string, week: number): PhotoCheck => {
     const date = mondayOfWeek(start, week)
     return { label, week, date, from: addDays(date, -3), to: addDays(date, 3) }
@@ -99,7 +99,7 @@ export function photoSchedule(start: string): PhotoCheck[] {
 }
 
 /** Status je Termin: fertig (Fotos im Fenster), fällig (Fenster offen oder verstrichen, keine Fotos), offen (liegt in der Zukunft). */
-export function photoCheckStatus(start: string, dates: string[], today: string): PhotoCheckStatus[] {
+export function photoCheckStatus(start: Cal, dates: string[], today: string): PhotoCheckStatus[] {
   return photoSchedule(start).map((c) => {
     const doneDate = dates.find((d) => d >= c.from && d <= c.to)
     if (doneDate) return { ...c, status: 'fertig', doneDate }

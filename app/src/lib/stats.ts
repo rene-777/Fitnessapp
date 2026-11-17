@@ -2,7 +2,7 @@ import { EXERCISE_MAP } from '../data/exercises'
 import { MUSCLE_GROUPS, type MuscleKey } from '../data/muscles'
 import { weekByNumber } from '../data/plan'
 import type { Benchmark, SetLog, Workout } from '../db/types'
-import { planWeekOf } from './dates'
+import { planWeekOf, type Cal } from './dates'
 import { MOBILITY_CHECK_KEY } from '../data/mobility'
 import { LOWER_IS_BETTER, isExtraWorkout, isMobilityWorkout } from './workouts'
 
@@ -25,7 +25,7 @@ for (const [group, keys] of Object.entries(MUSCLE_GROUPS)) keys.forEach((k) => G
 export const GROUP_NAMES = Object.keys(MUSCLE_GROUPS)
 
 /** Sätze pro Muskelgruppe für eine Planwoche. Zählt eine Gruppe pro Satz nur einmal (höchster Anteil). */
-export function volumeByGroup(sets: SetLog[], start: string, week: number): Record<string, number> {
+export function volumeByGroup(sets: SetLog[], start: Cal, week: number): Record<string, number> {
   const out: Record<string, number> = Object.fromEntries(GROUP_NAMES.map((g) => [g, 0]))
   for (const s of sets) {
     if (!isStrengthSet(s) || planWeekOf(s.date, start) !== week) continue
@@ -48,7 +48,7 @@ export const REP_GROUPS: { key: string; label: string; ids: string[] }[] = [
 ]
 
 /** Wiederholungen je Gruppe und Planwoche, über alle Satzarten (Blöcke, Tests, AMRAP-Summen, Challenge). */
-export function repsByWeek(sets: SetLog[], start: string): Map<number, Record<string, number>> {
+export function repsByWeek(sets: SetLog[], start: Cal): Map<number, Record<string, number>> {
   const out = new Map<number, Record<string, number>>()
   for (const s of sets) {
     if (s.deleted || !s.reps) continue
@@ -86,7 +86,7 @@ export function benchmarkSeries(benchmarks: Benchmark[]): BenchmarkSeries[] {
 export interface MobilityWeek { week: number; sessions: number; minutes: number }
 
 /** Mobility-Routinen je Planwoche (fertige Trainings mit Mobility-Schlüssel, ohne den Check). */
-export function mobilityByWeek(workouts: Workout[], start: string, upToWeek: number): MobilityWeek[] {
+export function mobilityByWeek(workouts: Workout[], start: Cal, upToWeek: number): MobilityWeek[] {
   const out: MobilityWeek[] = []
   for (let week = 1; week <= upToWeek; week++) {
     const rows = workouts.filter((w) => !w.deleted && isMobilityWorkout(w) && w.sessionKey !== MOBILITY_CHECK_KEY && w.status === 'fertig' && planWeekOf(w.date, start) === week)
@@ -125,7 +125,7 @@ export interface WeekFrequency {
   minutes: number
 }
 
-export function frequencyByWeek(workouts: Workout[], start: string, upToWeek: number): WeekFrequency[] {
+export function frequencyByWeek(workouts: Workout[], start: Cal, upToWeek: number): WeekFrequency[] {
   const out: WeekFrequency[] = []
   for (let week = 1; week <= upToWeek; week++) {
     const rows = workouts.filter((w) => !w.deleted && !isExtraWorkout(w) && w.status === 'fertig' && planWeekOf(w.date, start) === week)

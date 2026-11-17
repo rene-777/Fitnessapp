@@ -5,6 +5,10 @@ export interface Profile {
   heightCm?: number
   sex?: 'm' | 'w'
   planStartDate: string // YYYY-MM-DD, Montag
+  /** Pausenwochen: Montage der Kalenderwochen, in denen der Plan ruht; die folgenden Planwochen rücken nach hinten (lib/planShift.ts). */
+  pauses?: string[]
+  /** Verschobene Einheiten: Einheit (key) → Wochentag 1–7 innerhalb ihrer Planwoche. */
+  moves?: Record<string, number>
   hrMax?: number
   /** Ernährungsziel für Kalorienbedarf und Gewichtstrend (Seite „Körper“); fehlt → Erhalt. */
   goal?: 'erhalt' | 'defizit' | 'aufbau'
