@@ -83,22 +83,27 @@ export interface PhotoCheck {
   label: string
   week: number
   date: string
-  /** Fenster, in dem ein Foto zu diesem Termin zählt: Freitag davor bis Donnerstag danach */
+  /** Fenster, in dem ein Foto zu diesem Termin zählt: ab dem Freitag davor bis zum Tag vor dem Fenster des nächsten Termins.
+   *  Verspätete Fotos zählen also noch (Wunsch des Users, 22.11.2026); nach dem letzten Termin bleiben gut drei Wochen. */
   from: string
   to: string
 }
 export type CheckStatus = 'fertig' | 'faellig' | 'offen'
 export interface PhotoCheckStatus extends PhotoCheck { status: CheckStatus; doneDate?: string }
 
+/** So viele Tage nach dem letzten Termin zählen Fotos noch dazu. */
+const LAST_WINDOW_DAYS = 24
+
 export function photoSchedule(start: Cal): PhotoCheck[] {
   const mk = (label: string, week: number): PhotoCheck => {
     const date = mondayOfWeek(start, week)
-    return { label, week, date, from: addDays(date, -3), to: addDays(date, 3) }
+    return { label, week, date, from: addDays(date, -3), to: addDays(date, LAST_WINDOW_DAYS) }
   }
-  return [mk('Start', 1), mk('Nach Block 1', 5), mk('Nach Block 2', 9), mk('Nach Block 3', 14), mk('Ende', 18)]
+  const list = [mk('Start', 1), mk('Nach Block 1', 5), mk('Nach Block 2', 9), mk('Nach Block 3', 14), mk('Ende', 18)]
+  return list.map((c, i) => (i + 1 < list.length ? { ...c, to: addDays(list[i + 1].from, -1) } : c))
 }
 
-/** Status je Termin: fertig (Fotos im Fenster), fällig (Fenster offen oder verstrichen, keine Fotos), offen (liegt in der Zukunft). */
+/** Status je Termin: fertig (Fotos im Fenster, es zählt das früheste Datum), fällig (Fenster offen oder verstrichen, keine Fotos), offen (liegt in der Zukunft). */
 export function photoCheckStatus(start: Cal, dates: string[], today: string): PhotoCheckStatus[] {
   return photoSchedule(start).map((c) => {
     const doneDate = dates.find((d) => d >= c.from && d <= c.to)
