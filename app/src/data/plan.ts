@@ -600,7 +600,8 @@ const w9: Week = {
 // Ausgearbeitet am 22.11.2026 nach der Übergangswoche (Export vom 22.11.). Rechte Schulter und rechter Ellenbogen sind in Ruhe
 // noch leicht spürbar, in Bewegung besser. Deshalb: Beine und Ziehen starten schwer (4–6 Wdh., RIR 2–3), das Drücken wird über
 // drei Wochen aufgebaut (Obergrenzen über maxLb), Dips erst ab Woche 11, kein Drücken über Kopf, keine explosiven Drück-Übungen.
-// Power über Kettlebell-Swings. Reihenfolge Mo Beine, Di Push, Mi Pull, Do Cardio, Fr Ganzkörper. Einheiten auf rund 60 min
+// Power über Kettlebell-Swings. Wunsch des Users (22.11.): Pull-Ups ohne Zusatzlast (erst ab 20 am Stück), normale Push-Ups mit
+// 25–30 je Satz statt Defizit-Push-Ups (Ziel 100 Goliaz-Push-Ups am Stück im 3-Sekunden-Takt). Reihenfolge Mo Beine, Di Push, Mi Pull, Do Cardio, Fr Ganzkörper. Einheiten auf rund 60 min
 // gekürzt (Woche 9 lag bei 67–70 min). Latzug einarmig statt Latzug. Woche 13 (Challenge) folgt nach der Auswertung von Woche 11/12.
 const ELBOW_RULE = 'Griffe nur in der tiefen Hocke aufnehmen und ablassen (rechter Ellenbogen).'
 function buildBlock3Week(n: 10 | 11 | 12): Week {
@@ -645,7 +646,7 @@ function buildBlock3Week(n: 10 | 11 | 12): Week {
           WARM_PUSH,
           straight('A', [reps('schraegdruecken', press.sets, press.min, press.max, { rir: '2–3', tempo: '3-1-1', maxLb: press.cap, loadHint: `${press.hint}. ${pressForm}` })], 150),
           first
-            ? straight('B', [reps('pushup', 3, 15, 20, { rir: '3', loadHint: 'Standard-Push-Ups, Ellenbogen nah am Körper. Dips kommen in Woche 11 zurück' })], 90)
+            ? straight('B', [reps('pushup', 3, 25, 30, { rir: '2–3', loadHint: 'Goliaz-Push-Ups im 3-Sekunden-Takt, Ellenbogen nah am Körper (Ziel: 100 am Stück). Dips kommen in Woche 11 zurück' })], 90)
             : straight('B', [reps('dips', 3, 8, 10, { rir: '3', loadHint: 'Ohne Tempo, Tiefe knapp unter 90°, 3 in Reserve lassen. Kein Satz bis zum Versagen' })], 120),
           SEAT_OFF,
           straight('C', [reps('seitheben', 2, 12, 15, { perSide: true, rir: '2', maxLb: 12.5, loadHint: '12,5 lb, nur bis Schulterhöhe und leicht nach vorn versetzt' })], 45),
@@ -656,10 +657,10 @@ function buildBlock3Week(n: 10 | 11 | 12): Week {
         ],
       },
       {
-        key: `w${n}-pull`, weekday: 3, title: 'Pull (Kraft)', kind: 'kraft', minutes: 60, focus: 'Pull-Ups mit Zusatzlast, Rudern schwer',
+        key: `w${n}-pull`, weekday: 3, title: 'Pull (Kraft)', kind: 'kraft', minutes: 60, focus: 'Pull-Ups 4 × 8, Rudern schwer',
         segments: [
           WARM_PULL,
-          straight('A', [reps('pullup', 4, 4, 6, { rir: '2', loadHint: 'Mit Zusatzlast: Kettlebell 8 kg im Rucksack oder Kurzhantel zwischen den Füßen. Ohne Zusatzlast: oben 2 s halten und 3 s ablassen' })], 150),
+          straight('A', [reps('pullup', 4, 7, 8, { rir: '1–2', loadHint: 'Ohne Zusatzlast (die kommt erst, wenn 20 am Stück gehen). Ziel 4 × 8, bisher 8/7/8/7. Gehen 4 × 8: nächstes Mal 9 im ersten Satz' })], 150),
           straight('B', [reps('rudern-stehend', main, 4, 6, { rir: '2–3', maxLb: first ? 45 : undefined, loadHint: first ? '45 lb (letzte Woche 40 lb × 8, 5RM war 50)' : 'Gehen alle Sätze mit 6 bei RIR 2: eine Raste mehr' })], 150),
           superset('C', [reps('latzug-einarmig', 3, 6, 8, { perSide: true, rir: '2', loadHint: 'Sitz unterste Stufe, freie Hand an Lehne oder Sitz' }), reps('hanging-knee-raise', 3, 10, 12, { loadHint: 'Beine gestreckter heben, 3 s ablassen. Zieht es in der rechten Schulter: Dead Bug stattdessen' })], 30, 75),
           SEAT_OFF,
@@ -683,7 +684,7 @@ function buildBlock3Week(n: 10 | 11 | 12): Week {
         note: `Zweite, leichtere Drück-Einheit der Woche. ${SHOULDER_RULE}`,
         segments: [
           WARM_FULL,
-          superset('A', [reps('pushup-defizit', 3, 8, 12, { rir: '2', loadHint: 'Variante wie zuletzt (Füße auf der Box). Zusatzlast erst, wenn die Schulter auch in Ruhe nichts mehr meldet' }), reps('latzug-eng', 3, 6, 8, { rir: '2' })], 30, 90),
+          superset('A', [reps('pushup', 3, 25, 30, { rir: '2', loadHint: 'Goliaz-Push-Ups im 3-Sekunden-Takt statt Defizit-Push-Ups (Schulter). Volumen aufbauen: erst 3 × 25, dann 3 × 30 (Ziel: 100 am Stück)' }), reps('latzug-eng', 3, 6, 8, { rir: '2' })], 30, 90),
           superset('B', [reps('schraegdruecken', 2, 10, 12, { rir: '3', tempo: '3-1-1', maxLb: press.light, loadHint: `Technik-Sätze mit ${press.light.toLocaleString('de-DE')} lb, leichter als am Dienstag. ${pressForm}` }), reps('rudern-einarmig', 3, 6, 8, { perSide: true, rir: '2' })], 30, 90),
           SEAT_OFF,
           straight('Power', [reps('kb-swing', 3, 12, 12, { loadHint: 'Kettlebell 8 kg, explosiv aus der Hüfte, Arme locker' })], 60),

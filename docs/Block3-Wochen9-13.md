@@ -106,10 +106,10 @@ Beine und Ziehen starten schwer, das Drücken wird über drei Wochen aufgebaut. 
 | Tag | Einheit | Inhalt |
 |---|---|---|
 | Mo | Beine + Hüfte (Kraft) | Kettlebell-Swings 3 × 10 (Power), Kabel-Kniebeuge 4–6 Wdh. (Woche 10: 70–72,5 lb), RDL 3 × 6–8 mit 125 lb (3 s ablassen, 2 s Pause unten), Split Squat 3 × 6–8 + Hüftabduktion, Sitz anbringen, Beinbeuger + Beinstrecker (höchstens 45 lb, RIR 2) |
-| Di | Push (Aufbau) | Schrägdrücken (siehe unten), Woche 10 Push-Ups 3 × 15–20, ab Woche 11 Dips 3 × 8–10 ohne Tempo bei RIR 3, Sitz abbauen, Seitheben 2 × 12–15 mit 12,5 lb, Trizepsdrücken 2 × 10–12 (Trizepsseil), Face Pulls 2 × 12–15 (Trizepsseil), Plank 2 × 90 s |
-| Mi | Pull (Kraft) | Pull-Ups 4 × 4–6 mit Zusatzlast (Kettlebell 8 kg im Rucksack), Rudern stehend 4–6 Wdh. (Woche 10: 45 lb), Latzug einarmig 3 × 6–8 + Hanging Knee Raises, Sitz abbauen, Reverse Flys + Face Pulls (Handgriffe), Curls 2 × 8–10 |
+| Di | Push (Aufbau) | Schrägdrücken (siehe unten), Woche 10 Push-Ups 3 × 25–30, ab Woche 11 Dips 3 × 8–10 ohne Tempo bei RIR 3, Sitz abbauen, Seitheben 2 × 12–15 mit 12,5 lb, Trizepsdrücken 2 × 10–12 (Trizepsseil), Face Pulls 2 × 12–15 (Trizepsseil), Plank 2 × 90 s |
+| Mi | Pull (Kraft) | Pull-Ups 4 × 7–8 ohne Zusatzlast (Ziel 4 × 8), Rudern stehend 4–6 Wdh. (Woche 10: 45 lb), Latzug einarmig 3 × 6–8 + Hanging Knee Raises, Sitz abbauen, Reverse Flys + Face Pulls (Handgriffe), Curls 2 × 8–10 |
 | Do | Cardio drinnen | Burpee-Intervalle 8/9/10 × 30 s / 60 s (Wiederholungen je Runde eintragen), Zone 2 20/25/25 min (Seil 45/15) |
-| Fr | Ganzkörper + Power | Defizit-Push-Ups 3 × 8–12 + Latzug eng 3 × 6–8, Schrägdrücken 2 × 10–12 leicht + einarmiges Rudern 3 × 6–8, Sitz abbauen, Kettlebell-Swings 3 × 12, Hüftstrecken 2 × 12, Pallof Press 2 × 10, AMRAP 6 |
+| Fr | Ganzkörper + Power | Push-Ups 3 × 25–30 + Latzug eng 3 × 6–8, Schrägdrücken 2 × 10–12 leicht + einarmiges Rudern 3 × 6–8, Sitz abbauen, Kettlebell-Swings 3 × 12, Hüftstrecken 2 × 12, Pallof Press 2 × 10, AMRAP 6 |
 
 **Schrägdrücken, Obergrenzen (`maxLb`):**
 
@@ -119,7 +119,9 @@ Beine und Ziehen starten schwer, das Drücken wird über drei Wochen aufgebaut. 
 | 11 | 3 × 6–8, bis 45 lb | 2 × 10–12, 40 lb |
 | 12 | 4 × 5–6, bis 47,5 lb | 2 × 10–12, 42,5 lb |
 
-Gesteigert wird nur, wenn die Nacht nach der letzten Drück-Einheit nicht schlechter war; sonst bleibt die Last der Vorwoche. Kein Drücken über Kopf, keine explosiven Drück-Übungen, Defizit-Push-Ups ohne Zusatzlast, bis die Schulter auch in Ruhe nichts mehr meldet.
+Gesteigert wird nur, wenn die Nacht nach der letzten Drück-Einheit nicht schlechter war; sonst bleibt die Last der Vorwoche. Kein Drücken über Kopf, keine explosiven Drück-Übungen.
+
+**Wünsche des Users (22.11.):** Pull-Ups ohne Zusatzlast, bis 20 am Stück gehen (Stand 15); Steigerung über die Wiederholungen (4 × 8, bisher 8/7/8/7). Statt Defizit-Push-Ups normale Goliaz-Push-Ups im 3-Sekunden-Takt mit 25–30 je Satz, weil sie die Schulter weniger belasten und auf sein Ziel von 100 am Stück einzahlen.
 
 ## 7. Woche 13 (offen)
 
