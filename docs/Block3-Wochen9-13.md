@@ -83,6 +83,44 @@ Genauigkeit: bis 55 sind GO und Ansage einzeln gemessen (Whisper hat 19, 20, 30,
 
 **In der App:** Übung `accumulator`, Test-Schritt am Freitag der Woche 9 (auch über „Freies Training“ → „Als Max-Test speichern“). Eingetragen wird nur die letzte gehörte Zahl; gespeichert werden der Benchmark `accumulatorVo2`, der abgeleitete Benchmark `accumulatorBurpees` und ein Burpee-Satz (`amrap-accumulator-sum`), der bei „Wiederholungen gesamt“ mitzählt.
 
-## 5. Wochen 10–13 (offen)
+## 5. Auswertung der Übergangswoche (Export vom 22.11.2026)
 
-Auszuarbeiten aus den Testwerten oben: Hauptübungen 4–6 Wdh. bei RIR 2–3, Startlasten Schrägdrücken 47,5–50 lb, Rudern stehend 45 lb, Kabel-Kniebeuge 65–67,5 lb; RDL mit Tempo, Pause unten oder einbeinig (Skala bei 125 lb zu Ende); Defizit-Push-Ups mit Zusatzlast; Beinstrecker weiter RIR 2. Cardio drinnen. Woche 13 Challenge-Woche mit Mobility-Check, Fotos am Montag der Woche 14.
+Alle fünf Einheiten gemacht, der Accumulator am Samstag. Knie durchgehend 0.
+
+| Tag | Einheit | Ergebnis |
+|---|---|---|
+| Mo 16.11. | Beine leicht (70 min) | Kabel-Kniebeuge 60/65/70 lb × 8 (RIR 3/3/2), RDL 3 × 8 mit 125 lb (RIR 2/1/1), Split Squat 32,5 lb × 10, Beinstrecker 47,5 lb × 12 bei RIR 0 |
+| Di 17.11. | Cardio drinnen (56 min) | Seil 8 Runden, 20 min Zone 2 bei Puls 121 |
+| Mi 18.11. | Pull leicht (67 min) | Pull-Ups 3 × 8, Rudern stehend 40 lb × 8, Latzug einarmig 40 → 42,5 lb × 10 bei RIR 2, Hammer-Curls 20 lb bei RIR 0 |
+| Do 19.11. | Drücken Technik (49 min) | Schrägdrücken 30/35/35 lb × 12, Push-Ups 3 × 25, Seitheben 12,5 lb, Plank 2 × 90 s |
+| Sa 21.11. | Accumulator | **41 (68 Burpees)**; schlechte Nacht, höchstens ein Level mehr möglich. Vergleich Bleep 11.08.: 44 |
+
+Einordnung: Die Vorgaben der leichten Woche wurden mehrfach überschritten (Kniebeuge 70 statt 60 lb, RDL 125 statt 115–120 lb, Schrägdrücken 35 statt 25–30 lb), zwei Einheiten dauerten 67–70 min. Die Kondition hat nach vier Wochen ohne Cardio nachgelassen.
+
+**Schulter und Ellenbogen (Rückmeldung 22.11.):** Schrägdrücken in der neuen Position laut Bemerkung „weitgehend schmerzfrei“, Push-Ups ohne Probleme. Rechte Schulter und rechter Ellenbogen sind in Ruhe noch leicht spürbar, in Bewegung wird es besser. Mobility-Check aus Woche 8 nicht gemacht, Fotos am Mo 23.11.
+
+## 6. Wochen 10–12 (ausgearbeitet am 22.11.2026)
+
+Beine und Ziehen starten schwer, das Drücken wird über drei Wochen aufgebaut. Hauptübungen 4–6 Wdh. bei RIR 2–3 mit 150 s Pause, Woche 10 mit 3 Sätzen, danach 4. Einheiten rund 60 min. In der App: `buildBlock3Week()` in `plan.ts`.
+
+| Tag | Einheit | Inhalt |
+|---|---|---|
+| Mo | Beine + Hüfte (Kraft) | Kettlebell-Swings 3 × 10 (Power), Kabel-Kniebeuge 4–6 Wdh. (Woche 10: 70–72,5 lb), RDL 3 × 6–8 mit 125 lb (3 s ablassen, 2 s Pause unten), Split Squat 3 × 6–8 + Hüftabduktion, Sitz anbringen, Beinbeuger + Beinstrecker (höchstens 45 lb, RIR 2) |
+| Di | Push (Aufbau) | Schrägdrücken (siehe unten), Woche 10 Push-Ups 3 × 15–20, ab Woche 11 Dips 3 × 8–10 ohne Tempo bei RIR 3, Sitz abbauen, Seitheben 2 × 12–15 mit 12,5 lb, Trizepsdrücken 2 × 10–12 (Trizepsseil), Face Pulls 2 × 12–15 (Trizepsseil), Plank 2 × 90 s |
+| Mi | Pull (Kraft) | Pull-Ups 4 × 4–6 mit Zusatzlast (Kettlebell 8 kg im Rucksack), Rudern stehend 4–6 Wdh. (Woche 10: 45 lb), Latzug einarmig 3 × 6–8 + Hanging Knee Raises, Sitz abbauen, Reverse Flys + Face Pulls (Handgriffe), Curls 2 × 8–10 |
+| Do | Cardio drinnen | Burpee-Intervalle 8/9/10 × 30 s / 60 s (Wiederholungen je Runde eintragen), Zone 2 20/25/25 min (Seil 45/15) |
+| Fr | Ganzkörper + Power | Defizit-Push-Ups 3 × 8–12 + Latzug eng 3 × 6–8, Schrägdrücken 2 × 10–12 leicht + einarmiges Rudern 3 × 6–8, Sitz abbauen, Kettlebell-Swings 3 × 12, Hüftstrecken 2 × 12, Pallof Press 2 × 10, AMRAP 6 |
+
+**Schrägdrücken, Obergrenzen (`maxLb`):**
+
+| Woche | Dienstag | Freitag (Technik-Sätze) |
+|---|---|---|
+| 10 | 3 × 8–10, bis 40 lb | 2 × 10–12, 35 lb |
+| 11 | 3 × 6–8, bis 45 lb | 2 × 10–12, 40 lb |
+| 12 | 4 × 5–6, bis 47,5 lb | 2 × 10–12, 42,5 lb |
+
+Gesteigert wird nur, wenn die Nacht nach der letzten Drück-Einheit nicht schlechter war; sonst bleibt die Last der Vorwoche. Kein Drücken über Kopf, keine explosiven Drück-Übungen, Defizit-Push-Ups ohne Zusatzlast, bis die Schulter auch in Ruhe nichts mehr meldet.
+
+## 7. Woche 13 (offen)
+
+Challenge-Woche mit Mobility-Check, Fotos am Montag der Woche 14. Auszuarbeiten nach der Auswertung von Woche 10/11: Accumulator, Pull-Ups, Rudern und Kniebeuge sind sicher dabei; Schrägdrücken-5RM und Dips-Max nur bei ruhiger Schulter.

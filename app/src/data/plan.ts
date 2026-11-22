@@ -596,6 +596,107 @@ const w9: Week = {
   ],
 }
 
+// ---------- Block 3: Kraft & Power (Wochen 10–12) ----------
+// Ausgearbeitet am 22.11.2026 nach der Übergangswoche (Export vom 22.11.). Rechte Schulter und rechter Ellenbogen sind in Ruhe
+// noch leicht spürbar, in Bewegung besser. Deshalb: Beine und Ziehen starten schwer (4–6 Wdh., RIR 2–3), das Drücken wird über
+// drei Wochen aufgebaut (Obergrenzen über maxLb), Dips erst ab Woche 11, kein Drücken über Kopf, keine explosiven Drück-Übungen.
+// Power über Kettlebell-Swings. Reihenfolge Mo Beine, Di Push, Mi Pull, Do Cardio, Fr Ganzkörper. Einheiten auf rund 60 min
+// gekürzt (Woche 9 lag bei 67–70 min). Latzug einarmig statt Latzug. Woche 13 (Challenge) folgt nach der Auswertung von Woche 11/12.
+const ELBOW_RULE = 'Griffe nur in der tiefen Hocke aufnehmen und ablassen (rechter Ellenbogen).'
+function buildBlock3Week(n: 10 | 11 | 12): Week {
+  const first = n === 10
+  const main = first ? 3 : 4 // Sätze der schweren Hauptübungen
+  const intervals = n === 10 ? 8 : n === 11 ? 9 : 10
+  const z2 = first ? 20 : 25
+  // Schrägdrücken: Aufbau in drei Stufen, nur weiter, wenn die Nächte ruhig bleiben
+  const press = n === 10
+    ? { sets: 3, min: 8, max: 10, cap: 40, light: 35, hint: '37,5–40 lb (letzte Woche 35 lb × 12)' }
+    : n === 11
+      ? { sets: 3, min: 6, max: 8, cap: 45, light: 40, hint: '42,5–45 lb, wenn Woche 10 ohne Nachwirkung blieb; sonst die Last der Vorwoche' }
+      : { sets: 4, min: 5, max: 6, cap: 47.5, light: 42.5, hint: '45–47,5 lb, wenn Woche 11 ohne Nachwirkung blieb; sonst die Last der Vorwoche. 52,5 lb war das 5RM, dort noch nicht hin' }
+  const pressForm = 'Sitz höchste Position, Griffe zweite Position von außen, Ellenbogen 45° am Körper'
+  return {
+    number: n,
+    title: first ? 'Block 3 Start: schwer ziehen und beugen, Drücken im Aufbau' : n === 11 ? 'Kraft: volle Sätze' : 'Kraft: letzte Stufe vor der Challenge',
+    note: first
+      ? `Hauptübungen 4–6 Wdh. bei RIR 2–3 mit langen Pausen, diese Woche 3 Sätze. Das Drücken bleibt im Aufbau (Schrägdrücken bis 40 lb, Push-Ups statt Dips, nichts über Kopf). ${SHOULDER_RULE} Power: Kettlebell-Swings am Montag und Freitag. Einheiten rund 60 min. Fotos am Montag vor dem Training.`
+      : n === 11
+        ? `Hauptübungen mit 4 Sätzen, 4–6 Wdh. bei RIR 2–3. Schrägdrücken bis 45 lb, Dips wieder dabei (ohne Tempo, 3 in Reserve). ${SHOULDER_RULE}`
+        : `Wie Woche 11, Lasten nach Vorschlag der App. Schrägdrücken bis 47,5 lb. ${SHOULDER_RULE} Danach Woche 13: Challenge und Mobility-Check.`,
+    sessions: [
+      {
+        key: `w${n}-beine`, weekday: 1, title: 'Beine + Hüfte (Kraft)', kind: 'kraft', minutes: 60, focus: 'Kniebeuge schwer, RDL mit Pause, Power',
+        note: `${ELBOW_RULE} Zwickt der Ellenbogen beim Halten der Griffe: Last der Vorwoche und einen Satz weniger.`,
+        segments: [
+          WARM_LEGS,
+          straight('Power', [reps('kb-swing', 3, 10, 10, { loadHint: 'Kettlebell 8 kg, explosiv aus der Hüfte, jede Wiederholung so schnell wie die erste. Kein Ermüdungssatz' })], 60),
+          straight('A', [reps('kabel-kniebeuge', main, 4, 6, { rir: '2–3', tempo: '3-1-1', maxLb: first ? 72.5 : undefined, loadHint: first ? '70–72,5 lb (letzte Woche 70 lb × 8 bei RIR 2)' : 'Gehen alle Sätze mit 6 bei RIR 2: eine Raste mehr' })], 150),
+          straight('B', [reps('rdl', 3, 6, 8, { rir: '2', tempo: '3-2-1', maxLb: 125, loadHint: '125 lb (Ende der Skala): 3 s ablassen, unten 2 s halten. Gehen 3 × 8 mit 2+ RIR: Pause auf 3 s verlängern' })], 120),
+          superset('C', [reps('split-squat', 3, 6, 8, { perSide: true, rir: '2' }), reps('hueftabduktion', 2, 15, 15, { perSide: true })], 30, 75),
+          SEAT_ON,
+          superset('D', [reps('beinbeuger', 2, 8, 10, { perSide: true, tempo: '3-1-3', rir: '1–2' }), reps('beinstrecker', 2, 10, 12, { tempo: '3-1-3', rir: '2', maxLb: 45, loadHint: '45 lb: mit 47,5 lb waren es zuletzt zweimal 0 in Reserve. RIR 2 einhalten (Knieschonung)' })], 30, 75),
+          COOL_LEGS,
+        ],
+      },
+      {
+        key: `w${n}-push`, weekday: 2, title: 'Push (Aufbau)', kind: 'kraft', minutes: 50, focus: first ? 'Schrägdrücken bis 40 lb, Push-Ups' : `Schrägdrücken bis ${press.cap.toLocaleString('de-DE')} lb, Dips`,
+        note: `${SHOULDER_RULE} War die Nacht nach der letzten Drück-Einheit schlechter: Last der Vorwoche, nicht steigern.`,
+        segments: [
+          WARM_PUSH,
+          straight('A', [reps('schraegdruecken', press.sets, press.min, press.max, { rir: '2–3', tempo: '3-1-1', maxLb: press.cap, loadHint: `${press.hint}. ${pressForm}` })], 150),
+          first
+            ? straight('B', [reps('pushup', 3, 15, 20, { rir: '3', loadHint: 'Standard-Push-Ups, Ellenbogen nah am Körper. Dips kommen in Woche 11 zurück' })], 90)
+            : straight('B', [reps('dips', 3, 8, 10, { rir: '3', loadHint: 'Ohne Tempo, Tiefe knapp unter 90°, 3 in Reserve lassen. Kein Satz bis zum Versagen' })], 120),
+          SEAT_OFF,
+          straight('C', [reps('seitheben', 2, 12, 15, { perSide: true, rir: '2', maxLb: 12.5, loadHint: '12,5 lb, nur bis Schulterhöhe und leicht nach vorn versetzt' })], 45),
+          straight('D', [reps('trizepsdruecken', 2, 10, 12, { rir: '2', loadHint: 'Mit dem Trizepsseil am Lat-Tower. Statt Trizeps über Kopf, das schont Schulter und Ellenbogen' })], 60),
+          straight('E', [reps('face-pull', 2, 12, 15, { rir: '2', loadHint: 'Trizepsseil auf die Karabiner auf Schulterhöhe umhängen' })], 45),
+          straight('F', [p('plank', 2, { seconds: 90, note: 'Haltezeit wählbar, nicht bis zum Maximum' })], 45),
+          COOL_PUSH,
+        ],
+      },
+      {
+        key: `w${n}-pull`, weekday: 3, title: 'Pull (Kraft)', kind: 'kraft', minutes: 60, focus: 'Pull-Ups mit Zusatzlast, Rudern schwer',
+        segments: [
+          WARM_PULL,
+          straight('A', [reps('pullup', 4, 4, 6, { rir: '2', loadHint: 'Mit Zusatzlast: Kettlebell 8 kg im Rucksack oder Kurzhantel zwischen den Füßen. Ohne Zusatzlast: oben 2 s halten und 3 s ablassen' })], 150),
+          straight('B', [reps('rudern-stehend', main, 4, 6, { rir: '2–3', maxLb: first ? 45 : undefined, loadHint: first ? '45 lb (letzte Woche 40 lb × 8, 5RM war 50)' : 'Gehen alle Sätze mit 6 bei RIR 2: eine Raste mehr' })], 150),
+          superset('C', [reps('latzug-einarmig', 3, 6, 8, { perSide: true, rir: '2', loadHint: 'Sitz unterste Stufe, freie Hand an Lehne oder Sitz' }), reps('hanging-knee-raise', 3, 10, 12, { loadHint: 'Beine gestreckter heben, 3 s ablassen. Zieht es in der rechten Schulter: Dead Bug stattdessen' })], 30, 75),
+          SEAT_OFF,
+          superset('D', [reps('reverse-fly', 3, 12, 15, { rir: '1–2' }), reps('face-pull', 3, 12, 15, { rir: '1–2', loadHint: 'Mit den zwei Handgriffen (kein Umstecken im Supersatz)' })], 20, 60, 'Beide am Karabiner auf Schulterhöhe, nur die Seile wechseln'),
+          superset('E', [reps('bizeps-curl', 2, 8, 10, { rir: '1–2' }), reps('hammer-curl', 2, 8, 10, { rir: '1–2', loadHint: 'Letzte Woche 0 in Reserve: eine Wiederholung früher aufhören' })], 20, 45),
+          COOL_PULL,
+        ],
+      },
+      {
+        key: `w${n}-cardio`, weekday: 4, title: 'Cardio drinnen: Intervalle + Zone 2', kind: 'cardio', minutes: first ? 45 : 50, focus: `Burpee-Intervalle ${intervals} Runden, Zone 2 ${z2} min`,
+        note: 'Die Kondition hat nachgelassen (Accumulator 41). Diese Einheit nicht ausfallen lassen; wenn es eng wird, lieber eine Kraft-Einheit kürzen.',
+        segments: [
+          WARM_CARDIO,
+          { type: 'interval', label: 'A', rounds: intervals, workSec: 30, restSec: 60, exerciseId: 'burpee', description: `${intervals} × 30 s Burpees zügig / 60 s gehen. Puls am Ende der Runden 141–153. Wiederholungen je Runde in der Pause eintragen.`, alternative: 'Meldet sich die Schulter: Seil schnell. Bei Knieschmerz: Mountain Climbers.' },
+          { type: 'cardio', label: 'B', minutes: z2, exerciseId: 'laufen-z2', description: 'Zone 2. Standard drinnen: Seil 45 s / 15 s. Draußen durchgehend laufen bleibt möglich.', hrZone: '116–128', alternative: `Indoor: ${z2} min Seil 45 s / 15 s.`, altWorkSec: 45, altRestSec: 15 },
+          COOL_CARDIO,
+        ],
+      },
+      {
+        key: `w${n}-full`, weekday: 5, title: 'Ganzkörper + Power', kind: 'kraft', minutes: 55, focus: 'Zweite Runde Drücken und Ziehen, Swings, Finisher',
+        note: `Zweite, leichtere Drück-Einheit der Woche. ${SHOULDER_RULE}`,
+        segments: [
+          WARM_FULL,
+          superset('A', [reps('pushup-defizit', 3, 8, 12, { rir: '2', loadHint: 'Variante wie zuletzt (Füße auf der Box). Zusatzlast erst, wenn die Schulter auch in Ruhe nichts mehr meldet' }), reps('latzug-eng', 3, 6, 8, { rir: '2' })], 30, 90),
+          superset('B', [reps('schraegdruecken', 2, 10, 12, { rir: '3', tempo: '3-1-1', maxLb: press.light, loadHint: `Technik-Sätze mit ${press.light.toLocaleString('de-DE')} lb, leichter als am Dienstag. ${pressForm}` }), reps('rudern-einarmig', 3, 6, 8, { perSide: true, rir: '2' })], 30, 90),
+          SEAT_OFF,
+          straight('Power', [reps('kb-swing', 3, 12, 12, { loadHint: 'Kettlebell 8 kg, explosiv aus der Hüfte, Arme locker' })], 60),
+          straight('C', [reps('hueftstrecken', 2, 12, 12, { perSide: true, rir: '1–2' })], 45),
+          straight('D', [reps('pallof', 2, 10, 10, { perSide: true, loadHint: 'Erstes Mal: leicht beginnen, Arme langsam strecken und 2 s halten, Rumpf dreht nicht mit' })], 45),
+          { type: 'amrap', label: 'Finisher', minutes: 6, exercises: [{ exerciseId: 'burpee', reps: 5 }, { exerciseId: 'pushup', reps: 10 }, { exerciseId: 'kniebeuge-bw', reps: 15 }], countLabel: 'Runden', description: 'So viele Runden wie möglich in 6 Minuten. Vergleich Woche 7.' },
+          COOL_FULL,
+        ],
+      },
+    ],
+  }
+}
+
 const placeholder = (n: number, block: Block): Week => ({
   number: n,
   title: `Block ${block.number} „${block.name}“`,
@@ -613,7 +714,10 @@ export const WEEKS: Week[] = [
   buildBlock2Week(7),
   w8,
   w9,
-  ...[10, 11, 12, 13, 14, 15, 16, 17].map((n) => placeholder(n, BLOCKS.find((b) => b.weeks.includes(n))!)),
+  buildBlock3Week(10),
+  buildBlock3Week(11),
+  buildBlock3Week(12),
+  ...[13, 14, 15, 16, 17].map((n) => placeholder(n, BLOCKS.find((b) => b.weeks.includes(n))!)),
 ]
 
 export const weekByNumber = (n: number) => WEEKS.find((w) => w.number === n)

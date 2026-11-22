@@ -4,7 +4,7 @@ Persönliches Projekt von René: 16-Wochen-Trainingsplan (Bodyweight + Finnlo Bi
 
 ## Zuerst lesen
 
-1. `docs/Uebergabe.md` – aktueller Stand, offene Punkte, nächste Schritte (die Chronik bis 08.11.2026 liegt in `docs/Uebergabe-Archiv.md`, nur bei Bedarf nachschlagen; neue Einträge kurz halten und Erledigtes ins Archiv schieben)
+1. `docs/Uebergabe.md` – aktueller Stand, offene Punkte, nächste Schritte (die Chronik bis 17.11.2026 liegt in `docs/Uebergabe-Archiv.md`, nur bei Bedarf nachschlagen; neue Einträge kurz halten und Erledigtes ins Archiv schieben)
 2. `docs/Trainingskonzept.md` – Studienlage, Planarchitektur, getroffene Entscheidungen
 3. `docs/Block1-Wochen1-4.md` – Woche 1–4 Tag für Tag (Start Mo 21.09.2026); `docs/Block2-Wochen5-8.md` – Block 2 mit Auswertung der Wochen 1–3; `docs/Block3-Wochen9-13.md` – Ergebnisse der Kraft-Challenge, Übergangswoche 9, Accumulator-Tabelle
 4. `docs/Uebungsbibliothek.md` – alle Übungen mit Muskeln, Bio-Force-Einstellung, Ausführung
@@ -19,7 +19,7 @@ Persönliches Projekt von René: 16-Wochen-Trainingsplan (Bodyweight + Finnlo Bi
 
 Vite + React 19 + TypeScript, Tailwind v4 (Theme-Tokens in `src/index.css`), Dexie (IndexedDB), vite-plugin-pwa, Recharts, react-router. Farben schwarz/orange. Alle Daten lokal, Export/Import als JSON, Datenmodell mit Profilen und `updatedAt` für späteren Sync.
 
-- `src/data/plan.ts` – der Plan als Daten (17 Wochen seit der eingeschobenen Übergangswoche 9; Woche 1–9 komplett, 10–17 Platzhalter; Block 2 in `docs/Block2-Wochen5-8.md`). Planänderungen hier, nicht in Komponenten.
+- `src/data/plan.ts` – der Plan als Daten (17 Wochen seit der eingeschobenen Übergangswoche 9; Woche 1–12 komplett, 13–17 Platzhalter; Block 2 in `docs/Block2-Wochen5-8.md`, Block 3 in `docs/Block3-Wochen9-13.md`). Planänderungen hier, nicht in Komponenten.
 - `src/data/exercises.ts` – Übungsbibliothek; `bioforceNo` verweist auf Fotos in `public/img/bioforce/bf{NNN}_{start|end|pulley}.webp` (aus der Extreme-Anleitung, 457 × 644 px; Nummerierung folgt weiter der alten Anleitung in `docs/`).
 - `src/data/mobilityExercises.ts` + `src/data/mobility.ts` – Mobility-Übungen (Kategorie `mobility`), Routinen `mob-hip`/`mob-shoulder` und Mobility-Check `mob-check` (Routinen außerhalb des Wochenplans, `ROUTINE_WEEK` in `plan.ts`). Konzept in `docs/Mobility.md`. Warm-ups und Cool-downs sind `timed`-Segmente (Posten mit Sekunden, `perSide`), geführt über `src/components/TimedFlow.tsx` (automatischer Übergang mit Signal); Messungen (`measure`) landen als Benchmarks in cm (`LOWER_IS_BETTER` in `workouts.ts`).
 - `src/data/accumulator.ts` – Accumulator (Goliaz-Burpee-Stufentest, Ausdauer-Benchmark statt Bleep): Tabelle angesagte Zahl (16–65) → Burpees; `saveBenchmark()` leitet aus `accumulatorVo2` den Benchmark `accumulatorBurpees` und einen Burpee-Satz ab.

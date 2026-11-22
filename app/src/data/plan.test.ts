@@ -87,6 +87,33 @@ describe('Übungsbibliothek', () => {
   })
 })
 
+describe('Block 3 (Wochen 10–12)', () => {
+  const weeks = WEEKS.filter((w) => w.number >= 10 && w.number <= 12)
+  const prescriptions = (s: Session) => s.segments.flatMap((seg) => (seg.type === 'block' ? seg.exercises : []))
+
+  it('fünf Einheiten Mo–Fr je Woche', () => {
+    expect(weeks.length).toBe(3)
+    for (const w of weeks) expect(w.sessions.map((s) => s.weekday), `Woche ${w.number}`).toEqual([1, 2, 3, 4, 5])
+  })
+
+  it('Schulter-Regeln: Schrägdrücken gedeckelt, nichts über Kopf, Dips erst ab Woche 11, Latzug einarmig', () => {
+    for (const w of weeks) {
+      const all = w.sessions.flatMap(prescriptions)
+      const ids = all.map((e) => e.exerciseId)
+      expect(ids, `Woche ${w.number}`).not.toContain('schulterdruecken')
+      expect(ids, `Woche ${w.number}`).not.toContain('trizeps-ueberkopf')
+      expect(ids, `Woche ${w.number}`).not.toContain('latzug')
+      expect(ids, `Woche ${w.number}`).toContain('latzug-einarmig')
+      expect(ids.includes('dips'), `Woche ${w.number}`).toBe(w.number > 10)
+      const press = all.filter((e) => e.exerciseId === 'schraegdruecken')
+      expect(press.length).toBe(2)
+      for (const e of press) expect(e.maxLb, `Woche ${w.number}`).toBeLessThanOrEqual(47.5)
+    }
+    const caps = weeks.map((w) => Math.max(...w.sessions.flatMap(prescriptions).filter((e) => e.exerciseId === 'schraegdruecken').map((e) => e.maxLb!)))
+    expect(caps).toEqual([40, 45, 47.5])
+  })
+})
+
 describe('Accumulator', () => {
   it('nur 16–65, ganzzahlig, Burpees steigen mit der Zahl', () => {
     expect(accumulatorBurpees(15)).toBeUndefined()
